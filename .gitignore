@@ -19,6 +19,7 @@ dist/
 nbdist/
 nbactions.xml
 nb-configuration.xml
+nbproject/build-impl.xml
 
 ### Eclipse ###
 *.pydevproject
