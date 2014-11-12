@@ -1,4 +1,4 @@
-package mygame;
+package Controller;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.material.Material;
@@ -12,23 +12,17 @@ import com.jme3.scene.shape.Box;
  * test
  * @author normenhansen
  */
-public class Main extends SimpleApplication {
+public class DisplayController extends SimpleApplication {
 
     public static void main(String[] args) {
-        Main app = new Main();
+        DisplayController app = new DisplayController();
         app.start();
     }
 
     @Override
     public void simpleInitApp() {
-        Box b = new Box(1, 1, 1);
-        Geometry geom = new Geometry("Box", b);
-
-        Material mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
-        mat.setColor("Color", ColorRGBA.Blue);
-        geom.setMaterial(mat);
-
-        rootNode.attachChild(geom);
+        
+        flyCam.setMoveSpeed(10);
     }
 
     @Override
