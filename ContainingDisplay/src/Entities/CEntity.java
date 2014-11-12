@@ -5,12 +5,13 @@
 package Entities;
 
 import com.jme3.math.Vector3f;
+import com.jme3.scene.Node;
 
 /**
  *
  * @author Sander
  */
-public abstract class CEntity {
+public abstract class CEntity extends Node{
     Vector3f Location;
     String Name;
 
