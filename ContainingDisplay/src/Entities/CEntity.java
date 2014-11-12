@@ -10,14 +10,14 @@ import com.jme3.math.Vector3f;
  *
  * @author Sander
  */
-public abstract class Entity {
+public abstract class CEntity {
     Vector3f Location;
     String Name;
 
-    public Entity() {
+    public CEntity() {
     }
 
-    public Entity(Vector3f Location, String Name) {
+    public CEntity(Vector3f Location, String Name) {
         this.Location = Location;
         this.Name = Name;
     }

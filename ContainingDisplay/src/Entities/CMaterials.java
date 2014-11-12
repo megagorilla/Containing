@@ -2,12 +2,14 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package Entities.Platforms;
-import Entities.*;
+package Entities;
+
+import com.jme3.material.Material;
+
 /**
  *
  * @author Sander
  */
-public abstract class Platform extends CEntity {
+public class CMaterials extends Material{
     
 }

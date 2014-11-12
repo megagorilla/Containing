@@ -8,6 +8,6 @@ import Entities.*;
  *
  * @author Sander
  */
-public abstract class Crane extends Entity{
+public abstract class Crane extends CEntity{
     
 }

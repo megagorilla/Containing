@@ -2,12 +2,12 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package Entities.Platforms;
-import Entities.*;
+package Entities.Vehicles;
+
 /**
  *
  * @author Sander
  */
-public abstract class Platform extends CEntity {
+public class Train extends Vehicle{
     
 }
