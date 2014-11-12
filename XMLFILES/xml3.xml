@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-
-                    <recordset>
+<!DOCTYPE recordset SYSTEM "schema.dtd">
+<recordset>
  <record id=  "id0">
 <aankomst>
 <datum>
