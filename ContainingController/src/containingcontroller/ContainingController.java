@@ -15,6 +15,6 @@ public class ContainingController {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        System.out.println("BLAH");
+        System.out.println("Test");
     }
 }
