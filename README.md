@@ -6,10 +6,10 @@ Zeevaart 20%
 Binnenvaart 25%
 AGV (Automatic Guided Vehicle):
 -------------------------------
-*Zelfstandig alles kunnen doen
-*Communicatie met het centrale systeem
-*100 instanties
-*Opdracht punt A naar B met de kortste route
+* Zelfstandig alles kunnen doen
+* Communicatie met het centrale systeem
+* 100 instanties
+* Opdracht punt A naar B met de kortste route
 Kranen:
 -------
 * Vrij beweegbare kranen
