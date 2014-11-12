@@ -1,9 +1,12 @@
 Containing
 ==========
-Vrachtauto’s 47%
-Treinen 8%
-Zeevaart 20%
-Binnenvaart 25%
+
+Percentages:
+------------
+* Vrachtauto’s 47%
+* Treinen 8%
+* Zeevaart 20%
+* Binnenvaart 25%
 
 AGV (Automatic Guided Vehicle):
 -------------------------------
