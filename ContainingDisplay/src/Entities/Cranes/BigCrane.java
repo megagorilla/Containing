@@ -6,8 +6,8 @@ package Entities.Cranes;
 
 /**
  *
- * @author Sander
+ * @author Yannick
  */
-public class SeaShipCrane extends Crane{
+public class BigCrane extends Crane{
     
 }
