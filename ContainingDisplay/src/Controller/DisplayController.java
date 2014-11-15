@@ -12,13 +12,15 @@ import Scenery.SeaNode;
 import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
+import com.jme3.scene.Node;
+import com.jme3.scene.Spatial;
 import com.jme3.util.SkyFactory;
+import java.util.ArrayList;
 /**
  * test
  * @author normenhansen
  */
 public class DisplayController extends SimpleApplication {
-Train train1;
 TexturedMaterial trainMat;
 DirectionalLight sun;
 
@@ -34,10 +36,21 @@ DirectionalLight sun;
             assetManager, "Textures/Sky/Bright/BrightSky.dds", false));
         flyCam.setMoveSpeed(100);
         
-        trainMat = new TexturedMaterial(176 ,assetManager);
-        train1 = new Train(new Vector3f(10, 10, 10),"Treintjeeee" , assetManager, trainMat);
-        rootNode.attachChild(train1);
-            /** A white, directional light source */ 
+
+        
+        AGV agv = new AGV(assetManager);
+        rootNode.attachChild(agv);
+        agv.setLocalTranslation(0, 10, 0);
+        
+        ArrayList<Container> containers = new ArrayList();
+        
+        for(int i = 0;i<10;i++){
+            containers.add(new Container(ColorRGBA.randomColor(), assetManager));
+            rootNode.attachChild(containers.get(i));
+            containers.get(i).setLocalTranslation(0, 16+(14.2f*i), 0);
+        }
+        
+        
         sun = new DirectionalLight();
         sun.setDirection((new Vector3f(-0.5f, -0.5f, -0.5f)).normalizeLocal());
         sun.setColor(ColorRGBA.White.clone().multLocal(2));
@@ -46,11 +59,12 @@ DirectionalLight sun;
         SeaNode sea = new SeaNode(this);
         sea.setLocalTranslation(0, -100, 0);
         rootNode.attachChild(sea);
+        
+        
     }
 
     @Override
     public void simpleUpdate(float tpf) {
-        train1.rotate(0f, 0.003f, 0f);
     }
 
     public DirectionalLight getSun() {
