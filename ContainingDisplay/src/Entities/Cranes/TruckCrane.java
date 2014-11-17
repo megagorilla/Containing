@@ -4,17 +4,10 @@
  */
 package Entities.Cranes;
 
-
 /**
  *
- * @author Yannick
+ * @author Sander
  */
-public class LittleCrane extends Crane
-{
+public class TruckCrane {
     
-    
-    public LittleCrane()
-    {
-        super();
-    }
 }
