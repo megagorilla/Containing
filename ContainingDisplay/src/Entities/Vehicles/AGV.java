@@ -6,6 +6,7 @@ package Entities.Vehicles;
 
 import com.jme3.asset.AssetManager;
 import com.jme3.scene.Node;
+import Controller.*;
 
 /**
  *
@@ -14,11 +15,11 @@ import com.jme3.scene.Node;
 public class AGV extends Vehicle{
     Node agvNode;
     
-    public AGV(AssetManager assetManager) {
+    public AGV(DisplayController main) {
         super();
-        agvNode = (Node)assetManager.loadModel("Models/high/agv/agv.j3o");
-        agvNode.scale(5);
+        agvNode = (Node)main.getAssetManager().loadModel("Models/high/agv/agv.j3o");
         attachChild(agvNode);
+        main.getRootNode().attachChild(this);
     }
     
     

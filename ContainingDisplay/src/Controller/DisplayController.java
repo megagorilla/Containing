@@ -25,7 +25,9 @@ import java.util.ArrayList;
  * @author Yannick
  */
 public class DisplayController extends SimpleApplication {
-    DirectionalLight sun;
+    private DirectionalLight sun;
+    public enum Quality {LOW,MEDIUM,HIGH};
+    private Quality quality = Quality.HIGH;
     
     public static void main(String[] args) 
     {
@@ -37,15 +39,18 @@ public class DisplayController extends SimpleApplication {
     public void simpleInitApp(){
         rootNode.attachChild(SkyFactory.createSky(
             assetManager, "Textures/Sky/Bright/BrightSky.dds", false));
+        flyCam.setMoveSpeed(10);
         
         ArrayList<Container> containers = new ArrayList<Container>();
-        containers.add(new Container(ColorRGBA.randomColor(), assetManager));
-        rootNode.attachChild(containers.get(0));
+        containers.add(new Container(quality,ColorRGBA.randomColor(), this));
+        containers.get(0).move(0, 1.2f, 0);
+        
+        AGV agv = new AGV(this);
         
         sun = new DirectionalLight();
         sun.setDirection((new Vector3f(-0.5f, -0.5f, -0.5f)).normalizeLocal());
         sun.setColor(ColorRGBA.White);
-        rootNode.addLight(sun); 
+        rootNode.addLight(sun);
         
         SeaNode sea = new SeaNode(this);
         
