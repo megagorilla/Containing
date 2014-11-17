@@ -32,13 +32,12 @@ public class SeaNode extends Node{
         waterProcessor.setReflectionScene(main.getRootNode());
         main.getViewPort().addProcessor(waterProcessor);
 
-        waterProcessor.setLightPosition(main.getSun().getDirection());
 
         //create water quad
         Spatial waterPlane=(Spatial)  main.getAssetManager().loadModel("Models/WaterTest/WaterTest.mesh.xml");
         waterPlane.setMaterial(waterProcessor.getMaterial());
         waterPlane.setLocalScale(2000);
-        waterPlane.setLocalTranslation(0, -100, 0);
+        this.setLocalTranslation(0, -20, 0);
         
         attachChild(waterPlane);
         main.getRootNode().attachChild(this);

@@ -91,6 +91,10 @@ public class DockingCrane extends Crane{
     }
     
     public void moveHookTo(Vector3f location){
-        grabber.setLocalTranslation(grabber.getLocalTranslation().x + 0.01f, 0, 0);
+        Vector3f craneLocation = new Vector3f(this.getLocalTranslation().x, 
+                this.getLocalTranslation().y, location.z);
+        Vector3f grabberLocation = new Vector3f(location.x, location.y, 0);
+        grabber.setLocalTranslation(grabberLocation);
+        this.setLocalTranslation(craneLocation);
     }
 }
