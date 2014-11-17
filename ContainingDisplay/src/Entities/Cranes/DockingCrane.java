@@ -8,6 +8,6 @@ package Entities.Cranes;
  *
  * @author Yannick
  */
-public class BigCrane extends Crane{
+public class DockingCrane extends Crane{
     
 }
