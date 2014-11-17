@@ -6,7 +6,7 @@ import java.util.Map;
 import javax.vecmath.Vector3f;
 
 @Serializable
-class UpdateMessage extends AbstractMessage {
+public class UpdateMessage extends AbstractMessage {
         
     String msg;
     Map<String,Vector3f> data;
