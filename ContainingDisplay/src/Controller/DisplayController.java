@@ -25,13 +25,7 @@ import java.util.ArrayList;
  * @author Yannick
  */
 public class DisplayController extends SimpleApplication {
-TexturedMaterial trainMat;
-DirectionalLight sun;
-
-    static Vector3f Direction = new Vector3f();
-    Boolean right = true;
-    Boolean left = false;
-    LittleCrane supplyCrane;
+    DirectionalLight sun;
     
     public static void main(String[] args) 
     {
@@ -40,49 +34,34 @@ DirectionalLight sun;
     }
     
     @Override
-    public void simpleInitApp() 
-        viewPort.setBackgroundColor(ColorRGBA.White);
+    public void simpleInitApp(){
         rootNode.attachChild(SkyFactory.createSky(
             assetManager, "Textures/Sky/Bright/BrightSky.dds", false));
-        flyCam.setMoveSpeed(100);
         
-
-        
-        AGV agv = new AGV(assetManager);
-        rootNode.attachChild(agv);
-        agv.setLocalTranslation(0, 10, 0);
-        
-        ArrayList<Container> containers = new ArrayList();
-        
-        for(int i = 0;i<10;i++){
-            containers.add(new Container(ColorRGBA.randomColor(), assetManager));
-            rootNode.attachChild(containers.get(i));
-            containers.get(i).setLocalTranslation(0, 16+(14.2f*i), 0);
-        }
-        
+        ArrayList<Container> containers = new ArrayList<Container>();
+        containers.add(new Container(ColorRGBA.randomColor(), assetManager));
+        rootNode.attachChild(containers.get(0));
         
         sun = new DirectionalLight();
         sun.setDirection((new Vector3f(-0.5f, -0.5f, -0.5f)).normalizeLocal());
-        sun.setColor(ColorRGBA.White.clone().multLocal(2));
-        rootNode.addLight(sun);
+        sun.setColor(ColorRGBA.White);
+        rootNode.addLight(sun); 
         
         SeaNode sea = new SeaNode(this);
-        sea.setLocalTranslation(0, -100, 0);
-        rootNode.attachChild(sea);
-        
         
     }
 
     @Override
     public void simpleUpdate(float tpf) 
     {
-        supplyCrane.moveLoader(new Vector3f(supplyCrane.getLoaderPosition().x + 0.001f, (supplyCrane.getLoaderPosition().y), (supplyCrane.getLoaderPosition().z)));
-    }
         
+    }
 
     public DirectionalLight getSun() {
         return sun;
     }
+        
+    
 
     
     
