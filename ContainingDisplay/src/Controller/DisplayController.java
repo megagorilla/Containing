@@ -27,7 +27,7 @@ import java.util.ArrayList;
 public class DisplayController extends SimpleApplication {
     private DirectionalLight sun;
     public enum Quality {LOW,MEDIUM,HIGH};
-    private Quality quality = Quality.HIGH;
+    private Quality quality = Quality.LOW;
     
     public static void main(String[] args) 
     {
@@ -45,7 +45,7 @@ public class DisplayController extends SimpleApplication {
         containers.add(new Container(quality,ColorRGBA.randomColor(), this));
         containers.get(0).move(0, 1.2f, 0);
         
-        AGV agv = new AGV(this);
+        AGV agv = new AGV(quality,this);
         
         sun = new DirectionalLight();
         sun.setDirection((new Vector3f(-0.5f, -0.5f, -0.5f)).normalizeLocal());

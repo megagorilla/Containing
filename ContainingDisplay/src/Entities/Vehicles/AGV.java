@@ -15,9 +15,21 @@ import Controller.*;
 public class AGV extends Vehicle{
     Node agvNode;
     
-    public AGV(DisplayController main) {
+    public AGV(DisplayController.Quality qualtiy,DisplayController main) {
         super();
-        agvNode = (Node)main.getAssetManager().loadModel("Models/high/agv/agv.j3o");
+        String qualityPath = "Models/high/agv/agv.j3o";
+        switch (qualtiy){
+            case HIGH:
+                qualityPath = "Models/high/agv/agv.j3o";
+                break;
+            case MEDIUM:
+                qualityPath = "Models/medium/agv/agv.j3o";
+                break;
+            case LOW:
+                qualityPath = "Models/low/agv/agv.j3o";
+                break;
+        }
+        agvNode = (Node)main.getAssetManager().loadModel(qualityPath);
         attachChild(agvNode);
         main.getRootNode().attachChild(this);
     }
