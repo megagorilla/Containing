@@ -8,8 +8,10 @@ import javax.vecmath.Vector3f;
 @Serializable
 public class UpdateMessage extends AbstractMessage {
         
-    String msg;
-    Map<String,Vector3f> data;
+    protected String msg;
+    protected Map<String,Vector3f> data;
+    
+    public UpdateMessage() {}
 
     /**
      * Create a new instance of UpdateMessage.

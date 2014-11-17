@@ -4,6 +4,8 @@
  */
 package containingcontroller;
 
+import connectivity.ConnectionManager;
+
 /**
  *
  * @author Sander
@@ -16,5 +18,8 @@ public class ContainingController {
     public static void main(String[] args) {
         // TODO code application logic here
         System.out.println("Test");
+        if (!ConnectionManager.initialize(3000))
+            System.err.println("Failed to start server!");
+        else System.out.println("Successfully started server");
     }
 }
