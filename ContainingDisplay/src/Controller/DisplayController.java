@@ -1,7 +1,7 @@
 package Controller;
 
 import Materials.TexturedMaterial;
-import Entities.Cranes.LittleCrane;
+import Entities.Cranes.StorageCrane;
 import com.jme3.app.SimpleApplication;
 import com.jme3.bounding.BoundingVolume;
 import com.jme3.collision.CollisionResult;
@@ -26,16 +26,30 @@ import java.util.ArrayList;
  */
 public class DisplayController extends SimpleApplication {
     private DirectionalLight sun;
-
+    public enum Quality {LOW,MEDIUM,HIGH};
+    private Quality quality = Quality.HIGH;
+    
     
     public static void main(String[] args) 
     {
         DisplayController app = new DisplayController();
-        app.start();    
+        app.start();
     }
     
     @Override
     public void simpleInitApp(){
+        rootNode.attachChild(SkyFactory.createSky(
+            assetManager, "Textures/Sky/Bright/BrightSky.dds", false));
+        flyCam.setMoveSpeed(10);
+        
+        
+        
+        sun = new DirectionalLight();
+        sun.setDirection((new Vector3f(-0.5f, -0.5f, -0.5f)).normalizeLocal());
+        sun.setColor(ColorRGBA.White);
+        rootNode.addLight(sun);
+        
+        SeaNode sea = new SeaNode(this);
         
     }
 
