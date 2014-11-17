@@ -38,9 +38,10 @@ public class SeaNode extends Node{
         Spatial waterPlane=(Spatial)  main.getAssetManager().loadModel("Models/WaterTest/WaterTest.mesh.xml");
         waterPlane.setMaterial(waterProcessor.getMaterial());
         waterPlane.setLocalScale(2000);
-        waterPlane.setLocalTranslation(-5, 0, 5);
-
+        waterPlane.setLocalTranslation(0, -100, 0);
+        
         attachChild(waterPlane);
+        main.getRootNode().attachChild(this);
     }
     
 }
