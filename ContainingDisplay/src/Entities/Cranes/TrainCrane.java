@@ -8,6 +8,6 @@ package Entities.Cranes;
  *
  * @author Sander
  */
-public class TrainCrane {
+public class TrainCrane extends Crane{
     
 }
