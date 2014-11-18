@@ -20,6 +20,8 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.util.SkyFactory;
 import java.util.ArrayList;
+import Connectivity.ConnectionManager;
+import Connectivity.UpdateMessage;
 /**
  * test
  * @author Yannick
@@ -35,6 +37,9 @@ public class DisplayController extends SimpleApplication {
     
     @Override
     public void simpleInitApp(){
+        ConnectionManager.init("localhost", 3000);
+        ConnectionManager.sendCommand(new UpdateMessage("blah"));
+        
         rootNode.attachChild(SkyFactory.createSky(
             assetManager, "Textures/Sky/Bright/BrightSky.dds", false));
         

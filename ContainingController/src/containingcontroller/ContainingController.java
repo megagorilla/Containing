@@ -5,6 +5,8 @@
 package containingcontroller;
 
 import connectivity.ConnectionManager;
+import connectivity.UpdateMessage;
+import java.io.IOException;
 
 /**
  *
@@ -15,11 +17,13 @@ public class ContainingController {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         // TODO code application logic here
         System.out.println("Test");
         if (!ConnectionManager.initialize(3000))
             System.err.println("Failed to start server!");
         else System.out.println("Successfully started server");
+        ConnectionManager.sendCommand(new UpdateMessage("blah"));
+        System.in.read();
     }
 }
