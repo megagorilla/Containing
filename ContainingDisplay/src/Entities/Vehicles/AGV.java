@@ -29,9 +29,9 @@ public class AGV extends Vehicle{
                 qualityPath = "Models/low/agv/agv.j3o";
                 break;
         }
-        agvNode = (Node)main.getAssetManager().loadModel(qualityPath);
+        agvNode = (Node)DisplayController.getmyAssetManager().loadModel(qualityPath);
         attachChild(agvNode);
-        main.getRootNode().attachChild(this);
+        DisplayController.getMyRootNode().attachChild(this);
     }
     
     

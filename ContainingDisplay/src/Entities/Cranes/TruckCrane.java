@@ -14,13 +14,13 @@ import com.jme3.scene.Node;
  */
 public class TruckCrane extends Crane {
 
-    public TruckCrane(DisplayController main) {
+    public TruckCrane() {
         super();
-        attachChild(main.getAssetManager().loadModel("Models/high/crane/truckcrane/crane.j3o"));
-        grabber.attachChild(main.getAssetManager().loadModel("Models/high/crane/truckcrane/grabbingGear.j3o"));
-        grabber.attachChild(main.getAssetManager().loadModel("Models/high/crane/truckcrane/hookLeft.j3o"));
-        grabber.attachChild(main.getAssetManager().loadModel("Models/high/crane/truckcrane/hookRight.j3o"));
+        attachChild(DisplayController.getmyAssetManager().loadModel("Models/high/crane/truckcrane/crane.j3o"));
+        grabber.attachChild(DisplayController.getmyAssetManager().loadModel("Models/high/crane/truckcrane/grabbingGear.j3o"));
+        grabber.attachChild(DisplayController.getmyAssetManager().loadModel("Models/high/crane/truckcrane/hookLeft.j3o"));
+        grabber.attachChild(DisplayController.getmyAssetManager().loadModel("Models/high/crane/truckcrane/hookRight.j3o"));
         attachChild(grabber);
-        main.getRootNode().attachChild(this);
+        DisplayController.getMyRootNode().attachChild(this);
     }
 }

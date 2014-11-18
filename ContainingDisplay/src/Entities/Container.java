@@ -34,14 +34,14 @@ public class Container extends Node{
                 break;
         }
          try{
-            containerNode = (Node)main.getAssetManager().loadModel(modelPath);
+            containerNode = (Node)DisplayController.getmyAssetManager().loadModel(modelPath);
          }catch(Exception e){
-            containerNode = (Node)main.getAssetManager().loadModel("Models/medium/container/container.j3o");
+            containerNode = (Node)DisplayController.getmyAssetManager().loadModel("Models/medium/container/container.j3o");
          }
          
-         containerNode.setMaterial(new PlainMaterial(color, main.getAssetManager()));
+         containerNode.setMaterial(new PlainMaterial(color, DisplayController.getmyAssetManager()));
          attachChild(containerNode);
-         main.getRootNode().attachChild(this);
+         DisplayController.getMyRootNode().attachChild(this);
     }
     
     

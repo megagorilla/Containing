@@ -14,8 +14,8 @@ import com.jme3.scene.Node;
  */
 public class StripRails extends Node{
     public StripRails(Vector3f location,DisplayController main) {
-        attachChild(main.getAssetManager().loadModel("Models/rails/stripRails.j3o"));
+        attachChild(DisplayController.getmyAssetManager().loadModel("Models/rails/stripRails.j3o"));
         this.setLocalTranslation(location);
-        main.getRootNode().attachChild(this);
+        DisplayController.getMyRootNode().attachChild(this);
     }
 }

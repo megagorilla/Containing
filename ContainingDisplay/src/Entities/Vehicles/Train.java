@@ -39,9 +39,9 @@ public class Train extends Vehicle
                 qualityPath = "Models/low/train/train.j3o";
                 break;
         }
-        trainNode = (Node)main.getAssetManager().loadModel(qualityPath);
+        trainNode = (Node)DisplayController.getmyAssetManager().loadModel(qualityPath);
         attachChild(trainNode);
-        main.getRootNode().attachChild(this);
+        DisplayController.getMyRootNode().attachChild(this);
         
         //trainNode.setLocalTranslation(0, 0, 0);
         Wagon(quality, main);
@@ -64,13 +64,13 @@ public class Train extends Vehicle
                 qualityPath = "Models/low/train/wagon.j3o";
                 break;
         }
-        wagonNode = (Node)main.getAssetManager().loadModel(qualityPath);
+        wagonNode = (Node)DisplayController.getmyAssetManager().loadModel(qualityPath);
         attachChild(wagonNode);
         
         
         wagonNode.setLocalTranslation(0, 0, -13.2f - 18.4f*i);
         }
-        main.getRootNode().attachChild(this);
+        DisplayController.getMyRootNode().attachChild(this);
     }
     
 }

@@ -14,14 +14,14 @@ import com.jme3.scene.Node;
  */
 public class StorageCrane extends Crane {
 
-    public StorageCrane(DisplayController main) {
+    public StorageCrane() {
         super();
-        attachChild(main.getAssetManager().loadModel("Models/high/crane/storagecrane/crane.j3o"));
-        grabber.attachChild(main.getAssetManager().loadModel("Models/high/crane/storagecrane/grabbingGear.j3o"));
-        grabber.attachChild(main.getAssetManager().loadModel("Models/high/crane/storagecrane/grabbingGearHolder.j3o"));
-        grabber.attachChild(main.getAssetManager().loadModel("Models/high/crane/storagecrane/hookLeft.j3o"));
-        grabber.attachChild(main.getAssetManager().loadModel("Models/high/crane/storagecrane/hookRight.j3o"));
+        attachChild(DisplayController.getmyAssetManager().loadModel("Models/high/crane/storagecrane/crane.j3o"));
+        grabber.attachChild(DisplayController.getmyAssetManager().loadModel("Models/high/crane/storagecrane/grabbingGear.j3o"));
+        grabber.attachChild(DisplayController.getmyAssetManager().loadModel("Models/high/crane/storagecrane/grabbingGearHolder.j3o"));
+        grabber.attachChild(DisplayController.getmyAssetManager().loadModel("Models/high/crane/storagecrane/hookLeft.j3o"));
+        grabber.attachChild(DisplayController.getmyAssetManager().loadModel("Models/high/crane/storagecrane/hookRight.j3o"));
         attachChild(grabber);
-        main.getRootNode().attachChild(this);
+        DisplayController.getMyRootNode().attachChild(this);
     }
 }

@@ -6,6 +6,7 @@ package Entities.Cranes;
 
 import com.jme3.scene.Node;
 import Controller.*;
+import com.jme3.asset.AssetManager;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 
@@ -46,14 +47,15 @@ public class DockingCrane extends Crane {
                 break;
         }
 
+        
 
-        attachChild(main.getAssetManager().loadModel(craneBasePath));
-        grabber.attachChild(main.getAssetManager().loadModel(grabbingGearPath));
-        grabber.attachChild(main.getAssetManager().loadModel(grabbingGearHolderPath));
-        grabber.attachChild(main.getAssetManager().loadModel(hookLeftPath));
-        grabber.attachChild(main.getAssetManager().loadModel(hookRightPath));
+        attachChild(DisplayController.getmyAssetManager().loadModel(craneBasePath));
+        grabber.attachChild(DisplayController.getmyAssetManager().loadModel(grabbingGearPath));
+        grabber.attachChild(DisplayController.getmyAssetManager().loadModel(grabbingGearHolderPath));
+        grabber.attachChild(DisplayController.getmyAssetManager().loadModel(hookLeftPath));
+        grabber.attachChild(DisplayController.getmyAssetManager().loadModel(hookRightPath));
 
         attachChild(grabber);
-        main.getRootNode().attachChild(this);
+        DisplayController.getMyRootNode().attachChild(this);
     }
 }
