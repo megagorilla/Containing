@@ -12,11 +12,10 @@ import com.jme3.scene.Node;
  *
  * @author Sander
  */
-public class CraneRails extends Rails {
+public class CraneRails extends Node {
     
 
     public CraneRails(Vector3f location,DisplayController main) {
-        super();
         attachChild(main.getAssetManager().loadModel("Models/rails/craneRails.j3o"));
         this.setLocalTranslation(location);
         main.getRootNode().attachChild(this);
