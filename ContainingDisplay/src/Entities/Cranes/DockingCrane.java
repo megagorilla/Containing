@@ -13,16 +13,16 @@ import com.jme3.scene.Geometry;
  *
  * @author Yannick
  */
-public class DockingCrane extends Crane{
+public class DockingCrane extends Crane {
 
-    public DockingCrane(DisplayController.Quality qualtiy,DisplayController main) {
+    public DockingCrane(DisplayController.Quality qualtiy, DisplayController main) {
         String craneBasePath = "Models/high/crane/dockingcrane/crane.j3o";
         String grabbingGearPath = "Models/high/crane/dockingcrane/grabbingGear.j3o";
         String grabbingGearHolderPath = "Models/high/crane/dockingcrane/grabbingGearHolder.j3o";
         String hookLeftPath = "Models/high/crane/dockingcrane/hookLeft.j3o";
         String hookRightPath = "Models/high/crane/dockingcrane/hookRight.j3o";
-        
-        switch (qualtiy){
+
+        switch (qualtiy) {
             case HIGH:
                 craneBasePath = "Models/high/crane/dockingcrane/crane.j3o";
                 grabbingGearPath = "Models/high/crane/dockingcrane/grabbingGear.j3o";
@@ -45,48 +45,15 @@ public class DockingCrane extends Crane{
                 hookRightPath = "Models/low/crane/dockingcrane/hookRight.j3o";
                 break;
         }
-        
-        try{
-            Node craneBase = (Node)main.getAssetManager().loadModel(craneBasePath);
-            attachChild(craneBase);
-        }catch(Exception e){
-            Geometry craneBaseGeom = (Geometry)main.getAssetManager().loadModel(craneBasePath);
-            attachChild(craneBaseGeom);
-        }
-        
-        try{
-            Node grabbingGear = (Node)main.getAssetManager().loadModel(grabbingGearPath);
-            grabber.attachChild(grabbingGear);
-        }catch(Exception e){
-            Geometry grabbingGearGeom = (Geometry)main.getAssetManager().loadModel(grabbingGearPath);
-            grabber.attachChild(grabbingGearGeom);
-        }
-        
-        try{
-            Node grabbingGearHolder = (Node)main.getAssetManager().loadModel(grabbingGearHolderPath);
-            grabber.attachChild(grabbingGearHolder);
-        }catch(Exception e){
-            Geometry grabbingGearHolderGeom = (Geometry)main.getAssetManager().loadModel(grabbingGearHolderPath);
-            grabber.attachChild(grabbingGearHolderGeom);
-        }
-        
-        try{
-            Node hookLeft = (Node)main.getAssetManager().loadModel(hookLeftPath);
-            grabber.attachChild(hookLeft);
-        }catch(Exception e){
-            Geometry hookLeftGeom = (Geometry)main.getAssetManager().loadModel(hookLeftPath);
-            grabber.attachChild(hookLeftGeom);
-        }
-        
-        try{
-            Node hookRight = (Node)main.getAssetManager().loadModel(hookRightPath);
-            grabber.attachChild(hookRight);
-        }catch(Exception e){
-            Geometry hookRightGeom = (Geometry)main.getAssetManager().loadModel(hookRightPath);
-            grabber.attachChild(hookRightGeom);
-        }
+
+
+        attachChild(main.getAssetManager().loadModel(craneBasePath));
+        grabber.attachChild(main.getAssetManager().loadModel(grabbingGearPath));
+        grabber.attachChild(main.getAssetManager().loadModel(grabbingGearHolderPath));
+        grabber.attachChild(main.getAssetManager().loadModel(hookLeftPath));
+        grabber.attachChild(main.getAssetManager().loadModel(hookRightPath));
+
         attachChild(grabber);
         main.getRootNode().attachChild(this);
     }
-    
 }
