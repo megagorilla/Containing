@@ -14,7 +14,6 @@ import com.jme3.scene.Geometry;
  * @author Yannick
  */
 public class DockingCrane extends Crane{
-    Node grabber = new Node();
 
     public DockingCrane(DisplayController.Quality qualtiy,DisplayController main) {
         String craneBasePath = "Models/high/crane/dockingcrane/crane.j3o";
@@ -90,11 +89,4 @@ public class DockingCrane extends Crane{
         main.getRootNode().attachChild(this);
     }
     
-    public void moveHookTo(Vector3f location){
-        Vector3f craneLocation = new Vector3f(this.getLocalTranslation().x, 
-                this.getLocalTranslation().y, location.z);
-        Vector3f grabberLocation = new Vector3f(location.x, location.y, 0);
-        grabber.setLocalTranslation(grabberLocation);
-        this.setLocalTranslation(craneLocation);
-    }
 }
