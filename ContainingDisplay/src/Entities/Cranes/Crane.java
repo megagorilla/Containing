@@ -15,7 +15,7 @@ import com.jme3.scene.shape.Box;
  *
  * @author Yannick
  */
-public abstract class Crane extends CEntity
+public abstract class Crane extends Node
 {
     Node grabber = new Node();
 

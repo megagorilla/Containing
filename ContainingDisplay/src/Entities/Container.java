@@ -15,7 +15,7 @@ import Materials.*;
  *
  * @author Yannick
  */
-public class Container extends CEntity{
+public class Container extends Node{
     Node containerNode;
 
     

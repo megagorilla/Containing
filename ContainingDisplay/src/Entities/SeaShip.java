@@ -11,7 +11,7 @@ import com.jme3.scene.Node;
  *
  * @author Sander
  */
-public class SeaShip extends CEntity{
+public class SeaShip extends Node{
 
     public SeaShip(DisplayController.Quality quality, DisplayController main) {
         switch (quality){

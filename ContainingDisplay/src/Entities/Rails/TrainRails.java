@@ -2,13 +2,14 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package Entities.Platforms;
-import Entities.*;
+package Entities.Rails;
+
 import com.jme3.scene.Node;
+
 /**
  *
  * @author Sander
  */
-public abstract class Platform extends Node {
+public class TrainRails extends Node{
     
 }
