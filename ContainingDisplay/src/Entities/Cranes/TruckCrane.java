@@ -16,10 +16,10 @@ public class TruckCrane extends Crane {
 
     public TruckCrane() {
         super();
-        attachChild(DisplayController.getmyAssetManager().loadModel("Models/high/crane/truckcrane/crane.j3o"));
-        grabber.attachChild(DisplayController.getmyAssetManager().loadModel("Models/high/crane/truckcrane/grabbingGear.j3o"));
-        grabber.attachChild(DisplayController.getmyAssetManager().loadModel("Models/high/crane/truckcrane/hookLeft.j3o"));
-        grabber.attachChild(DisplayController.getmyAssetManager().loadModel("Models/high/crane/truckcrane/hookRight.j3o"));
+        attachChild(DisplayController.getMyAssetManager().loadModel("Models/high/crane/truckcrane/crane.j3o"));
+        grabber.attachChild(DisplayController.getMyAssetManager().loadModel("Models/high/crane/truckcrane/grabbingGear.j3o"));
+        grabber.attachChild(DisplayController.getMyAssetManager().loadModel("Models/high/crane/truckcrane/hookLeft.j3o"));
+        grabber.attachChild(DisplayController.getMyAssetManager().loadModel("Models/high/crane/truckcrane/hookRight.j3o"));
         attachChild(grabber);
         DisplayController.getMyRootNode().attachChild(this);
     }

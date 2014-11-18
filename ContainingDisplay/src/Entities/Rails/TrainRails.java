@@ -15,7 +15,7 @@ import com.jme3.scene.Node;
 public class TrainRails extends Node {
 
     public TrainRails(Vector3f location, DisplayController main) {
-        attachChild(DisplayController.getmyAssetManager().loadModel("Models/rails/trainRails.j3o"));
+        attachChild(DisplayController.getMyAssetManager().loadModel("Models/rails/trainRails.j3o"));
         this.setLocalTranslation(location);
         DisplayController.getMyRootNode().attachChild(this);
     }

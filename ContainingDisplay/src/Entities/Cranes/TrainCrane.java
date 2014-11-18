@@ -16,11 +16,11 @@ public class TrainCrane extends Crane {
 
     public TrainCrane() {
         super();
-        attachChild(DisplayController.getmyAssetManager().loadModel("Models/high/crane/traincrane/crane.j3o"));
-        grabber.attachChild(DisplayController.getmyAssetManager().loadModel("Models/high/crane/traincrane/grabbingGear.j3o"));
-        grabber.attachChild(DisplayController.getmyAssetManager().loadModel("Models/high/crane/traincrane/grabbingGearHolder.j3o"));
-        grabber.attachChild(DisplayController.getmyAssetManager().loadModel("Models/high/crane/traincrane/hookLeft.j3o"));
-        grabber.attachChild(DisplayController.getmyAssetManager().loadModel("Models/high/crane/traincrane/hookRight.j3o"));
+        attachChild(DisplayController.getMyAssetManager().loadModel("Models/high/crane/traincrane/crane.j3o"));
+        grabber.attachChild(DisplayController.getMyAssetManager().loadModel("Models/high/crane/traincrane/grabbingGear.j3o"));
+        grabber.attachChild(DisplayController.getMyAssetManager().loadModel("Models/high/crane/traincrane/grabbingGearHolder.j3o"));
+        grabber.attachChild(DisplayController.getMyAssetManager().loadModel("Models/high/crane/traincrane/hookLeft.j3o"));
+        grabber.attachChild(DisplayController.getMyAssetManager().loadModel("Models/high/crane/traincrane/hookRight.j3o"));
         attachChild(grabber);
         DisplayController.getMyRootNode().attachChild(this);
     }

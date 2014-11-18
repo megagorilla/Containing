@@ -16,13 +16,13 @@ public class SeaShip extends Node{
     public SeaShip(DisplayController.Quality quality, DisplayController main) {
         switch (quality){
             case HIGH:
-                attachChild(DisplayController.getmyAssetManager().loadModel("Models/high/ship/seaship.j3o"));
+                attachChild(DisplayController.getMyAssetManager().loadModel("Models/high/ship/seaship.j3o"));
                 break;
             case MEDIUM:
-                attachChild(DisplayController.getmyAssetManager().loadModel("Models/medium/ship/seaship.j3o"));
+                attachChild(DisplayController.getMyAssetManager().loadModel("Models/medium/ship/seaship.j3o"));
                 break;
             case LOW:
-                attachChild(DisplayController.getmyAssetManager().loadModel("Models/low/ship/seaship.j3o"));
+                attachChild(DisplayController.getMyAssetManager().loadModel("Models/low/ship/seaship.j3o"));
                 break;
         }
         

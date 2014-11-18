@@ -34,7 +34,7 @@ public class Truck extends Vehicle
                 qualityPath = "Models/low/truck.j3o";
                 break;
         }
-        truckNode = (Node)DisplayController.getmyAssetManager().loadModel(qualityPath);
+        truckNode = (Node)DisplayController.getMyAssetManager().loadModel(qualityPath);
         attachChild(truckNode);
         DisplayController.getMyRootNode().attachChild(this);
     }

@@ -16,7 +16,7 @@ public class CraneRails extends Node {
     
 
     public CraneRails(Vector3f location,DisplayController main) {
-        attachChild(DisplayController.getmyAssetManager().loadModel("Models/rails/craneRails.j3o"));
+        attachChild(DisplayController.getMyAssetManager().loadModel("Models/rails/craneRails.j3o"));
         this.setLocalTranslation(location);
         DisplayController.getMyRootNode().attachChild(this);
     }

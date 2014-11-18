@@ -49,11 +49,11 @@ public class DockingCrane extends Crane {
 
         
 
-        attachChild(DisplayController.getmyAssetManager().loadModel(craneBasePath));
-        grabber.attachChild(DisplayController.getmyAssetManager().loadModel(grabbingGearPath));
-        grabber.attachChild(DisplayController.getmyAssetManager().loadModel(grabbingGearHolderPath));
-        grabber.attachChild(DisplayController.getmyAssetManager().loadModel(hookLeftPath));
-        grabber.attachChild(DisplayController.getmyAssetManager().loadModel(hookRightPath));
+        attachChild(DisplayController.getMyAssetManager().loadModel(craneBasePath));
+        grabber.attachChild(DisplayController.getMyAssetManager().loadModel(grabbingGearPath));
+        grabber.attachChild(DisplayController.getMyAssetManager().loadModel(grabbingGearHolderPath));
+        grabber.attachChild(DisplayController.getMyAssetManager().loadModel(hookLeftPath));
+        grabber.attachChild(DisplayController.getMyAssetManager().loadModel(hookRightPath));
 
         attachChild(grabber);
         DisplayController.getMyRootNode().attachChild(this);

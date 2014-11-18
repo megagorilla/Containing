@@ -39,7 +39,7 @@ public class Train extends Vehicle
                 qualityPath = "Models/low/train/train.j3o";
                 break;
         }
-        trainNode = (Node)DisplayController.getmyAssetManager().loadModel(qualityPath);
+        trainNode = (Node)DisplayController.getMyAssetManager().loadModel(qualityPath);
         attachChild(trainNode);
         DisplayController.getMyRootNode().attachChild(this);
         
@@ -64,7 +64,7 @@ public class Train extends Vehicle
                 qualityPath = "Models/low/train/wagon.j3o";
                 break;
         }
-        wagonNode = (Node)DisplayController.getmyAssetManager().loadModel(qualityPath);
+        wagonNode = (Node)DisplayController.getMyAssetManager().loadModel(qualityPath);
         attachChild(wagonNode);
         
         
