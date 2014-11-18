@@ -8,6 +8,6 @@ package Entities.Platforms;
  *
  * @author Sander
  */
-public class OpslagPlatforn extends Platform{
+public class OpslagPlatform extends Platform{
     
 }
