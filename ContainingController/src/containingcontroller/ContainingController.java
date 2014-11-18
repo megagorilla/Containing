@@ -4,6 +4,7 @@
  */
 package containingcontroller;
 
+import connectivity.API;
 import connectivity.ConnectionManager;
 import connectivity.UpdateMessage;
 import java.io.IOException;
@@ -24,6 +25,8 @@ public class ContainingController {
             System.err.println("Failed to start server!");
         else System.out.println("Successfully started server");
         ConnectionManager.sendCommand(new UpdateMessage("blah"));
+        API.start();
+        System.out.println("Type any character to quit");
         System.in.read();
     }
 }
