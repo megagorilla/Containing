@@ -16,7 +16,11 @@ import com.jme3.scene.Geometry;
  */
 public class DockingCrane extends Crane {
 
-    public DockingCrane(DisplayController.Quality qualtiy, DisplayController main) {
+    /**
+     * Loads the models for the DockingCrane and puts them in a node
+     * @param qualtiy Changes the qualtiy of the crane (LOW,MEDIUM,HIGH)
+     */
+    public DockingCrane(DisplayController.Quality qualtiy) {
         String craneBasePath = "Models/high/crane/dockingcrane/crane.j3o";
         String grabbingGearPath = "Models/high/crane/dockingcrane/grabbingGear.j3o";
         String grabbingGearHolderPath = "Models/high/crane/dockingcrane/grabbingGearHolder.j3o";
