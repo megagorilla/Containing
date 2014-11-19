@@ -60,4 +60,9 @@ public final class ConnectionManager {
     public static void sendCommand(UpdateMessage msg) {
         server.broadcast(msg);
     }
+    
+    public static boolean hasConnections()
+    {
+    	return server.hasConnections();
+    }
 }

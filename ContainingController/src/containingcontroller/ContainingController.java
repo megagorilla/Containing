@@ -26,11 +26,19 @@ public class ContainingController {
             System.err.println("Failed to start server!");
         else System.out.println("Successfully started server");
         // test command
-        ConnectionManager.sendCommand(new UpdateMessage("blah"));
+
         // start the API, listen on port 8080
         API.start(8080);
         // use read to keep the program active
         System.out.println("Type any character to quit");
-        System.in.read();
+        while(true)
+        {
+        	for(int i = 0; i < 50; i++)
+            {
+        		if(ConnectionManager.hasConnections())
+        			ConnectionManager.sendCommand(new UpdateMessage("0 10 " + i));
+            }
+        }
+        //System.in.read();
     }
 }
