@@ -52,10 +52,11 @@ public class DisplayController extends SimpleApplication {
         myViewPort = viewPort;
         rootNode.attachChild(SkyFactory.createSky(
             assetManager, "Textures/Sky/Bright/BrightSky.dds", false));
-        flyCam.setMoveSpeed(10);
+        flyCam.setMoveSpeed(100);
+        cam.setFrustumFar(5000);
+        cam.onFrameChange();
         
-        Crane crane = new DockingCrane(quality);
-        rails = new CraneRails(new Vector3f(42, 0, 0), 0.87f, 0f);
+        Platform test = new binnenvaartschipPlatform();
         sun = new DirectionalLight();
         sun.setDirection((new Vector3f(-0.5f, -0.5f, -0.5f)).normalizeLocal());
         sun.setColor(ColorRGBA.White);
