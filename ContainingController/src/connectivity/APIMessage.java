@@ -2,12 +2,12 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package Entities.Cranes;
+package connectivity;
 
 /**
  *
- * @author Yannick
+ * @author snyx
  */
-public class BigCrane extends Crane{
-    
+public class APIMessage {
+    public APIMessage() {}
 }

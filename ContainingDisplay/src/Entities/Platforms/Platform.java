@@ -4,10 +4,11 @@
  */
 package Entities.Platforms;
 import Entities.*;
+import com.jme3.scene.Node;
 /**
  *
  * @author Sander
  */
-public abstract class Platform extends CEntity {
+public abstract class Platform extends Node {
     
 }

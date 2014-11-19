@@ -1,4 +1,4 @@
-package connectivity;
+package Connectivity;
 
 import com.jme3.network.AbstractMessage;
 import com.jme3.network.serializing.Serializable;

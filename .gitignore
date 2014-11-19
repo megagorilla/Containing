@@ -118,3 +118,9 @@ sftp-config.json
 
 /ContainingController/nbproject/private/
 /ContainingDisplay/nbproject/private/
+
+*.so
+*.dll
+
+!lib/google-gson-2.2.4/gson-2.2.4.jar
+!lib/vert.x-2.1.5/lib/*.jar
