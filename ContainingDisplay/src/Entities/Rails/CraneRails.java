@@ -14,10 +14,16 @@ import com.jme3.scene.Node;
  */
 public class CraneRails extends Node {
     
-
-    public CraneRails(Vector3f location,DisplayController main) {
+    /**
+     * Loads the model for the CraneRails and puts them in a node
+     * @param location x 42 for DockingCrane
+     * @param width ~0.87f for DockingCrane
+     */
+    public CraneRails(Vector3f location, float width, Float yAngleRot) {
         attachChild(DisplayController.getMyAssetManager().loadModel("Models/rails/craneRails.j3o"));
         this.setLocalTranslation(location);
+        this.scale(width, 1, 1);
+        this.rotate(0, yAngleRot, 0);
         DisplayController.getMyRootNode().attachChild(this);
     }
     
