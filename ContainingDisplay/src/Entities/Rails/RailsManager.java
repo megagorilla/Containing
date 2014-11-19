@@ -2,12 +2,12 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package Entities.Platforms;
+package Entities.Rails;
 
 /**
  *
  * @author Sander
  */
-public class OpslagPlatforn extends Platform{
+public class RailsManager {
     
 }

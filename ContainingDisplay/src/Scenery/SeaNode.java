@@ -26,22 +26,21 @@ import com.jme3.water.SimpleWaterProcessor;
  */
 public class SeaNode extends Node{
 
-    public SeaNode(DisplayController main) {
+    public SeaNode() {
         //create processor
-        SimpleWaterProcessor waterProcessor = new SimpleWaterProcessor(main.getAssetManager());
-        waterProcessor.setReflectionScene(main.getRootNode());
-        main.getViewPort().addProcessor(waterProcessor);
+        SimpleWaterProcessor waterProcessor = new SimpleWaterProcessor(DisplayController.getMyAssetManager());
+        waterProcessor.setReflectionScene(DisplayController.getMyRootNode());
+        DisplayController.getMyViewPort().addProcessor(waterProcessor);
 
-        waterProcessor.setLightPosition(main.getSun().getDirection());
 
         //create water quad
-        Spatial waterPlane=(Spatial)  main.getAssetManager().loadModel("Models/WaterTest/WaterTest.mesh.xml");
+        Spatial waterPlane=(Spatial)  DisplayController.getMyAssetManager().loadModel("Models/WaterTest/WaterTest.mesh.xml");
         waterPlane.setMaterial(waterProcessor.getMaterial());
         waterPlane.setLocalScale(2000);
-        waterPlane.setLocalTranslation(0, -100, 0);
+        this.setLocalTranslation(0, -20, 0);
         
         attachChild(waterPlane);
-        main.getRootNode().attachChild(this);
+        DisplayController.getMyRootNode().attachChild(this);
     }
     
 }

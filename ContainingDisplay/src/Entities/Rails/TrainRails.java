@@ -1,0 +1,27 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Entities.Rails;
+
+import Controller.DisplayController;
+import com.jme3.math.Vector3f;
+import com.jme3.scene.Node;
+
+/**
+ *
+ * @author Sander
+ */
+public class TrainRails extends Node {
+
+    /**
+     * Loads the model for the TrainRails and puts them in a node
+     * @param location the location of the TrainRails
+     */
+    public TrainRails(Vector3f location, Float yAngleRot) {
+        attachChild(DisplayController.getMyAssetManager().loadModel("Models/rails/trainRails.j3o"));
+        this.setLocalTranslation(location);
+        this.rotate(0, yAngleRot, 0);
+        DisplayController.getMyRootNode().attachChild(this);
+    }
+}
