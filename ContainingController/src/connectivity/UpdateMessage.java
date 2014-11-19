@@ -1,15 +1,17 @@
 package connectivity;
 
+import com.jme3.math.Quaternion;
 import com.jme3.network.AbstractMessage;
 import com.jme3.network.serializing.Serializable;
+import com.jme3.math.Vector3f;
 import java.util.Map;
-import javax.vecmath.Vector3f;
+import java.util.Set;
 
 @Serializable
 public class UpdateMessage extends AbstractMessage {
         
     protected String msg;
-    protected Map<String,Vector3f> data;
+    protected Set<Data> data;
     
     public UpdateMessage() {}
 
@@ -27,7 +29,7 @@ public class UpdateMessage extends AbstractMessage {
      * @param msg 
      * @param data
      */
-    public UpdateMessage(String msg, Map<String,Vector3f> data) {
+    public UpdateMessage(String msg, Set<Data> data) {
         super();
         this.msg = msg;
         this.data = data;
@@ -38,8 +40,8 @@ public class UpdateMessage extends AbstractMessage {
      * @param name
      * @param location 
      */
-    public void addData(String name, Vector3f location) {
-        data.put(name, location);
+    public void addData(String name, Vector3f location, Quaternion rotation) {
+        data.add(new Data (name, location, rotation));
     }
     
     /**
