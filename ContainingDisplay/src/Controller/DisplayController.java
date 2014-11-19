@@ -24,6 +24,8 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.util.SkyFactory;
 import java.util.ArrayList;
+import Connectivity.ConnectionManager;
+import Connectivity.UpdateMessage;
 /**
  * test
  * @author Yannick
