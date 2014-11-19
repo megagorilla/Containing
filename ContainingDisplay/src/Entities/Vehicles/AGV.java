@@ -15,7 +15,7 @@ import Controller.*;
 public class AGV extends Vehicle{
     Node agvNode;
     
-    public AGV(DisplayController.Quality qualtiy,DisplayController main) {
+    public AGV(DisplayController.Quality qualtiy) {
         super();
         String qualityPath = "Models/high/agv/agv.j3o";
         switch (qualtiy){

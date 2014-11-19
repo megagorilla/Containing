@@ -19,7 +19,7 @@ public class Container extends Node{
     Node containerNode;
 
     
-    public Container(DisplayController.Quality qualtiy,ColorRGBA color, DisplayController main)
+    public Container(DisplayController.Quality qualtiy,ColorRGBA color)
     {
         String modelPath = "Models/high/container/container.j3o";
         switch (qualtiy){
@@ -39,7 +39,7 @@ public class Container extends Node{
             containerNode = (Node)DisplayController.getMyAssetManager().loadModel("Models/medium/container/container.j3o");
          }
          
-         containerNode.setMaterial(new PlainMaterial(color, DisplayController.getMyAssetManager()));
+         containerNode.setMaterial(new PlainMaterial(color));
          attachChild(containerNode);
          DisplayController.getMyRootNode().attachChild(this);
     }

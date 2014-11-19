@@ -4,6 +4,7 @@
  */
 package Materials;
 
+import Controller.DisplayController;
 import com.jme3.asset.AssetManager;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
@@ -21,11 +22,11 @@ public class TexturedMaterial extends Material{
     public TexturedMaterial() {
     }
 
-    public TexturedMaterial(int textureNumber, AssetManager assetManager) {
-        super(assetManager, "Common/MatDefs/Light/Lighting.j3md"); 
-        Texture diffuseTexture = assetManager.loadTexture("Textures/texturePack/"+textureNumber+".JPG");
+    public TexturedMaterial(int textureNumber) {
+        super(DisplayController.getMyAssetManager(), "Common/MatDefs/Light/Lighting.j3md"); 
+        Texture diffuseTexture = DisplayController.getMyAssetManager().loadTexture("Textures/texturePack/"+textureNumber+".JPG");
         diffuseTexture.setWrap(WrapMode.Repeat);
-        Texture normalTexture = assetManager.loadTexture("Textures/texturePack/"+textureNumber+"_norm.JPG");
+        Texture normalTexture = DisplayController.getMyAssetManager().loadTexture("Textures/texturePack/"+textureNumber+"_norm.JPG");
         normalTexture.setWrap(WrapMode.Repeat);
         this.setTexture("DiffuseMap",diffuseTexture);
         this.setTexture("NormalMap", normalTexture);
