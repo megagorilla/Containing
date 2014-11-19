@@ -8,45 +8,51 @@ import java.util.*;
 
 public class ShortestPath {
 
-    //1550 * 600
-    //775 - 300
-    private static final Graph.Edge[] GRAPH = {
+    private String currentLocation;
+    private String destination;
+    public static final Graph.Edge[] GRAPH = {
         new Graph.Edge("a1", "a2", 50),
-        new Graph.Edge("a1", "a4", 770),
-        new Graph.Edge("a2", "a3", 770),
+        new Graph.Edge("a1", "a4", 725),
+        new Graph.Edge("a4", "a1", 725),
+        new Graph.Edge("a1", "o2", 150),
+        new Graph.Edge("a2", "a3", 725),
         new Graph.Edge("a3", "a4", 50),
-        new Graph.Edge("a4", "o3", 5),
-        new Graph.Edge("o3", "b1", 5),
+        new Graph.Edge("a4", "o3", 50),
+        new Graph.Edge("o3", "a4", 50),
+        new Graph.Edge("b1", "o3", 50),
+        new Graph.Edge("o3", "b1", 50),
         new Graph.Edge("b1", "b2", 50),
-        new Graph.Edge("b1", "b4", 770),
-        new Graph.Edge("b2", "b3", 770),
+        new Graph.Edge("b1", "b4", 725),
+        new Graph.Edge("b4", "b1", 725),
+        new Graph.Edge("b2", "b3", 725),
         new Graph.Edge("b3", "b4", 50),
-        new Graph.Edge("b4", "c1", 5),
-        new Graph.Edge("c1", "c2", 50),
-        new Graph.Edge("c1", "o4", 145),
-        new Graph.Edge("o4", "c4", 145),
-        new Graph.Edge("c2", "c3", 290),
+        new Graph.Edge("b4", "c2", 50),
+        new Graph.Edge("b4", "o4", 150),
+        new Graph.Edge("o4", "b4", 150),
+        new Graph.Edge("c2", "c3", 600),
         new Graph.Edge("c3", "c4", 50),
-        new Graph.Edge("c4", "d1", 5),
-        new Graph.Edge("d1", "d2", 50),
-        new Graph.Edge("d1", "o5", 770),
-        new Graph.Edge("o5", "d4", 770),
-        new Graph.Edge("d2", "d3", 1545),
+        new Graph.Edge("c4", "o4", 150),
+        new Graph.Edge("o4", "c4", 150),
+        new Graph.Edge("c4", "d2", 50),
+        new Graph.Edge("c4", "o5", 775),
+        new Graph.Edge("o5", "c4", 775),
+        new Graph.Edge("d2", "d3", 1550),
         new Graph.Edge("d3", "d4", 50),
+        new Graph.Edge("d4", "o5", 775),
+        new Graph.Edge("o5", "d4", 775),
         new Graph.Edge("d4", "o2", 150),
-        new Graph.Edge("o2", "a1", 150),
-        new Graph.Edge("o1", "o2", 775),
-        new Graph.Edge("o1", "o3", 150),
-        new Graph.Edge("o1", "o4", 775),
-        new Graph.Edge("o1", "o5", 150)};
-    private static final String START = "d3";
-    private static final String END = "c2";
+        new Graph.Edge("o2", "d4", 150)};
+
+    public ShortestPath() {
+    }
 
     public static void main(String[] args) {
         Graph g = new Graph(GRAPH);
-        g.dijkstra(START);
-        g.printPath(END);
-        //g.printAllPaths();
+
+        g.dijkstra("a1");
+        g.printPath("d2");
+        g.printAllPaths();
+
     }
 }
 
