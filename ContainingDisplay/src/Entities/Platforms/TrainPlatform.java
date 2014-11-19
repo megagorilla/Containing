@@ -18,7 +18,8 @@ import com.jme3.scene.shape.Box;
  */
 public class TrainPlatform extends Platform {
 
-    Geometry trainRailsNode;    
+    Geometry trainRailsNode;   
+    Geometry craneRailsNode;
     Node groundBox = new Node();
     Node parkingBox = new Node();
 
@@ -33,6 +34,7 @@ public class TrainPlatform extends Platform {
         }
         Ground(assetManager, main);
         ParkingSpace(assetManager, main);
+        CraneRails(quality, main, assetManager);
     }
     
     public void Ground(AssetManager assetManager, DisplayController main)
@@ -47,6 +49,17 @@ public class TrainPlatform extends Platform {
         main.getRootNode().attachChild(groundBox);
     }
     
+    public void CraneRails(DisplayController.Quality quality, DisplayController main, AssetManager assetManager)
+    {
+        for(int i = 0; i < 162; i++)
+        {
+            craneRailsNode = (Geometry)main.getAssetManager().loadModel("Models/rails/craneRails.j3o");
+            attachChild(craneRailsNode);
+            main.getRootNode().attachChild(this);
+            craneRailsNode.setLocalTranslation(15,0.1f, -100-18*i);
+        }
+    }
+    
     public void ParkingSpace(AssetManager assetManager, DisplayController main)
     {
         Box ParkingSpace = new Box(10,0.1f,1450);
@@ -56,7 +69,6 @@ public class TrainPlatform extends Platform {
         parkingGeom.setMaterial(parkingMat);
         parkingBox.attachChild(parkingGeom);
         parkingGeom.setLocalTranslation(40, 0.001f, -1550);
-        main.getRootNode().attachChild(parkingBox);
-        
+        main.getRootNode().attachChild(parkingBox);        
     }
 }
