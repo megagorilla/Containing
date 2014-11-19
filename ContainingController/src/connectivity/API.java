@@ -7,6 +7,13 @@ package connectivity;
 import org.vertx.java.core.*;
 import org.vertx.java.core.http.HttpServerRequest;
 import com.google.gson.*;
+import com.jme3.math.Quaternion;
+import com.jme3.math.Vector3f;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import org.vertx.java.core.http.RouteMatcher;
 
 /**
  * The API endpoints of the server, allowing web and android access to required data.
@@ -27,12 +34,22 @@ public final class API {
     public static void start(int port) {
         vertx = VertxFactory.newVertx();
         final Gson gson = new Gson();
-        vertx.createHttpServer().requestHandler(new Handler<HttpServerRequest>() {
+        RouteMatcher rm = new RouteMatcher();
+        rm.get("/", new Handler<HttpServerRequest>() {
               @Override
               public void handle(HttpServerRequest req) {
-                  UpdateMessage m = new UpdateMessage("blah"); //TODO: use more meaningful data
-                  req.response().end(gson.toJson(m));
+                Set set = new HashSet<>();
+                UpdateMessage m = new UpdateMessage("blah", set); //TODO: use more meaningful data
+                m.addData("test", Vector3f.ZERO, Quaternion.IDENTITY);
+                req.response().end(gson.toJson(m));
               }
-          }).listen(port); // listen on the specified portg (change if needed)
+        });
+        rm.get("/:id", new Handler<HttpServerRequest>() {
+            @Override
+            public void handle(HttpServerRequest req) {
+                req.response().end(gson.toJson(req.params().get("id")));
+            }
+        });
+        vertx.createHttpServer().requestHandler(rm).listen(port); // listen on the specified portg (change if needed)
     }
 }
