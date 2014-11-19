@@ -121,3 +121,5 @@ sftp-config.json
 
 *.so
 *.dll
+
+!lib/*
