@@ -22,10 +22,14 @@ public class Train extends Vehicle
 {
     Node trainNode;
     Node wagonNode;
+    DisplayController.Quality quality;
+    int nrOfWagons;
     
-    public Train(DisplayController.Quality quality, DisplayController main) 
+    public Train(DisplayController.Quality quality, int nrOfWagons) 
     {
         super();
+        this.quality = quality;
+        this.nrOfWagons = nrOfWagons;
         String qualityPath = "";
         switch (quality)
         {
@@ -44,12 +48,12 @@ public class Train extends Vehicle
         DisplayController.getMyRootNode().attachChild(this);
         
         //trainNode.setLocalTranslation(0, 0, 0);
-        Wagon(quality, main);
+        Wagon();
     }
     
-    public void Wagon(DisplayController.Quality quality, DisplayController main)
+    public void Wagon()
     {
-        for(int i = 0; i < 5; i++)
+        for(int i = 0; i < nrOfWagons; i++)
         {
         String qualityPath = "";
         switch (quality)
