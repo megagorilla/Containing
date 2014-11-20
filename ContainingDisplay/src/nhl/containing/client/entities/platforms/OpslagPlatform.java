@@ -18,7 +18,7 @@ public class OpslagPlatform extends Platform
 
 	public OpslagPlatform()
 	{
-
+                
 	}
 
 }

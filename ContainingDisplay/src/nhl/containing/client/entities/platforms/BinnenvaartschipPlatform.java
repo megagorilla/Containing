@@ -14,6 +14,7 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.shape.Box;
+import javafx.scene.effect.DisplacementMap;
 
 /**
  * 
@@ -21,10 +22,6 @@ import com.jme3.scene.shape.Box;
  */
 public class BinnenvaartschipPlatform extends Platform
 {
-	Node sideWayBox = new Node();
-	Node hookNorthBox = new Node();
-	Node hookSouthBox = new Node();
-	Geometry craneRails;
 
 	public BinnenvaartschipPlatform()
 	{
@@ -32,6 +29,7 @@ public class BinnenvaartschipPlatform extends Platform
 		HookNorth();
 		HookSouth();
 		littleShipRails();
+                ContainingClient.getMyRootNode().attachChild(this);
 	}
 
 	private void SideWay()
@@ -39,9 +37,8 @@ public class BinnenvaartschipPlatform extends Platform
 		Box SideWay = new Box(20, 0.1f, 725);
 		Geometry sideWayGeom = new Geometry("Box", SideWay);
 		sideWayGeom.setMaterial(new PlainMaterial(ColorRGBA.Black));
-		sideWayBox.attachChild(sideWayGeom);
+		attachChild(sideWayGeom);
 		sideWayGeom.setLocalTranslation(0, 0, -725);
-		ContainingClient.getMyRootNode().attachChild(sideWayBox);
 	}
 
 	private void HookNorth()
@@ -49,9 +46,8 @@ public class BinnenvaartschipPlatform extends Platform
 		Box HookNorth = new Box(30, 0.1f, 20);
 		Geometry hookNorthGeom = new Geometry("Box", HookNorth);
 		hookNorthGeom.setMaterial(new PlainMaterial(ColorRGBA.Black));
-		hookNorthBox.attachChild(hookNorthGeom);
+		attachChild(hookNorthGeom);
 		hookNorthGeom.setLocalTranslation(-50, 0.1f, -1430);
-		ContainingClient.getMyRootNode().attachChild(hookNorthBox);
 	}
 
 	private void HookSouth()
@@ -59,9 +55,8 @@ public class BinnenvaartschipPlatform extends Platform
 		Box HookSouth = new Box(30, 0.1f, 20);
 		Geometry hookSouthGeom = new Geometry("Box", HookSouth);
 		hookSouthGeom.setMaterial(new PlainMaterial(ColorRGBA.Black));
-		hookSouthBox.attachChild(hookSouthGeom);
+		attachChild(hookSouthGeom);
 		hookSouthGeom.setLocalTranslation(-50, 0.1f, -20);
-		ContainingClient.getMyRootNode().attachChild(hookSouthBox);
 	}
 
 	private void littleShipRails()

@@ -43,6 +43,7 @@ public class TrainPlatform extends Platform
 		Ground();
 		ParkingSpace();
 		CraneRails();
+		ContainingClient.getMyRootNode().attachChild(this);
 	}
 
 	private void Ground()
@@ -52,7 +53,6 @@ public class TrainPlatform extends Platform
 		groundGeom.setMaterial(new PlainMaterial(ColorRGBA.DarkGray));
 		groundGeom.setLocalTranslation(10, -5, 0);
 		attachChild(groundGeom);
-		ContainingClient.getMyRootNode().attachChild(this);
 	}
 
 	private void CraneRails()
@@ -71,6 +71,5 @@ public class TrainPlatform extends Platform
 		parkingGeom.setMaterial(new PlainMaterial(ColorRGBA.Gray));
 		parkingGeom.setLocalTranslation(15, 0.01f, 0);
 		attachChild(parkingGeom);
-		ContainingClient.getMyRootNode().attachChild(this);
 	}
 }

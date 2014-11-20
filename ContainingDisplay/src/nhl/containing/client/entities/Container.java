@@ -8,6 +8,7 @@ import nhl.containing.client.ContainingClient;
 import nhl.containing.client.materials.PlainMaterial;
 
 import com.jme3.math.ColorRGBA;
+import com.jme3.renderer.queue.RenderQueue;
 import com.jme3.scene.Node;
 
 /**
@@ -18,7 +19,7 @@ public class Container extends Node
 {
 	Node containerNode;
 
-	public Container(ContainingClient.Quality qualtiy, ColorRGBA color)
+	public Container(ContainingClient.Quality qualtiy)
 	{
 		String modelPath = "Models/high/container/container.j3o";
 		switch (qualtiy)
