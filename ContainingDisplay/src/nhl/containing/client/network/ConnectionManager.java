@@ -45,7 +45,6 @@ public final class ConnectionManager
                             if(m instanceof UpdateMessage)
                             {
                                 UpdateMessage m1 = (UpdateMessage) m;
-                                ContainingClient.test2 = m1.data.iterator().next().pos;
                                 System.out.println("1");
                             }
 			}

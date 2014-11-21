@@ -43,7 +43,7 @@ public class Container extends Node
 			containerNode = (Node) ContainingClient.getMyAssetManager().loadModel("Models/medium/container/container.j3o");
 		}
 
-		containerNode.setMaterial(new PlainMaterial(color));
+		containerNode.setMaterial(new PlainMaterial(ColorRGBA.randomColor()));
 		attachChild(containerNode);
 		ContainingClient.getMyRootNode().attachChild(this);
 	}
