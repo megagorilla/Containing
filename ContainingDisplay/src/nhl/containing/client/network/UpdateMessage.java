@@ -1,12 +1,11 @@
 package nhl.containing.client.network;
 
-import java.util.Map;
+import java.util.Set;
 
 import javax.vecmath.Vector3f;
 
 import com.jme3.network.AbstractMessage;
 import com.jme3.network.serializing.Serializable;
-import java.util.Set;
 
 @Serializable
 public class UpdateMessage extends AbstractMessage
@@ -51,7 +50,7 @@ public class UpdateMessage extends AbstractMessage
 	 */
 	public void addData(String name, Vector3f location)
 	{
-		//data.put(name, location);
+		data.add(new Data());
 	}
 
 	/**

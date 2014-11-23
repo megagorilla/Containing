@@ -1,7 +1,5 @@
 package nhl.containing.server.network;
 
-import com.jme3.network.Message;
-import com.jme3.network.MessageListener;
 import com.jme3.network.Network;
 import com.jme3.network.Server;
 import com.jme3.network.serializing.Serializer;
@@ -32,23 +30,13 @@ public final class ConnectionManager
 			return false;
 		}
 		Serializer.registerClass(UpdateMessage.class);
-		server.addMessageListener(new MessageListener<Object>()
-		{
-			@Override
-			public void messageReceived(Object source, Message m)
-			{
-				if (m instanceof UpdateMessage)
-				{
-					System.out.println(((UpdateMessage) m).getMsg());
-				}
-			}
-		});
+		server.addMessageListener(new ServerListener(), UpdateMessage.class);
 		server.start();
 		return true;
 	}
 
 	/**
-	 * Stop the server.
+	 * Stops the server.
 	 */
 	public static void stop()
 	{

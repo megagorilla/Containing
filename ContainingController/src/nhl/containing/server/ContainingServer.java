@@ -52,4 +52,11 @@ public class ContainingServer extends SimpleApplication
 		if (time == 60)
 			System.out.println((System.currentTimeMillis() - startTime));
 	}
+	
+	@Override
+	public void destroy()
+	{
+		ConnectionManager.stop();
+		super.destroy();
+	}
 }

@@ -4,13 +4,9 @@
  */
 package nhl.containing.client.network;
 
-import com.jme3.math.Vector3f;
 import com.jme3.network.Client;
-import com.jme3.network.Message;
-import com.jme3.network.MessageListener;
 import com.jme3.network.Network;
 import com.jme3.network.serializing.Serializer;
-import nhl.containing.client.ContainingClient;
 
 /**
  * 
@@ -38,17 +34,7 @@ public final class ConnectionManager
 			return false;
 		}
 		
-		client.addMessageListener(new MessageListener<Object>()
-		{
-			public void messageReceived(Object source, Message m)
-			{
-                            if(m instanceof UpdateMessage)
-                            {
-                                UpdateMessage m1 = (UpdateMessage) m;
-                                System.out.println("1");
-                            }
-			}
-		});
+		client.addMessageListener(new ClientListener());
 		client.start();
 		return true;
 	}
