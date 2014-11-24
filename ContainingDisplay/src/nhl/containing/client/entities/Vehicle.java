@@ -19,24 +19,8 @@ import com.jme3.scene.shape.Box;
  */
 public abstract class Vehicle extends Node
 {
-	AssetManager assetManager;
-	private Box box;
-	private Geometry vehicleGeom;
-
-	// private Material material; TODO: Not being used? removal imminent
-
 	public Vehicle()
 	{
-	}
-
-	public Vehicle(ColorRGBA color, Vector3f size, AssetManager assetManager, TexturedMaterial material)
-	{
-		this.assetManager = assetManager;
-		box = new Box(size.x, size.y, size.z);
-		vehicleGeom = new Geometry(name, box);
-
-		vehicleGeom.setMaterial(material);
-		attachChild(vehicleGeom);
 	}
 
 }
