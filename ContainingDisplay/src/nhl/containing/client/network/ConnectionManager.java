@@ -22,8 +22,8 @@ public final class ConnectionManager
 
 	public static boolean init(String host, int port)
 	{
-            Serializer.registerClass(UpdateMessage.class);
-            Serializer.registerClass(Data.class);
+        Serializer.registerClass(UpdateMessage.class);
+        Serializer.registerClass(AGVData.class);
 		try
 		{
 			client = Network.connectToServer(host, port);
@@ -34,7 +34,7 @@ public final class ConnectionManager
 			return false;
 		}
 		
-		client.addMessageListener(new ClientListener());
+		client.addMessageListener(new ClientListener(), UpdateMessage.class);
 		client.start();
 		return true;
 	}

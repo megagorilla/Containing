@@ -1,9 +1,10 @@
 package nhl.containing.client.network;
 
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
-import javax.vecmath.Vector3f;
-
+import com.jme3.math.Vector3f;
 import com.jme3.network.AbstractMessage;
 import com.jme3.network.serializing.Serializable;
 
@@ -11,12 +12,10 @@ import com.jme3.network.serializing.Serializable;
 public class UpdateMessage extends AbstractMessage
 {
 
-	protected String msg;
-	protected Set<Data> data;
+	public String msg;
+	public Set<AGVData> data = new HashSet<AGVData>();
 
-	public UpdateMessage()
-	{
-	}
+	public UpdateMessage() {}
 
 	/**
 	 * Create a new instance of UpdateMessage.
@@ -35,11 +34,11 @@ public class UpdateMessage extends AbstractMessage
 	 * @param msg
 	 * @param data
 	 */
-	public UpdateMessage(String msg, Set<Data> data)
+	public UpdateMessage(String msg, Set<AGVData> data)
 	{
 		super();
 		this.msg = msg;
-                this.data = data;
+		this.data = data;
 	}
 
 	/**
@@ -48,9 +47,9 @@ public class UpdateMessage extends AbstractMessage
 	 * @param name
 	 * @param location
 	 */
-	public void addData(String name, Vector3f location)
+	public void addData(int id, List<Vector3f> list)
 	{
-		data.add(new Data());
+		data.add(new AGVData(id, list));
 	}
 
 	/**

@@ -17,7 +17,9 @@ public class ServerListener implements MessageListener<HostedConnection>
 	
 	private void handleUpdateMessage(UpdateMessage message)
 	{
-		
+		for(AGVData data : message.data)
+		{	
+			//AGV agv = AGVHandler.getInstance().getAGV(data.id);
+		}
 	}
-
 }

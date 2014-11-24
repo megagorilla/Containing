@@ -10,9 +10,7 @@ package nhl.containing.server.pathfinding;
  */
 public class AGV
 {
-
-	@SuppressWarnings("unused")
-	private int agvId;
+	public int agvId;
 
 	private String currentLocation;
 	private String destination;

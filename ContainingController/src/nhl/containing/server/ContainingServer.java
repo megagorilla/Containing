@@ -1,16 +1,20 @@
 package nhl.containing.server;
 
+import java.util.ArrayList;
+
 import nhl.containing.server.network.API;
 import nhl.containing.server.network.ConnectionManager;
 import nhl.containing.server.network.UpdateMessage;
 
 import com.jme3.app.SimpleApplication;
+import com.jme3.math.Vector3f;
 import com.jme3.system.JmeContext;
 
 public class ContainingServer extends SimpleApplication
 {
 	private long startTime = System.currentTimeMillis();
 	float time = 0;
+	private boolean hasSent;
 
 	public static void main(String[] args)
 	{
@@ -34,23 +38,26 @@ public class ContainingServer extends SimpleApplication
 		API.start(8080);
 		// use read to keep the program active
 		System.out.println("Type any character to quit");
-		while (true)
-		{
-			for (int i = 0; i < 50; i++)
-			{
-				if (ConnectionManager.hasConnections())
-					ConnectionManager.sendCommand(new UpdateMessage("0 10 " + i));
-			}
-		}
 		// System.in.read();
 	}
 
 	@Override
 	public void simpleUpdate(float tpf)
 	{
-		time++;
-		if (time == 60)
-			System.out.println((System.currentTimeMillis() - startTime));
+		if(!hasSent && ConnectionManager.hasConnections())
+		{
+			UpdateMessage m = new UpdateMessage("hai");
+			ArrayList<Vector3f> list = new ArrayList<Vector3f>();
+			list.add(new Vector3f());
+			list.add(new Vector3f(100, 0, 0));
+			list.add(new Vector3f(100, 0, 100));
+			list.add(new Vector3f(200, 0, 100));
+			list.add(new Vector3f(200, 0, 200));
+			m.addData(0, list);
+			ConnectionManager.sendCommand(m);
+			System.out.println(System.currentTimeMillis());
+			hasSent = true;
+		}
 	}
 	
 	@Override

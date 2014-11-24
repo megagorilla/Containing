@@ -20,6 +20,8 @@ public final class ConnectionManager
 	 */
 	public static boolean initialize(int port)
 	{
+		Serializer.registerClass(UpdateMessage.class);
+		Serializer.registerClass(AGVData.class);
 		try
 		{
 			server = Network.createServer(port);
@@ -29,7 +31,6 @@ public final class ConnectionManager
 			System.err.println(e);
 			return false;
 		}
-		Serializer.registerClass(UpdateMessage.class);
 		server.addMessageListener(new ServerListener(), UpdateMessage.class);
 		server.start();
 		return true;

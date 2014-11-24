@@ -14,8 +14,6 @@ import org.vertx.java.core.http.HttpServerRequest;
 import org.vertx.java.core.http.RouteMatcher;
 
 import com.google.gson.Gson;
-import com.jme3.math.Quaternion;
-import com.jme3.math.Vector3f;
 
 /**
  * The API endpoints of the server, allowing web and android access to required data. Libraries used: Vert.x & Gson.
@@ -43,9 +41,9 @@ public final class API
 			@Override
 			public void handle(HttpServerRequest req)
 			{
-				Set<Data> set = new HashSet<>();
+				Set<AGVData> set = new HashSet<>();
 				UpdateMessage m = new UpdateMessage("blah", set); // TODO: use more meaningful data
-				m.addData("test", Vector3f.ZERO, Quaternion.IDENTITY);
+				//m.addData(0, Vector3f.ZERO, Quaternion.IDENTITY);
 				req.response().end(gson.toJson(m));
 			}
 		});
