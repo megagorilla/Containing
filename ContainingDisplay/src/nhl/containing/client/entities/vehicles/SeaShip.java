@@ -2,17 +2,18 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package nhl.containing.client.entities;
+package nhl.containing.client.entities.vehicles;
 
 import nhl.containing.client.ContainingClient;
 
 import com.jme3.scene.Node;
+import nhl.containing.client.entities.Vehicle;
 
 /**
  * 
  * @author Sander
  */
-public class SeaShip extends Node
+public class SeaShip extends Vehicle
 {
 
 	public SeaShip(ContainingClient.Quality quality, ContainingClient main)

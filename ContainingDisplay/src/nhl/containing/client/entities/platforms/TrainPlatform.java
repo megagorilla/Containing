@@ -42,7 +42,7 @@ public class TrainPlatform extends Platform{
 		Ground();
 		ParkingSpace();
 		CraneRails();
-                Sideway();
+		ContainingClient.getMyRootNode().attachChild(this);
                 ContainingClient.getMyRootNode().attachChild(this);
 	}
 
@@ -71,7 +71,7 @@ public class TrainPlatform extends Platform{
 		parkingGeom.setMaterial(new PlainMaterial(ColorRGBA.Gray));
 		parkingGeom.setLocalTranslation(-717, 0.01f, 0);
 		attachChild(parkingGeom);
-	}
+		ContainingClient.getMyRootNode().attachChild(this);
         
         public void Sideway()
         {

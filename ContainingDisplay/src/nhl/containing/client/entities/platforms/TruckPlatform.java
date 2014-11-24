@@ -28,6 +28,7 @@ public class TruckPlatform extends Platform
 	{
 		Ground();
 		ParkingSpace();
+		ContainingClient.getMyRootNode().attachChild(this);
 	}
 
 	private void Ground()
@@ -52,7 +53,6 @@ public class TruckPlatform extends Platform
 
 		}
 		attachChild(parkingBox);
-		ContainingClient.getMyRootNode().attachChild(this);
 
 	}
         

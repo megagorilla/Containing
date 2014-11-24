@@ -4,11 +4,13 @@
  */
 package nhl.containing.client.network;
 
+import com.jme3.math.Vector3f;
 import com.jme3.network.Client;
 import com.jme3.network.Message;
 import com.jme3.network.MessageListener;
 import com.jme3.network.Network;
 import com.jme3.network.serializing.Serializer;
+import nhl.containing.client.ContainingClient;
 
 /**
  * 
@@ -24,6 +26,8 @@ public final class ConnectionManager
 
 	public static boolean init(String host, int port)
 	{
+            Serializer.registerClass(UpdateMessage.class);
+            Serializer.registerClass(Data.class);
 		try
 		{
 			client = Network.connectToServer(host, port);
@@ -33,12 +37,16 @@ public final class ConnectionManager
 			System.out.println(e);
 			return false;
 		}
-		Serializer.registerClass(UpdateMessage.class);
+		
 		client.addMessageListener(new MessageListener<Object>()
 		{
 			public void messageReceived(Object source, Message m)
 			{
-				System.out.println(((UpdateMessage) m).getMsg());
+                            if(m instanceof UpdateMessage)
+                            {
+                                UpdateMessage m1 = (UpdateMessage) m;
+                                System.out.println("1");
+                            }
 			}
 		});
 		client.start();
