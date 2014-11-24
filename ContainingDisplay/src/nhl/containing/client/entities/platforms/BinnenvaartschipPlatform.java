@@ -38,9 +38,9 @@ public class BinnenvaartschipPlatform extends Platform
 	{
 		Box SideWay = new Box(20, 0.1f, 725);
 		Geometry sideWayGeom = new Geometry("Box", SideWay);
-		sideWayGeom.setMaterial(new PlainMaterial(ColorRGBA.Black));
+		sideWayGeom.setMaterial(new PlainMaterial(ColorRGBA.DarkGray));
 		sideWayBox.attachChild(sideWayGeom);
-		sideWayGeom.setLocalTranslation(0, 0, -725);
+		sideWayGeom.setLocalTranslation(780, 0, 825);
 		ContainingClient.getMyRootNode().attachChild(sideWayBox);
 	}
 
@@ -48,9 +48,9 @@ public class BinnenvaartschipPlatform extends Platform
 	{
 		Box HookNorth = new Box(30, 0.1f, 20);
 		Geometry hookNorthGeom = new Geometry("Box", HookNorth);
-		hookNorthGeom.setMaterial(new PlainMaterial(ColorRGBA.Black));
+		hookNorthGeom.setMaterial(new PlainMaterial(ColorRGBA.DarkGray));
 		hookNorthBox.attachChild(hookNorthGeom);
-		hookNorthGeom.setLocalTranslation(-50, 0.1f, -1430);
+		hookNorthGeom.setLocalTranslation(730, 0.1f, 120);
 		ContainingClient.getMyRootNode().attachChild(hookNorthBox);
 	}
 
@@ -58,9 +58,9 @@ public class BinnenvaartschipPlatform extends Platform
 	{
 		Box HookSouth = new Box(30, 0.1f, 20);
 		Geometry hookSouthGeom = new Geometry("Box", HookSouth);
-		hookSouthGeom.setMaterial(new PlainMaterial(ColorRGBA.Black));
+		hookSouthGeom.setMaterial(new PlainMaterial(ColorRGBA.DarkGray));
 		hookSouthBox.attachChild(hookSouthGeom);
-		hookSouthGeom.setLocalTranslation(-50, 0.1f, -20);
+		hookSouthGeom.setLocalTranslation(730, 0.1f, 1530);
 		ContainingClient.getMyRootNode().attachChild(hookSouthBox);
 	}
 
@@ -68,7 +68,7 @@ public class BinnenvaartschipPlatform extends Platform
 	{
 		for (int i = 1; i < 76; i++)
 		{
-			attachChild(new CraneRails(new Vector3f(-7, 0.1f, -40 - 18 * i), 1f, 0f));
+			attachChild(new CraneRails(new Vector3f(780, 0.1f, -40 - 18 * i), 1, 0f));
 		}
 	}
 }
