@@ -5,208 +5,181 @@
 package nhl.containing.server.pathfinding;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.NavigableSet;
 import java.util.TreeSet;
 
-public class ShortestPath
-{
-	@SuppressWarnings("unused")
-	private String currentLocation;
+public class ShortestPath {
 
-	@SuppressWarnings("unused")
-	private String destination;
+    protected static AGV[] truckParking;
+    protected static AGV[] trainParking;
+    protected static AGV[] smallShipParking;
+    protected static AGV[] bigShipParking;
+    protected static String truckParkingS;
+    protected static String trainParkingS;
+    protected static String smallShipParkingS;
+    protected static String bigShipParkingS;
+    public static final Graph.Edge[] GRAPH = {new Graph.Edge("a1", "a2", 50), new Graph.Edge("a1", "a4", 725), new Graph.Edge("a4", "a1", 725), new Graph.Edge("a1", "o2", 150),
+        new Graph.Edge("a2", "a3", 725), new Graph.Edge("a3", "a4", 50), new Graph.Edge("a4", "o3", 50), new Graph.Edge("o3", "a4", 50), new Graph.Edge("b1", "o3", 50),
+        new Graph.Edge("o3", "b1", 50), new Graph.Edge("b1", "b2", 50), new Graph.Edge("b1", "b4", 725), new Graph.Edge("b4", "b1", 725), new Graph.Edge("b2", "b3", 725),
+        new Graph.Edge("b3", "b4", 50), new Graph.Edge("b4", "c2", 50), new Graph.Edge("b4", "o4", 150), new Graph.Edge("o4", "b4", 150), new Graph.Edge("c2", "c3", 600),
+        new Graph.Edge("c3", "c4", 50), new Graph.Edge("c4", "o4", 150), new Graph.Edge("o4", "c4", 150), new Graph.Edge("c4", "d2", 50), new Graph.Edge("c4", "o5", 775),
+        new Graph.Edge("o5", "c4", 775), new Graph.Edge("d2", "d3", 1550), new Graph.Edge("d3", "d4", 50), new Graph.Edge("d4", "o5", 775), new Graph.Edge("o5", "d4", 775),
+        new Graph.Edge("d4", "o2", 150), new Graph.Edge("o2", "d4", 150), new Graph.Edge("o2", "a1", 150), new Graph.Edge(truckParkingS, "a1", 50), new Graph.Edge("a1", truckParkingS, 50)};
 
-	public static final Graph.Edge[] GRAPH = { new Graph.Edge("a1", "a2", 50), new Graph.Edge("a1", "a4", 725), new Graph.Edge("a4", "a1", 725), new Graph.Edge("a1", "o2", 150),
-			new Graph.Edge("a2", "a3", 725), new Graph.Edge("a3", "a4", 50), new Graph.Edge("a4", "o3", 50), new Graph.Edge("o3", "a4", 50), new Graph.Edge("b1", "o3", 50),
-			new Graph.Edge("o3", "b1", 50), new Graph.Edge("b1", "b2", 50), new Graph.Edge("b1", "b4", 725), new Graph.Edge("b4", "b1", 725), new Graph.Edge("b2", "b3", 725),
-			new Graph.Edge("b3", "b4", 50), new Graph.Edge("b4", "c2", 50), new Graph.Edge("b4", "o4", 150), new Graph.Edge("o4", "b4", 150), new Graph.Edge("c2", "c3", 600),
-			new Graph.Edge("c3", "c4", 50), new Graph.Edge("c4", "o4", 150), new Graph.Edge("o4", "c4", 150), new Graph.Edge("c4", "d2", 50), new Graph.Edge("c4", "o5", 775),
-			new Graph.Edge("o5", "c4", 775), new Graph.Edge("d2", "d3", 1550), new Graph.Edge("d3", "d4", 50), new Graph.Edge("d4", "o5", 775), new Graph.Edge("o5", "d4", 775),
-			new Graph.Edge("d4", "o2", 150), new Graph.Edge("o2", "d4", 150) };
-
-	public ShortestPath()
-	{
-	}
-
-	public static void main(String[] args)
-	{
-		Graph g = new Graph(GRAPH);
-
-		g.dijkstra("a1");
-		g.printPath("d2");
-		g.printAllPaths();
-
-	}
+    public ShortestPath() {
+        truckParking = new AGV[25];
+        trainParking = new AGV[25];
+        smallShipParking = new AGV[25];
+        bigShipParking = new AGV[25];
+        this.truckParkingS = truckParking.getClass().getName().toString();
+        this.trainParkingS = trainParking.toString();
+        this.smallShipParkingS = smallShipParking.toString();
+        this.bigShipParkingS = bigShipParking.toString();
+    }
 }
 
-class Graph
-{
-	private final Map<String, Vertex> graph; // mapping of vertex names to Vertex objects, built from a set of Edges
+class Graph {
 
-	/**
-	 * One edge of the graph (only used by Graph constructor)
-	 */
-	public static class Edge
-	{
+    private final Map<String, Vertex> graph; // mapping of vertex names to Vertex objects, built from a set of Edges
 
-		public final String v1, v2;
-		public final int dist;
+    /**
+     * One edge of the graph (only used by Graph constructor)
+     */
+    public static class Edge {
 
-		public Edge(String v1, String v2, int dist)
-		{
-			this.v1 = v1;
-			this.v2 = v2;
-			this.dist = dist;
-		}
-	}
+        public final String v1, v2;
+        public final int dist;
 
-	/**
-	 * One vertex of the graph, complete with mappings to neighbouring vertices
-	 */
-	public static class Vertex implements Comparable<Vertex>
-	{
+        public Edge(String v1, String v2, int dist) {
+            this.v1 = v1;
+            this.v2 = v2;
+            this.dist = dist;
+        }
+    }
 
-		public final String name;
-		public int dist = Integer.MAX_VALUE; // MAX_VALUE assumed to be infinity
-		public Vertex previous = null;
-		public final Map<Vertex, Integer> neighbours = new HashMap<>();
+    /**
+     * One vertex of the graph, complete with mappings to neighbouring vertices
+     */
+    public static class Vertex implements Comparable<Vertex> {
 
-		public Vertex(String name)
-		{
-			this.name = name;
-		}
+        public final String name;
+        public int dist = Integer.MAX_VALUE; // MAX_VALUE assumed to be infinity
+        public Vertex previous = null;
+        public final Map<Vertex, Integer> neighbours = new HashMap<>();
 
-		private void printPath()
-		{
-			if (this == this.previous)
-			{
-				System.out.printf("%s", this.name);
-			}
-			else if (this.previous == null)
-			{
-				System.out.printf("%s(unreached)", this.name);
-			}
-			else
-			{
-				this.previous.printPath();
-				System.out.printf(" -> %s(%d)", this.name, this.dist);
-			}
-		}
+        public Vertex(String name) {
+            this.name = name;
+        }
 
-		public int compareTo(Vertex other)
-		{
-			return Integer.compare(dist, other.dist);
-		}
-	}
+        private void printPath() {
+            if (this == this.previous) {
+                System.out.printf("%s", this.name);
+            } else if (this.previous == null) {
+                System.out.printf("%s(unreached)", this.name);
+            } else {
+                this.previous.printPath();
+                System.out.printf(" -> %s(%d)", this.name, this.dist);
+            }
+        }
 
-	/**
-	 * Builds a graph from a set of edges
-	 */
-	public Graph(Edge[] edges)
-	{
-		graph = new HashMap<>(edges.length);
+        public int compareTo(Vertex other) {
+            return Integer.compare(dist, other.dist);
+        }
+    }
 
-		// one pass to find all vertices
-		for (Edge e : edges)
-		{
-			if (!graph.containsKey(e.v1))
-			{
-				graph.put(e.v1, new Vertex(e.v1));
-			}
-			if (!graph.containsKey(e.v2))
-			{
-				graph.put(e.v2, new Vertex(e.v2));
-			}
-		}
+    /**
+     * Builds a graph from a set of edges
+     */
+    public Graph(Edge[] edges) {
+        graph = new HashMap<>(edges.length);
 
-		// another pass to set neighbouring vertices
-		for (Edge e : edges)
-		{
-			graph.get(e.v1).neighbours.put(graph.get(e.v2), e.dist);
-			// graph.get(e.v2).neighbours.put(graph.get(e.v1), e.dist); // also do this for an undirected graph
-		}
-	}
+        // one pass to find all vertices
+        for (Edge e : edges) {
+            if (!graph.containsKey(e.v1)) {
+                graph.put(e.v1, new Vertex(e.v1));
+            }
+            if (!graph.containsKey(e.v2)) {
+                graph.put(e.v2, new Vertex(e.v2));
+            }
+        }
 
-	/**
-	 * Runs dijkstra using a specified source vertex
-	 */
-	public void dijkstra(String startName)
-	{
-		if (!graph.containsKey(startName))
-		{
-			System.err.printf("Graph doesn't contain start vertex \"%s\"\n", startName);
-			return;
-		}
-		final Vertex source = graph.get(startName);
-		NavigableSet<Vertex> q = new TreeSet<>();
+        // another pass to set neighbouring vertices
+        for (Edge e : edges) {
+            graph.get(e.v1).neighbours.put(graph.get(e.v2), e.dist);
+            // graph.get(e.v2).neighbours.put(graph.get(e.v1), e.dist); // also do this for an undirected graph
+        }
+    }
 
-		// set-up vertices
-		for (Vertex v : graph.values())
-		{
-			v.previous = v == source ? source : null;
-			v.dist = v == source ? 0 : Integer.MAX_VALUE;
-			q.add(v);
-		}
+    /**
+     * Runs dijkstra using a specified source vertex
+     */
+    public void dijkstra(String startName) {
+        if (!graph.containsKey(startName)) {
+            System.err.printf("Graph doesn't contain start vertex \"%s\"\n", startName);
+            return;
+        }
+        final Vertex source = graph.get(startName);
+        NavigableSet<Vertex> q = new TreeSet<>();
 
-		dijkstra(q);
-	}
+        // set-up vertices
+        for (Vertex v : graph.values()) {
+            v.previous = v == source ? source : null;
+            v.dist = v == source ? 0 : Integer.MAX_VALUE;
+            q.add(v);
+        }
 
-	/**
-	 * Implementation of dijkstra's algorithm using a binary heap.
-	 */
-	private void dijkstra(final NavigableSet<Vertex> q)
-	{
-		Vertex u, v;
-		while (!q.isEmpty())
-		{
+        dijkstra(q);
+    }
 
-			u = q.pollFirst(); // vertex with shortest distance (first iteration will return source)
-			if (u.dist == Integer.MAX_VALUE)
-			{
-				break; // we can ignore u (and any other remaining vertices) since they are unreachable
-			}
-			// look at distances to each neighbour
-			for (Map.Entry<Vertex, Integer> a : u.neighbours.entrySet())
-			{
-				v = a.getKey(); // the neighbour in this iteration
+    /**
+     * Implementation of dijkstra's algorithm using a binary heap.
+     */
+    private void dijkstra(final NavigableSet<Vertex> q) {
+        Vertex u, v;
+        while (!q.isEmpty()) {
 
-				final int alternateDist = u.dist + a.getValue();
-				if (alternateDist < v.dist)
-				{ // shorter path to neighbour found
-					q.remove(v);
-					v.dist = alternateDist;
-					v.previous = u;
-					q.add(v);
-				}
-			}
-		}
-	}
+            u = q.pollFirst(); // vertex with shortest distance (first iteration will return source)
+            if (u.dist == Integer.MAX_VALUE) {
+                break; // we can ignore u (and any other remaining vertices) since they are unreachable
+            }
+            // look at distances to each neighbour
+            for (Map.Entry<Vertex, Integer> a : u.neighbours.entrySet()) {
+                v = a.getKey(); // the neighbour in this iteration
 
-	/**
-	 * Prints a path from the source to the specified vertex
-	 */
-	public void printPath(String endName)
-	{
-		if (!graph.containsKey(endName))
-		{
-			System.err.printf("Graph doesn't contain end vertex \"%s\"\n", endName);
-			return;
-		}
+                final int alternateDist = u.dist + a.getValue();
+                if (alternateDist < v.dist) { // shorter path to neighbour found
+                    q.remove(v);
+                    v.dist = alternateDist;
+                    v.previous = u;
+                    q.add(v);
+                }
+            }
+        }
+    }
 
-		graph.get(endName).printPath();
-		System.out.println();
-	}
+    /**
+     * Prints a path from the source to the specified vertex
+     */
+    public void printPath(String endName) {
+        if (!graph.containsKey(endName)) {
+            System.err.printf("Graph doesn't contain end vertex \"%s\"\n", endName);
+            return;
+        }
 
-	/**
-	 * Prints the path from the source to every vertex (output order is not guaranteed)
-	 */
-	public void printAllPaths()
-	{
-		for (Vertex v : graph.values())
-		{
-			v.printPath();
-			System.out.println();
-		}
-	}
+        graph.get(endName).printPath();
+        System.out.println();
+    }
+
+    /**
+     * Prints the path from the source to every vertex (output order is not
+     * guaranteed)
+     */
+    public void printAllPaths() {
+        for (Vertex v : graph.values()) {
+            v.printPath();
+            System.out.println();
+        }
+    }
 }
