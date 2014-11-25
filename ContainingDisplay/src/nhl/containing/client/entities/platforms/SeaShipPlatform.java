@@ -33,36 +33,36 @@ public class SeaShipPlatform extends Platform
 
 	private void SeaSideWay()
 	{
-		Box SeaSideWay = new Box(600, 5f, 50);
+		Box SeaSideWay = new Box(300, 5f, 25);
 		Geometry seaSideWayGeom = new Geometry("Box", SeaSideWay);
-		seaSideWayGeom.setMaterial(new PlainMaterial(ColorRGBA.Black));
+		seaSideWayGeom.setMaterial(new PlainMaterial(ColorRGBA.DarkGray));
 		attachChild(seaSideWayGeom);
-		seaSideWayGeom.setLocalTranslation(600, -5, 0);
+		seaSideWayGeom.setLocalTranslation(0, -5, 900);
 	}
 
 	private void HookEast()
 	{
-		Box HookEast = new Box(50, 5f, 50);
+		Box HookEast = new Box(25, 5f, 25);
 		Geometry hookEastGeom = new Geometry("Box", HookEast);
-		hookEastGeom.setMaterial(new PlainMaterial(ColorRGBA.Black));
+		hookEastGeom.setMaterial(new PlainMaterial(ColorRGBA.DarkGray));
 		attachChild(hookEastGeom);
-		hookEastGeom.setLocalTranslation(1150, -5f, -100);
+		hookEastGeom.setLocalTranslation(-275, -5f, 850);
 	}
 
 	private void HookWest()
 	{
-		Box HookWest = new Box(50, 5f, 50);
+		Box HookWest = new Box(25, 5f, 25);
 		Geometry hookWestGeom = new Geometry("Box", HookWest);
-		hookWestGeom.setMaterial(new PlainMaterial(ColorRGBA.Black));
+		hookWestGeom.setMaterial(new PlainMaterial(ColorRGBA.DarkGray));
 		attachChild(hookWestGeom);
-		hookWestGeom.setLocalTranslation(50, -5f, -100);
+		hookWestGeom.setLocalTranslation(275, -5f, 850);
 	}
 
 	private void BigShipRails()
 	{
-		for (int i = 1; i < 55; i++)
+		for (int i = 1; i < 28; i++)
 		{
-			attachChild(new CraneRails(new Vector3f(100 + 18 * i, 0f, 30), 0.87f, FastMath.HALF_PI));
+			attachChild(new CraneRails(new Vector3f(-249 + 18 * i, 0f, 880), 0.87f, FastMath.HALF_PI));
 		}
 	}
 }

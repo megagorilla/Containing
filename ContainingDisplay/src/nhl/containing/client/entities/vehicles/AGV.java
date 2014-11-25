@@ -15,7 +15,6 @@ import com.jme3.scene.Node;
  */
 public class AGV extends Vehicle
 {
-	Node agvNode;
 
 	public AGV(ContainingClient.Quality qualtiy)
 	{
@@ -33,8 +32,7 @@ public class AGV extends Vehicle
 				qualityPath = "Models/low/agv/agv.j3o";
 				break;
 		}
-		agvNode = (Node) ContainingClient.getMyAssetManager().loadModel(qualityPath);
-		attachChild(agvNode);
+		attachChild(ContainingClient.getMyAssetManager().loadModel(qualityPath));
 		ContainingClient.getMyRootNode().attachChild(this);
 	}
 

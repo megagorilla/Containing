@@ -32,36 +32,36 @@ public class BinnenvaartschipPlatform extends Platform
 
 	private void SideWay()
 	{
-		Box SideWay = new Box(20, 0.1f, 725);
+		Box SideWay = new Box(20, 5, 207.5f);
 		Geometry sideWayGeom = new Geometry("Box", SideWay);
-		sideWayGeom.setMaterial(new PlainMaterial(ColorRGBA.Black));
+		sideWayGeom.setMaterial(new PlainMaterial(ColorRGBA.DarkGray));
 		attachChild(sideWayGeom);
-		sideWayGeom.setLocalTranslation(0, 0, -725);
+		sideWayGeom.setLocalTranslation(400, -5.1f, 420+(395/2));
 	}
 
 	private void HookNorth()
 	{
-		Box HookNorth = new Box(30, 0.1f, 20);
+		Box HookNorth = new Box(15, 5, 10);
 		Geometry hookNorthGeom = new Geometry("Box", HookNorth);
-		hookNorthGeom.setMaterial(new PlainMaterial(ColorRGBA.Black));
+		hookNorthGeom.setMaterial(new PlainMaterial(ColorRGBA.DarkGray));
 		attachChild(hookNorthGeom);
-		hookNorthGeom.setLocalTranslation(-50, 0.1f, -1430);
+		hookNorthGeom.setLocalTranslation(365, -5.1f, 420);
 	}
 
 	private void HookSouth()
 	{
-		Box HookSouth = new Box(30, 0.1f, 20);
+		Box HookSouth = new Box(15, 5, 10);
 		Geometry hookSouthGeom = new Geometry("Box", HookSouth);
-		hookSouthGeom.setMaterial(new PlainMaterial(ColorRGBA.Black));
+		hookSouthGeom.setMaterial(new PlainMaterial(ColorRGBA.DarkGray));
 		attachChild(hookSouthGeom);
-		hookSouthGeom.setLocalTranslation(-50, 0.1f, -20);
+		hookSouthGeom.setLocalTranslation(365, -5.1f, 815);
 	}
 
 	private void littleShipRails()
 	{
-		for (int i = 1; i < 76; i++)
+		for (int i = 1; i < 21; i++)
 		{
-			attachChild(new CraneRails(new Vector3f(-7, 0.1f, -40 - 18 * i), 1f, 0f));
+			attachChild(new CraneRails(new Vector3f(390, 0.1f, 807.5f - 18 * i), 0.87f, 0f));
 		}
 	}
 }
