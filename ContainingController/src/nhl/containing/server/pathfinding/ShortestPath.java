@@ -6,7 +6,6 @@ package nhl.containing.server.pathfinding;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.NavigableSet;
 import java.util.TreeSet;
@@ -19,10 +18,7 @@ public class ShortestPath {
     protected static AGV[] trainParking;
     protected static AGV[] smallShipParking;
     protected static AGV[] bigShipParking;
-    protected static String truckParkingS;
-    protected static String trainParkingS;
-    protected static String smallShipParkingS;
-    protected static String bigShipParkingS;
+    protected static final int parkinglotSize = 25;
     private static final int WIDTH = 600;
     private static final int HEIGHT = 1550;
     
@@ -55,14 +51,10 @@ public class ShortestPath {
     	};
 
     public ShortestPath() {
-        truckParking = new AGV[25];
-        trainParking = new AGV[25];
-        smallShipParking = new AGV[25];
-        bigShipParking = new AGV[25];
-        this.truckParkingS = truckParking.getClass().getName().toString();
-        this.trainParkingS = trainParking.toString();
-        this.smallShipParkingS = smallShipParking.toString();
-        this.bigShipParkingS = bigShipParking.toString();
+        truckParking = new AGV[parkinglotSize];
+        trainParking = new AGV[parkinglotSize];
+        smallShipParking = new AGV[parkinglotSize];
+        bigShipParking = new AGV[parkinglotSize];
     }
 }
 

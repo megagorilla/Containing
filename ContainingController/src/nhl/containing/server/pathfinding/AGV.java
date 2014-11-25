@@ -9,11 +9,11 @@ package nhl.containing.server.pathfinding;
  * @author Fré-Meine
  */
 public class AGV {
-	public int agvId;
+
+    public int agvId;
     private String currentLocation;
     private String destination;
     private int movementSpeed;
-    @SuppressWarnings("unused")
     private boolean loaded;
 
     // container
@@ -42,6 +42,10 @@ public class AGV {
 
     public int getMovementSpeed() {
         return movementSpeed;
+    }
+
+    public boolean getLoaded() {
+        return loaded;
     }
 
     public void setAgvId(int agvId) {
