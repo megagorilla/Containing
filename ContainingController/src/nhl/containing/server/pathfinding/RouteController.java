@@ -31,7 +31,6 @@ public class RouteController extends ShortestPath {
         r = new RouteController();
         r.sendAGV(agv.getCurrentLocation(), "c2");
         r.fillParkingLots();
-        System.out.println(truckParkingS);
     }
 
     public void createWayPoints() {
@@ -44,23 +43,23 @@ public class RouteController extends ShortestPath {
     }
 
     public void fillParkingLots() {
-        for (int i = 0; i < s.truckParking.length; i++) {
+        for (int i = 0; i < s.parkinglotSize; i++) {
             truckParking[i] = new AGV(i, "", "", 0, false);
-            trainParking[i] = new AGV(i + 25, "", "", 0, false);
-            smallShipParking[i] = new AGV(i + 50, "", "", 0, false);
-            bigShipParking[i] = new AGV(i + 75, "", "", 0, false);
+            trainParking[i] = new AGV(i + s.parkinglotSize, "", "", 0, false);
+            smallShipParking[i] = new AGV(i + s.parkinglotSize * 2, "", "", 0, false);
+            bigShipParking[i] = new AGV(i + s.parkinglotSize * 3, "", "", 0, false);
         }
-//        for (int i = 0; i < s.truckParking.length; i++) {
-//            System.out.println(truckParking[i].getAgvId());
-//        }
-//        for (int i = 0; i < s.trainParking.length; i++) {
-//            System.out.println(trainParking[i].getAgvId());
-//        }
-//        for (int i = 0; i < s.smallShipParking.length; i++) {
-//            System.out.println(smallShipParking[i].getAgvId());
-//        }
-//        for (int i = 0; i < s.bigShipParking.length; i++) {
-//            System.out.println(bigShipParking[i].getAgvId());
-//        }
+        for (int i = 0; i < s.parkinglotSize; i++) {
+            System.out.println(truckParking[i].getAgvId());
+        }
+        for (int i = 0; i < s.parkinglotSize; i++) {
+            System.out.println(trainParking[i].getAgvId());
+        }
+        for (int i = 0; i < s.parkinglotSize; i++) {
+            System.out.println(smallShipParking[i].getAgvId());
+        }
+        for (int i = 0; i < s.parkinglotSize; i++) {
+            System.out.println(bigShipParking[i].getAgvId());
+        }
     }
 }

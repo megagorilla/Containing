@@ -5,7 +5,6 @@
 package nhl.containing.server.pathfinding;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.NavigableSet;
 import java.util.TreeSet;
@@ -16,27 +15,20 @@ public class ShortestPath {
     protected static AGV[] trainParking;
     protected static AGV[] smallShipParking;
     protected static AGV[] bigShipParking;
-    protected static String truckParkingS;
-    protected static String trainParkingS;
-    protected static String smallShipParkingS;
-    protected static String bigShipParkingS;
+    protected static final int parkinglotSize = 25;
     public static final Graph.Edge[] GRAPH = {new Graph.Edge("a1", "a2", 50), new Graph.Edge("a1", "a4", 725), new Graph.Edge("a4", "a1", 725), new Graph.Edge("a1", "o2", 150),
         new Graph.Edge("a2", "a3", 725), new Graph.Edge("a3", "a4", 50), new Graph.Edge("a4", "o3", 50), new Graph.Edge("o3", "a4", 50), new Graph.Edge("b1", "o3", 50),
         new Graph.Edge("o3", "b1", 50), new Graph.Edge("b1", "b2", 50), new Graph.Edge("b1", "b4", 725), new Graph.Edge("b4", "b1", 725), new Graph.Edge("b2", "b3", 725),
         new Graph.Edge("b3", "b4", 50), new Graph.Edge("b4", "c2", 50), new Graph.Edge("b4", "o4", 150), new Graph.Edge("o4", "b4", 150), new Graph.Edge("c2", "c3", 600),
         new Graph.Edge("c3", "c4", 50), new Graph.Edge("c4", "o4", 150), new Graph.Edge("o4", "c4", 150), new Graph.Edge("c4", "d2", 50), new Graph.Edge("c4", "o5", 775),
         new Graph.Edge("o5", "c4", 775), new Graph.Edge("d2", "d3", 1550), new Graph.Edge("d3", "d4", 50), new Graph.Edge("d4", "o5", 775), new Graph.Edge("o5", "d4", 775),
-        new Graph.Edge("d4", "o2", 150), new Graph.Edge("o2", "d4", 150), new Graph.Edge("o2", "a1", 150), new Graph.Edge(truckParkingS, "a1", 50), new Graph.Edge("a1", truckParkingS, 50)};
+        new Graph.Edge("d4", "o2", 150), new Graph.Edge("o2", "d4", 150), new Graph.Edge("o2", "a1", 150)};
 
     public ShortestPath() {
-        truckParking = new AGV[25];
-        trainParking = new AGV[25];
-        smallShipParking = new AGV[25];
-        bigShipParking = new AGV[25];
-        this.truckParkingS = truckParking.getClass().getName().toString();
-        this.trainParkingS = trainParking.toString();
-        this.smallShipParkingS = smallShipParking.toString();
-        this.bigShipParkingS = bigShipParking.toString();
+        truckParking = new AGV[parkinglotSize];
+        trainParking = new AGV[parkinglotSize];
+        smallShipParking = new AGV[parkinglotSize];
+        bigShipParking = new AGV[parkinglotSize];
     }
 }
 
