@@ -43,7 +43,7 @@ public class MainActivity extends ActionBarActivity implements
 	 */
 	private CharSequence mTitle;
 	
-	LineChart mChart;
+	GraphView mChart;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -59,40 +59,41 @@ public class MainActivity extends ActionBarActivity implements
 				(DrawerLayout) findViewById(R.id.drawer_layout));
 
 		// Set the chart to default
-		mChart = (LineChart) findViewById(R.id.chart);
-		mChart.setDescription("Algemeen");
-        setData(1);
+		LineChart lc = (LineChart) findViewById(R.id.chart);
+		mChart = new GraphView(lc);
+		
+		lc = mChart.getChart();
 	}
 	
 	public void setChart(int id) {
 		switch (id) {
 		case 1:
-			mChart.setDescription("Algemeen");
-			setData(1);
+			mChart.setDescription("All containers");
+			mChart.setData(1);
 			break;
 		case 2:
-			mChart.setDescription("Trein platform");
-			setData(2);
+			mChart.setDescription("Train platform");
+			mChart.setData(2);
 			break;
 		case 3:
-			mChart.setDescription("Vrachtwagen platform");
-			setData(3);
+			mChart.setDescription("Truck platform");
+			mChart.setData(3);
 			break;
 		case 4:
-			mChart.setDescription("Binnenvaart platform");
-			setData(4);
+			mChart.setDescription("Ship platform");
+			mChart.setData(4);
 			break;
 		case 5:
-			mChart.setDescription("Zeeschip platform");
-			setData(5);
+			mChart.setDescription("Seaship platform");
+			mChart.setData(5);
 			break;
 		case 6:
-			mChart.setDescription("Opslagterrein");
-			setData(6);
+			mChart.setDescription("Storage");
+			mChart.setData(6);
 			break;
 		case 7:
-			mChart.setDescription("Diversen");
-			setData(7);
+			mChart.setDescription("Others");
+			mChart.setData(7);
 			break;
 		}
 	}
@@ -212,72 +213,4 @@ public class MainActivity extends ActionBarActivity implements
 					ARG_SECTION_NUMBER));
 		}
 	}
-	
-	private void setData(int type) {
-		
-		// Tijdelijke variabelen
-		int count = 45;
-		float range = 100;
-		
-		// Hier data verzamelen uit JSON
-		if (type == 1) {
-			
-		} // enz.
-
-        ArrayList<String> xVals = new ArrayList<String>();
-        for (int i = 0; i < count; i++) {
-            xVals.add((i) + "");
-        }
-
-        ArrayList<Entry> yVals = new ArrayList<Entry>();
-
-        for (int i = 0; i < count; i++) {
-            float mult = (range + 1);
-            float val = (float) (Math.random() * mult) + 3;// + (float)
-                                                           // ((mult *
-                                                           // 0.1) / 10);
-            yVals.add(new Entry(val, i));
-        }
-
-        // create a dataset and give it a type
-        LineDataSet set1 = new LineDataSet(yVals, "DataSet 1");
-        // set1.setFillAlpha(110);
-        // set1.setFillColor(Color.RED);
-
-        // set the line to be drawn like this "- - - - - -"
-        set1.enableDashedLine(10f, 5f, 0f);
-        set1.setColor(Color.BLACK);
-        set1.setCircleColor(Color.BLACK);
-        set1.setLineWidth(1f);
-        set1.setCircleSize(4f);
-        set1.setFillAlpha(65);
-        set1.setFillColor(Color.BLACK);
-        // set1.setShader(new LinearGradient(0, 0, 0, mChart.getHeight(),
-        // Color.BLACK, Color.WHITE, Shader.TileMode.MIRROR));
-
-        ArrayList<LineDataSet> dataSets = new ArrayList<LineDataSet>();
-        dataSets.add(set1); // add the datasets
-
-        // create a data object with the datasets
-        LineData data = new LineData(xVals, dataSets);
-
-        LimitLine ll1 = new LimitLine(130f);
-        ll1.setLineWidth(4f);
-        ll1.enableDashedLine(10f, 10f, 0f);
-        ll1.setDrawValue(true);
-        ll1.setLabelPosition(LimitLabelPosition.RIGHT);
-
-        LimitLine ll2 = new LimitLine(-30f);
-        ll2.setLineWidth(4f);
-        ll2.enableDashedLine(10f, 10f, 0f);
-        ll2.setDrawValue(true);
-        ll2.setLabelPosition(LimitLabelPosition.RIGHT);
-
-        data.addLimitLine(ll1);
-        data.addLimitLine(ll2);
-
-        // set data
-        mChart.setData(data);
-    }
-
 }

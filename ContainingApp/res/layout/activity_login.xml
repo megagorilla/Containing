@@ -8,31 +8,46 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.nhl.containing.LoginActivity" >
 
-    <EditText
-        android:id="@+id/editText1"
+    <ImageView
+        android:id="@+id/imageView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/connectInput"
-        android:layout_centerHorizontal="true"
-        android:ems="10"
-        android:hint="http://" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="40dp"
+        android:src="@drawable/logo_nhl" />
 
     <TextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/editText1"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="147dp"
-        android:text="Server URL:" />
+        android:layout_below="@+id/imageView1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="68dp"
+        android:text="Server URL:"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <EditText
+        android:id="@+id/editText1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/imageView1"
+        android:layout_alignRight="@+id/imageView1"
+        android:layout_below="@+id/textView1"
+        android:ems="10"
+        android:hint="http://" >
+
+        <requestFocus />
+    </EditText>
 
     <Button
-        android:id="@+id/connectButton"
+        android:id="@+id/button1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/editText1"
         android:layout_alignRight="@+id/editText1"
-        android:layout_below="@+id/editText1"
-        android:text="Connect" />
-
+        android:layout_centerVertical="true"
+        android:text="Connect to server" />
+   
 </RelativeLayout>

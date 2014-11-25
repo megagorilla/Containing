@@ -21,8 +21,8 @@ public class LoginActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         
-        connectButton = (Button) findViewById(R.id.connectButton);
-        connectInput = (EditText) findViewById(R.id.connectInput);
+        connectButton = (Button) findViewById(R.id.button1);
+        connectInput = (EditText) findViewById(R.id.editText1);
         
         connectButton.setOnClickListener(new ConnectButtonListener());
     }
