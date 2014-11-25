@@ -29,7 +29,7 @@ public class ClientListener implements MessageListener<Client>
 			for(Vector3f v : data.locations)
 				path.addWayPoint(v);
 			path.setCurveTension(0.0f);
-			path.setCycle(true);
+			//path.setCycle(true);
 			path.enableDebugShape(ContainingClient.getMyAssetManager(), ContainingClient.getMyRootNode());
 			MotionEvent motionControl = new MotionEvent(ContainingClient.agv, path);
 	        motionControl.setDirectionType(MotionEvent.Direction.PathAndRotation);

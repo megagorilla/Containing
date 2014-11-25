@@ -1,10 +1,11 @@
 package nhl.containing.server;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import nhl.containing.server.network.API;
 import nhl.containing.server.network.ConnectionManager;
 import nhl.containing.server.network.UpdateMessage;
+import nhl.containing.server.pathfinding.RouteController;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.math.Vector3f;
@@ -15,6 +16,7 @@ public class ContainingServer extends SimpleApplication
 	private long startTime = System.currentTimeMillis();
 	float time = 0;
 	private boolean hasSent;
+	private RouteController route;
 
 	public static void main(String[] args)
 	{
@@ -25,6 +27,7 @@ public class ContainingServer extends SimpleApplication
 	@Override
 	public void simpleInitApp()
 	{
+		route = new RouteController();
 		// TODO code application logic here
 		System.out.println("Test");
 		// test whether the JME server launches successfully (on port 3000)
@@ -47,12 +50,7 @@ public class ContainingServer extends SimpleApplication
 		if(!hasSent && ConnectionManager.hasConnections())
 		{
 			UpdateMessage m = new UpdateMessage("hai");
-			ArrayList<Vector3f> list = new ArrayList<Vector3f>();
-			list.add(new Vector3f());
-			list.add(new Vector3f(100, 0, 0));
-			list.add(new Vector3f(100, 0, 100));
-			list.add(new Vector3f(200, 0, 100));
-			list.add(new Vector3f(200, 0, 200));
+			List<Vector3f> list = route.sendAGV("d2", "b3");
 			m.addData(0, list);
 			ConnectionManager.sendCommand(m);
 			System.out.println(System.currentTimeMillis());

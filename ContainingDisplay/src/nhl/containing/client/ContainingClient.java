@@ -9,16 +9,16 @@ import nhl.containing.client.scenery.SeaNode;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.asset.AssetManager;
+import com.jme3.cinematic.MotionPath;
 import com.jme3.cinematic.events.MotionEvent;
 import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
+import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
 import com.jme3.util.SkyFactory;
-import nhl.containing.client.entities.Container;
-import nhl.containing.client.entities.vehicles.AGV;
 
 /**
  * test
@@ -60,33 +60,17 @@ public class ContainingClient extends SimpleApplication {
 		
 		ConnectionManager.init("localhost", 3000);
 
-        Platform test = new BinnenvaartschipPlatform();
-		Platform test1 = new TrainPlatform();
-		test1.setLocalTranslation(100, 0, 0);
+        //Platform test = new BinnenvaartschipPlatform();
+		//Platform test1 = new TrainPlatform();
+		//test1.setLocalTranslation(100, 0, 0);
         sun = new DirectionalLight();
         sun.setDirection((new Vector3f(-0.5f, -0.5f, -0.5f)).normalizeLocal());
         sun.setColor(ColorRGBA.White);
-        rootNode.addLight(sun);
-        
-		
-
-//		MotionPath path = new MotionPath();
-//		path.addWayPoint(new Vector3f());
-//		path.addWayPoint(new Vector3f(0, 0, 100));
-//		path.addWayPoint(new Vector3f(100, 0, 100));
-//        path.enableDebugShape(assetManager, rootNode);
-
-//       //motionControl = new MotionEvent(agv, path);
-//        motionControl.setDirectionType(MotionEvent.Direction.PathAndRotation);
-//        motionControl.setRotation(new Quaternion().fromAngleNormalAxis(0, Vector3f.UNIT_Y));
-//        motionControl.setInitialDuration(100f);
-//        motionControl.setSpeed(2f);  
-//       // motionControl.play();
-        
+        rootNode.addLight(sun);        
 		
         SeaNode sea = new SeaNode();
 
-        this.getRootNode().attachChild(test);
+        //this.getRootNode().attachChild(test);
         //this.getRootNode().attachChild(sea);
 		//this.getRootNode().attachChild(sea);
     }

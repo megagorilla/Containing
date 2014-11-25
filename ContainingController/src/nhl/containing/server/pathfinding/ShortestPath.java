@@ -4,11 +4,14 @@
  */
 package nhl.containing.server.pathfinding;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.NavigableSet;
 import java.util.TreeSet;
+
+import com.jme3.math.Vector3f;
 
 public class ShortestPath {
 
@@ -20,13 +23,36 @@ public class ShortestPath {
     protected static String trainParkingS;
     protected static String smallShipParkingS;
     protected static String bigShipParkingS;
-    public static final Graph.Edge[] GRAPH = {new Graph.Edge("a1", "a2", 50), new Graph.Edge("a1", "a4", 725), new Graph.Edge("a4", "a1", 725), new Graph.Edge("a1", "o2", 150),
-        new Graph.Edge("a2", "a3", 725), new Graph.Edge("a3", "a4", 50), new Graph.Edge("a4", "o3", 50), new Graph.Edge("o3", "a4", 50), new Graph.Edge("b1", "o3", 50),
-        new Graph.Edge("o3", "b1", 50), new Graph.Edge("b1", "b2", 50), new Graph.Edge("b1", "b4", 725), new Graph.Edge("b4", "b1", 725), new Graph.Edge("b2", "b3", 725),
-        new Graph.Edge("b3", "b4", 50), new Graph.Edge("b4", "c2", 50), new Graph.Edge("b4", "o4", 150), new Graph.Edge("o4", "b4", 150), new Graph.Edge("c2", "c3", 600),
-        new Graph.Edge("c3", "c4", 50), new Graph.Edge("c4", "o4", 150), new Graph.Edge("o4", "c4", 150), new Graph.Edge("c4", "d2", 50), new Graph.Edge("c4", "o5", 775),
-        new Graph.Edge("o5", "c4", 775), new Graph.Edge("d2", "d3", 1550), new Graph.Edge("d3", "d4", 50), new Graph.Edge("d4", "o5", 775), new Graph.Edge("o5", "d4", 775),
-        new Graph.Edge("d4", "o2", 150), new Graph.Edge("o2", "d4", 150), new Graph.Edge("o2", "a1", 150), new Graph.Edge(truckParkingS, "a1", 50), new Graph.Edge("a1", truckParkingS, 50)};
+    private static final int WIDTH = 600;
+    private static final int HEIGHT = 1550;
+    
+    public static final Graph.Edge[] GRAPH = 
+    	{
+	    	new Graph.Edge(new Graph.WayPoint("a1", new Vector3f(WIDTH / 2, 0, -(HEIGHT / 2))), 	new Graph.WayPoint("a2", new Vector3f(WIDTH / 2 + 50, 0, -(HEIGHT / 2)))), 
+	    	new Graph.Edge(new Graph.WayPoint("a1", new Vector3f(WIDTH / 2, 0, -(HEIGHT / 2))), 	new Graph.WayPoint("a4", new Vector3f(WIDTH / 2, 0, -50))),
+	    	new Graph.Edge(new Graph.WayPoint("a4", new Vector3f(WIDTH / 2, 0, -50)), 				new Graph.WayPoint("a1", new Vector3f(WIDTH / 2, 0, -(HEIGHT / 2)))),
+	    	new Graph.Edge(new Graph.WayPoint("a1", new Vector3f(WIDTH / 2, 0, -(HEIGHT / 2))),		new Graph.WayPoint("d4", new Vector3f(-WIDTH / 2, 0, -HEIGHT / 2))),
+	        new Graph.Edge(new Graph.WayPoint("a2", new Vector3f(WIDTH / 2 + 50, 0, -(HEIGHT / 2))),new Graph.WayPoint("a3", new Vector3f(WIDTH / 2 + 50, 0, -50))),
+	        new Graph.Edge(new Graph.WayPoint("a3", new Vector3f(WIDTH / 2 + 50, 0, -50)), 			new Graph.WayPoint("a4", new Vector3f(WIDTH / 2, 0, -50))),
+	        new Graph.Edge(new Graph.WayPoint("a4", new Vector3f(WIDTH / 2, 0, -50)), 				new Graph.WayPoint("b1", new Vector3f(WIDTH / 2, 0, 50))),
+	        new Graph.Edge(new Graph.WayPoint("b1", new Vector3f(WIDTH / 2, 0, 50)), 				new Graph.WayPoint("a4", new Vector3f(WIDTH / 2, 0, -50))),
+	        new Graph.Edge(new Graph.WayPoint("b1", new Vector3f(WIDTH / 2, 0, 50)), 				new Graph.WayPoint("b2", new Vector3f(WIDTH / 2 + 50, 0, 50))),
+	        new Graph.Edge(new Graph.WayPoint("b1", new Vector3f(WIDTH / 2, 0, 50)), 				new Graph.WayPoint("b4", new Vector3f(WIDTH / 2, 0, HEIGHT / 2))),
+	        new Graph.Edge(new Graph.WayPoint("b4", new Vector3f(WIDTH / 2, 0, HEIGHT / 2)),		new Graph.WayPoint("b1", new Vector3f(WIDTH / 2, 0, 50))), 
+	        new Graph.Edge(new Graph.WayPoint("b2", new Vector3f(WIDTH / 2 + 50, 0, 50)), 			new Graph.WayPoint("b3", new Vector3f(WIDTH / 2 + 50, 0, HEIGHT / 2))),
+	        new Graph.Edge(new Graph.WayPoint("b3", new Vector3f(WIDTH / 2 + 50, 0, HEIGHT / 2)),	new Graph.WayPoint("b4", new Vector3f(WIDTH / 2, 0, HEIGHT / 2))),
+	        new Graph.Edge(new Graph.WayPoint("b4", new Vector3f(WIDTH / 2, 0, HEIGHT / 2)),		new Graph.WayPoint("c2", new Vector3f(WIDTH / 2, 0, HEIGHT / 2 + 50))),
+	        new Graph.Edge(new Graph.WayPoint("b4", new Vector3f(WIDTH / 2, 0, HEIGHT / 2)), 		new Graph.WayPoint("c4", new Vector3f(-WIDTH / 2, 0, HEIGHT / 2))), 
+	        new Graph.Edge(new Graph.WayPoint("c4", new Vector3f(-WIDTH / 2, 0, HEIGHT / 2)), 		new Graph.WayPoint("b4", new Vector3f(WIDTH / 2, 0, HEIGHT / 2))), 
+	        new Graph.Edge(new Graph.WayPoint("c2", new Vector3f(WIDTH / 2, 0, HEIGHT / 2 + 50)), 	new Graph.WayPoint("c3", new Vector3f(-WIDTH / 2, 0, HEIGHT / 2 + 50))),
+	        new Graph.Edge(new Graph.WayPoint("c3", new Vector3f(-WIDTH / 2, 0, HEIGHT / 2 + 50)), 	new Graph.WayPoint("c4", new Vector3f(-WIDTH / 2, 0, HEIGHT / 2))), 
+	        new Graph.Edge(new Graph.WayPoint("c4", new Vector3f(-WIDTH / 2, 0, HEIGHT / 2)), 		new Graph.WayPoint("d2", new Vector3f(-WIDTH / 2 - 50, 0, HEIGHT / 2))), 
+	        new Graph.Edge(new Graph.WayPoint("c4", new Vector3f(-WIDTH / 2, 0, HEIGHT / 2)), 		new Graph.WayPoint("d4", new Vector3f(-WIDTH / 2, 0, -HEIGHT / 2))),
+	        new Graph.Edge(new Graph.WayPoint("d4", new Vector3f(-WIDTH / 2, 0, -HEIGHT / 2)), 		new Graph.WayPoint("c4", new Vector3f(-WIDTH / 2, 0, HEIGHT / 2))),
+	        new Graph.Edge(new Graph.WayPoint("d2", new Vector3f(-WIDTH / 2 - 50, 0, HEIGHT / 2)), 	new Graph.WayPoint("d3", new Vector3f(-WIDTH / 2 - 50, 0, -HEIGHT / 2))),
+	        new Graph.Edge(new Graph.WayPoint("d3", new Vector3f(-WIDTH / 2 - 50, 0, -HEIGHT / 2)), new Graph.WayPoint("d4", new Vector3f(-WIDTH / 2, 0, -HEIGHT / 2))), 
+	        new Graph.Edge(new Graph.WayPoint("d4", new Vector3f(-WIDTH / 2, 0, -HEIGHT / 2)), 		new Graph.WayPoint("a1", new Vector3f(WIDTH / 2, 0, -(HEIGHT / 2))))
+    	};
 
     public ShortestPath() {
         truckParking = new AGV[25];
@@ -43,6 +69,7 @@ public class ShortestPath {
 class Graph {
 
     private final Map<String, Vertex> graph; // mapping of vertex names to Vertex objects, built from a set of Edges
+    static List<Vector3f> list = new ArrayList<Vector3f>();
 
     /**
      * One edge of the graph (only used by Graph constructor)
@@ -50,13 +77,30 @@ class Graph {
     public static class Edge {
 
         public final String v1, v2;
+        public final Vector3f l1, l2;
         public final int dist;
 
-        public Edge(String v1, String v2, int dist) {
-            this.v1 = v1;
-            this.v2 = v2;
-            this.dist = dist;
+        public Edge(Graph.WayPoint v1, Graph.WayPoint v2) {
+            this.v1 = v1.name;
+            this.v2 = v2.name;
+            this.l1 = v1.location;
+            this.l2 = v2.location;
+            if(v1.location.x != v2.location.x)
+            	this.dist = (int) Math.abs(v2.location.x - v1.location.x);
+            else
+            	this.dist = (int) Math.abs(v2.location.z - v1.location.z);
         }
+    }
+    
+    public static class WayPoint
+    {
+    	public Vector3f location;
+    	public String name;
+    	public WayPoint(String name, Vector3f location)
+    	{
+    		this.name = name;
+    		this.location = location;
+    	}
     }
 
     /**
@@ -67,20 +111,33 @@ class Graph {
         public final String name;
         public int dist = Integer.MAX_VALUE; // MAX_VALUE assumed to be infinity
         public Vertex previous = null;
+        public Vector3f loc;
         public final Map<Vertex, Integer> neighbours = new HashMap<>();
 
-        public Vertex(String name) {
+        public Vertex(String name, Vector3f loc) {
             this.name = name;
+            this.loc = loc;
         }
 
         private void printPath() {
             if (this == this.previous) {
-                System.out.printf("%s", this.name);
+                System.out.printf("%s (%s)", this.name, this.loc);
             } else if (this.previous == null) {
                 System.out.printf("%s(unreached)", this.name);
             } else {
                 this.previous.printPath();
-                System.out.printf(" -> %s(%d)", this.name, this.dist);
+                System.out.printf(" -> %s(%s)", this.name, this.loc);
+            }
+        }
+        
+        private void getLocations() {        	
+        	if (this == this.previous) {
+                list.add(this.loc);
+            } else if (this.previous == null) {
+                System.out.printf("%s(unreached)", this.name);
+            } else {
+                this.previous.getLocations();
+                list.add(this.loc);
             }
         }
 
@@ -98,10 +155,10 @@ class Graph {
         // one pass to find all vertices
         for (Edge e : edges) {
             if (!graph.containsKey(e.v1)) {
-                graph.put(e.v1, new Vertex(e.v1));
+                graph.put(e.v1, new Vertex(e.v1, e.l1));
             }
             if (!graph.containsKey(e.v2)) {
-                graph.put(e.v2, new Vertex(e.v2));
+                graph.put(e.v2, new Vertex(e.v2, e.l2));
             }
         }
 
@@ -170,6 +227,17 @@ class Graph {
 
         graph.get(endName).printPath();
         System.out.println();
+    }
+    
+    public List<Vector3f> getLocations(String endName)
+    {
+        if (!graph.containsKey(endName)) {
+            System.err.printf("Graph doesn't contain end vertex \"%s\"\n", endName);
+            return null;
+        }
+        list.clear();
+        graph.get(endName).getLocations();
+        return list;
     }
 
     /**

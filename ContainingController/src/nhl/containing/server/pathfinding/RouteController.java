@@ -29,7 +29,7 @@ public class RouteController extends ShortestPath {
     public static void main(String[] args) {
         agv = new AGV(500, "a1", "b1", 40, false);
         r = new RouteController();
-        r.sendAGV(agv.getCurrentLocation(), "c2");
+        r.sendAGV("a1", "c2");
         r.fillParkingLots();
         System.out.println(truckParkingS);
     }
@@ -38,9 +38,16 @@ public class RouteController extends ShortestPath {
         wayPoints.put("", new Vector3f(0, 0, 0));
     }
 
-    public void sendAGV(String currentLocation, String destination) {
+    public void sendAGV1(String currentLocation, String destination) {
         dijkstra.dijkstra(currentLocation);
-        dijkstra.printPath(destination);
+        List<Vector3f> list = dijkstra.getLocations(destination);
+    }
+    
+    public List<Vector3f> sendAGV(String currentLocation, String destination)
+    {
+        dijkstra.dijkstra(currentLocation);
+        List<Vector3f> list = dijkstra.getLocations(destination);
+        return list;
     }
 
     public void fillParkingLots() {

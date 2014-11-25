@@ -10,7 +10,6 @@ package nhl.containing.server.pathfinding;
  */
 public class AGV {
 	public int agvId;
-	private int agvId;
     private String currentLocation;
     private String destination;
     private int movementSpeed;
