@@ -16,7 +16,13 @@ import nhl.containing.client.entities.Vehicle;
  */
 public class RiverShip extends Vehicle {
 
+    /**
+     * creates an RiverShip and loads the model.
+     * Rivership is the same as SeaShip, but made smaller (0,5)
+     * @param quality the quality of the model
+     */
     public RiverShip(ContainingClient.Quality quality) {
+        super();
         String qualityPath = "Models/high/ship/seaship.j3o";
         switch (quality) {
             case HIGH:
