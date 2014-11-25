@@ -9,9 +9,7 @@ import nhl.containing.client.entities.Vehicle;
 
 import com.jme3.scene.Node;
 import java.util.ArrayList;
-import static nhl.containing.client.ContainingClient.Quality.HIGH;
-import static nhl.containing.client.ContainingClient.Quality.LOW;
-import static nhl.containing.client.ContainingClient.Quality.MEDIUM;
+import static nhl.containing.client.ContainingClient.Quality.*;
 
 /**
  *
@@ -19,14 +17,14 @@ import static nhl.containing.client.ContainingClient.Quality.MEDIUM;
  */
 public class Train extends Vehicle {
 
-    ArrayList<Node> wagonNodes = new ArrayList<Node>();
-    ContainingClient.Quality quality;
-    int nrOfWagons;
-
+    /**
+     * Creates a train with wagons ans loads all the models
+     *
+     * @param quality the quality of the models (in ContainingClient.Quality)
+     * @param nrOfWagons amount of wagons behind the train
+     */
     public Train(ContainingClient.Quality quality, int nrOfWagons) {
         super();
-        this.quality = quality;
-        this.nrOfWagons = nrOfWagons;
         String qualityPath = "Models/high/train/train.j3o";
         switch (quality) {
             case HIGH:
@@ -40,13 +38,7 @@ public class Train extends Vehicle {
                 break;
         }
         attachChild(ContainingClient.getMyAssetManager().loadModel(qualityPath));
-        
-        Wagon();
-        ContainingClient.getMyRootNode().attachChild(this);
-    }
 
-    private void Wagon() {
-        String qualityPath = "Models/high/train/wagon.j3o";
         switch (quality) {
             case HIGH:
                 qualityPath = "Models/high/train/wagon.j3o";
@@ -58,12 +50,15 @@ public class Train extends Vehicle {
                 qualityPath = "Models/low/train/wagon.j3o";
                 break;
         }
-        
+
+        ArrayList<Node> wagonNodes = new ArrayList<Node>();
         for (int i = 0; i < nrOfWagons; i++) {
             wagonNodes.add(new Node());
             wagonNodes.get(i).attachChild(ContainingClient.getMyAssetManager().loadModel(qualityPath));
             wagonNodes.get(i).setLocalTranslation(0, 0, -13.2f - 18.4f * i);
             attachChild(wagonNodes.get(i));
         }
+
+        ContainingClient.getMyRootNode().attachChild(this);
     }
 }

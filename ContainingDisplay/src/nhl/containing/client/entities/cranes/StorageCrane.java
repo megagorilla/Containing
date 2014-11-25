@@ -13,7 +13,10 @@ import nhl.containing.client.entities.Crane;
  */
 public class StorageCrane extends Crane
 {
-
+        
+    /**
+     * creates the storageCrane and loads the models for the grabber and the crane
+     */
 	public StorageCrane()
 	{
 		super();

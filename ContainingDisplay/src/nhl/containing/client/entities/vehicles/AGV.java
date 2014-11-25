@@ -7,7 +7,6 @@ package nhl.containing.client.entities.vehicles;
 import nhl.containing.client.ContainingClient;
 import nhl.containing.client.entities.Vehicle;
 
-import com.jme3.scene.Node;
 
 /**
  * 
@@ -15,7 +14,10 @@ import com.jme3.scene.Node;
  */
 public class AGV extends Vehicle
 {
-
+        /**
+         * Creates the model for an AGV
+         * @param qualtiy the quality for the model
+         */
 	public AGV(ContainingClient.Quality qualtiy)
 	{
 		super();
