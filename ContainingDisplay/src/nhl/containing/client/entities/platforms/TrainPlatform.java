@@ -33,9 +33,9 @@ public class TrainPlatform extends Platform{
 	public TrainPlatform()
 	{
 		super();
-		for (int i = 0; i < 243; i++)
+		for (int i = 0; i < 129; i++)
 		{
-			TrainRailsLst.add(new TrainRails(new Vector3f(-725, 0f, 1400 - 11.25f * i), 0f));
+			TrainRailsLst.add(new TrainRails(new Vector3f(-365f, 0f, 725 - 11.25f * i), 0f));
 			attachChild(TrainRailsLst.get(TrainRailsLst.size() - 1));
 		}
 
@@ -48,34 +48,35 @@ public class TrainPlatform extends Platform{
 
 	private void Ground()
 	{
-		Box Ground = new Box(20, 5f, 1550);
+		Box Ground = new Box(10, 5f, 775);
 		Geometry groundGeom = new Geometry("Box", Ground);
 		groundGeom.setMaterial(new PlainMaterial(ColorRGBA.DarkGray));
-		groundGeom.setLocalTranslation(-722, -5, 0);
+		groundGeom.setLocalTranslation(-361, -5, 0);
 		attachChild(groundGeom);
 	}
 
 	private void CraneRails()
 	{
-		for (int i = 0; i < 150; i++)
+		for (int i = 0; i < 80; i++)
 		{
-			CraneRailsLst.add(new CraneRails(new Vector3f(-717, 0f, 1400 - 18.3f * i), 1f, 0f));
+			CraneRailsLst.add(new CraneRails(new Vector3f(-358.5f, 0f, 725 - 18.3f * i), 1f, 0f));
 			attachChild(CraneRailsLst.get(CraneRailsLst.size() - 1));
 		}
 	}
 
 	private void ParkingSpace()
 	{
-		Box ParkingSpace = new Box(3, 0.1f, 1500);
+		Box ParkingSpace = new Box(1.5f, 0.1f, 750);
 		Geometry parkingGeom = new Geometry("Box", ParkingSpace);
 		parkingGeom.setMaterial(new PlainMaterial(ColorRGBA.Gray));
-		parkingGeom.setLocalTranslation(-717, 0.01f, 0);
+		parkingGeom.setLocalTranslation(-358.5f, 0.01f, 0);
 		attachChild(parkingGeom);
 		ContainingClient.getMyRootNode().attachChild(this);
+        }
         
         public void Sideway()
         {
-            for(int i = 0; i <2; i++)
+            for(int i = 0; i < 2; i++)
             {
             Box SideWay = new Box(6,0.1f,3);
             Geometry sideWayGeom = new Geometry("Box", SideWay);

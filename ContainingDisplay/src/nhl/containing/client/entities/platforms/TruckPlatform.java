@@ -37,7 +37,7 @@ public class TruckPlatform extends Platform
 		Geometry groundGeom = new Geometry("Box", Ground);
 		groundGeom.setMaterial(new PlainMaterial(ColorRGBA.DarkGray));
 		groundBox.attachChild(groundGeom);
-		groundGeom.setLocalTranslation(750, -5, -825);
+		groundGeom.setLocalTranslation(400, -5, -525);
 		ContainingClient.getMyRootNode().attachChild(groundBox);
 	}
 
@@ -49,7 +49,7 @@ public class TruckPlatform extends Platform
 			Geometry parkingGeom = new Geometry("Box", ParkingSpace);
 			parkingGeom.setMaterial(new PlainMaterial(ColorRGBA.Gray));
 			parkingBox.attachChild(parkingGeom);
-			parkingGeom.setLocalTranslation(710, 0.01f, -1060 + 25 * i);
+			parkingGeom.setLocalTranslation(360, 0.01f, -750 + 25 * i);
 
 		}
 		attachChild(parkingBox);

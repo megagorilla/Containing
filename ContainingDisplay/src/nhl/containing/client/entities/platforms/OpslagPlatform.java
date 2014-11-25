@@ -21,12 +21,10 @@ import nhl.containing.client.materials.PlainMaterial;
  */
 public class OpslagPlatform extends Platform
 {
-    Node opslagBox = new Node();
-    Node opslagLane = new Node();
     
-    public OpslagPlatform(AssetManager assetManager)
+    public OpslagPlatform()
     {
-        Box Opslag = new Box(600,5,1550);
+        Box Opslag = new Box(300,5,775);
         Geometry opslagGeom = new Geometry("Box", Opslag);
         opslagGeom.setMaterial(new PlainMaterial(ColorRGBA.DarkGray));
         attachChild(opslagGeom);
@@ -40,13 +38,13 @@ public class OpslagPlatform extends Platform
     
     private void ContainerStocking()
     {
-        for(int i = 0; i < 76; i++)
+        for(int i = 0; i < 39; i++)
         {
-        Box Lane = new Box(500, 0.2f, 10);
+        Box Lane = new Box(225, 0.2f, 10);
         Geometry laneGeom = new Geometry("Box", Lane);
         laneGeom.setMaterial(new PlainMaterial(ColorRGBA.Gray));
         attachChild(laneGeom);
-        laneGeom.setLocalTranslation(0 ,0,-1500+ 40*i);
+        laneGeom.setLocalTranslation(0 ,0,-760+ 40*i);
         }
     }
     
@@ -54,20 +52,20 @@ public class OpslagPlatform extends Platform
     {
         for (int a = 0; a < 2; a++)
         {
-        for(int i = 0; i < 76; i++)
+        for(int i = 0; i < 39; i++)
         {
             Box Lane = new Box(30, 0.2f, 10);
             Geometry laneGeom = new Geometry("Box", Lane);
             laneGeom.setMaterial(new PlainMaterial(ColorRGBA.White));
             attachChild(laneGeom);
-            laneGeom.setLocalTranslation(535 - 1070*a ,0,-1500+ 40*i);
+            laneGeom.setLocalTranslation(267.5f - 535*a ,0,-760+ 40*i);
         }
         }
     }
     
     public void Road()
     {
-        Box Road = new Box(700,5f,1650);
+        Box Road = new Box(350,5,825);
         Geometry roadGeom = new Geometry("Box", Road);
         roadGeom.setMaterial(new PlainMaterial(ColorRGBA.Black));
         attachChild(roadGeom);

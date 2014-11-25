@@ -8,11 +8,22 @@ import com.jme3.app.SimpleApplication;
 import com.jme3.asset.AssetManager;
 import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
+import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
 import com.jme3.util.SkyFactory;
+import com.sun.org.apache.bcel.internal.generic.FASTORE;
+import java.util.ArrayList;
+import nhl.containing.client.ContainingClient.Quality;
+import nhl.containing.client.entities.Container;
+import nhl.containing.client.entities.cranes.StorageCrane;
+import nhl.containing.client.entities.cranes.TruckCrane;
+import nhl.containing.client.entities.platforms.OpslagPlatform;
+import nhl.containing.client.entities.platforms.SeaShipPlatform;
+import nhl.containing.client.entities.platforms.TrainPlatform;
+import nhl.containing.client.entities.platforms.TruckPlatform;
 
 /**
  * test
@@ -28,10 +39,15 @@ public class ContainingClient extends SimpleApplication
 		LOW, MEDIUM, HIGH
 	};
 
-	// private Quality quality = Quality.HIGH; TODO: Currently not used
+	 private Quality quality = Quality.HIGH;
 	private static Node myRootNode;
 	private static AssetManager myAssetManager;
 	private static ViewPort myViewPort;
+        
+        ArrayList<TruckCrane> TruckCranes = new ArrayList<TruckCrane>();
+        ArrayList<StorageCrane> StorageCranes = new ArrayList<StorageCrane>();
+        ArrayList<Platform> Platforms = new ArrayList<Platform>();
+        
 
 	Node rails;
 
@@ -48,20 +64,38 @@ public class ContainingClient extends SimpleApplication
 		myRootNode = rootNode;
 		myViewPort = viewPort;
 		rootNode.attachChild(SkyFactory.createSky(assetManager, "Textures/Sky/Bright/BrightSky.dds", false));
-		flyCam.setMoveSpeed(100);
+		flyCam.setMoveSpeed(500);
 		cam.setFrustumFar(5000);
 		cam.onFrameChange();
 
-		Platform test = new BinnenvaartschipPlatform();
 		sun = new DirectionalLight();
 		sun.setDirection((new Vector3f(-0.5f, -0.5f, -0.5f)).normalizeLocal());
 		sun.setColor(ColorRGBA.White);
 		rootNode.addLight(sun);
 
 		SeaNode sea = new SeaNode();
-
-		this.getRootNode().attachChild(test);
-		this.getRootNode().attachChild(sea);
+                
+                
+                Platforms.add(new OpslagPlatform());
+                Platforms.add(new SeaShipPlatform());
+                Platforms.add(new TrainPlatform());                        
+                Platforms.add(new TruckPlatform());                
+		Platforms.add(new BinnenvaartschipPlatform());
+                
+                
+                for(int i = 0; i < 20; i++)
+                {
+                    TruckCranes.add(new TruckCrane());
+                    TruckCranes.get(i).setLocalTranslation(360, 0, -750 + 25*i);
+                    TruckCranes.get(i).rotate(0, FastMath.HALF_PI, 0);
+                }
+                
+                for(int i = 0; i < 39; i++)
+                {
+                    StorageCranes.add(new StorageCrane());
+                    StorageCranes.get(i).setLocalTranslation(0, 0, -760 + 40*i);
+                    StorageCranes.get(i).rotate(0, FastMath.HALF_PI, 0);
+                }
 	}
 
 	@Override
