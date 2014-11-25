@@ -14,9 +14,9 @@ import nhl.containing.client.entities.Vehicle;
  *
  * @author Sander
  */
-public class BinnenvaartShip extends Vehicle {
+public class RiverShip extends Vehicle {
 
-    public BinnenvaartShip(ContainingClient.Quality quality) {
+    public RiverShip(ContainingClient.Quality quality) {
         String qualityPath = "Models/high/ship/seaship.j3o";
         switch (quality) {
             case HIGH:
