@@ -42,8 +42,8 @@ public class TrainPlatform extends Platform{
 		Ground();
 		ParkingSpace();
 		CraneRails();
-		ContainingClient.getMyRootNode().attachChild(this);
-                ContainingClient.getMyRootNode().attachChild(this);
+                Sideway();
+		ContainingClient.getMyRootNode().attachChild(this);                
 	}
 
 	private void Ground()
@@ -74,14 +74,14 @@ public class TrainPlatform extends Platform{
 		ContainingClient.getMyRootNode().attachChild(this);
         }
         
-        public void Sideway()
+        private void Sideway()
         {
             for(int i = 0; i < 2; i++)
             {
-            Box SideWay = new Box(6,0.1f,3);
+            Box SideWay = new Box(3,0.1f,1.5f);
             Geometry sideWayGeom = new Geometry("Box", SideWay);
             sideWayGeom.setMaterial(new PlainMaterial(ColorRGBA.Gray));
-            sideWayGeom.setLocalTranslation(-708, 0.01f, 1497-2994*i);
+            sideWayGeom.setLocalTranslation(-354, 0.01f, 748.5f-1497*i);
             attachChild(sideWayGeom);
             }
         }

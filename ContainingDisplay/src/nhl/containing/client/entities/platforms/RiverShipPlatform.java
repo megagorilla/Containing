@@ -19,10 +19,10 @@ import com.jme3.scene.shape.Box;
  * 
  * @author Sander
  */
-public class BinnenvaartschipPlatform extends Platform
+public class RiverShipPlatform extends Platform
 {
 
-	public BinnenvaartschipPlatform()
+	public RiverShipPlatform()
 	{
 		SideWay();
 		HookNorth();
