@@ -4,8 +4,6 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
-
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -13,11 +11,11 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.os.AsyncTask;
 import android.util.Log;
 
 public class APIHandler {
@@ -76,29 +74,38 @@ public class APIHandler {
 	 * @return The data which the server returned
 	 */
 	public JSONObject doPOST(String url, ArrayList<NameValuePair> params) {
-		JSONObject output;
+		JSONObject output = new RetrieveFeedTask().execute(_url);
+		return output;
+	}
+	
+	class RetrieveFeedTask extends AsyncTask<String, Void, JSONObject> {
 
-		try {
-			HttpClient httpclient = new DefaultHttpClient();
-			HttpPost httppost = new HttpPost(url);
-			httppost.setEntity(new UrlEncodedFormEntity(params));
-			HttpResponse response = httpclient.execute(httppost);
-			HttpEntity entity = response.getEntity();
-			if (entity != null) {
-				InputStream is = entity.getContent();
-				InputStreamReader isr = new InputStreamReader(is);
-				BufferedReader br = new BufferedReader(isr);
-				String read = br.readLine();
-				output = new JSONObject(read);
-				is.close();
-				return output;
-			} else {
-				System.out.println("Network: Entity = null");
+	    protected JSONObject doInBackground(String... urls) {
+	    	try {
+				HttpClient httpclient = new DefaultHttpClient();
+				HttpPost httppost = new HttpPost("http://feenstraim.com/api.php");
+				HttpResponse response = httpclient.execute(httppost);
+				HttpEntity entity = response.getEntity();
+				if (entity != null) {
+					InputStream is = entity.getContent();
+					InputStreamReader isr = new InputStreamReader(is);
+					BufferedReader br = new BufferedReader(isr);
+					String read = br.readLine();
+					JSONObject output = new JSONObject(read);
+					is.close();
+					return output;
+				} else {
+					System.out.println("Network: Entity = null");
+					return null;
+				}
+			} catch (Exception e) {
+				Log.e("HTTP", "Error in http connection " + e);
 				return null;
 			}
-		} catch (Exception e) {
-			Log.e("HTTP", "Error in http connection " + e);
-			return null;
-		}
+	    }
+
+	    protected void onPostExecute() {
+	    	
+	    }
 	}
 }
