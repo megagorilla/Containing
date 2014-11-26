@@ -18,6 +18,7 @@ public class GraphView {
 
 	private LineChart mChart;
 	private APIHandler api;
+	private ArrayList<Integer> mData;
 	
 	public GraphView(LineChart lc) {
 		mChart = lc;
@@ -40,21 +41,20 @@ public class GraphView {
 		float range = 100;
 		
 		// Hier data verzamelen uit JSON
-		if (type > 0) {
-			JSONArray data = api.getData();
-			
-			if (data != null) {
-				try {
-					Object inputData = data.get(type);
-					
-					// Hier verder afhandelen
-					
-				} catch (JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		} // enz.
+//		if (type > 0) {
+//			JSONArray data = api.getData();
+//			
+//			if (data != null) {
+//				try {
+//					Object inputData = data.get(type);
+//					// Hier verder afhandelen
+//					
+//				} catch (JSONException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//			}
+//		} // enz.
 
         ArrayList<String> xVals = new ArrayList<String>();
         for (int i = 0; i < count; i++) {
@@ -72,7 +72,7 @@ public class GraphView {
         }
 
         // create a dataset and give it a type
-        LineDataSet set1 = new LineDataSet(yVals, "DataSet 1");
+        LineDataSet set1 = new LineDataSet(yVals, "# of containers");
         // set1.setFillAlpha(110);
         // set1.setFillColor(Color.RED);
 
