@@ -279,7 +279,7 @@ public class NavigationDrawerFragment extends Fragment {
 		if (item.getItemId() == R.id.action_example) {
 			Toast.makeText(getActivity(), "Refreshing data", Toast.LENGTH_SHORT).show();
 			
-			// @TODO update data
+			GraphView.mChart.postInvalidate();
 			
 			return true;
 		}

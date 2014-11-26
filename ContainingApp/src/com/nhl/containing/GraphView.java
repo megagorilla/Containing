@@ -16,17 +16,14 @@ import com.github.mikephil.charting.utils.LimitLine.LimitLabelPosition;
 
 public class GraphView {
 
-	private LineChart mChart;
+	public static LineChart mChart;
 	private APIHandler api;
 	private ArrayList<Integer> mData;
 	
 	public GraphView(LineChart lc) {
 		mChart = lc;
-		
 		mChart.setDescription("All containers");
-		
 		setData(1);
-		
 		api = new APIHandler("http://127.0.0.1");
 	}
 	
@@ -43,6 +40,30 @@ public class GraphView {
 	 * @param type The type of chart that is requested
 	 */
 	public void setData(int type) {
+
+		switch (type) {
+			case 1:
+				this.setDescription("All containers");
+				break;
+			case 2:
+				this.setDescription("Train platform");
+				break;
+			case 3:
+				this.setDescription("Truck platform");
+				break;
+			case 4:
+				this.setDescription("Ship platform");
+				break;
+			case 5:
+				this.setDescription("Seaship platform");
+				break;
+			case 6:
+				this.setDescription("Storage");
+				break;
+			case 7:
+				this.setDescription("Others");
+				break;
+			}
 			
 		// Tijdelijke variabelen
 		int count = 45;

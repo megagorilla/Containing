@@ -70,38 +70,6 @@ public class MainActivity extends ActionBarActivity implements
 	 * Navigation Drawer is selected
 	 * @param id the ID of the panel to show
 	 */
-	public void setChart(int id) {
-		switch (id) {
-		case 1:
-			mChart.setDescription("All containers");
-			mChart.setData(1);
-			break;
-		case 2:
-			mChart.setDescription("Train platform");
-			mChart.setData(2);
-			break;
-		case 3:
-			mChart.setDescription("Truck platform");
-			mChart.setData(3);
-			break;
-		case 4:
-			mChart.setDescription("Ship platform");
-			mChart.setData(4);
-			break;
-		case 5:
-			mChart.setDescription("Seaship platform");
-			mChart.setData(5);
-			break;
-		case 6:
-			mChart.setDescription("Storage");
-			mChart.setData(6);
-			break;
-		case 7:
-			mChart.setDescription("Others");
-			mChart.setData(7);
-			break;
-		}
-	}
 
 	@Override
 	public void onNavigationDrawerItemSelected(int position) {
@@ -118,31 +86,31 @@ public class MainActivity extends ActionBarActivity implements
 		switch (number) {
 		case 1:
 			mTitle = getString(R.string.title_section1);
-			this.setChart(1);
+			mChart.setData(1);
 			break;
 		case 2:
 			mTitle = getString(R.string.title_section2);
-			this.setChart(2);
+			mChart.setData(2);
 			break;
 		case 3:
 			mTitle = getString(R.string.title_section3);
-			this.setChart(3);
+			mChart.setData(3);
 			break;
 		case 4:
 			mTitle = getString(R.string.title_section4);
-			this.setChart(4);
+			mChart.setData(4);
 			break;
 		case 5:
 			mTitle = getString(R.string.title_section5);
-			this.setChart(5);
+			mChart.setData(5);
 			break;
 		case 6:
 			mTitle = getString(R.string.title_section6);
-			this.setChart(6);
+			mChart.setData(6);
 			break;
 		case 7:
 			mTitle = getString(R.string.title_section7);
-			this.setChart(7);
+			mChart.setData(7);
 			break;
 		}
 	}
