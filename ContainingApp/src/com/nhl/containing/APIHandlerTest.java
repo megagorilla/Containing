@@ -19,5 +19,4 @@ public class APIHandlerTest extends TestCase {
 	public void testDoPOST() {
 		fail("Not yet implemented");
 	}
-
 }

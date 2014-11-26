@@ -2,6 +2,8 @@ package com.nhl.containing;
 
 import java.util.ArrayList;
 
+import org.json.JSONArray;
+
 import android.graphics.Color;
 
 import com.github.mikephil.charting.charts.LineChart;
@@ -14,14 +16,14 @@ import com.github.mikephil.charting.utils.LimitLine.LimitLabelPosition;
 public class GraphView {
 
 	public static LineChart mChart;
-	//private APIHandler api;
+	private APIHandler api;
 	//private ArrayList<Integer> mData;
 	
 	public GraphView(LineChart lc) {
 		mChart = lc;
 		mChart.setDescription("All containers");
 		setData(1);
-		//api = new APIHandler("http://127.0.0.1:8080");
+		api = new APIHandler("http://feenstraim.com/api.php");
 	}
 	
 	/**
@@ -65,6 +67,13 @@ public class GraphView {
 		// Tijdelijke variabelen
 		int count = 45;
 		float range = 100;
+		
+		try {
+			JSONArray js = api.getData();
+			System.out.println(js);
+		} catch (Exception ex) {
+			System.out.println("No Data Found");
+		}
 		
 		// Hier data verzamelen uit JSON
 //		if (type > 0) {

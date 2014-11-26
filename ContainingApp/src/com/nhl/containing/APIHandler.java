@@ -15,6 +15,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.util.Log;
@@ -47,22 +48,12 @@ public class APIHandler {
 	 * The data must be in JSON-format
 	 * @return A JSONArray containing the data that was fetched
 	 */
-	@SuppressWarnings("unchecked")
 	public JSONArray getData() {
-		ArrayList<NameValuePair> mStringArray = new ArrayList<NameValuePair>();
-		mStringArray.add(new BasicNameValuePair("1", "100"));
-		mStringArray.add(new BasicNameValuePair("2", "80"));
-		mStringArray.add(new BasicNameValuePair("3", "50"));
-		mStringArray.add(new BasicNameValuePair("4", "60"));
-		mStringArray.add(new BasicNameValuePair("5", "20"));
-		mStringArray.add(new BasicNameValuePair("6", "10"));
-		
-		JSONArray mJSONArray = new JSONArray(Arrays.asList(mStringArray));
-		
-		return mJSONArray;
-		/*
+			
 		ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
 		JSONObject response = this.doPOST(_url, params);
+		
+		System.out.println("Output data:" + response);
 		
 		if (response != null) {
 			JSONArray data;
@@ -76,14 +67,13 @@ public class APIHandler {
 		}
 	
 		return null;
-		*/
 	}
 	
 	/**
 	 * This method posts the data to the server and returns the data from the server
 	 * @param url The URL which the data is sent to
 	 * @param params The parameters which are posted to the URL
-	 * @return The data the server outputted
+	 * @return The data which the server returned
 	 */
 	public JSONObject doPOST(String url, ArrayList<NameValuePair> params) {
 		JSONObject output;
@@ -103,6 +93,7 @@ public class APIHandler {
 				is.close();
 				return output;
 			} else {
+				System.out.println("Network: Entity = null");
 				return null;
 			}
 		} catch (Exception e) {
