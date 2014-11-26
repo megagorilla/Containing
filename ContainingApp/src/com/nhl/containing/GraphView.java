@@ -2,9 +2,6 @@ package com.nhl.containing;
 
 import java.util.ArrayList;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-
 import android.graphics.Color;
 
 import com.github.mikephil.charting.charts.LineChart;
@@ -17,14 +14,14 @@ import com.github.mikephil.charting.utils.LimitLine.LimitLabelPosition;
 public class GraphView {
 
 	public static LineChart mChart;
-	private APIHandler api;
-	private ArrayList<Integer> mData;
+	//private APIHandler api;
+	//private ArrayList<Integer> mData;
 	
 	public GraphView(LineChart lc) {
 		mChart = lc;
 		mChart.setDescription("All containers");
 		setData(1);
-		api = new APIHandler("http://127.0.0.1");
+		//api = new APIHandler("http://127.0.0.1:8080");
 	}
 	
 	/**
@@ -32,7 +29,7 @@ public class GraphView {
 	 * @param desc The description to set
 	 */
 	public void setDescription(String desc) {
-		this.mChart.setDescription(desc);
+		mChart.setDescription(desc);
 	}
 	
 	/**
