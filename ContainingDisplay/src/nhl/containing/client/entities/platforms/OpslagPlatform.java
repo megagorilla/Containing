@@ -4,15 +4,15 @@
  */
 package nhl.containing.client.entities.platforms;
 
-import com.jme3.asset.AssetManager;
-import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
+import com.jme3.math.FastMath;
+import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
-import com.jme3.scene.Node;
 import nhl.containing.client.entities.Platform;
 
 import com.jme3.scene.shape.Box;
 import nhl.containing.client.ContainingClient;
+import nhl.containing.client.entities.rails.StripRails;
 import nhl.containing.client.materials.PlainMaterial;
 
 /**
@@ -33,6 +33,7 @@ public class OpslagPlatform extends Platform
         ContainerStocking();        
         AGVParking();
         Road();
+        Rails();
         ContainingClient.getMyRootNode().attachChild(this); 
     }
     
@@ -63,13 +64,23 @@ public class OpslagPlatform extends Platform
         }
     }
     
-    public void Road()
+    private void Road()
     {
         Box Road = new Box(350,5,825);
         Geometry roadGeom = new Geometry("Box", Road);
         roadGeom.setMaterial(new PlainMaterial(ColorRGBA.Black));
         attachChild(roadGeom);
         roadGeom.setLocalTranslation(0,-5.1f,0);
+    }
+    
+    private void Rails(){
+        for(int i = 0; i<39;i++){
+            for(int j = 0;j<32;j++){
+                attachChild(new StripRails(new Vector3f(288.25f -18.3f*j ,0,-762.5f+ 40*i), FastMath.HALF_PI));
+            }
+            attachChild(new StripRails(new Vector3f(-288.05f ,0,-762.5f+ 40*i), FastMath.HALF_PI));
+        }
+        
     }
 
 }
