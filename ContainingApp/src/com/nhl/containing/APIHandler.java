@@ -3,7 +3,6 @@ package com.nhl.containing;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -16,7 +15,6 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.util.Log;
@@ -40,6 +38,7 @@ public class APIHandler {
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	public JSONArray getData() {
 		ArrayList<NameValuePair> mStringArray = new ArrayList<NameValuePair>();
 		mStringArray.add(new BasicNameValuePair("1", "100"));
@@ -51,6 +50,8 @@ public class APIHandler {
 		
 		JSONArray mJSONArray = new JSONArray(Arrays.asList(mStringArray));
 		
+		return mJSONArray;
+		/*
 		ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
 		JSONObject response = this.doPOST(_url, params);
 		
@@ -64,8 +65,9 @@ public class APIHandler {
 				e.printStackTrace();
 			}
 		}
-
+	
 		return null;
+		*/
 	}
 	
 	public JSONObject doPOST(String url, ArrayList<NameValuePair> params) {

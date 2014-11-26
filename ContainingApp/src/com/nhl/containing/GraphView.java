@@ -50,7 +50,6 @@ public class GraphView {
 //					// Hier verder afhandelen
 //					
 //				} catch (JSONException e) {
-//					// TODO Auto-generated catch block
 //					e.printStackTrace();
 //				}
 //			}
