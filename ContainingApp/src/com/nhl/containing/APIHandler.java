@@ -27,6 +27,10 @@ public class APIHandler {
 		this._url = url;
 	}
 	
+	/**
+	 * This method tries to connect to the server
+	 * @return A boolean, whether the connect has succeeded or not
+	 */
 	public boolean connect() {
 		ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
 		JSONObject response = this.doPOST(_url, params);
@@ -38,6 +42,11 @@ public class APIHandler {
 		}
 	}
 	
+	/**
+	 * This method fetches data from the server
+	 * The data must be in JSON-format
+	 * @return A JSONArray containing the data that was fetched
+	 */
 	@SuppressWarnings("unchecked")
 	public JSONArray getData() {
 		ArrayList<NameValuePair> mStringArray = new ArrayList<NameValuePair>();
@@ -70,6 +79,12 @@ public class APIHandler {
 		*/
 	}
 	
+	/**
+	 * This method posts the data to the server and returns the data from the server
+	 * @param url The URL which the data is sent to
+	 * @param params The parameters which are posted to the URL
+	 * @return The data the server outputted
+	 */
 	public JSONObject doPOST(String url, ArrayList<NameValuePair> params) {
 		JSONObject output;
 

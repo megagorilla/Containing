@@ -65,6 +65,11 @@ public class MainActivity extends ActionBarActivity implements
 		lc = mChart.getChart();
 	}
 	
+	/**
+	 * This method updates the Chart when an item from the
+	 * Navigation Drawer is selected
+	 * @param id the ID of the panel to show
+	 */
 	public void setChart(int id) {
 		switch (id) {
 		case 1:

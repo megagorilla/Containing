@@ -30,10 +30,18 @@ public class GraphView {
 		api = new APIHandler("http://127.0.0.1");
 	}
 	
+	/**
+	 * Sets another description
+	 * @param desc The description to set
+	 */
 	public void setDescription(String desc) {
 		this.mChart.setDescription(desc);
 	}
 	
+	/**
+	 * Sets the data showed in the Chart
+	 * @param type The type of chart that is requested
+	 */
 	public void setData(int type) {
 			
 		// Tijdelijke variabelen
@@ -120,6 +128,10 @@ public class GraphView {
         mChart.postInvalidate();
     }
 	
+	/**
+	 * This method returns the current Chart
+	 * @return A LineChart object filled with data
+	 */
 	public LineChart getChart() {
 		return mChart;
 	}
