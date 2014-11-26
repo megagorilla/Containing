@@ -2,6 +2,9 @@ package com.nhl.containing;
 
 import java.util.ArrayList;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import android.graphics.Color;
 
 import com.github.mikephil.charting.charts.LineChart;
@@ -14,6 +17,7 @@ import com.github.mikephil.charting.utils.LimitLine.LimitLabelPosition;
 public class GraphView {
 
 	private LineChart mChart;
+	private APIHandler api;
 	
 	public GraphView(LineChart lc) {
 		mChart = lc;
@@ -21,6 +25,8 @@ public class GraphView {
 		mChart.setDescription("All containers");
 		
 		setData(1);
+		
+		api = new APIHandler("http://127.0.0.1");
 	}
 	
 	public void setDescription(String desc) {
@@ -34,8 +40,20 @@ public class GraphView {
 		float range = 100;
 		
 		// Hier data verzamelen uit JSON
-		if (type == 1) {
+		if (type > 0) {
+			JSONArray data = api.getData();
 			
+			if (data != null) {
+				try {
+					Object inputData = data.get(type);
+					
+					// Hier verder afhandelen
+					
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 		} // enz.
 
         ArrayList<String> xVals = new ArrayList<String>();
