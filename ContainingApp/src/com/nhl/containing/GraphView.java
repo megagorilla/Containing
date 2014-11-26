@@ -60,6 +60,14 @@ public class GraphView {
         for (int i = 0; i < count; i++) {
             xVals.add((i) + "");
         }
+        
+        ArrayList<String> yData = new ArrayList<String>();
+        yData.add("13:10");
+        yData.add("13:11");
+        yData.add("13:12");
+        yData.add("13:13");
+        yData.add("13:14");
+        yData.add("13:15");
 
         ArrayList<Entry> yVals = new ArrayList<Entry>();
 
@@ -110,6 +118,7 @@ public class GraphView {
 
         // set data
         mChart.setData(data);
+        mChart.postInvalidate();
     }
 	
 	public LineChart getChart() {
