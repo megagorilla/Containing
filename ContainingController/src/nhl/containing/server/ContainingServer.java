@@ -5,18 +5,28 @@ import java.util.List;
 import nhl.containing.server.network.API;
 import nhl.containing.server.network.ConnectionManager;
 import nhl.containing.server.network.UpdateMessage;
+import nhl.containing.server.pathfinding.CMotionPathListener;
 import nhl.containing.server.pathfinding.RouteController;
 
 import com.jme3.app.SimpleApplication;
+import com.jme3.cinematic.MotionPath;
+import com.jme3.cinematic.events.MotionEvent;
+import com.jme3.material.Material;
+import com.jme3.math.ColorRGBA;
+import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
+import com.jme3.scene.Geometry;
+import com.jme3.scene.Node;
+import com.jme3.scene.Spatial;
+import com.jme3.scene.shape.Box;
 import com.jme3.system.JmeContext;
 
 public class ContainingServer extends SimpleApplication
 {
-	private long startTime = System.currentTimeMillis();
 	float time = 0;
 	private boolean hasSent;
 	private RouteController route;
+	private static Node staticRootNode;
 
 	public static void main(String[] args)
 	{
@@ -27,35 +37,32 @@ public class ContainingServer extends SimpleApplication
 	@Override
 	public void simpleInitApp()
 	{
+		staticRootNode = this.getRootNode();
 		route = new RouteController();
-		// TODO code application logic here
-		System.out.println("Test");
-		// test whether the JME server launches successfully (on port 3000)
-		if (!ConnectionManager.initialize(3000))
-			System.err.println("Failed to start server!");
-		else
-			System.out.println("Successfully started server");
-		// test command
-
-		// start the API, listen on port 8080
+		ConnectionManager.initialize(3000);
 		API.start(8080);
-		// use read to keep the program active
-		System.out.println("Type any character to quit");
-		// System.in.read();
+		
+        System.out.println("1");
 	}
 
 	@Override
 	public void simpleUpdate(float tpf)
 	{
-		if(!hasSent && ConnectionManager.hasConnections())
+		if(!hasSent)
 		{
-			UpdateMessage m = new UpdateMessage("hai");
-			List<Vector3f> list = route.sendAGV("d2", "b3");
-			m.addData(0, list);
-			ConnectionManager.sendCommand(m);
-			System.out.println(System.currentTimeMillis());
+
+//			UpdateMessage m = new UpdateMessage("hai");
+//			List<Vector3f> list = route.sendAGV("d2", "b3");
+//			m.addData(0, list);
+//			ConnectionManager.sendCommand(m);
+//			System.out.println(System.currentTimeMillis());
 			hasSent = true;
 		}
+	}
+	
+	public static Node getRoot()
+	{
+		return staticRootNode;
 	}
 	
 	@Override
