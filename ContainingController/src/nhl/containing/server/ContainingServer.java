@@ -17,6 +17,7 @@ public class ContainingServer extends SimpleApplication
 	float time = 0;
 	private boolean hasSent;
 	private RouteController route;
+        private RouteController route2;
 
 	public static void main(String[] args)
 	{
@@ -28,6 +29,7 @@ public class ContainingServer extends SimpleApplication
 	public void simpleInitApp()
 	{
 		route = new RouteController();
+                route2 = new RouteController();
 		// TODO code application logic here
 		System.out.println("Test");
 		// test whether the JME server launches successfully (on port 3000)
@@ -50,8 +52,10 @@ public class ContainingServer extends SimpleApplication
 		if(!hasSent && ConnectionManager.hasConnections())
 		{
 			UpdateMessage m = new UpdateMessage("hai");
-			List<Vector3f> list = route.sendAGV("d2", "b3");
+			List<Vector3f> list = route.sendAGV("a1.4", "d4.4");
+                        List<Vector3f> list2 = route.sendAGV("b1", "d4");
 			m.addData(0, list);
+                        m.addData(1, list2);
 			ConnectionManager.sendCommand(m);
 			System.out.println(System.currentTimeMillis());
 			hasSent = true;

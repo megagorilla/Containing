@@ -2,31 +2,26 @@ package nhl.containing.client;
 
 import nhl.containing.client.entities.Platform;
 import nhl.containing.client.entities.platforms.BinnenvaartschipPlatform;
-import nhl.containing.client.entities.platforms.TrainPlatform;
 import nhl.containing.client.entities.vehicles.AGV;
 import nhl.containing.client.network.ConnectionManager;
 import nhl.containing.client.scenery.SeaNode;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.asset.AssetManager;
-import com.jme3.cinematic.MotionPath;
 import com.jme3.cinematic.events.MotionEvent;
 import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
-import com.jme3.math.Quaternion;
+import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
 import com.jme3.util.SkyFactory;
-import com.sun.org.apache.bcel.internal.generic.FASTORE;
 import java.util.ArrayList;
 import nhl.containing.client.ContainingClient.Quality;
-import nhl.containing.client.entities.Container;
 import nhl.containing.client.entities.cranes.StorageCrane;
 import nhl.containing.client.entities.cranes.TruckCrane;
 import nhl.containing.client.entities.platforms.OpslagPlatform;
-import nhl.containing.client.entities.platforms.SeaShipPlatform;
 import nhl.containing.client.entities.platforms.TrainPlatform;
 import nhl.containing.client.entities.platforms.TruckPlatform;
 
@@ -39,6 +34,16 @@ public class ContainingClient extends SimpleApplication {
 
     private DirectionalLight sun;
 
+    public static  AGV getAGV(int i)
+    {
+        switch(i)
+        {
+            case 0: return agv;
+            case 1: return agv1;
+            default: return agv;
+        }
+    }
+    
     public enum Quality {
 
         LOW, MEDIUM, HIGH
@@ -49,6 +54,7 @@ public class ContainingClient extends SimpleApplication {
     private static ViewPort myViewPort;
 	MotionEvent motionControl;
 	public static AGV agv;
+        public static AGV agv1;
         ArrayList<StorageCrane> StorageCranes = new ArrayList<StorageCrane>();
         ArrayList<Platform> Platforms = new ArrayList<Platform>();
         
@@ -71,7 +77,8 @@ public class ContainingClient extends SimpleApplication {
         cam.onFrameChange();
 		
 		agv = new AGV(Quality.HIGH);
-		
+				agv1 = new AGV(Quality.HIGH);
+
 		ConnectionManager.init("localhost", 3000);
 
         //Platform test = new BinnenvaartschipPlatform();
@@ -90,13 +97,14 @@ public class ContainingClient extends SimpleApplication {
                 Platforms.add(new TrainPlatform());                        
                 Platforms.add(new TruckPlatform());                
 		Platforms.add(new BinnenvaartschipPlatform());
+                Platforms.add(new OpslagPlatform());
                 
                 
                 for(int i = 0; i < 20; i++)
                 {
-                    TruckCranes.add(new TruckCrane());
-                    TruckCranes.get(i).setLocalTranslation(360, 0, -750 + 25*i);
-                    TruckCranes.get(i).rotate(0, FastMath.HALF_PI, 0);
+                    //TruckCranes.add(new TruckCrane());
+                    //TruckCranes.get(i).setLocalTranslation(360, 0, -750 + 25*i);
+                    //TruckCranes.get(i).rotate(0, FastMath.HALF_PI, 0);
                 }
                 
                 for(int i = 0; i < 39; i++)

@@ -11,44 +11,83 @@ import java.util.NavigableSet;
 import java.util.TreeSet;
 
 import com.jme3.math.Vector3f;
+import java.util.List;
 
 public class ShortestPath {
 
+    //2313 2 3132
     protected static AGV[] truckParking;
     protected static AGV[] trainParking;
     protected static AGV[] smallShipParking;
     protected static AGV[] bigShipParking;
     protected static final int parkinglotSize = 25;
-    private static final int WIDTH = 600;
-    private static final int HEIGHT = 1550;
-    
-    public static final Graph.Edge[] GRAPH = 
-    	{
-	    	new Graph.Edge(new Graph.WayPoint("a1", new Vector3f(WIDTH / 2, 0, -(HEIGHT / 2))), 	new Graph.WayPoint("a2", new Vector3f(WIDTH / 2 + 50, 0, -(HEIGHT / 2)))), 
-	    	new Graph.Edge(new Graph.WayPoint("a1", new Vector3f(WIDTH / 2, 0, -(HEIGHT / 2))), 	new Graph.WayPoint("a4", new Vector3f(WIDTH / 2, 0, -50))),
-	    	new Graph.Edge(new Graph.WayPoint("a4", new Vector3f(WIDTH / 2, 0, -50)), 				new Graph.WayPoint("a1", new Vector3f(WIDTH / 2, 0, -(HEIGHT / 2)))),
-	    	new Graph.Edge(new Graph.WayPoint("a1", new Vector3f(WIDTH / 2, 0, -(HEIGHT / 2))),		new Graph.WayPoint("d4", new Vector3f(-WIDTH / 2, 0, -HEIGHT / 2))),
-	        new Graph.Edge(new Graph.WayPoint("a2", new Vector3f(WIDTH / 2 + 50, 0, -(HEIGHT / 2))),new Graph.WayPoint("a3", new Vector3f(WIDTH / 2 + 50, 0, -50))),
-	        new Graph.Edge(new Graph.WayPoint("a3", new Vector3f(WIDTH / 2 + 50, 0, -50)), 			new Graph.WayPoint("a4", new Vector3f(WIDTH / 2, 0, -50))),
-	        new Graph.Edge(new Graph.WayPoint("a4", new Vector3f(WIDTH / 2, 0, -50)), 				new Graph.WayPoint("b1", new Vector3f(WIDTH / 2, 0, 50))),
-	        new Graph.Edge(new Graph.WayPoint("b1", new Vector3f(WIDTH / 2, 0, 50)), 				new Graph.WayPoint("a4", new Vector3f(WIDTH / 2, 0, -50))),
-	        new Graph.Edge(new Graph.WayPoint("b1", new Vector3f(WIDTH / 2, 0, 50)), 				new Graph.WayPoint("b2", new Vector3f(WIDTH / 2 + 50, 0, 50))),
-	        new Graph.Edge(new Graph.WayPoint("b1", new Vector3f(WIDTH / 2, 0, 50)), 				new Graph.WayPoint("b4", new Vector3f(WIDTH / 2, 0, HEIGHT / 2))),
-	        new Graph.Edge(new Graph.WayPoint("b4", new Vector3f(WIDTH / 2, 0, HEIGHT / 2)),		new Graph.WayPoint("b1", new Vector3f(WIDTH / 2, 0, 50))), 
-	        new Graph.Edge(new Graph.WayPoint("b2", new Vector3f(WIDTH / 2 + 50, 0, 50)), 			new Graph.WayPoint("b3", new Vector3f(WIDTH / 2 + 50, 0, HEIGHT / 2))),
-	        new Graph.Edge(new Graph.WayPoint("b3", new Vector3f(WIDTH / 2 + 50, 0, HEIGHT / 2)),	new Graph.WayPoint("b4", new Vector3f(WIDTH / 2, 0, HEIGHT / 2))),
-	        new Graph.Edge(new Graph.WayPoint("b4", new Vector3f(WIDTH / 2, 0, HEIGHT / 2)),		new Graph.WayPoint("c2", new Vector3f(WIDTH / 2, 0, HEIGHT / 2 + 50))),
-	        new Graph.Edge(new Graph.WayPoint("b4", new Vector3f(WIDTH / 2, 0, HEIGHT / 2)), 		new Graph.WayPoint("c4", new Vector3f(-WIDTH / 2, 0, HEIGHT / 2))), 
-	        new Graph.Edge(new Graph.WayPoint("c4", new Vector3f(-WIDTH / 2, 0, HEIGHT / 2)), 		new Graph.WayPoint("b4", new Vector3f(WIDTH / 2, 0, HEIGHT / 2))), 
-	        new Graph.Edge(new Graph.WayPoint("c2", new Vector3f(WIDTH / 2, 0, HEIGHT / 2 + 50)), 	new Graph.WayPoint("c3", new Vector3f(-WIDTH / 2, 0, HEIGHT / 2 + 50))),
-	        new Graph.Edge(new Graph.WayPoint("c3", new Vector3f(-WIDTH / 2, 0, HEIGHT / 2 + 50)), 	new Graph.WayPoint("c4", new Vector3f(-WIDTH / 2, 0, HEIGHT / 2))), 
-	        new Graph.Edge(new Graph.WayPoint("c4", new Vector3f(-WIDTH / 2, 0, HEIGHT / 2)), 		new Graph.WayPoint("d2", new Vector3f(-WIDTH / 2 - 50, 0, HEIGHT / 2))), 
-	        new Graph.Edge(new Graph.WayPoint("c4", new Vector3f(-WIDTH / 2, 0, HEIGHT / 2)), 		new Graph.WayPoint("d4", new Vector3f(-WIDTH / 2, 0, -HEIGHT / 2))),
-	        new Graph.Edge(new Graph.WayPoint("d4", new Vector3f(-WIDTH / 2, 0, -HEIGHT / 2)), 		new Graph.WayPoint("c4", new Vector3f(-WIDTH / 2, 0, HEIGHT / 2))),
-	        new Graph.Edge(new Graph.WayPoint("d2", new Vector3f(-WIDTH / 2 - 50, 0, HEIGHT / 2)), 	new Graph.WayPoint("d3", new Vector3f(-WIDTH / 2 - 50, 0, -HEIGHT / 2))),
-	        new Graph.Edge(new Graph.WayPoint("d3", new Vector3f(-WIDTH / 2 - 50, 0, -HEIGHT / 2)), new Graph.WayPoint("d4", new Vector3f(-WIDTH / 2, 0, -HEIGHT / 2))), 
-	        new Graph.Edge(new Graph.WayPoint("d4", new Vector3f(-WIDTH / 2, 0, -HEIGHT / 2)), 		new Graph.WayPoint("a1", new Vector3f(WIDTH / 2, 0, -(HEIGHT / 2))))
-    	};
+    private static final int WIDTH = 300;
+    private static final int HEIGHT = 775;
+    private static final int sideLane = 50;
+    private static final float laneOne = 3.5f; //right slow
+    private static final float laneTwo = 7.5f; //right fast
+    private static final float laneThree = 12.5f; // left fast
+    private static final float laneFour = 16.5f; // left slow
+    public static final Graph.Edge[] GRAPH = {
+        //Inside lane
+        new Graph.Edge(new Graph.WayPoint("a1", new Vector3f(WIDTH + laneOne, 0, -HEIGHT - laneOne)),
+        new Graph.WayPoint("a4", new Vector3f(WIDTH + laneOne, 0, -50))),
+        new Graph.Edge(new Graph.WayPoint("a4", new Vector3f(WIDTH + laneOne, 0, -50)),
+        new Graph.WayPoint("b1", new Vector3f(WIDTH + laneOne, 0, 50))),
+        new Graph.Edge(new Graph.WayPoint("b1", new Vector3f(WIDTH + laneOne, 0, 50)),
+        new Graph.WayPoint("b4", new Vector3f(WIDTH + laneOne, 0, HEIGHT + laneOne))),
+        new Graph.Edge(new Graph.WayPoint("b4", new Vector3f(WIDTH + laneOne, 0, HEIGHT + laneOne)),
+        new Graph.WayPoint("c4", new Vector3f(-WIDTH - laneOne, 0, HEIGHT + laneOne))),
+        new Graph.Edge(new Graph.WayPoint("c4", new Vector3f(-WIDTH - laneOne, 0, HEIGHT + laneOne)),
+        new Graph.WayPoint("d4", new Vector3f(-WIDTH - laneOne, 0, -HEIGHT - laneOne))),
+        new Graph.Edge(new Graph.WayPoint("d4", new Vector3f(-WIDTH - laneOne, 0, -HEIGHT - laneOne)),
+        new Graph.WayPoint("a1", new Vector3f(WIDTH + laneOne, 0, -HEIGHT - laneOne))),
+        //Outside lane
+        new Graph.Edge(new Graph.WayPoint("a1.4", new Vector3f(WIDTH + laneFour, 0, -HEIGHT - laneFour)),
+        new Graph.WayPoint("d4.4", new Vector3f(-WIDTH- laneFour, 0, -HEIGHT- laneFour))),
+        new Graph.Edge(new Graph.WayPoint("d4.4", new Vector3f(-WIDTH - laneFour, 0, -HEIGHT - laneFour)),
+        new Graph.WayPoint("c4.4", new Vector3f(-WIDTH - laneFour, 0, HEIGHT + laneFour))),
+        new Graph.Edge(new Graph.WayPoint("c4.4", new Vector3f(-WIDTH - laneFour, 0, HEIGHT + laneFour)),
+        new Graph.WayPoint("b4.4", new Vector3f(WIDTH + laneFour, 0, HEIGHT + laneFour))),
+        new Graph.Edge(new Graph.WayPoint("b4.4", new Vector3f(WIDTH + laneFour, 0, HEIGHT + laneFour)),
+        new Graph.WayPoint("b1.4", new Vector3f(WIDTH + laneFour, 0, 50))),
+        new Graph.Edge(new Graph.WayPoint("b1.4", new Vector3f(WIDTH + laneFour, 0, 50)),
+        new Graph.WayPoint("a4.4", new Vector3f(WIDTH + laneFour, 0, -50))),
+        new Graph.Edge(new Graph.WayPoint("a4.4", new Vector3f(WIDTH + laneFour, 0, -50)),
+        new Graph.WayPoint("a1.4", new Vector3f(WIDTH + laneFour, 0, -HEIGHT - laneFour))),
+        //truck platform
+        new Graph.Edge(new Graph.WayPoint("a1", new Vector3f(WIDTH + laneOne, 0, -HEIGHT + laneOne)),
+        new Graph.WayPoint("a2", new Vector3f(WIDTH + 50, 0, -HEIGHT))),
+        new Graph.Edge(new Graph.WayPoint("a2", new Vector3f(WIDTH + 50, 0, -HEIGHT)),
+        new Graph.WayPoint("a3", new Vector3f(WIDTH + 50, 0, -50))),
+        new Graph.Edge(new Graph.WayPoint("a3", new Vector3f(WIDTH + 50, 0, -50)),
+        new Graph.WayPoint("a4", new Vector3f(WIDTH, 0, -50))),
+        //rivership platform
+        new Graph.Edge(new Graph.WayPoint("b1", new Vector3f(WIDTH, 0, 50)),
+        new Graph.WayPoint("b2", new Vector3f(WIDTH + 50, 0, 50))),
+        new Graph.Edge(new Graph.WayPoint("b2", new Vector3f(WIDTH + 50, 0, 50)),
+        new Graph.WayPoint("b3", new Vector3f(WIDTH + 50, 0, HEIGHT))),
+        new Graph.Edge(new Graph.WayPoint("b3", new Vector3f(WIDTH + 50, 0, HEIGHT)),
+        new Graph.WayPoint("b4", new Vector3f(WIDTH, 0, HEIGHT))),
+        //seaship platform
+        new Graph.Edge(new Graph.WayPoint("b4", new Vector3f(WIDTH, 0, HEIGHT)),
+        new Graph.WayPoint("c2", new Vector3f(WIDTH, 0, HEIGHT + 50))),
+        new Graph.Edge(new Graph.WayPoint("c2", new Vector3f(WIDTH, 0, HEIGHT + 50)),
+        new Graph.WayPoint("c3", new Vector3f(-WIDTH, 0, HEIGHT + 50))),
+        new Graph.Edge(new Graph.WayPoint("c3", new Vector3f(-WIDTH, 0, HEIGHT + 50)),
+        new Graph.WayPoint("c4", new Vector3f(-WIDTH, 0, HEIGHT))),
+        //train platform
+        new Graph.Edge(new Graph.WayPoint("c4", new Vector3f(-WIDTH, 0, HEIGHT)),
+        new Graph.WayPoint("d2", new Vector3f(-WIDTH - 50, 0, HEIGHT))),
+        new Graph.Edge(new Graph.WayPoint("d2", new Vector3f(-WIDTH - 50, 0, HEIGHT)),
+        new Graph.WayPoint("d3", new Vector3f(-WIDTH - 50, 0, -HEIGHT))),
+        new Graph.Edge(new Graph.WayPoint("d3", new Vector3f(-WIDTH - 50, 0, -HEIGHT)),
+        new Graph.WayPoint("d4", new Vector3f(-WIDTH, 0, -HEIGHT))),
+        //Parkinglots
+        new Graph.Edge(new Graph.WayPoint("a1", new Vector3f(WIDTH, 0, -(HEIGHT))),
+        new Graph.WayPoint("truckParking", new Vector3f(WIDTH - 32.5f, 0, -(HEIGHT) + 40))),
+        new Graph.Edge(new Graph.WayPoint("truckParking", new Vector3f(WIDTH - 32.5f, 0, -(HEIGHT) + 40)),
+        new Graph.WayPoint("a1", new Vector3f(WIDTH, 0, -(HEIGHT))))};
 
     public ShortestPath() {
         truckParking = new AGV[parkinglotSize];
@@ -77,22 +116,23 @@ class Graph {
             this.v2 = v2.name;
             this.l1 = v1.location;
             this.l2 = v2.location;
-            if(v1.location.x != v2.location.x)
-            	this.dist = (int) Math.abs(v2.location.x - v1.location.x);
-            else
-            	this.dist = (int) Math.abs(v2.location.z - v1.location.z);
+            if (v1.location.x != v2.location.x) {
+                this.dist = (int) Math.abs(v2.location.x - v1.location.x);
+            } else {
+                this.dist = (int) Math.abs(v2.location.z - v1.location.z);
+            }
         }
     }
-    
-    public static class WayPoint
-    {
-    	public Vector3f location;
-    	public String name;
-    	public WayPoint(String name, Vector3f location)
-    	{
-    		this.name = name;
-    		this.location = location;
-    	}
+
+    public static class WayPoint {
+
+        public Vector3f location;
+        public String name;
+
+        public WayPoint(String name, Vector3f location) {
+            this.name = name;
+            this.location = location;
+        }
     }
 
     /**
@@ -121,9 +161,9 @@ class Graph {
                 System.out.printf(" -> %s(%s)", this.name, this.loc);
             }
         }
-        
-        private void getLocations() {        	
-        	if (this == this.previous) {
+
+        private void getLocations() {
+            if (this == this.previous) {
                 list.add(this.loc);
             } else if (this.previous == null) {
                 System.out.printf("%s(unreached)", this.name);
@@ -220,9 +260,8 @@ class Graph {
         graph.get(endName).printPath();
         System.out.println();
     }
-    
-    public List<Vector3f> getLocations(String endName)
-    {
+
+    public List<Vector3f> getLocations(String endName) {
         if (!graph.containsKey(endName)) {
             System.err.printf("Graph doesn't contain end vertex \"%s\"\n", endName);
             return null;

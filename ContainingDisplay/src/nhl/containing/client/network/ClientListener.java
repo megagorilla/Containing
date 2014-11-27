@@ -23,6 +23,7 @@ public class ClientListener implements MessageListener<Client>
 	
 	private void handleUpdateMessage(UpdateMessage message)
 	{
+            int i = 0;
 		for(AGVData data : message.data)
 		{
 			MotionPath path = new MotionPath();
@@ -31,13 +32,14 @@ public class ClientListener implements MessageListener<Client>
 			path.setCurveTension(0.0f);
 			//path.setCycle(true);
 			path.enableDebugShape(ContainingClient.getMyAssetManager(), ContainingClient.getMyRootNode());
-			MotionEvent motionControl = new MotionEvent(ContainingClient.agv, path);
+			MotionEvent motionControl = new MotionEvent(ContainingClient.getAGV(i), path);
 	        motionControl.setDirectionType(MotionEvent.Direction.PathAndRotation);
 	        motionControl.setRotation(new Quaternion().fromAngleNormalAxis(0, Vector3f.UNIT_Y));
 	        motionControl.setInitialDuration(100f);
 	        motionControl.setSpeed(2f);  
 	        motionControl.play();
 			System.out.println(System.currentTimeMillis());
+                        i++;
 		}
 	}
 }
