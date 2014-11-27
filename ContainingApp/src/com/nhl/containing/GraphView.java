@@ -75,97 +75,7 @@ public class GraphView {
 			case 7:
 				this.setDescription("Others");
 				break;
-			}
-			
-		// Tijdelijke variabelen
-//		int count = 45;
-//		float range = 100;
-//		
-////		try {
-////			JSONArray js = api.getData();
-////			System.out.println(js);
-////		} catch (Exception ex) {
-////			System.out.println("No Data Found");
-////		}
-//		
-//		// Hier data verzamelen uit JSON
-////		if (type > 0) {
-////			JSONArray data = api.getData();
-////			
-////			if (data != null) {
-////				try {
-////					Object inputData = data.get(type);
-////					// Hier verder afhandelen
-////					
-////				} catch (JSONException e) {
-////					e.printStackTrace();
-////				}
-////			}
-////		} // enz.
-//
-//        ArrayList<String> xVals = new ArrayList<String>();
-//        for (int i = 0; i < count; i++) {
-//            xVals.add((i) + "");
-//        }
-//        
-//        ArrayList<String> yData = new ArrayList<String>();
-//        yData.add("13:10");
-//        yData.add("13:11");
-//        yData.add("13:12");
-//        yData.add("13:13");
-//        yData.add("13:14");
-//        yData.add("13:15");
-//
-//        ArrayList<Entry> yVals = new ArrayList<Entry>();
-//
-//        for (int i = 0; i < count; i++) {
-//            float mult = (range + 1);
-//            float val = (float) (Math.random() * mult) + 3;// + (float)
-//                                                           // ((mult *
-//                                                           // 0.1) / 10);
-//            yVals.add(new Entry(val, i));
-//        }
-//
-//        // create a dataset and give it a type
-//        LineDataSet set1 = new LineDataSet(yVals, "# of containers");
-//        // set1.setFillAlpha(110);
-//        // set1.setFillColor(Color.RED);
-//
-//        // set the line to be drawn like this "- - - - - -"
-//        set1.enableDashedLine(10f, 5f, 0f);
-//        set1.setColor(Color.BLACK);
-//        set1.setCircleColor(Color.BLACK);
-//        set1.setLineWidth(1f);
-//        set1.setCircleSize(4f);
-//        set1.setFillAlpha(65);
-//        set1.setFillColor(Color.BLACK);
-//        // set1.setShader(new LinearGradient(0, 0, 0, mChart.getHeight(),
-//        // Color.BLACK, Color.WHITE, Shader.TileMode.MIRROR));
-//
-//        ArrayList<LineDataSet> dataSets = new ArrayList<LineDataSet>();
-//        dataSets.add(set1); // add the datasets
-//
-//        // create a data object with the datasets
-//        LineData data = new LineData(xVals, dataSets);
-//
-//        LimitLine ll1 = new LimitLine(130f);
-//        ll1.setLineWidth(4f);
-//        ll1.enableDashedLine(10f, 10f, 0f);
-//        ll1.setDrawValue(true);
-//        ll1.setLabelPosition(LimitLabelPosition.RIGHT);
-//
-//        LimitLine ll2 = new LimitLine(-30f);
-//        ll2.setLineWidth(4f);
-//        ll2.enableDashedLine(10f, 10f, 0f);
-//        ll2.setDrawValue(true);
-//        ll2.setLabelPosition(LimitLabelPosition.RIGHT);
-//
-//        data.addLimitLine(ll1);
-//        data.addLimitLine(ll2);
-//
-//        // set data
-//        mChart.setData(data);
-        //mChart.postInvalidate();
+		}
     }
 	
 	/**
@@ -186,7 +96,7 @@ public class GraphView {
 		
 		System.out.println("In de lijst zit: "+list2);
 
-		int count = list2.size();
+		int count = 0;
 		float range = 100;
 
 		
@@ -195,6 +105,7 @@ public class GraphView {
         ArrayList<Entry> yVals = new ArrayList<Entry>();
 		
 		if ((currentList == 1) || (currentList == 2)) {
+			count = list2.size();
 			int i = 0;
 	        for(ListData d : list2) {
 	        	Date date = new java.util.Date(d.getTime());
@@ -204,6 +115,7 @@ public class GraphView {
 	        }
 		}
 		if (currentList == 3) {
+			count = list3.size();
 			int i = 0;
 	        for(ListData d : list3) {
 	        	Date date = new java.util.Date(d.getTime());
@@ -213,6 +125,7 @@ public class GraphView {
 	        }
 		}
 		if (currentList == 4) {
+			count = list4.size();
 			int i = 0;
 	        for(ListData d : list4) {
 	        	Date date = new java.util.Date(d.getTime());
@@ -222,6 +135,7 @@ public class GraphView {
 	        }
 		}
 		if (currentList == 5) {
+			count = list5.size();
 			int i = 0;
 	        for(ListData d : list5) {
 	        	Date date = new java.util.Date(d.getTime());
@@ -231,6 +145,7 @@ public class GraphView {
 	        }
 		}
 		if (currentList == 6) {
+			count = list6.size();
 			int i = 0;
 	        for(ListData d : list6) {
 	        	Date date = new java.util.Date(d.getTime());
