@@ -75,8 +75,7 @@ public class APIHandler {
 	 * @return The data which the server returned
 	 */
 	public JSONObject doPOST(String url, ArrayList<NameValuePair> params) {
-		AsyncTask output = new RetrieveFeedTask(this).execute(_url);
-		
+		AsyncTask output = new RetrieveFeedTask(this).execute();
 		return this._obj;
 	}
 	
@@ -84,7 +83,7 @@ public class APIHandler {
 		this._obj = obj;
 	}
 	
-	class RetrieveFeedTask extends AsyncTask<String, Void, JSONObject> {
+	class RetrieveFeedTask extends AsyncTask<Void, Void, JSONObject> {
 		
 		JSONObject returnvalue;
 		APIHandler _api;
@@ -98,7 +97,7 @@ public class APIHandler {
 	    }
 
 		@Override
-		protected JSONObject doInBackground(String... params) {
+		protected JSONObject doInBackground(Void... params) {
 			try {
 				HttpClient httpclient = new DefaultHttpClient();
 				HttpPost httppost = new HttpPost("http://feenstraim.com/api.php");

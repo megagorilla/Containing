@@ -1,7 +1,23 @@
 package com.nhl.containing;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.Activity;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
@@ -31,6 +47,8 @@ public class MainActivity extends ActionBarActivity implements
 	private CharSequence mTitle;
 	
 	GraphView mChart;
+	
+	private Handler handler;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +62,9 @@ public class MainActivity extends ActionBarActivity implements
 		// Set up the drawer.
 		mNavigationDrawerFragment.setUp(R.id.navigation_drawer,
 				(DrawerLayout) findViewById(R.id.drawer_layout));
+		    
+	    handler = new Handler();
+	    handler.postDelayed(runnable, 5000);
 
 		// Set the chart to default
 		LineChart lc = (LineChart) findViewById(R.id.chart);
@@ -51,6 +72,17 @@ public class MainActivity extends ActionBarActivity implements
 		
 		lc = mChart.getChart();
 	}
+	
+	private Runnable runnable = new Runnable() {
+	   @Override
+	   public void run() {
+	      /* do what you need to do */
+	      new RetrieveDataTask().execute("");
+	      mChart.update();
+	      /* and here comes the "trick" */
+	      handler.postDelayed(this, 5000);
+	   }
+	};
 	
 	/**
 	 * This method updates the Chart when an item from the
@@ -173,5 +205,51 @@ public class MainActivity extends ActionBarActivity implements
 			((MainActivity) activity).onSectionAttached(getArguments().getInt(
 					ARG_SECTION_NUMBER));
 		}
+	}
+	
+	class RetrieveDataTask extends AsyncTask<String, Void, JSONObject> {
+
+		@Override
+		protected JSONObject doInBackground(String... params) {
+			try {
+				HttpClient httpclient = new DefaultHttpClient();
+				HttpPost httppost = new HttpPost("http://feenstraim.com/api.php");
+				HttpResponse response = httpclient.execute(httppost);
+				HttpEntity entity = response.getEntity();
+				if (entity != null) {
+					InputStream is = entity.getContent();
+					InputStreamReader isr = new InputStreamReader(is);
+					BufferedReader br = new BufferedReader(isr);
+					String read = br.readLine();
+					JSONObject output = new JSONObject(read);
+					is.close();
+					return output;
+				} else {
+					System.out.println("Network: Entity = null");
+					return null;
+				}
+			} catch (Exception ex) {
+				ex.printStackTrace();
+				return null;
+			}
+		}
+
+		protected void onPostExecute(JSONObject result) {
+			System.out.println("onPostExecute: "+result);
+			if (result != null) {
+				try {
+					Constants.setStorage(MainActivity.this, "Train", result.getJSONObject("data").getString("Train"));
+					Constants.setStorage(MainActivity.this, "Truck", result.getJSONObject("data").getString("Truck"));
+					Constants.setStorage(MainActivity.this, "Storage", result.getJSONObject("data").getString("Storage"));
+					Constants.setStorage(MainActivity.this, "Ship", result.getJSONObject("data").getString("Ship"));
+					Constants.setStorage(MainActivity.this, "Others", result.getJSONObject("data").getString("Others"));
+					Constants.setStorage(MainActivity.this, "Seaship", result.getJSONObject("data").getString("Seaship"));
+					
+					//GraphView.update();
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			}
+	    }
 	}
 }

@@ -17,13 +17,20 @@ public class GraphView {
 
 	public static LineChart mChart;
 	private APIHandler api;
-	//private ArrayList<Integer> mData;
+	public static ArrayList<String> list1, list2, list3, list4, list5, list6, list7;
 	
 	public GraphView(LineChart lc) {
 		mChart = lc;
 		mChart.setDescription("All containers");
 		setData(1);
-		api = new APIHandler("http://feenstraim.com/api.php");
+		//api = new APIHandler("http://feenstraim.com/api.php");
+		list1 = new ArrayList<String>();
+		list2 = new ArrayList<String>();
+		list3 = new ArrayList<String>();
+		list4 = new ArrayList<String>();
+		list5 = new ArrayList<String>();
+		list6 = new ArrayList<String>();
+		list7 = new ArrayList<String>();
 	}
 	
 	/**
@@ -36,9 +43,10 @@ public class GraphView {
 	
 	/**
 	 * Sets the data showed in the Chart
-	 * @param type The type of chart that is requested
 	 */
 	public void setData(int type) {
+		
+		System.out.println("GraphView.setData()");
 
 		switch (type) {
 			case 1:
@@ -68,12 +76,12 @@ public class GraphView {
 		int count = 45;
 		float range = 100;
 		
-		try {
-			JSONArray js = api.getData();
-			System.out.println(js);
-		} catch (Exception ex) {
-			System.out.println("No Data Found");
-		}
+//		try {
+//			JSONArray js = api.getData();
+//			System.out.println(js);
+//		} catch (Exception ex) {
+//			System.out.println("No Data Found");
+//		}
 		
 		// Hier data verzamelen uit JSON
 //		if (type > 0) {
@@ -161,5 +169,67 @@ public class GraphView {
 	 */
 	public LineChart getChart() {
 		return mChart;
+	}
+
+	public void update() {
+		
+		int count = 45;
+		float range = 100;
+		
+		ArrayList<String> xVals = new ArrayList<String>();
+        for (int i = 0; i < count; i+=2) {
+            xVals.add((i) + "");
+        }
+
+        ArrayList<Entry> yVals = new ArrayList<Entry>();
+
+        for (int i = 0; i < count; i+=2) {
+            float mult = (range + 1);
+            float val = (float) (Math.random() * mult) + 3;// + (float)
+                                                           // ((mult *
+                                                           // 0.1) / 10);
+            yVals.add(new Entry(val, i));
+        }
+
+        // create a dataset and give it a type
+        LineDataSet set1 = new LineDataSet(yVals, "# of containers");
+        // set1.setFillAlpha(110);
+        // set1.setFillColor(Color.RED);
+
+        // set the line to be drawn like this "- - - - - -"
+        set1.enableDashedLine(10f, 5f, 0f);
+        set1.setColor(Color.BLACK);
+        set1.setCircleColor(Color.BLACK);
+        set1.setLineWidth(1f);
+        set1.setCircleSize(4f);
+        set1.setFillAlpha(65);
+        set1.setFillColor(Color.BLACK);
+        // set1.setShader(new LinearGradient(0, 0, 0, mChart.getHeight(),
+        // Color.BLACK, Color.WHITE, Shader.TileMode.MIRROR));
+
+        ArrayList<LineDataSet> dataSets = new ArrayList<LineDataSet>();
+        dataSets.add(set1); // add the datasets
+
+        // create a data object with the datasets
+        LineData data = new LineData(xVals, dataSets);
+
+        LimitLine ll1 = new LimitLine(130f);
+        ll1.setLineWidth(4f);
+        ll1.enableDashedLine(10f, 10f, 0f);
+        ll1.setDrawValue(true);
+        ll1.setLabelPosition(LimitLabelPosition.RIGHT);
+
+        LimitLine ll2 = new LimitLine(-30f);
+        ll2.setLineWidth(4f);
+        ll2.enableDashedLine(10f, 10f, 0f);
+        ll2.setDrawValue(true);
+        ll2.setLabelPosition(LimitLabelPosition.RIGHT);
+
+        data.addLimitLine(ll1);
+        data.addLimitLine(ll2);
+
+        // set data
+        mChart.setData(data);
+        mChart.postInvalidate();
 	}
 }
