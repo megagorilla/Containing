@@ -21,6 +21,7 @@ import android.util.Log;
 public class APIHandler {
 	
 	String _url;
+	JSONObject _obj;
 	
 	public APIHandler(String url) {
 		this._url = url;
@@ -74,14 +75,31 @@ public class APIHandler {
 	 * @return The data which the server returned
 	 */
 	public JSONObject doPOST(String url, ArrayList<NameValuePair> params) {
-		JSONObject output = new RetrieveFeedTask().execute(_url);
-		return output;
+		AsyncTask output = new RetrieveFeedTask(this).execute(_url);
+		
+		return this._obj;
+	}
+	
+	public void setData(JSONObject obj) {
+		this._obj = obj;
 	}
 	
 	class RetrieveFeedTask extends AsyncTask<String, Void, JSONObject> {
+		
+		JSONObject returnvalue;
+		APIHandler _api;
+		
+		public RetrieveFeedTask(APIHandler api) {
+			_api = api;
+		}
 
-	    protected JSONObject doInBackground(String... urls) {
-	    	try {
+	    protected void onPostExecute(JSONObject result) {
+	    	this.returnvalue = result;
+	    }
+
+		@Override
+		protected JSONObject doInBackground(String... params) {
+			try {
 				HttpClient httpclient = new DefaultHttpClient();
 				HttpPost httppost = new HttpPost("http://feenstraim.com/api.php");
 				HttpResponse response = httpclient.execute(httppost);
@@ -102,10 +120,10 @@ public class APIHandler {
 				Log.e("HTTP", "Error in http connection " + e);
 				return null;
 			}
-	    }
-
-	    protected void onPostExecute() {
-	    	
-	    }
+		}
+		
+		public void getReturnValue() {
+			_api.setData(returnvalue);
+		}
 	}
 }
