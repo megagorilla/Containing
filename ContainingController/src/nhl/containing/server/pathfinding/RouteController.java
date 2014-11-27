@@ -29,7 +29,6 @@ public class RouteController extends ShortestPath {
     public static void main(String[] args) {
         agv = new AGV(500);
         r = new RouteController();
-        r.sendAGV("a1", "c2");
         r.fillParkingLots();
     }
 
@@ -56,17 +55,17 @@ public class RouteController extends ShortestPath {
             //smallShipParking[i] = new AGV(i + s.parkinglotSize * 2, "", "", 0, false);
             //bigShipParking[i] = new AGV(i + s.parkinglotSize * 3, "", "", 0, false);
         }
-        for (int i = 0; i < s.parkinglotSize; i++) {
-            //System.out.println(truckParking[i].getAgvId());
-        }
-        for (int i = 0; i < s.parkinglotSize; i++) {
-            //System.out.println(trainParking[i].getAgvId());
-        }
-        for (int i = 0; i < s.parkinglotSize; i++) {
-            //System.out.println(smallShipParking[i].getAgvId());
-        }
-        for (int i = 0; i < s.parkinglotSize; i++) {
-            //System.out.println(bigShipParking[i].getAgvId());
-        }
+//        for (int i = 0; i < s.parkinglotSize; i++) {
+//            System.out.println(truckParking[i].getAgvId());
+//        }
+//        for (int i = 0; i < s.parkinglotSize; i++) {
+//            System.out.println(trainParking[i].getAgvId());
+//        }
+//        for (int i = 0; i < s.parkinglotSize; i++) {
+//            System.out.println(smallShipParking[i].getAgvId());
+//        }
+//        for (int i = 0; i < s.parkinglotSize; i++) {
+//            System.out.println(bigShipParking[i].getAgvId());
+//        }
     }
 }

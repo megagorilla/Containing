@@ -23,6 +23,7 @@ public class ClientListener implements MessageListener<Client>
 	
 	private void handleUpdateMessage(UpdateMessage message)
 	{
+            int i = 0;
 		for(AGVData data : message.data)
 		{
 			MotionPath path = new MotionPath();
@@ -38,6 +39,7 @@ public class ClientListener implements MessageListener<Client>
 	        motionControl.setSpeed(2f);  
 	        motionControl.play();
 			System.out.println(System.currentTimeMillis());
+                        i++;
 		}
 	}
 }

@@ -22,7 +22,6 @@ import nhl.containing.client.ContainingClient.Quality;
 import nhl.containing.client.entities.cranes.StorageCrane;
 import nhl.containing.client.entities.cranes.TruckCrane;
 import nhl.containing.client.entities.platforms.OpslagPlatform;
-import nhl.containing.client.entities.platforms.SeaShipPlatform;
 import nhl.containing.client.entities.platforms.TrainPlatform;
 import nhl.containing.client.entities.platforms.TruckPlatform;
 
@@ -34,6 +33,16 @@ import nhl.containing.client.entities.platforms.TruckPlatform;
 public class ContainingClient extends SimpleApplication {
     
     private DirectionalLight sun;
+    
+    public static  AGV getAGV(int i)
+    {
+        switch(i)
+        {
+            case 0: return agv;
+            case 1: return agv1;
+            default: return agv;
+        }
+    }
     
     public enum Quality {
         
@@ -68,7 +77,7 @@ public class ContainingClient extends SimpleApplication {
         
         for(int i = 0; i < 5; i++)
         	agvs.add(new AGV(Quality.HIGH));
-        
+
         ConnectionManager.init("localhost", 3000);
 
         sun = new DirectionalLight();
@@ -84,6 +93,7 @@ public class ContainingClient extends SimpleApplication {
         Platforms.add(new TrainPlatform());        
         Platforms.add(new TruckPlatform());        
         Platforms.add(new BinnenvaartschipPlatform());
+                Platforms.add(new OpslagPlatform());
         
         
         for (int i = 0; i < 20; i++) {
