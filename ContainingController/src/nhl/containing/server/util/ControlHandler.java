@@ -29,10 +29,11 @@ public class ControlHandler
 		instance = this;
 	}
 	
-	public void sendAGV(String destination, int id)
+	public void sendAGV(String destination, int id, String cl)
 	{
 		AGV agv = AGVHandler.getInstance().getFreeAGV();
 		RouteController controller = new RouteController();
+		agv.currentLocation = cl;
 		List<Vector3f> list = controller.sendAGV(agv.currentLocation, destination);
 		
 		UpdateMessage message = new UpdateMessage(Integer.toString(id));
