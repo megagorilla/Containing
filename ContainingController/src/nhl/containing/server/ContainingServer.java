@@ -55,11 +55,11 @@ public class ContainingServer extends SimpleApplication
 	{
 		if(!hasSent && ConnectionManager.hasConnections())
 		{
-			ControlHandler.getInstance().sendAGV("d2", 0, "");
-			ControlHandler.getInstance().sendAGV("a4", 1, "");
-			ControlHandler.getInstance().sendAGV("a3", 2, "");
-			ControlHandler.getInstance().sendAGV("c2", 3, "");
-			ControlHandler.getInstance().sendAGV("b4", 4, "");
+			ControlHandler.getInstance().sendAGV("a3", 0, "a4.4");
+			//ControlHandler.getInstance().sendAGV("a4", 1, "");
+			//ControlHandler.getInstance().sendAGV("a3", 2, "");
+			//ControlHandler.getInstance().sendAGV("c2", 3, "");
+			//ControlHandler.getInstance().sendAGV("b4", 4, "");
 			hasSent = true;
 		}
 	}
