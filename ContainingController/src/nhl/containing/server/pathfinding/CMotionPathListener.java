@@ -1,5 +1,6 @@
 package nhl.containing.server.pathfinding;
 
+import nhl.containing.server.platformhandlers.TruckPlatformHandler;
 import nhl.containing.server.util.ServerSpatial;
 
 import com.jme3.cinematic.MotionPathListener;
@@ -25,6 +26,18 @@ public class CMotionPathListener implements MotionPathListener
 			AGV agv = spatial.agv;
 			agv.currentLocation = spatial.destination;
 			AGVHandler.getInstance().setAGV(agv.agvId, agv);
+			
+			switch(AGVHandler.getInstance().getAGV(spatial.agv.agvId).currentLocation)
+			{
+				case "a2":
+					handleAGVTruckPlatform(spatial.agv.agvId);
+			}
 		}
+	}
+	
+	private void handleAGVTruckPlatform(int id)
+	{
+		AGV agv = AGVHandler.getInstance().getAGV(id);
+		TruckPlatformHandler.getInstance().handleAGV(agv);
 	}
 }
