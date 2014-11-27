@@ -49,6 +49,7 @@ public class MainActivity extends ActionBarActivity implements
 	GraphView mChart;
 	
 	private Handler handler;
+	public String url;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +66,7 @@ public class MainActivity extends ActionBarActivity implements
 		    
 	    handler = new Handler();
 	    handler.postDelayed(runnable, 5000);
+	    url = Constants.getStorage(this, "conurl");
 
 		// Set the chart to default
 		LineChart lc = (LineChart) findViewById(R.id.chart);
@@ -77,7 +79,7 @@ public class MainActivity extends ActionBarActivity implements
 	   @Override
 	   public void run() {
 	      /* do what you need to do */
-	      new RetrieveDataTask().execute("");
+	      new RetrieveDataTask().execute(url);
 	      mChart.update();
 	      /* and here comes the "trick" */
 	      handler.postDelayed(this, 5000);
@@ -213,7 +215,7 @@ public class MainActivity extends ActionBarActivity implements
 		protected JSONObject doInBackground(String... params) {
 			try {
 				HttpClient httpclient = new DefaultHttpClient();
-				HttpPost httppost = new HttpPost("http://feenstraim.com/api.php");
+				HttpPost httppost = new HttpPost(params[0]);
 				HttpResponse response = httpclient.execute(httppost);
 				HttpEntity entity = response.getEntity();
 				if (entity != null) {
