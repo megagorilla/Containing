@@ -20,7 +20,13 @@ public class AGV
     
     public AGV(int agvId)
     {
-        this.agvId = agvId;
+        this(agvId, "a1");
+    }
+    
+    public AGV(int agvId, String currentLocation)
+    {
+    	this.agvId = agvId;
+    	this.currentLocation = currentLocation;
     }
     
     public void setLoaded(boolean loaded)

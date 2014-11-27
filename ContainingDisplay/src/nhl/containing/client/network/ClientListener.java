@@ -31,7 +31,7 @@ public class ClientListener implements MessageListener<Client>
 			path.setCurveTension(0.0f);
 			//path.setCycle(true);
 			path.enableDebugShape(ContainingClient.getMyAssetManager(), ContainingClient.getMyRootNode());
-			MotionEvent motionControl = new MotionEvent(ContainingClient.agv, path);
+			MotionEvent motionControl = new MotionEvent(ContainingClient.agvs.get(Integer.parseInt(message.msg)), path);
 	        motionControl.setDirectionType(MotionEvent.Direction.PathAndRotation);
 	        motionControl.setRotation(new Quaternion().fromAngleNormalAxis(0, Vector3f.UNIT_Y));
 	        motionControl.setInitialDuration(100f);

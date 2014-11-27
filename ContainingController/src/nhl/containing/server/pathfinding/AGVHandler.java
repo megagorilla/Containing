@@ -6,7 +6,7 @@ import nhl.containing.server.util.XMLFileReader.Container;
 
 public class AGVHandler
 {
-	public static AGVHandler instance;
+	private static AGVHandler instance;
 	public HashMap<Integer, AGV> agvs = new HashMap<Integer, AGV>();
 	
 	public AGVHandler()

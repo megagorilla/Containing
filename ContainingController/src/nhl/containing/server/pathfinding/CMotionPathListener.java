@@ -19,10 +19,12 @@ public class CMotionPathListener implements MotionPathListener
 			System.out.println(motionControl.getSpatial().getName() + " has reached way point " + wayPointIndex);
 		}
 		
-		if(motionControl.getSpatial() instanceof ServerSpatial)
+		if(motionControl.getSpatial() instanceof ServerSpatial && motionControl.getPath().getNbWayPoints() == wayPointIndex + 1)
 		{
 			ServerSpatial spatial = (ServerSpatial)motionControl.getSpatial();
 			AGV agv = spatial.agv;
+			agv.currentLocation = spatial.destination;
+			AGVHandler.getInstance().setAGV(agv.agvId, agv);
 		}
 	}
 }

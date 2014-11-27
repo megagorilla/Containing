@@ -17,13 +17,25 @@ import com.jme3.math.Vector3f;
 
 public class ControlHandler
 {
-	public void sendAGV(String destination)
+	private static ControlHandler instance;
+	
+	public static ControlHandler getInstance()
+	{
+		return instance;
+	}
+	
+	public ControlHandler()
+	{
+		instance = this;
+	}
+	
+	public void sendAGV(String destination, int id)
 	{
 		AGV agv = AGVHandler.getInstance().getFreeAGV();
 		RouteController controller = new RouteController();
 		List<Vector3f> list = controller.sendAGV(agv.currentLocation, destination);
 		
-		UpdateMessage message = new UpdateMessage("AGVData");
+		UpdateMessage message = new UpdateMessage(Integer.toString(id));
 		message.addData(agv.agvId, list);
 		ConnectionManager.sendCommand(message);
 		
@@ -33,7 +45,7 @@ public class ControlHandler
 		path.setCurveTension(0.0f);
 		path.addListener(new CMotionPathListener());
 		
-		ServerSpatial spatial = new ServerSpatial(agv);
+		ServerSpatial spatial = new ServerSpatial(agv, destination);
         ContainingServer.getRoot().attachChild(spatial);
 
 		MotionEvent motionControl = new MotionEvent(spatial, path);

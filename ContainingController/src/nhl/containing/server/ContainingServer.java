@@ -5,8 +5,10 @@ import java.util.List;
 import nhl.containing.server.network.API;
 import nhl.containing.server.network.ConnectionManager;
 import nhl.containing.server.network.UpdateMessage;
+import nhl.containing.server.pathfinding.AGVHandler;
 import nhl.containing.server.pathfinding.CMotionPathListener;
 import nhl.containing.server.pathfinding.RouteController;
+import nhl.containing.server.util.ControlHandler;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.cinematic.MotionPath;
@@ -39,6 +41,9 @@ public class ContainingServer extends SimpleApplication
 	{
 		staticRootNode = this.getRootNode();
 		route = new RouteController();
+		new ControlHandler();
+		new AGVHandler();
+		AGVHandler.getInstance().init();
 		ConnectionManager.initialize(3000);
 		API.start(8080);
 		
@@ -48,14 +53,13 @@ public class ContainingServer extends SimpleApplication
 	@Override
 	public void simpleUpdate(float tpf)
 	{
-		if(!hasSent)
+		if(!hasSent && ConnectionManager.hasConnections())
 		{
-
-//			UpdateMessage m = new UpdateMessage("hai");
-//			List<Vector3f> list = route.sendAGV("d2", "b3");
-//			m.addData(0, list);
-//			ConnectionManager.sendCommand(m);
-//			System.out.println(System.currentTimeMillis());
+			ControlHandler.getInstance().sendAGV("d2", 0);
+			ControlHandler.getInstance().sendAGV("a4", 1);
+			ControlHandler.getInstance().sendAGV("a3", 2);
+			ControlHandler.getInstance().sendAGV("c2", 3);
+			ControlHandler.getInstance().sendAGV("b4", 4);
 			hasSent = true;
 		}
 	}

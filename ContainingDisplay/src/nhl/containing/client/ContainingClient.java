@@ -45,6 +45,7 @@ public class ContainingClient extends SimpleApplication {
     private static ViewPort myViewPort;
     MotionEvent motionControl;
     public static AGV agv;
+    public static ArrayList<AGV> agvs = new ArrayList<AGV>();
     ArrayList<StorageCrane> StorageCranes = new ArrayList<StorageCrane>();
     ArrayList<TruckCrane> TruckCranes = new ArrayList<TruckCrane>();
     ArrayList<Platform> Platforms = new ArrayList<Platform>();
@@ -65,7 +66,8 @@ public class ContainingClient extends SimpleApplication {
         cam.setFrustumFar(5000);
         cam.onFrameChange();
         
-        agv = new AGV(quality);
+        for(int i = 0; i < 5; i++)
+        	agvs.add(new AGV(Quality.HIGH));
         
         ConnectionManager.init("localhost", 3000);
 
@@ -74,8 +76,8 @@ public class ContainingClient extends SimpleApplication {
         sun.setColor(ColorRGBA.White);
         rootNode.addLight(sun);        
         
-        SeaNode sea = new SeaNode();
-        this.getRootNode().attachChild(sea);
+        //SeaNode sea = new SeaNode();
+        //this.getRootNode().attachChild(sea);
         
         Platforms.add(new OpslagPlatform());
         Platforms.add(new SeaShipPlatform());
