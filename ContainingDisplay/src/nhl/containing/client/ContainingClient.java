@@ -19,11 +19,14 @@ import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
 import com.jme3.util.SkyFactory;
+
 import java.util.ArrayList;
+
 import nhl.containing.client.ContainingClient.Quality;
 import nhl.containing.client.entities.Crane;
 import nhl.containing.client.entities.cranes.StorageCrane;
 import nhl.containing.client.entities.cranes.TruckCrane;
+import nhl.containing.client.entities.platforms.SeaShipPlatform;
 import nhl.containing.client.entities.platforms.StoragePlatform;
 import nhl.containing.client.entities.platforms.TrainPlatform;
 import nhl.containing.client.entities.platforms.TruckPlatform;
@@ -38,16 +41,6 @@ import nhl.containing.client.entities.vehicles.Truck;
 public class ContainingClient extends SimpleApplication {
     
     private DirectionalLight sun;
-    
-    public static  AGV getAGV(int i)
-    {
-        switch(i)
-        {
-            case 0: return agv;
-            case 1: return agv1;
-            default: return agv;
-        }
-    }
     
     public enum Quality {
         
@@ -67,9 +60,6 @@ public class ContainingClient extends SimpleApplication {
         ArrayList<AGV> AGVs = new ArrayList<AGV>();
         ArrayList<Truck> Trucks = new ArrayList<Truck>();
         private MotionPath path;
-        private MotionEvent motionControl;
-        Container test;
-        Container test2;
         
         private boolean up = false;
         private boolean right = false;
@@ -109,7 +99,6 @@ public class ContainingClient extends SimpleApplication {
         Platforms.add(new TrainPlatform());        
         Platforms.add(new TruckPlatform());        
 		Platforms.add(new RiverShipPlatform());
-                Platforms.add(new OpslagPlatform());
         
         
         for (int i = 0; i < 20; i++) {
@@ -143,9 +132,9 @@ public class ContainingClient extends SimpleApplication {
                 
                 //for(int i=0;i<21;i++)
                 //{
-                    test2 = new Container(quality);
-                    test2.setLocalTranslation(380, 1, -750); //+25*i
-                    test2.rotate(0, FastMath.HALF_PI, 0);
+                    //test2 = new Container(quality);
+                    //test2.setLocalTranslation(380, 1, -750); //+25*i
+                    //test2.rotate(0, FastMath.HALF_PI, 0);
                 //}
                 
                 //test2 = new Container(quality);
@@ -155,47 +144,47 @@ public class ContainingClient extends SimpleApplication {
     
     @Override
     public void simpleUpdate(float tpf) {
-             /*if(up == false)
-             {
-                 test2.setLocalTranslation(                   
-                 0,
-                 0,
-                 -8);
-             }
-             //System.out.println(StorageCranes.get(19).getGrabber().getLocalTranslation().y);
-
-             if(StorageCranes.get(19).getGrabber().getLocalTranslation().y < 2.7f && StorageCranes.get(19).getGrabber().getLocalTranslation().y > 1.0f)
-             {
-                 up = true;
-                 right = false;
-                 System.out.println("l");
-             }             
-             if(up)
-             {             
-                test.setLocalTranslation(
-                     StorageCranes.get(19).getGrabber().getLocalTranslation().x-8, 
-                     StorageCranes.get(19).getGrabber().getLocalTranslation().y-2, 
-                     StorageCranes.get(19).getGrabber().getLocalTranslation().z-8);
-             }*/
-             if(TruckCranes.get(0).getGrabber().getLocalTranslation().y < -4.5f && TruckCranes.get(0).getGrabber().getLocalTranslation().y > -5)
-             {
-                 truckup = true;
-                 System.out.println("jaaaaaa");
-             }
-             
-             /*if(truckup == false)
-             {
-                 test2.setLocalTranslation(                   
-                 0,
-                 0,
-                 -8);
-             }*/
-             if(truckup == true)
-             {
-                test2.setLocalTranslation(TruckCranes.get(0).getGrabber().getLocalTranslation().x,
-                                          TruckCranes.get(0).getGrabber().getLocalTranslation().y,
-                                          TruckCranes.get(0).getGrabber().getLocalTranslation().z);
-             }
+//             /*if(up == false)
+//             {
+//                 test2.setLocalTranslation(                   
+//                 0,
+//                 0,
+//                 -8);
+//             }
+//             //System.out.println(StorageCranes.get(19).getGrabber().getLocalTranslation().y);
+//
+//             if(StorageCranes.get(19).getGrabber().getLocalTranslation().y < 2.7f && StorageCranes.get(19).getGrabber().getLocalTranslation().y > 1.0f)
+//             {
+//                 up = true;
+//                 right = false;
+//                 System.out.println("l");
+//             }             
+//             if(up)
+//             {             
+//                test.setLocalTranslation(
+//                     StorageCranes.get(19).getGrabber().getLocalTranslation().x-8, 
+//                     StorageCranes.get(19).getGrabber().getLocalTranslation().y-2, 
+//                     StorageCranes.get(19).getGrabber().getLocalTranslation().z-8);
+//             }*/
+//             if(TruckCranes.get(0).getGrabber().getLocalTranslation().y < -4.5f && TruckCranes.get(0).getGrabber().getLocalTranslation().y > -5)
+//             {
+//                 truckup = true;
+//                 System.out.println("jaaaaaa");
+//             }
+//             
+//             /*if(truckup == false)
+//             {
+//                 test2.setLocalTranslation(                   
+//                 0,
+//                 0,
+//                 -8);
+//             }*/
+//             if(truckup == true)
+//             {
+//                test2.setLocalTranslation(TruckCranes.get(0).getGrabber().getLocalTranslation().x,
+//                                          TruckCranes.get(0).getGrabber().getLocalTranslation().y,
+//                                          TruckCranes.get(0).getGrabber().getLocalTranslation().z);
+//             }
     }
 
     /**
