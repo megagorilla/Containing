@@ -23,12 +23,13 @@ public class ClientListener implements MessageListener<Client>
 	
 	private void handleUpdateMessage(UpdateMessage message)
 	{
-            int i = 0;
 		for(AGVData data : message.data)
 		{
 			MotionPath path = new MotionPath();
 			for(Vector3f v : data.locations)
-				path.addWayPoint(v);
+			{	path.addWayPoint(v);
+				System.out.println(v);
+			}
 			path.setCurveTension(0.0f);
 			//path.setCycle(true);
 			path.enableDebugShape(ContainingClient.getMyAssetManager(), ContainingClient.getMyRootNode());
@@ -39,7 +40,6 @@ public class ClientListener implements MessageListener<Client>
 	        motionControl.setSpeed(2f);  
 	        motionControl.play();
 			System.out.println(System.currentTimeMillis());
-                        i++;
 		}
 	}
 }
