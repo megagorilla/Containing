@@ -18,7 +18,8 @@ import nhl.containing.client.ContainingClient;
  */
 public abstract class Crane extends Node
 {
-	protected Node grabber = new Node();        
+	protected Node grabber = new Node();     
+        protected Node grabber2 = new Node();   
         private MotionPath path;
         private MotionPath path2;
         private MotionEvent motionControl;
@@ -28,10 +29,7 @@ public abstract class Crane extends Node
         
 
 	public Crane()
-	{
-            
-            //MotionY();
-            //MotionX();
+	{            
 	}
 
 	public void moveHookTo(Vector3f location)
@@ -46,9 +44,10 @@ public abstract class Crane extends Node
     {        
             path = new MotionPath();
             path.addWayPoint(new Vector3f(0,25,0));
-            path.addWayPoint(new Vector3f(0,25,-8));
-            path.addWayPoint(new Vector3f(0,2.5f,-8));
-            path.addWayPoint(new Vector3f(0,25,-8));
+            path.addWayPoint(new Vector3f(8,25,0));
+            path.addWayPoint(new Vector3f(8,2.5f,0));
+            path.addWayPoint(new Vector3f(8,25,0));
+            path.addWayPoint(new Vector3f(0,25,0));
            
             path.setCurveTension(0);
             path.enableDebugShape(ContainingClient.getMyAssetManager(), ContainingClient.getMyRootNode());
@@ -59,6 +58,26 @@ public abstract class Crane extends Node
             motionControl.play();        
     }
 
+    public void MotionTruckCraneGrabber()
+    {
+        path2 = new MotionPath();
+        path2.addWayPoint(new Vector3f(0,1,0));
+        path2.addWayPoint(new Vector3f(0,-5,0));
+        path2.addWayPoint(new Vector3f(0,1,0));
+        path2.addWayPoint(new Vector3f(0,1,20));
+        path2.addWayPoint(new Vector3f(0,-5,20));
+        path2.addWayPoint(new Vector3f(0,1,20));
+        path2.addWayPoint(new Vector3f(0,1,0));
+        
+        path2.setCurveTension(0);
+        path2.enableDebugShape(ContainingClient.getMyAssetManager(), ContainingClient.getMyRootNode());
+        motionControl = new MotionEvent(grabber2, path2);
+        motionControl.setDirectionType(MotionEvent.Direction.PathAndRotation);
+        motionControl.setInitialDuration(10f);
+        motionControl.setSpeed(1f);
+        motionControl.play();        
+    }
+    
     public Node getGrabber() {
         return grabber;
     }

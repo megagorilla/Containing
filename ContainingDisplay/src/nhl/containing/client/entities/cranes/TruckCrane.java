@@ -16,12 +16,15 @@ public class TruckCrane extends Crane
 
 	public TruckCrane()
 	{
-		super();
+		super();                
 		attachChild(ContainingClient.getMyAssetManager().loadModel("Models/high/crane/truckcrane/crane.j3o"));
-		grabber.attachChild(ContainingClient.getMyAssetManager().loadModel("Models/high/crane/truckcrane/grabbingGear.j3o"));
-		grabber.attachChild(ContainingClient.getMyAssetManager().loadModel("Models/high/crane/truckcrane/hookLeft.j3o"));
-		grabber.attachChild(ContainingClient.getMyAssetManager().loadModel("Models/high/crane/truckcrane/hookRight.j3o"));
-		attachChild(grabber);
+		grabber2.attachChild(ContainingClient.getMyAssetManager().loadModel("Models/high/crane/truckcrane/grabbingGear.j3o"));
+		grabber2.attachChild(ContainingClient.getMyAssetManager().loadModel("Models/high/crane/truckcrane/hookLeft.j3o"));
+		grabber2.attachChild(ContainingClient.getMyAssetManager().loadModel("Models/high/crane/truckcrane/hookRight.j3o"));
+                grabber2.setLocalTranslation(0, -15, 0);
+		attachChild(grabber2);
 		ContainingClient.getMyRootNode().attachChild(this);
 	}
+        
 }
+

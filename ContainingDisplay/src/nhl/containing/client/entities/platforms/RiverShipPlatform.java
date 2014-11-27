@@ -37,7 +37,7 @@ public class RiverShipPlatform extends Platform
 		Geometry sideWayGeom = new Geometry("Box", SideWay);
 		sideWayGeom.setMaterial(new PlainMaterial(ColorRGBA.DarkGray));
 		attachChild(sideWayGeom);
-		sideWayGeom.setLocalTranslation(400, -5.1f, 420+(395/2));
+		sideWayGeom.setLocalTranslation(370, -5.1f, 390+(395/2));
 	}
 
 	private void HookNorth()
@@ -46,7 +46,7 @@ public class RiverShipPlatform extends Platform
 		Geometry hookNorthGeom = new Geometry("Box", HookNorth);
 		hookNorthGeom.setMaterial(new PlainMaterial(ColorRGBA.DarkGray));
 		attachChild(hookNorthGeom);
-		hookNorthGeom.setLocalTranslation(365, -5.1f, 420);
+		hookNorthGeom.setLocalTranslation(335, -5.1f, 390);
 	}
 
 	private void HookSouth()
@@ -55,14 +55,14 @@ public class RiverShipPlatform extends Platform
 		Geometry hookSouthGeom = new Geometry("Box", HookSouth);
 		hookSouthGeom.setMaterial(new PlainMaterial(ColorRGBA.DarkGray));
 		attachChild(hookSouthGeom);
-		hookSouthGeom.setLocalTranslation(365, -5.1f, 815);
+		hookSouthGeom.setLocalTranslation(335, -5.1f, 785);
 	}
 
 	private void littleShipRails()
 	{
 		for (int i = 1; i < 21; i++)
 		{
-			attachChild(new CraneRails(new Vector3f(390, 0.1f, 807.5f - 18 * i), 0.87f, 0f));
+			attachChild(new CraneRails(new Vector3f(360, 0.1f, 777.5f - 18 * i), 0.87f, 0f));
 		}
 	}
 }

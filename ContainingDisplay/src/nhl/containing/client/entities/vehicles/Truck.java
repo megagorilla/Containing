@@ -18,7 +18,7 @@ public class Truck extends Vehicle
 {
 	Node truckNode;
 
-	public Truck(ContainingClient.Quality quality, ContainingClient main)
+	public Truck(ContainingClient.Quality quality)
 	{
 		super();
 		String qualityPath = "Models/high/truck.j3o";

@@ -21,7 +21,8 @@ import com.jme3.scene.shape.Box;
  */
 public class SeaShipPlatform extends Platform
 {
-
+    //width = 300
+        private static StoragePlatform s;
 	public SeaShipPlatform()
 	{
 		SeaSideWay();
@@ -29,33 +30,35 @@ public class SeaShipPlatform extends Platform
 		HookEast();
 		HookWest();
 		ContainingClient.getMyRootNode().attachChild(this);
+                
+                s = new StoragePlatform();
 	}
 
 	private void SeaSideWay()
 	{
-		Box SeaSideWay = new Box(300, 5f, 25);
+		Box SeaSideWay = new Box(s.WIDTH + 20, 5f, 25);
 		Geometry seaSideWayGeom = new Geometry("Box", SeaSideWay);
 		seaSideWayGeom.setMaterial(new PlainMaterial(ColorRGBA.DarkGray));
 		attachChild(seaSideWayGeom);
-		seaSideWayGeom.setLocalTranslation(0, -5, 900);
+		seaSideWayGeom.setLocalTranslation(0, -5, 870);
 	}
 
 	private void HookEast()
 	{
-		Box HookEast = new Box(25, 5f, 25);
+		Box HookEast = new Box(10, 5f, 25);
 		Geometry hookEastGeom = new Geometry("Box", HookEast);
 		hookEastGeom.setMaterial(new PlainMaterial(ColorRGBA.DarkGray));
 		attachChild(hookEastGeom);
-		hookEastGeom.setLocalTranslation(-275, -5f, 850);
+		hookEastGeom.setLocalTranslation(-310, -5f, 820);
 	}
 
 	private void HookWest()
 	{
-		Box HookWest = new Box(25, 5f, 25);
+		Box HookWest = new Box(10, 5f, 25);
 		Geometry hookWestGeom = new Geometry("Box", HookWest);
 		hookWestGeom.setMaterial(new PlainMaterial(ColorRGBA.DarkGray));
 		attachChild(hookWestGeom);
-		hookWestGeom.setLocalTranslation(275, -5f, 850);
+		hookWestGeom.setLocalTranslation(310, -5f, 820);
 	}
 
 	private void BigShipRails()

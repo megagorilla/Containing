@@ -19,16 +19,21 @@ import nhl.containing.client.materials.PlainMaterial;
  * 
  * @author Sander
  */
-public class OpslagPlatform extends Platform
-{
+public class StoragePlatform extends Platform
+{    
+    public static final int WIDTH = 300;
+    public static final int DEPTH = 5;
+    public static final int HEIGHT = 775;
+    private static final int parkinglots = 39;
+    public static final int ROADWIDTH = 20;
     
-    public OpslagPlatform()
+    public StoragePlatform()
     {
-        Box Opslag = new Box(300,5,775);
+        Box Opslag = new Box(WIDTH,DEPTH,HEIGHT);
         Geometry opslagGeom = new Geometry("Box", Opslag);
         opslagGeom.setMaterial(new PlainMaterial(ColorRGBA.DarkGray));
         attachChild(opslagGeom);
-        opslagGeom.setLocalTranslation(0,-5,0);
+        opslagGeom.setLocalTranslation(0,-DEPTH,0);
         
         ContainerStocking();        
         AGVParking();
@@ -52,7 +57,7 @@ public class OpslagPlatform extends Platform
     {
         for (int a = 0; a < 2; a++)
         {
-        for(int i = 0; i < 39; i++)
+        for(int i = 0; i < parkinglots; i++)
         {
             Box Lane = new Box(30, 0.2f, 10);
             Geometry laneGeom = new Geometry("Box", Lane);
@@ -65,11 +70,11 @@ public class OpslagPlatform extends Platform
     
     public void Road()
     {
-        Box Road = new Box(350,5,825);
+        Box Road = new Box(WIDTH + ROADWIDTH, DEPTH, HEIGHT + ROADWIDTH);
         Geometry roadGeom = new Geometry("Box", Road);
         roadGeom.setMaterial(new PlainMaterial(ColorRGBA.Black));
         attachChild(roadGeom);
-        roadGeom.setLocalTranslation(0,-5.1f,0);
+        roadGeom.setLocalTranslation(0,-(DEPTH+0.1f),0);
     }
 
 }

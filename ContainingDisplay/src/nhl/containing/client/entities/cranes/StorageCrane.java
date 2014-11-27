@@ -4,6 +4,7 @@
  */
 package nhl.containing.client.entities.cranes;
 
+import com.jme3.math.FastMath;
 import com.jme3.scene.Node;
 import nhl.containing.client.ContainingClient;
 import nhl.containing.client.entities.Crane;
