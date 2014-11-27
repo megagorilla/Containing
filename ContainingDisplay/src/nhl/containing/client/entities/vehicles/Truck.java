@@ -16,7 +16,7 @@ import com.jme3.scene.Node;
  */
 public class Truck extends Vehicle {
 
-    /**
+	public Truck(ContainingClient.Quality quality)
      * creates a Truck and loads the models
      * @param quality the quality for the model;
      */
