@@ -68,7 +68,7 @@ public class MainActivity extends ActionBarActivity implements
 
 		// Set the chart to default
 		LineChart lc = (LineChart) findViewById(R.id.chart);
-		mChart = new GraphView(lc);
+		mChart = new GraphView(lc, this);
 		
 		lc = mChart.getChart();
 	}
@@ -238,12 +238,12 @@ public class MainActivity extends ActionBarActivity implements
 			System.out.println("onPostExecute: "+result);
 			if (result != null) {
 				try {
-					Constants.setStorage(MainActivity.this, "Train", result.getJSONObject("data").getString("Train"));
-					Constants.setStorage(MainActivity.this, "Truck", result.getJSONObject("data").getString("Truck"));
-					Constants.setStorage(MainActivity.this, "Storage", result.getJSONObject("data").getString("Storage"));
-					Constants.setStorage(MainActivity.this, "Ship", result.getJSONObject("data").getString("Ship"));
-					Constants.setStorage(MainActivity.this, "Others", result.getJSONObject("data").getString("Others"));
-					Constants.setStorage(MainActivity.this, "Seaship", result.getJSONObject("data").getString("Seaship"));
+					Constants.setStorage(MainActivity.this, "Train", result.getJSONArray("data").getString(0));
+					Constants.setStorage(MainActivity.this, "Truck", result.getJSONArray("data").getString(1));
+					Constants.setStorage(MainActivity.this, "Storage", result.getJSONArray("data").getString(2));
+					Constants.setStorage(MainActivity.this, "Ship", result.getJSONArray("data").getString(3));
+					Constants.setStorage(MainActivity.this, "Others", result.getJSONArray("data").getString(4));
+					Constants.setStorage(MainActivity.this, "Seaship", result.getJSONArray("data").getString(5));
 					
 					//GraphView.update();
 				} catch (JSONException e) {

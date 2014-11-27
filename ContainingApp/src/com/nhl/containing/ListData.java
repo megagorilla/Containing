@@ -1,15 +1,15 @@
 package com.nhl.containing;
 
 public class ListData {
-	public int time;
+	public long time;
 	public int aantal;
 	
-	public ListData(int time, String type, int aantal) {
+	public ListData(long time, String aantal) {
 		this.time = time;
-		this.aantal = aantal;
+		this.aantal = Integer.parseInt(aantal);
 	}
 	
-	public int getTime() {
+	public long getTime() {
 		return this.time;
 	}
 	
