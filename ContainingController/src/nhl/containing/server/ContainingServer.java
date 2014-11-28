@@ -7,6 +7,7 @@ import nhl.containing.server.network.ConnectionManager;
 import nhl.containing.server.network.UpdateMessage;
 import nhl.containing.server.pathfinding.AGVHandler;
 import nhl.containing.server.pathfinding.CMotionPathListener;
+import nhl.containing.server.pathfinding.PlatformWaypoints;
 import nhl.containing.server.pathfinding.RouteController;
 import nhl.containing.server.util.ControlHandler;
 
@@ -29,6 +30,7 @@ public class ContainingServer extends SimpleApplication
 	private boolean hasSent;
 	private RouteController route;
 	private static Node staticRootNode;
+	private PlatformWaypoints tParking;
 
 	public static void main(String[] args)
 	{
@@ -43,6 +45,8 @@ public class ContainingServer extends SimpleApplication
 		route = new RouteController();
 		new ControlHandler();
 		new AGVHandler();
+		tParking = new PlatformWaypoints();
+		tParking.agvTruckParking();
 		AGVHandler.getInstance().init();
 		ConnectionManager.initialize(3000);
 		API.start(8080);
@@ -55,7 +59,8 @@ public class ContainingServer extends SimpleApplication
 	{
 		if(!hasSent && ConnectionManager.hasConnections())
 		{
-			ControlHandler.getInstance().sendAGV("a1", 0, "a2");
+			//dest - start
+			ControlHandler.getInstance().sendAGV("a2", 0, "a4");
 //			ControlHandler.getInstance().sendAGV("a4", 1, "");
 //			ControlHandler.getInstance().sendAGV("a3", 2, "");
 //			ControlHandler.getInstance().sendAGV("c2", 3, "");
