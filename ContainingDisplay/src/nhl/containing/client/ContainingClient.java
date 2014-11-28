@@ -110,9 +110,9 @@ public class ContainingClient extends SimpleApplication {
                 
                 for(int i = 0; i < 20; i++)
                 {
-                    AGVs.add(new AGV(quality));
-                    AGVs.get(i).setLocalTranslation(380, 0, -750+25*i);
-                    AGVs.get(i).rotate(0, FastMath.HALF_PI, 0);
+//                    AGVs.add(new AGV(quality));
+//                    AGVs.get(i).setLocalTranslation(380, 0, -750+25*i);
+//                    AGVs.get(i).rotate(0, FastMath.HALF_PI, 0);
                 }
                 
                 for(int i = 0; i < 20; i++)

@@ -29,7 +29,7 @@ public class TruckPlatformHandler
 	{
 		for(int i = 0; i < 20; i++)
 		{
-			locations.put(i, new TruckLocation(i, new Vector3f(i * 20, 0, 0)));
+			locations.put(i, new TruckLocation(i, new Vector3f(380f, 0f, -750f + 25f * i)));
 		}
 	}
 	
@@ -38,7 +38,25 @@ public class TruckPlatformHandler
 		TruckLocation location = this.getTruckLocation();
 		List<Vector3f> list = new ArrayList<Vector3f>();
 		list.add(new Vector3f(353.5f, 0, -778.5f));
-		list.add(new Vector3f(353.5f, 0, location.location.x));
+		list.add(new Vector3f(353.5f, 0, location.location.z));
+		list.add(new Vector3f(location.location));
+		ControlHandler.getInstance().sendAGV(agv.agvId, list);
+		location.hasAGV = true;
+		locations.put(location.id, location);
+	}
+	
+	/**
+	 * FOR TESTING PURPOSES ONLY
+	 * @param agv
+	 * @param i
+	 */
+	public void handleAGV(AGV agv, int i)
+	{
+		//TruckLocation location = this.getTruckLocation();
+		TruckLocation location = this.locations.get(i);
+		List<Vector3f> list = new ArrayList<Vector3f>();
+		list.add(new Vector3f(353.5f, 0, -778.5f));
+		list.add(new Vector3f(353.5f, 0, location.location.z));
 		list.add(new Vector3f(location.location));
 		ControlHandler.getInstance().sendAGV(agv.agvId, list);
 		location.hasAGV = true;

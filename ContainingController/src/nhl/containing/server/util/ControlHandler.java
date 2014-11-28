@@ -53,7 +53,7 @@ public class ControlHandler
         motionControl.setDirectionType(MotionEvent.Direction.PathAndRotation);
         motionControl.setRotation(new Quaternion().fromAngleNormalAxis(0, Vector3f.UNIT_Y));
         motionControl.setInitialDuration(100f);
-        motionControl.setSpeed(5f);  
+        motionControl.setSpeed(2f);  
         motionControl.play();
 	}
 	
