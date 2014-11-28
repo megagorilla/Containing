@@ -56,4 +56,28 @@ public class ControlHandler
         motionControl.setSpeed(5f);  
         motionControl.play();
 	}
+	
+	public void sendAGV(int id, List<Vector3f> list)
+	{
+		AGV agv = AGVHandler.getInstance().getAGV(id);
+		UpdateMessage message = new UpdateMessage(Integer.toString(id));
+		message.addData(id, list);
+		ConnectionManager.sendCommand(message);
+		
+		MotionPath path = new MotionPath();
+		for(Vector3f v : list)
+			path.addWayPoint(v);
+		path.setCurveTension(0.0f);
+		path.addListener(new CMotionPathListener());
+		
+		ServerSpatial spatial = new ServerSpatial(agv, "truckLocation_" + Integer.toString(id));
+        ContainingServer.getRoot().attachChild(spatial);
+
+		MotionEvent motionControl = new MotionEvent(spatial, path);
+        motionControl.setDirectionType(MotionEvent.Direction.PathAndRotation);
+        motionControl.setRotation(new Quaternion().fromAngleNormalAxis(0, Vector3f.UNIT_Y));
+        motionControl.setInitialDuration(100f);
+        motionControl.setSpeed(5f);  
+        motionControl.play();
+	}
 }

@@ -1,26 +1,14 @@
 package nhl.containing.server;
 
-import java.util.List;
-
 import nhl.containing.server.network.API;
 import nhl.containing.server.network.ConnectionManager;
-import nhl.containing.server.network.UpdateMessage;
 import nhl.containing.server.pathfinding.AGVHandler;
-import nhl.containing.server.pathfinding.CMotionPathListener;
 import nhl.containing.server.pathfinding.RouteController;
+import nhl.containing.server.platformhandlers.TruckPlatformHandler;
 import nhl.containing.server.util.ControlHandler;
 
 import com.jme3.app.SimpleApplication;
-import com.jme3.cinematic.MotionPath;
-import com.jme3.cinematic.events.MotionEvent;
-import com.jme3.material.Material;
-import com.jme3.math.ColorRGBA;
-import com.jme3.math.Quaternion;
-import com.jme3.math.Vector3f;
-import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
-import com.jme3.scene.Spatial;
-import com.jme3.scene.shape.Box;
 import com.jme3.system.JmeContext;
 
 public class ContainingServer extends SimpleApplication
@@ -43,6 +31,7 @@ public class ContainingServer extends SimpleApplication
 		route = new RouteController();
 		new ControlHandler();
 		new AGVHandler();
+		new TruckPlatformHandler();
 		AGVHandler.getInstance().init();
 		ConnectionManager.initialize(3000);
 		API.start(8080);
@@ -55,11 +44,12 @@ public class ContainingServer extends SimpleApplication
 	{
 		if(!hasSent && ConnectionManager.hasConnections())
 		{
-			ControlHandler.getInstance().sendAGV("a1", 0, "a2");
+			//ControlHandler.getInstance().sendAGV("a1", 0, "a2");
 //			ControlHandler.getInstance().sendAGV("a4", 1, "");
 //			ControlHandler.getInstance().sendAGV("a3", 2, "");
 //			ControlHandler.getInstance().sendAGV("c2", 3, "");
 //			ControlHandler.getInstance().sendAGV("b4", 4, "");
+			TruckPlatformHandler.getInstance().handleAGV(AGVHandler.getInstance().getAGV(0));
 			hasSent = true;
 		}
 	}
