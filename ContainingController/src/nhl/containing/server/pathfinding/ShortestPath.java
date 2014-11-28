@@ -24,20 +24,18 @@ public class ShortestPath {
     protected static final int parkinglotSize = 25;
     private static final float WIDTH = 300.0f;
     private static final float HEIGHT = 775.0f;
+    private static final float truckPlatform = 525.0f;
     private static final float sideLane = 50.0f;
     private static final float laneOne = 3.5f; //right slow
     private static final float laneTwo = 7.5f; //right fast
     private static final float laneThree = 12.5f; // left fast
     private static final float laneFour = 16.5f; // left slow
     public static final Graph.Edge[] GRAPH = {
-        //extrameuk
-        new Graph.Edge(new Graph.WayPoint("a1.4", new Vector3f(WIDTH + laneFour, 0, -HEIGHT - laneFour)),
-        new Graph.WayPoint("a1", new Vector3f(WIDTH + laneOne, 0, -HEIGHT - laneOne))),
-        new Graph.Edge(new Graph.WayPoint("a1", new Vector3f(WIDTH + laneOne, 0, -HEIGHT - laneOne)),
-        new Graph.WayPoint("a1.4", new Vector3f(WIDTH + laneFour, 0, -HEIGHT - laneFour))),
+        
+
         //Inside lane
         new Graph.Edge(new Graph.WayPoint("a1", new Vector3f(WIDTH + laneOne, 0, -HEIGHT - laneOne)),
-        new Graph.WayPoint("a4", new Vector3f(WIDTH + laneOne, 0, -50))),
+        new Graph.WayPoint("a4", new Vector3f(WIDTH + laneOne, 0, -HEIGHT + truckPlatform))),
         new Graph.Edge(new Graph.WayPoint("a4", new Vector3f(WIDTH + laneOne, 0, -50)),
         new Graph.WayPoint("b1", new Vector3f(WIDTH + laneOne, 0, 50))),
         new Graph.Edge(new Graph.WayPoint("b1", new Vector3f(WIDTH + laneOne, 0, 50)),
@@ -58,24 +56,45 @@ public class ShortestPath {
         new Graph.Edge(new Graph.WayPoint("b4.4", new Vector3f(WIDTH + laneFour, 0, HEIGHT + laneFour)),
         new Graph.WayPoint("b1.4", new Vector3f(WIDTH + laneFour, 0, 50))),
         new Graph.Edge(new Graph.WayPoint("b1.4", new Vector3f(WIDTH + laneFour, 0, 50)),
-        new Graph.WayPoint("a4.4", new Vector3f(WIDTH + laneFour, 0, -50))),
-        new Graph.Edge(new Graph.WayPoint("a4.4", new Vector3f(WIDTH + laneFour, 0, -50)),
+        new Graph.WayPoint("a4.4", new Vector3f(WIDTH + laneFour, 0, -HEIGHT + truckPlatform))),
+        new Graph.Edge(new Graph.WayPoint("a4.4", new Vector3f(WIDTH + laneFour, 0, -HEIGHT + truckPlatform)),
         new Graph.WayPoint("a1.4", new Vector3f(WIDTH + laneFour, 0, -HEIGHT - laneFour))),
+        //Lane changes
+    	new Graph.Edge(new Graph.WayPoint("a1", new Vector3f(WIDTH + laneOne, 0, -HEIGHT - laneOne)),
+		new Graph.WayPoint("a1.4", new Vector3f(WIDTH + laneFour, 0, -HEIGHT - laneFour))),
+        new Graph.Edge(new Graph.WayPoint("a1.4", new Vector3f(WIDTH + laneFour, 0, -HEIGHT - laneFour)),
+        new Graph.WayPoint("a1", new Vector3f(WIDTH + laneOne, 0, -HEIGHT - laneOne))),
+        new Graph.Edge(new Graph.WayPoint("a4", new Vector3f(WIDTH + laneOne, 0, -HEIGHT + truckPlatform)),
+        new Graph.WayPoint("a4.4", new Vector3f(WIDTH + laneFour, 0, -HEIGHT + truckPlatform))),
+        new Graph.Edge(new Graph.WayPoint("a4.4", new Vector3f(WIDTH + laneFour, 0, -HEIGHT + truckPlatform)),
+        new Graph.WayPoint("a4", new Vector3f(WIDTH + laneOne, 0, -HEIGHT + truckPlatform))),
+        new Graph.Edge(new Graph.WayPoint("b4", new Vector3f(WIDTH + laneOne, 0, HEIGHT + laneOne)),
+        new Graph.WayPoint("b4.4", new Vector3f(WIDTH + laneFour, 0, HEIGHT + laneFour))),
+        new Graph.Edge(new Graph.WayPoint("b4.4", new Vector3f(WIDTH + laneFour, 0, HEIGHT + laneFour)),
+        new Graph.WayPoint("b4", new Vector3f(WIDTH + laneOne, 0, HEIGHT + laneOne))),
+        new Graph.Edge(new Graph.WayPoint("c4", new Vector3f(-WIDTH - laneOne, 0, HEIGHT + laneOne)),
+        new Graph.WayPoint("b4.4", new Vector3f(WIDTH + laneFour, 0, HEIGHT + laneFour))),
+        new Graph.Edge(new Graph.WayPoint("b4.4", new Vector3f(WIDTH + laneFour, 0, HEIGHT + laneFour)),
+        new Graph.WayPoint("c4", new Vector3f(-WIDTH - laneOne, 0, HEIGHT + laneOne))),
+        new Graph.Edge(new Graph.WayPoint("d4", new Vector3f(-WIDTH - laneOne, 0, -HEIGHT - laneOne)),
+	    new Graph.WayPoint("d4.4", new Vector3f(-WIDTH - laneFour, 0, -HEIGHT - laneFour))),
+	    new Graph.Edge(new Graph.WayPoint("d4.4", new Vector3f(-WIDTH - laneFour, 0, -HEIGHT - laneFour)),
+	    new Graph.WayPoint("d4", new Vector3f(-WIDTH - laneOne, 0, -HEIGHT - laneOne))),
         //truck platform
         new Graph.Edge(new Graph.WayPoint("a1", new Vector3f(WIDTH + laneOne, 0, -HEIGHT - laneOne)),
-        new Graph.WayPoint("a2", new Vector3f(WIDTH + sideLane + laneOne, 0, -HEIGHT - laneOne))),
+        new Graph.WayPoint("a2", new Vector3f(WIDTH + sideLane + laneOne, 0,-HEIGHT - laneOne))),
         new Graph.Edge(new Graph.WayPoint("a2", new Vector3f(WIDTH + sideLane + laneOne, 0, -HEIGHT - laneOne)),
-        new Graph.WayPoint("a3", new Vector3f(WIDTH + sideLane + laneOne, 0, -sideLane - laneOne))),
-        new Graph.Edge(new Graph.WayPoint("a3", new Vector3f(WIDTH + sideLane + laneOne, 0, -sideLane - laneOne)),
-        new Graph.WayPoint("a4", new Vector3f(WIDTH + laneOne, 0, -sideLane))),
-        //rivership platform
+        new Graph.WayPoint("a3", new Vector3f(WIDTH + sideLane + laneOne, 0, -HEIGHT + truckPlatform))),
+        new Graph.Edge(new Graph.WayPoint("a3", new Vector3f(WIDTH + sideLane + laneOne, 0, -HEIGHT + truckPlatform)),
+        new Graph.WayPoint("a4", new Vector3f(WIDTH + laneOne, 0, -HEIGHT + truckPlatform))),
+        //river ship platform
         new Graph.Edge(new Graph.WayPoint("b1", new Vector3f(WIDTH, 0, 50)),
         new Graph.WayPoint("b2", new Vector3f(WIDTH + 50, 0, 50))),
         new Graph.Edge(new Graph.WayPoint("b2", new Vector3f(WIDTH + 50, 0, 50)),
         new Graph.WayPoint("b3", new Vector3f(WIDTH + 50, 0, HEIGHT))),
         new Graph.Edge(new Graph.WayPoint("b3", new Vector3f(WIDTH + 50, 0, HEIGHT)),
         new Graph.WayPoint("b4", new Vector3f(WIDTH, 0, HEIGHT))),
-        //seaship platform
+        //sea ship platform
         new Graph.Edge(new Graph.WayPoint("b4", new Vector3f(WIDTH, 0, HEIGHT)),
         new Graph.WayPoint("c2", new Vector3f(WIDTH, 0, HEIGHT + 50))),
         new Graph.Edge(new Graph.WayPoint("c2", new Vector3f(WIDTH, 0, HEIGHT + 50)),
@@ -89,12 +108,7 @@ public class ShortestPath {
         new Graph.WayPoint("d3", new Vector3f(-WIDTH - 50, 0, -HEIGHT))),
         new Graph.Edge(new Graph.WayPoint("d3", new Vector3f(-WIDTH - 50, 0, -HEIGHT)),
         new Graph.WayPoint("d4", new Vector3f(-WIDTH, 0, -HEIGHT))),
-        //Parkinglots
-        //new Graph.Edge(new Graph.WayPoint("a1", new Vector3f(WIDTH, 0, -(HEIGHT))),
-        //new Graph.WayPoint("truckParking", new Vector3f(WIDTH - 32.5f, 0, -(HEIGHT) + 40))),
-       // new Graph.Edge(new Graph.WayPoint("truckParking", new Vector3f(WIDTH - 32.5f, 0, -(HEIGHT) + 40)),
-        ///new Graph.WayPoint("a1", new Vector3f(WIDTH, 0, -(HEIGHT))))
-    };
+        };
 
     public ShortestPath() {
         truckParking = new AGV[parkinglotSize];
