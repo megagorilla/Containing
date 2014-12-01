@@ -3,8 +3,6 @@ package com.nhl.containing;
 import java.util.ArrayList;
 import java.util.Date;
 
-import org.json.JSONArray;
-
 import android.content.Context;
 import android.graphics.Color;
 
@@ -18,7 +16,6 @@ import com.github.mikephil.charting.utils.LimitLine.LimitLabelPosition;
 public class GraphView {
 
 	public static LineChart mChart;
-	private APIHandler api;
 	public static ArrayList<ListData> list1, list2, list3, list4, list5, list6, list7;
 	Context ctx;
 	public int currentList;
@@ -27,7 +24,6 @@ public class GraphView {
 		mChart = lc;
 		mChart.setDescription("All containers");
 		setData(1);
-		//api = new APIHandler("http://feenstraim.com/api.php");
 		list1 = new ArrayList<ListData>();
 		list2 = new ArrayList<ListData>();
 		list3 = new ArrayList<ListData>();
@@ -86,6 +82,9 @@ public class GraphView {
 		return mChart;
 	}
 
+	/**
+	 * This method updates the main lists of data
+	 */
 	public void update() {
 
 		this.list2.add(new ListData(System.currentTimeMillis(), Constants.getStorage(this.ctx, "Train")));

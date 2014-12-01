@@ -52,8 +52,9 @@ public class LoginActivity extends ActionBarActivity {
 
 		@Override
 		public void onClick(View v) {
+			System.out.println("Input data: " + connectInput.toString());
 			if (connectInput.toString().equals("")) {
-
+				
 			} else {
 				Constants.setStorage(LoginActivity.this, "conurl", connectInput.toString());
 				Intent myIntent = new Intent(LoginActivity.this, MainActivity.class);

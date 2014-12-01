@@ -34,7 +34,7 @@ public class DataGrabber {
 		protected JSONObject doInBackground(String... params) {
 			try {
 				HttpClient httpclient = new DefaultHttpClient();
-				HttpPost httppost = new HttpPost("http://feenstraim.com/api.php");
+				HttpPost httppost = new HttpPost(params[0]);
 				HttpResponse response = httpclient.execute(httppost);
 				HttpEntity entity = response.getEntity();
 				if (entity != null) {
