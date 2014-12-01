@@ -63,6 +63,22 @@ public class TruckPlatformHandler
 		locations.put(location.id, location);
 	}
 	
+	public void sendAGVToStorage(AGV agv, int i)
+	{
+		TruckLocation location = locations.get(i);
+		List<Vector3f> list = new ArrayList<Vector3f>();
+		list.add(new Vector3f(location.location));
+		list.add(new Vector3f(353.5f, 0, location.location.z));
+		list.add(new Vector3f(353.5f, 0, -250));
+		ControlHandler.getInstance().sendAGV(agv.agvId, list, "a3");
+		location.hasAGV = false;
+		if(location.hasContainer)
+			location.hasContainer = false;
+		else
+			location.hasContainer = true;
+		locations.put(i, location);
+	}
+	
 	private TruckLocation getTruckLocation()
 	{
 		for(TruckLocation location : locations.values())
