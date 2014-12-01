@@ -24,6 +24,7 @@ public class ShortestPath {
     protected static final int parkinglotSize = 25;
     private static final float WIDTH = 300.0f;
     private static final float HEIGHT = 775.0f;
+    private static final float DEPTH = 0.0f;
     private static final float truckPlatform = 525.0f;
     private static final float sideLane = 50.0f;
     private static final float laneOne = 3.5f; //right slow
