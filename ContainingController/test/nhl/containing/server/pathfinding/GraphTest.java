@@ -44,10 +44,13 @@ public class GraphTest {
     @Test
     public void testDijkstra() {
         System.out.println("dijkstra");
-        String startName = "";
+        String startName = "a1";
         Graph instance = new Graph(ShortestPath.GRAPH);
-        instance.dijkstra("a1");
-        List<Vector3f> list = instance.getLocations("a1");
+        instance.dijkstra(startName);
+        
+        String startName2 = "";
+        Graph instance2 = new Graph(ShortestPath.GRAPH);
+        instance2.dijkstra(startName2);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
@@ -59,8 +62,9 @@ public class GraphTest {
     public void testPrintPath() {
         System.out.println("printPath");
         String startName = "a1";
-        String endNameRight = "d4";
+        String endNameRight = "a2";
         String endNameWrong = "herpderp";
+        
         Graph instance = new Graph(ShortestPath.GRAPH);
         instance.dijkstra(startName);
         List<Vector3f> list = instance.getLocations(endNameRight);
@@ -75,7 +79,6 @@ public class GraphTest {
         if(list2 != null){
             fail("The list is not  empty while endName is wrong");
         }
-        // TODO review the generated test code and remove the default call to fail.
         
     }
 
@@ -85,10 +88,12 @@ public class GraphTest {
     @Test
     public void testGetLocations() {
         System.out.println("getLocations");
-        String endName = "";
-        Graph instance = null;
+        String endNameRight = "d4";
+        String endNameWrong = "herpderp";
+        Graph instance = new Graph(ShortestPath.GRAPH);
+        instance.dijkstra("a1");
         List expResult = null;
-        List result = instance.getLocations(endName);
+        List result = instance.getLocations(endNameRight);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -100,7 +105,7 @@ public class GraphTest {
     @Test
     public void testPrintAllPaths() {
         System.out.println("printAllPaths");
-        Graph instance = null;
+        Graph instance =  new Graph(ShortestPath.GRAPH);
         instance.printAllPaths();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
