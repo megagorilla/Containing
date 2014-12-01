@@ -23,6 +23,7 @@ import com.jme3.util.SkyFactory;
 import java.util.ArrayList;
 
 import nhl.containing.client.ContainingClient.Quality;
+import nhl.containing.client.entities.Container;
 import nhl.containing.client.entities.Crane;
 import nhl.containing.client.entities.cranes.StorageCrane;
 import nhl.containing.client.entities.cranes.TruckCrane;
@@ -55,7 +56,7 @@ public class ContainingClient extends SimpleApplication {
     public static AGV agv;
     public static ArrayList<AGV> agvs = new ArrayList<AGV>();
     ArrayList<StorageCrane> StorageCranes = new ArrayList<StorageCrane>();
-    ArrayList<TruckCrane> TruckCranes = new ArrayList<TruckCrane>();
+    public static ArrayList<TruckCrane> TruckCranes = new ArrayList<TruckCrane>();
     ArrayList<Platform> Platforms = new ArrayList<Platform>();
         ArrayList<AGV> AGVs = new ArrayList<AGV>();
         ArrayList<Truck> Trucks = new ArrayList<Truck>();
@@ -63,8 +64,11 @@ public class ContainingClient extends SimpleApplication {
         
         private boolean up = false;
         private boolean right = false;
-        private boolean truckup = false;
-    Node rails;
+        public boolean truckup = false;
+        private boolean onTarget = false;
+        public boolean down;
+        Node rails;
+        Container test2;
     
     public static void main(String[] args) {
         ContainingClient app = new ContainingClient();
@@ -94,18 +98,20 @@ public class ContainingClient extends SimpleApplication {
         
         //SeaNode sea = new SeaNode();
         //this.getRootNode().attachChild(sea);
-                Platforms.add(new StoragePlatform());
+        Platforms.add(new StoragePlatform());
         Platforms.add(new SeaShipPlatform());
         Platforms.add(new TrainPlatform());        
         Platforms.add(new TruckPlatform());        
-		Platforms.add(new RiverShipPlatform());
+        Platforms.add(new RiverShipPlatform());       
+                
         
-        
-        for (int i = 0; i < 20; i++) {
-            TruckCranes.add(new TruckCrane());
+        for (int i = 0; i < 20; i++) 
+                {
+                    TruckCranes.add(new TruckCrane(i));
                     TruckCranes.get(i).setLocalTranslation(380, 0, -750 + 25*i);
-            TruckCranes.get(i).rotate(0, FastMath.HALF_PI, 0);
-                    TruckCranes.get(i).MotionTruckCraneGrabber();
+                    TruckCranes.get(i).rotate(0, FastMath.HALF_PI, 0);
+                    TruckCranes.get(i).MotionTruckCraneGrabber(down);
+                   // TruckCranes.get(i).MotionTruckCrane();
                 }
                 
                 for(int i = 0; i < 20; i++)
@@ -122,19 +128,21 @@ public class ContainingClient extends SimpleApplication {
                     Trucks.get(i).rotate(0, FastMath.HALF_PI, 0);
         }
         
-        for (int i = 0; i < 39; i++) {
+        for (int i = 0; i < 39; i++) 
+        {
             StorageCranes.add(new StorageCrane());
             StorageCranes.get(i).setLocalTranslation(0, 0, -760 + 40 * i);
             StorageCranes.get(i).rotate(0, FastMath.HALF_PI, 0);
-                    StorageCranes.get(i).MotionY();
+            StorageCranes.get(i).MotionY();
         }
                 
                 
                 //for(int i=0;i<21;i++)
                 //{
-                    //test2 = new Container(quality);
+        
+                    test2 = new Container(quality);
                     //test2.setLocalTranslation(380, 1, -750); //+25*i
-                    //test2.rotate(0, FastMath.HALF_PI, 0);
+                    test2.rotate(0, FastMath.HALF_PI, 0);
                 //}
                 
                 //test2 = new Container(quality);
@@ -144,6 +152,14 @@ public class ContainingClient extends SimpleApplication {
     
     @Override
     public void simpleUpdate(float tpf) {
+        
+        System.out.println(TruckCranes.get(0).getLocalTranslation().x + "XWAARDE");
+        if(TruckCranes.get(0).getLocalTranslation().x > 399 && TruckCranes.get(0).getLocalTranslation().x != 380.0f && !down)
+        {
+            down = true;
+            TruckCranes.get(0).down();
+            System.out.println("GASDROP");
+        }
 //             /*if(up == false)
 //             {
 //                 test2.setLocalTranslation(                   
@@ -151,7 +167,7 @@ public class ContainingClient extends SimpleApplication {
 //                 0,
 //                 -8);
 //             }
-//             //System.out.println(StorageCranes.get(19).getGrabber().getLocalTranslation().y);
+            System.out.println(TruckCranes.get(0).getGrabber().getLocalTranslation().y + "YWAARDE");
 //
 //             if(StorageCranes.get(19).getGrabber().getLocalTranslation().y < 2.7f && StorageCranes.get(19).getGrabber().getLocalTranslation().y > 1.0f)
 //             {
@@ -166,25 +182,40 @@ public class ContainingClient extends SimpleApplication {
 //                     StorageCranes.get(19).getGrabber().getLocalTranslation().y-2, 
 //                     StorageCranes.get(19).getGrabber().getLocalTranslation().z-8);
 //             }*/
-//             if(TruckCranes.get(0).getGrabber().getLocalTranslation().y < -4.5f && TruckCranes.get(0).getGrabber().getLocalTranslation().y > -5)
-//             {
-//                 truckup = true;
-//                 System.out.println("jaaaaaa");
-//             }
-//             
-//             /*if(truckup == false)
-//             {
-//                 test2.setLocalTranslation(                   
-//                 0,
-//                 0,
-//                 -8);
-//             }*/
-//             if(truckup == true)
-//             {
-//                test2.setLocalTranslation(TruckCranes.get(0).getGrabber().getLocalTranslation().x,
-//                                          TruckCranes.get(0).getGrabber().getLocalTranslation().y,
-//                                          TruckCranes.get(0).getGrabber().getLocalTranslation().z);
-//             }
+             if(TruckCranes.get(0).getGrabber().getLocalTranslation().y < -4.5f && TruckCranes.get(0).getGrabber().getLocalTranslation().y > -5)
+             {
+                 truckup = true;
+                 TruckCranes.get(0).Go();
+             }
+             
+             if(truckup == false)
+             {
+                 test2.setLocalTranslation(380, 1, -750 );                 
+                 TruckCranes.get(0).setLocalTranslation(380, 0,-750);
+             }
+             else  if(truckup == true)
+             {
+                test2.setLocalTranslation(TruckCranes.get(0).getLocalTranslation().x + TruckCranes.get(0).getGrabber().getLocalTranslation().z,
+                                          TruckCranes.get(0).getLocalTranslation().y + TruckCranes.get(0).getGrabber().getLocalTranslation().y+6,
+                                          TruckCranes.get(0).getLocalTranslation().z + TruckCranes.get(0).getGrabber().getLocalTranslation().x);
+               
+             }
+             
+             System.out.println(TruckCranes.get(0).getGrabber().getLocalTranslation().x + " ZWAARDE");
+             if(TruckCranes.get(0).getLocalTranslation().x < 401f && TruckCranes.get(0).getLocalTranslation().x > 399 && TruckCranes.get(0).getGrabber().getLocalTranslation().y < -4.4f)
+             {
+                 onTarget = true;
+                 System.out.println("Los!");
+                 TruckCranes.get(0).GoBack();
+                 
+             }
+             
+             if(onTarget == true)
+             {
+                 test2.setLocalTranslation(Trucks.get(0).getLocalTranslation().x, 
+                                           Trucks.get(0).getLocalTranslation().y+1.5f, 
+                                           Trucks.get(0).getLocalTranslation().z);
+             }
     }
 
     /**
