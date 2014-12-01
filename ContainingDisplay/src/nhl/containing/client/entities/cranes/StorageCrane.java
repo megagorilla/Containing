@@ -23,13 +23,13 @@ public class StorageCrane extends Crane
 	{
 		super();
 		attachChild(ContainingClient.getMyAssetManager().loadModel("Models/high/crane/storagecrane/crane.j3o"));
-                Node grabber2 = new Node();
-		grabber2.attachChild(ContainingClient.getMyAssetManager().loadModel("Models/high/crane/storagecrane/grabbingGear.j3o"));
-		grabber2.attachChild(ContainingClient.getMyAssetManager().loadModel("Models/high/crane/storagecrane/grabbingGearHolder.j3o"));
-		grabber2.attachChild(ContainingClient.getMyAssetManager().loadModel("Models/high/crane/storagecrane/hookLeft.j3o"));
-		grabber2.attachChild(ContainingClient.getMyAssetManager().loadModel("Models/high/crane/storagecrane/hookRight.j3o"));
-                grabber2.setLocalTranslation(0, -26, 0);
-                grabber.attachChild(grabber2);
+                Node grabber3 = new Node();
+		grabber3.attachChild(ContainingClient.getMyAssetManager().loadModel("Models/high/crane/storagecrane/grabbingGear.j3o"));
+		grabber3.attachChild(ContainingClient.getMyAssetManager().loadModel("Models/high/crane/storagecrane/grabbingGearHolder.j3o"));
+		grabber3.attachChild(ContainingClient.getMyAssetManager().loadModel("Models/high/crane/storagecrane/hookLeft.j3o"));
+		grabber3.attachChild(ContainingClient.getMyAssetManager().loadModel("Models/high/crane/storagecrane/hookRight.j3o"));
+                grabber3.setLocalTranslation(0, -26, 0);
+                grabber.attachChild(grabber3);
 		attachChild(grabber);
 		ContainingClient.getMyRootNode().attachChild(this);
 	}
