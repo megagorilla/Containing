@@ -6,10 +6,12 @@ package nhl.containing.client.entities.cranes;
 
 import com.jme3.cinematic.MotionPath;
 import com.jme3.cinematic.events.MotionEvent;
+import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import nhl.containing.client.ContainingClient;
 import nhl.containing.client.entities.Crane;
+import nhl.containing.client.materials.PlainMaterial;
 
 /**
  *
@@ -38,6 +40,10 @@ public class TruckCrane extends Crane {
 		grabber2.attachChild(ContainingClient.getMyAssetManager().loadModel("Models/high/crane/truckcrane/hookRight.j3o"));
                 grabber2.setLocalTranslation(0, -15, 0);
 		attachChild(grabber2);
+                
+        //Fabulous Colours *Sparkle*        
+        Node subNodes = (Node) children.get(0);
+        subNodes.getChild(0).setMaterial(new PlainMaterial(new ColorRGBA(1, 20f / 255f, 147f / 255f, 1f))); //mainBodyColour
         ContainingClient.getMyRootNode().attachChild(this);
     }
     
