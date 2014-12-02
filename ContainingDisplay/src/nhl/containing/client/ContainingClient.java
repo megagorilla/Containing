@@ -47,28 +47,33 @@ public class ContainingClient extends SimpleApplication {
         
         LOW, MEDIUM, HIGH
     };
-    private Quality quality = Quality.HIGH;
-        //private ContainingClient main = new ContainingClient();
-    private static Node myRootNode;
-    private static AssetManager myAssetManager;
-    private static ViewPort myViewPort;
-    MotionEvent motionControl;
-    public static AGV agv;
-    public static ArrayList<AGV> agvs = new ArrayList<AGV>();
-    ArrayList<StorageCrane> StorageCranes = new ArrayList<StorageCrane>();
-    public static ArrayList<TruckCrane> TruckCranes = new ArrayList<TruckCrane>();
-    ArrayList<Platform> Platforms = new ArrayList<Platform>();
+        private Quality quality = Quality.HIGH;
+       //private ContainingClient main = new ContainingClient();
+        private static Node myRootNode;
+        private static AssetManager myAssetManager;
+        private static ViewPort myViewPort;
+        MotionEvent motionControl;
+        public static AGV agv;
+        public static ArrayList<AGV> agvs = new ArrayList<AGV>();
+        ArrayList<StorageCrane> StorageCranes = new ArrayList<StorageCrane>();
+        public static ArrayList<TruckCrane> TruckCranes = new ArrayList<TruckCrane>();
+        ArrayList<Platform> Platforms = new ArrayList<Platform>();
         ArrayList<AGV> AGVs = new ArrayList<AGV>();
         ArrayList<Truck> Trucks = new ArrayList<Truck>();
         private MotionPath path;
         
+        public AGV testAGV;
+        
         private boolean up = false;
         private boolean right = false;
         public boolean truckup = false;
+        public boolean containerUp = false;
+        //public boolean containerBack = false;
         private boolean onTarget = false;
         public boolean down;
         Node rails;
         Container test2;
+        Container test3;
     
     public static void main(String[] args) {
         ContainingClient app = new ContainingClient();
@@ -110,16 +115,9 @@ public class ContainingClient extends SimpleApplication {
                     TruckCranes.add(new TruckCrane(i));
                     TruckCranes.get(i).setLocalTranslation(380, 0, -750 + 25*i);
                     TruckCranes.get(i).rotate(0, FastMath.HALF_PI, 0);
-                    TruckCranes.get(i).MotionTruckCraneGrabber(down);
-                   // TruckCranes.get(i).MotionTruckCrane();
-                }
-                
-                for(int i = 0; i < 20; i++)
-                {
-//                    AGVs.add(new AGV(quality));
-//                    AGVs.get(i).setLocalTranslation(380, 0, -750+25*i);
-//                    AGVs.get(i).rotate(0, FastMath.HALF_PI, 0);
-                }
+                    // TruckCranes.get(i).MotionTruckCraneGrabber(down);
+                }                
+               
                 
                 for(int i = 0; i < 20; i++)
                 {
@@ -137,85 +135,29 @@ public class ContainingClient extends SimpleApplication {
         }
                 
                 
-                //for(int i=0;i<21;i++)
-                //{
-        
-                    test2 = new Container(quality);
-                    //test2.setLocalTranslation(380, 1, -750); //+25*i
-                    test2.rotate(0, FastMath.HALF_PI, 0);
-                //}
                 
-                //test2 = new Container(quality);
-                //test2.setLocalTranslation(0, 1, -8);
-                //test2.rotate(0, FastMath.HALF_PI, 0);
+        
+            test2 = new Container(quality);
+            test2.rotate(0, FastMath.HALF_PI, 0);
+            
+            test3 = new Container(quality);
+            test3.rotate(0,FastMath.HALF_PI, 0);
+            
+            testAGV = new AGV(quality);
+            testAGV.setLocalTranslation(380, 0, -750);
+            testAGV.rotate(0,FastMath.HALF_PI, 0);
+            
+            //MoveTruckCraneTrucktoAGV();
+               
     }
     
     @Override
     public void simpleUpdate(float tpf) {
         
+      MoveTruckCraneAGVtoTruck();  
+       //MoveTruckCraneTrucktoAGV();
         System.out.println(TruckCranes.get(0).getLocalTranslation().x + "XWAARDE");
-        if(TruckCranes.get(0).getLocalTranslation().x > 399 && TruckCranes.get(0).getLocalTranslation().x != 380.0f && !down)
-        {
-            down = true;
-            TruckCranes.get(0).down();
-            System.out.println("GASDROP");
-        }
-//             /*if(up == false)
-//             {
-//                 test2.setLocalTranslation(                   
-//                 0,
-//                 0,
-//                 -8);
-//             }
-            System.out.println(TruckCranes.get(0).getGrabber().getLocalTranslation().y + "YWAARDE");
-//
-//             if(StorageCranes.get(19).getGrabber().getLocalTranslation().y < 2.7f && StorageCranes.get(19).getGrabber().getLocalTranslation().y > 1.0f)
-//             {
-//                 up = true;
-//                 right = false;
-//                 System.out.println("l");
-//             }             
-//             if(up)
-//             {             
-//                test.setLocalTranslation(
-//                     StorageCranes.get(19).getGrabber().getLocalTranslation().x-8, 
-//                     StorageCranes.get(19).getGrabber().getLocalTranslation().y-2, 
-//                     StorageCranes.get(19).getGrabber().getLocalTranslation().z-8);
-//             }*/
-             if(TruckCranes.get(0).getGrabber().getLocalTranslation().y < -4.5f && TruckCranes.get(0).getGrabber().getLocalTranslation().y > -5)
-             {
-                 truckup = true;
-                 TruckCranes.get(0).Go();
-             }
-             
-             if(truckup == false)
-             {
-                 test2.setLocalTranslation(380, 1, -750 );                 
-                 TruckCranes.get(0).setLocalTranslation(380, 0,-750);
-             }
-             else  if(truckup == true)
-             {
-                test2.setLocalTranslation(TruckCranes.get(0).getLocalTranslation().x + TruckCranes.get(0).getGrabber().getLocalTranslation().z,
-                                          TruckCranes.get(0).getLocalTranslation().y + TruckCranes.get(0).getGrabber().getLocalTranslation().y+6,
-                                          TruckCranes.get(0).getLocalTranslation().z + TruckCranes.get(0).getGrabber().getLocalTranslation().x);
-               
-             }
-             
-             System.out.println(TruckCranes.get(0).getGrabber().getLocalTranslation().x + " ZWAARDE");
-             if(TruckCranes.get(0).getLocalTranslation().x < 401f && TruckCranes.get(0).getLocalTranslation().x > 399 && TruckCranes.get(0).getGrabber().getLocalTranslation().y < -4.4f)
-             {
-                 onTarget = true;
-                 System.out.println("Los!");
-                 TruckCranes.get(0).GoBack();
-                 
-             }
-             
-             if(onTarget == true)
-             {
-                 test2.setLocalTranslation(Trucks.get(0).getLocalTranslation().x, 
-                                           Trucks.get(0).getLocalTranslation().y+1.5f, 
-                                           Trucks.get(0).getLocalTranslation().z);
-             }
+        
     }
 
     /**
@@ -255,5 +197,106 @@ public class ContainingClient extends SimpleApplication {
     @Override
     public void simpleRender(RenderManager rm) {
         // TODO: add render code
+    }
+    
+    public void MoveTruckCraneAGVtoTruck()
+    {
+        System.out.println(TruckCranes.get(0).getLocalTranslation().x + "XWAARDE");
+        if(TruckCranes.get(0).getLocalTranslation().x > 399 && TruckCranes.get(0).getLocalTranslation().x != 380.0f && !down)
+        {
+            down = true;
+            TruckCranes.get(0).down();
+            System.out.println("GASDROP");
+        }
+            System.out.println(TruckCranes.get(0).getGrabber().getLocalTranslation().y + "YWAARDE");
+
+             if(TruckCranes.get(0).getGrabber().getLocalTranslation().y < -4.5f && TruckCranes.get(0).getGrabber().getLocalTranslation().y > -5)
+             {
+                 truckup = true;
+                 TruckCranes.get(0).Go();
+             }
+             
+             if(truckup == false)
+             {
+                 test2.setLocalTranslation(380, 1, -750 );                 
+                 TruckCranes.get(0).setLocalTranslation(380, 0,-750);
+             }
+             else  if(truckup == true)
+             {
+                test2.setLocalTranslation(TruckCranes.get(0).getLocalTranslation().x + TruckCranes.get(0).getGrabber().getLocalTranslation().z,
+                                          TruckCranes.get(0).getLocalTranslation().y + TruckCranes.get(0).getGrabber().getLocalTranslation().y+6,
+                                          TruckCranes.get(0).getLocalTranslation().z + TruckCranes.get(0).getGrabber().getLocalTranslation().x);
+               
+             }
+             
+             System.out.println(TruckCranes.get(0).getGrabber().getLocalTranslation().x + " ZWAARDE");
+             if(TruckCranes.get(0).getLocalTranslation().x < 401f && TruckCranes.get(0).getLocalTranslation().x > 399 && TruckCranes.get(0).getGrabber().getLocalTranslation().y < -4.4f)
+             {
+                 onTarget = true;
+                 System.out.println("Los!");
+                 TruckCranes.get(0).GoBack();
+                 
+             }
+             
+             if(onTarget == true)
+             {
+                 test2.setLocalTranslation(Trucks.get(0).getLocalTranslation().x, 
+                                           Trucks.get(0).getLocalTranslation().y+1.5f, 
+                                           Trucks.get(0).getLocalTranslation().z);
+             }
+    }
+    
+    public void MoveTruckCraneTrucktoAGV()
+    {
+        //motiontruckcranegrabber() aangepast!!!!
+        if(containerUp == false)
+        {
+            test3.setLocalTranslation(400, 1, -750 );
+        }
+        else if(containerUp == true)
+        {
+            test3.setLocalTranslation(TruckCranes.get(0).getLocalTranslation().x + TruckCranes.get(0).getGrabber().getLocalTranslation().z,
+                                      TruckCranes.get(0).getLocalTranslation().y + TruckCranes.get(0).getGrabber().getLocalTranslation().y+6,
+                                      TruckCranes.get(0).getLocalTranslation().z + TruckCranes.get(0).getGrabber().getLocalTranslation().x);
+        }
+         
+         if(TruckCranes.get(0).getLocalTranslation().x == 380)
+         {
+            TruckCranes.get(0).CranetoTruck();
+            TruckCranes.get(0).MotionTruckCraneGrabber2(down);
+         }
+         
+         if(TruckCranes.get(0).getLocalTranslation().x > 399 && TruckCranes.get(0).getLocalTranslation().x < 400f && !down)
+         {
+            down = true;
+            TruckCranes.get(0).down2();
+            
+         }
+         if(TruckCranes.get(0).getGrabber().getLocalTranslation().y < -4.5f && TruckCranes.get(0).getGrabber().getLocalTranslation().y > -5)
+         {
+             containerUp = true;
+         }
+         if(TruckCranes.get(0).getLocalTranslation().x < 401f && TruckCranes.get(0).getLocalTranslation().x > 399 && TruckCranes.get(0).getGrabber().getLocalTranslation().y < -4.4f)
+         {
+            TruckCranes.get(0).GoBack(); 
+         }
+         if(TruckCranes.get(0).getLocalTranslation().x < 380 && TruckCranes.get(0).getLocalTranslation().x > 379 && down)
+         {
+             down = false;
+             TruckCranes.get(0).down();
+             System.out.println("DOWNBITCH");
+         }
+         
+         if(TruckCranes.get(0).getLocalTranslation().x < 380 && TruckCranes.get(0).getGrabber().getLocalTranslation().y < -4.4f)
+         {  
+             onTarget = true;
+             
+         }
+         if(onTarget)
+         {
+             test3.setLocalTranslation(testAGV.getLocalTranslation().x,
+                                       testAGV.getLocalTranslation().y+1.5f,
+                                       testAGV.getLocalTranslation().z);
+         }
     }
 }
