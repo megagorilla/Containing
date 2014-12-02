@@ -80,8 +80,8 @@ public class ContainingClient extends SimpleApplication {
         myAssetManager = assetManager;
         myRootNode = rootNode;
         myViewPort = viewPort;
-        rootNode.attachChild(SkyFactory.createSky(assetManager, "Textures/Sky/Bright/BrightSky.dds", false));
-		flyCam.setMoveSpeed(500);
+        rootNode.attachChild(SkyFactory.createSky(assetManager, "Scenes/BrightSky.dds", false));
+		flyCam.setMoveSpeed(200);
         cam.setFrustumFar(5000);
         cam.onFrameChange();
                 cam.setLocation(new Vector3f(300,20,-300));

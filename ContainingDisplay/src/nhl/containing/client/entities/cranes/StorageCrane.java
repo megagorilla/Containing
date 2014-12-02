@@ -34,8 +34,10 @@ public class StorageCrane extends Crane
                 grabber.attachChild(grabber3);
 		attachChild(grabber);
                 
+                //set colour of the crane
                 Node subNodes = (Node) children.get(0);
                 subNodes.getChild(0).setMaterial(new PlainMaterial(new ColorRGBA(1, 20f / 255f, 147f / 255f, 1f))); //mainBodyColour
+                subNodes.getChild(1).setMaterial(new PlainMaterial(ColorRGBA.White)); //wheelColour
                         
 		ContainingClient.getMyRootNode().attachChild(this);
 	}
