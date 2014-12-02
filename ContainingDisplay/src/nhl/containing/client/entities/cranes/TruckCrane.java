@@ -43,7 +43,7 @@ public class TruckCrane extends Crane {
                 
         //Fabulous Colours *Sparkle*        
         Node subNodes = (Node) children.get(0);
-        subNodes.getChild(0).setMaterial(new PlainMaterial(new ColorRGBA(1, 20f / 255f, 147f / 255f, 1f))); //mainBodyColour
+        subNodes.getChild(0).setMaterial(new PlainMaterial(new ColorRGBA(1, 20f / 255f, 147f / 255f, 1f))); //Wheel Colour
         ContainingClient.getMyRootNode().attachChild(this);
     }
     

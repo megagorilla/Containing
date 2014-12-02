@@ -4,11 +4,13 @@
  */
 package nhl.containing.client.entities.vehicles;
 
+import com.jme3.math.ColorRGBA;
 import nhl.containing.client.ContainingClient;
 import nhl.containing.client.entities.Vehicle;
 
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
+import nhl.containing.client.materials.PlainMaterial;
 
 /**
  *
@@ -35,6 +37,11 @@ public class Truck extends Vehicle {
                 break;
         }
         attachChild(ContainingClient.getMyAssetManager().loadModel(qualityPath));
+        
+        //Colour Changing
+        Node subNodes = (Node) children.get(0);
+        subNodes.getChild(0).setMaterial(new PlainMaterial(new ColorRGBA(1, 20f / 255f, 147f / 255f, 1f))); //WindScreen Colour
+        subNodes.getChild(2).setMaterial(new PlainMaterial(new ColorRGBA(1, 20f / 255f, 147f / 255f, 1f))); //mainBodyColour
         ContainingClient.getMyRootNode().attachChild(this);
     }
 }
