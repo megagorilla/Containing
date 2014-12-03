@@ -1,5 +1,7 @@
 package nhl.containing.server.pathfinding;
 
+import java.awt.Color;
+
 import nhl.containing.server.platformhandlers.TruckPlatformHandler;
 import nhl.containing.server.util.ControlHandler;
 import nhl.containing.server.util.ServerSpatial;
@@ -27,7 +29,7 @@ public class CMotionPathListener implements MotionPathListener
 			AGV agv = spatial.agv;
 			agv.currentLocation = spatial.destination;
 			AGVHandler.getInstance().setAGV(agv.agvId, agv);
-			
+			motionControl.stop();
 			switch(AGVHandler.getInstance().getAGV(spatial.agv.agvId).currentLocation)
 			{
 				case "a2":
@@ -48,7 +50,7 @@ public class CMotionPathListener implements MotionPathListener
 	
 	private void handleAGVToStorage(AGV agv) 
 	{
-		ControlHandler.getInstance().sendAGV("a1.1", agv.agvId, "a3");
+		ControlHandler.getInstance().sendAGV("a1", agv.agvId, "a3");
 	}
 
 	private void handleAGVTruckPlatform(int id)

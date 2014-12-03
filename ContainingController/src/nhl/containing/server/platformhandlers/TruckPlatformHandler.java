@@ -46,7 +46,7 @@ public class TruckPlatformHandler
 	}
 	
 	/**
-	 * FOR TESTING PURPOSES ONLY
+	 * FOR TESTING PURPOSES ONLY!
 	 * @param agv
 	 * @param i
 	 */
@@ -86,7 +86,7 @@ public class TruckPlatformHandler
 			if(!location.hasAGV && location.hasContainer)
 				return location;
 		}
-		return null;
+		return locations.get(0);
 	}
 	
 	public class TruckLocation
