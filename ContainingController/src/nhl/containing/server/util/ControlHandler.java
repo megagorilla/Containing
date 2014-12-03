@@ -15,20 +15,41 @@ import com.jme3.cinematic.events.MotionEvent;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 
+/**
+ * Controls the AGVs and sends the info to the client
+ * @author Arjen
+ */
 public class ControlHandler
 {
+	/**
+	 * Instance of this class
+	 */
 	private static ControlHandler instance;
 	
+	/**
+	 * Retrieves the instance of this class
+	 * @return {@link #instance}
+	 */
 	public static ControlHandler getInstance()
 	{
 		return instance;
 	}
 	
+	/**
+	 * Initializes the instance
+	 */
 	public ControlHandler()
 	{
 		instance = this;
 	}
 	
+	/**
+	 * Sends the agv to a certain location on the graph and creates a motionpath for the server to keep track of that object.
+	 * (TO BE REMOVED, FOR TESTING ONLY)
+	 * @param destination
+	 * @param id
+	 * @param cl
+	 */
 	public void sendAGV(String destination, int id, String cl)
 	{
 		AGV agv = AGVHandler.getInstance().getFreeAGV();
@@ -57,6 +78,11 @@ public class ControlHandler
         motionControl.play();
 	}
 	
+	/**
+	 * Sends the agv to a certain location on the graph and creates a motionpath for the server to keep track of that object.
+	 * @param id
+	 * @param list
+	 */
 	public void sendAGV(int id, List<Vector3f> list)
 	{
 		AGV agv = AGVHandler.getInstance().getAGV(id);
@@ -81,6 +107,12 @@ public class ControlHandler
         motionControl.play();
 	}
 	
+	/**
+ 	 * Sends the agv to a certain location on the graph and creates a motionpath for the server to keep track of that object.
+	 * @param id
+	 * @param list
+	 * @param destination
+	 */
 	public void sendAGV(int id, List<Vector3f> list, String destination)
 	{
 		AGV agv = AGVHandler.getInstance().getAGV(id);

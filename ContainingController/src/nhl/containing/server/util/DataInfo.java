@@ -1,5 +1,10 @@
 package nhl.containing.server.util;
 
+/**
+ * Data for the Application (TODO: Fill this data)
+ * @author Arjen
+ *
+ */
 public class DataInfo
 {
 	String[] data = new String[6];

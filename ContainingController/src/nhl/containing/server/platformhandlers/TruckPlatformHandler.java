@@ -9,17 +9,28 @@ import nhl.containing.server.util.ControlHandler;
 
 import com.jme3.math.Vector3f;
 
+/**
+ * Handles AGV's that arrive at the 'a2' position
+ * @author Arjen
+ */
 public class TruckPlatformHandler
 {
 	private static TruckPlatformHandler instance;
 	private HashMap<Integer, TruckLocation> locations = new HashMap<Integer, TruckLocation>();
 	
+	/**
+	 * Initializes instance and the truckLocations (DO NOT CALL THIS OUTSIDE OF THE INIT METHOD OF THE SERVER)
+	 */
 	public TruckPlatformHandler()
 	{
 		instance = this;
 		init();
 	}
 	
+	/**
+	 * Returns the instance of {@link TruckPlatformHandler}
+	 * @return {@link #instance}
+	 */
 	public static TruckPlatformHandler getInstance()
 	{
 		return instance;
@@ -33,6 +44,10 @@ public class TruckPlatformHandler
 		}
 	}
 	
+	/**
+	 * Handles the agv when it arrives at location 'a2'
+	 * @param agv
+	 */
 	public void handleAGV(AGV agv)
 	{
 		TruckLocation location = this.getTruckLocation();
@@ -63,6 +78,11 @@ public class TruckPlatformHandler
 		locations.put(location.id, location);
 	}
 	
+	/**
+	 * Handles agv with certain ID when it arrives at the 'a3' location
+	 * @param agv
+	 * @param i
+	 */
 	public void sendAGVToStorage(AGV agv, int i)
 	{
 		TruckLocation location = locations.get(i);
@@ -79,6 +99,10 @@ public class TruckPlatformHandler
 		locations.put(i, location);
 	}
 	
+	/**
+	 * gets a truckLocation that requires an AGV and has a container
+	 * @return {@link TruckLocation}
+	 */
 	private TruckLocation getTruckLocation()
 	{
 		for(TruckLocation location : locations.values())
@@ -89,6 +113,10 @@ public class TruckPlatformHandler
 		return locations.get(0);
 	}
 	
+	/**
+	 * creates an trucklocation object with various variables.
+	 * @author Arjen
+	 */
 	public class TruckLocation
 	{
 		public int id;

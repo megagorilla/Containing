@@ -55,7 +55,7 @@ public class UpdateMessage extends AbstractMessage
 	/**
 	 * Get the message string.
 	 * 
-	 * @return the message string
+	 * @return {@link #msg}
 	 */
 	public String getMsg()
 	{

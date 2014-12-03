@@ -16,20 +16,26 @@ public class ContainingServer extends SimpleApplication
 {
 	float time = 0;
 	private boolean hasSent;
-	private RouteController route;
 	private static Node staticRootNode;
 
+	/**
+	 * Starts the app headless (no display)
+	 * @param args
+	 */
 	public static void main(String[] args)
 	{
 		ContainingServer app = new ContainingServer();
 		app.start(JmeContext.Type.Headless);
 	}
-
+	
+	/**
+	 * Initializes all the variables and classes.
+	 */
 	@Override
 	public void simpleInitApp()
 	{
 		staticRootNode = this.getRootNode();
-		route = new RouteController();
+		new RouteController();
 		new ControlHandler();
 		new AGVHandler();
 		new TruckPlatformHandler();
@@ -41,32 +47,30 @@ public class ContainingServer extends SimpleApplication
         System.out.println("1");
 	}
 
+	/**
+	 * Updates the server every frame
+	 */
 	@Override
 	public void simpleUpdate(float tpf)
 	{
 		if(!hasSent && ConnectionManager.hasConnections())
 		{
-			//dest - start
-//			ControlHandler.getInstance().sendAGV("a2", 0, "a4");
-////			ControlHandler.getInstance().sendAGV("a4", 1, "");
-////			ControlHandler.getInstance().sendAGV("a3", 2, "");
-////			ControlHandler.getInstance().sendAGV("c2", 3, "");
-////			ControlHandler.getInstance().sendAGV("b4", 4, "");
-//			TruckPlatformHandler.getInstance().handleAGV(AGVHandler.getInstance().getAGV(0), 3);
-//			TruckPlatformHandler.getInstance().handleAGV(AGVHandler.getInstance().getAGV(1), 7);
-//			TruckPlatformHandler.getInstance().handleAGV(AGVHandler.getInstance().getAGV(2), 11);
-//			TruckPlatformHandler.getInstance().handleAGV(AGVHandler.getInstance().getAGV(3), 14);
-//			TruckPlatformHandler.getInstance().handleAGV(AGVHandler.getInstance().getAGV(4), 17);
 			StoragePlatformHandler.getInstance().handleAGV(AGVHandler.getInstance().getAGV(0));
 			hasSent = true;
 		}
 	}
 	
+	/**
+	 * @return {@link #staticRootNode}
+	 */
 	public static Node getRoot()
 	{
 		return staticRootNode;
 	}
 	
+	/**
+	 * Destroys the server properly so that the connection is closed
+	 */
 	@Override
 	public void destroy()
 	{

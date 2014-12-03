@@ -31,7 +31,6 @@ public final class ConnectionManager
 			System.err.println(e);
 			return false;
 		}
-		server.addMessageListener(new ServerListener(), UpdateMessage.class);
 		server.start();
 		return true;
 	}
@@ -65,6 +64,10 @@ public final class ConnectionManager
 		server.broadcast(msg);
 	}
 
+	/**
+	 * Returns true if 1 or more clients are connected
+	 * @return server.hasConnections()
+	 */
 	public static boolean hasConnections()
 	{
 		return server.hasConnections();

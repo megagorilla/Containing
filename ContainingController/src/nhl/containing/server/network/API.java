@@ -1,13 +1,4 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package nhl.containing.server.network;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 import nhl.containing.server.util.DataInfo;
 
@@ -18,7 +9,6 @@ import org.vertx.java.core.http.HttpServerRequest;
 import org.vertx.java.core.http.RouteMatcher;
 
 import com.google.gson.Gson;
-import com.jme3.math.Vector3f;
 
 /**
  * The API endpoints of the server, allowing web and android access to required data. Libraries used: Vert.x & Gson.
@@ -59,6 +49,6 @@ public final class API
 				req.response().end(gson.toJson(req.params().get("id")));
 			}
 		});
-		vertx.createHttpServer().requestHandler(rm).listen(port); // listen on the specified portg (change if needed)
+		vertx.createHttpServer().requestHandler(rm).listen(port); // listen on the specified port (change if needed)
 	}
 }

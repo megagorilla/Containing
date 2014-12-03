@@ -1,7 +1,5 @@
 package nhl.containing.server.pathfinding;
 
-import java.awt.Color;
-
 import nhl.containing.server.platformhandlers.TruckPlatformHandler;
 import nhl.containing.server.util.ControlHandler;
 import nhl.containing.server.util.ServerSpatial;
@@ -9,6 +7,10 @@ import nhl.containing.server.util.ServerSpatial;
 import com.jme3.cinematic.MotionPathListener;
 import com.jme3.cinematic.events.MotionEvent;
 
+/**
+ * The motionpath Listener for the server, this makes it so that the server can keep track of objects when they are moving and when they stopped moving
+ * @author Arjen
+ */
 public class CMotionPathListener implements MotionPathListener
 {
 	@Override
@@ -48,11 +50,19 @@ public class CMotionPathListener implements MotionPathListener
 		}
 	}
 	
+	/**
+	 * Handles the AGV when it has reached location 'a3'
+	 * @param agv
+	 */
 	private void handleAGVToStorage(AGV agv) 
 	{
 		ControlHandler.getInstance().sendAGV("a1", agv.agvId, "a3");
 	}
 
+	/**
+	 * Handles the AGV when it has reached location 'a2'
+	 * @param id
+	 */
 	private void handleAGVTruckPlatform(int id)
 	{
 		AGV agv = AGVHandler.getInstance().getAGV(id);

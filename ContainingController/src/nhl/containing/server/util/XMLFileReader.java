@@ -13,8 +13,16 @@ import org.w3c.dom.NodeList;
 
 import com.jme3.math.Vector3f;
 
+/**
+ * Reads XML Files
+ * @author Arjen
+ */
 public class XMLFileReader
 {
+	/**
+	 * retrieves all the containers from a certain XML file
+	 * @return ArrayList of all the containersS
+	 */
 	public ArrayList<Container> getContainers()
 	{
 		ArrayList<Container> containers = new ArrayList<Container>();
@@ -127,6 +135,10 @@ public class XMLFileReader
 		return null;
 	}
 
+	/**
+	 * Class for the container (TODO: To be removed for a new object that is cleaner)
+	 * @author Arjen
+	 */
 	public class Container
 	{
 		public ContainerInfo arrival, departure;
@@ -154,6 +166,11 @@ public class XMLFileReader
 		}
 	}
 
+	/**
+	 * info of the container (1 for arrival, 1 for departure)
+	 * @author Arjen
+	 *
+	 */
 	public class ContainerInfo
 	{
 		public int day, month, year;
@@ -173,6 +190,11 @@ public class XMLFileReader
 		}
 	}
 
+	/**
+	 * the type the container has to travel with
+	 * @author Arjen
+	 *
+	 */
 	public enum TravelType
 	{
 		VRACHTAUTO, ZEESCHIP, BINNENSCHIP, TREIN;
@@ -195,6 +217,10 @@ public class XMLFileReader
 		}
 	}
 
+	/**
+	 * the product in the container
+	 * @author Arjen
+	 */
 	public class ContainerInhoud
 	{
 		public String naam, soort, gevaar;
