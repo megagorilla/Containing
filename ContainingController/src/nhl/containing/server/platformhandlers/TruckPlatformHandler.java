@@ -46,7 +46,7 @@ public class TruckPlatformHandler
 	}
 	
 	/**
-	 * FOR TESTING PURPOSES ONLY
+	 * FOR TESTING PURPOSES ONLY!
 	 * @param agv
 	 * @param i
 	 */
