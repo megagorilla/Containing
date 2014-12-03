@@ -74,6 +74,8 @@ public class ContainingClient extends SimpleApplication {
         Node rails;
         Container test2;
         Container test3;
+        
+        public static int containerPositie;
     
     public static void main(String[] args) {
         ContainingClient app = new ContainingClient();
@@ -115,7 +117,7 @@ public class ContainingClient extends SimpleApplication {
                     TruckCranes.add(new TruckCrane(i));
                     TruckCranes.get(i).setLocalTranslation(380, 0, -750 + 25*i);
                     TruckCranes.get(i).rotate(0, FastMath.HALF_PI, 0);
-                    // TruckCranes.get(i).MotionTruckCraneGrabber(down);
+                    //TruckCranes.get(i).MotionTruckCraneGrabber(down);
                 }                
                
                 
@@ -140,8 +142,8 @@ public class ContainingClient extends SimpleApplication {
             test2 = new Container(quality);
             test2.rotate(0, FastMath.HALF_PI, 0);
             
-            test3 = new Container(quality);
-            test3.rotate(0,FastMath.HALF_PI, 0);
+//            test3 = new Container(quality);
+//            test3.rotate(0,FastMath.HALF_PI, 0);
             
             testAGV = new AGV(quality);
             testAGV.setLocalTranslation(380, 0, -750);
@@ -154,9 +156,15 @@ public class ContainingClient extends SimpleApplication {
     @Override
     public void simpleUpdate(float tpf) {
         
-      MoveTruckCraneAGVtoTruck();  
-       //MoveTruckCraneTrucktoAGV();
-        System.out.println(TruckCranes.get(0).getLocalTranslation().x + "XWAARDE");
+     // if(test2.getLocalTranslation().x == 380)
+     // {
+        MoveTruckCraneAGVtoTruck();  
+    //  }
+     // else if(test2.getLocalTranslation().x == 400)
+     // {
+        //MoveTruckCraneTrucktoAGV();
+     // }
+    //    System.out.println(TruckCranes.get(0).getLocalTranslation().x + "XWAARDE");
         
     }
 
@@ -201,6 +209,11 @@ public class ContainingClient extends SimpleApplication {
     
     public void MoveTruckCraneAGVtoTruck()
     {
+        if(TruckCranes.get(0).getGrabber().getLocalTranslation().y > 0 && TruckCranes.get(0).getLocalTranslation().x == 380.0f)
+        {
+            TruckCranes.get(0).MotionTruckCraneGrabber(down);
+        }
+        
         System.out.println(TruckCranes.get(0).getLocalTranslation().x + "XWAARDE");
         if(TruckCranes.get(0).getLocalTranslation().x > 399 && TruckCranes.get(0).getLocalTranslation().x != 380.0f && !down)
         {
@@ -242,8 +255,7 @@ public class ContainingClient extends SimpleApplication {
              {
                  test2.setLocalTranslation(Trucks.get(0).getLocalTranslation().x, 
                                            Trucks.get(0).getLocalTranslation().y+1.5f, 
-                                           Trucks.get(0).getLocalTranslation().z);
-             }
+                                           Trucks.get(0).getLocalTranslation().z);             }
     }
     
     public void MoveTruckCraneTrucktoAGV()
@@ -251,11 +263,11 @@ public class ContainingClient extends SimpleApplication {
         //motiontruckcranegrabber() aangepast!!!!
         if(containerUp == false)
         {
-            test3.setLocalTranslation(400, 1, -750 );
+            test2.setLocalTranslation(400, 1, -750 );
         }
         else if(containerUp == true)
         {
-            test3.setLocalTranslation(TruckCranes.get(0).getLocalTranslation().x + TruckCranes.get(0).getGrabber().getLocalTranslation().z,
+            test2.setLocalTranslation(TruckCranes.get(0).getLocalTranslation().x + TruckCranes.get(0).getGrabber().getLocalTranslation().z,
                                       TruckCranes.get(0).getLocalTranslation().y + TruckCranes.get(0).getGrabber().getLocalTranslation().y+6,
                                       TruckCranes.get(0).getLocalTranslation().z + TruckCranes.get(0).getGrabber().getLocalTranslation().x);
         }
@@ -294,7 +306,7 @@ public class ContainingClient extends SimpleApplication {
          }
          if(onTarget)
          {
-             test3.setLocalTranslation(testAGV.getLocalTranslation().x,
+             test2.setLocalTranslation(testAGV.getLocalTranslation().x,
                                        testAGV.getLocalTranslation().y+1.5f,
                                        testAGV.getLocalTranslation().z);
          }
