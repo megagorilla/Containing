@@ -31,6 +31,13 @@ public class GraphView {
 		list5 = new ArrayList<ListData>();
 		list6 = new ArrayList<ListData>();
 		list7 = new ArrayList<ListData>();
+		list1.clear();
+		list2.clear();
+		list3.clear();
+		list4.clear();
+		list5.clear();
+		list6.clear();
+		list7.clear();
 		this.ctx = _ctx;
 	}
 	

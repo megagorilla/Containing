@@ -49,7 +49,6 @@ public class LoginActivity extends ActionBarActivity {
     
     private class ConnectButtonListener implements OnClickListener
     {
-
 		@Override
 		public void onClick(View v) {
 			System.out.println("Input data: " + connectInput.toString());
