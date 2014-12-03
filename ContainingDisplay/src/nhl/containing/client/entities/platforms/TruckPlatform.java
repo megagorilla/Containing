@@ -17,8 +17,8 @@ import com.jme3.scene.shape.Box;
 import nhl.containing.client.entities.cranes.StorageCrane;
 
 /**
- * 
- * @author Sander
+ * This is the truckplatform
+ * @author Yannick
  */
 public class TruckPlatform extends Platform
 {
@@ -26,6 +26,7 @@ public class TruckPlatform extends Platform
 	Node parkingBox = new Node();
         Node sideWayBox = new Node();
         Node AGVparkingBox = new Node();
+        private static final int ParkingSpaceAmount = 20;
 
 	public TruckPlatform()
 	{
@@ -35,7 +36,12 @@ public class TruckPlatform extends Platform
                 SideWay();
                 AGVparking();
 	}
-
+        
+        /**
+         * This is the ground box, with width 100, height 10 & length 560
+         * Color dark gray
+         */
+        
 	private void Ground()
 	{
 		Box Ground = new Box(50, 5f, 280);
@@ -45,10 +51,14 @@ public class TruckPlatform extends Platform
 		groundGeom.setLocalTranslation(370, -5, -515);
 		ContainingClient.getMyRootNode().attachChild(groundBox);
 	}
+        
+        /**
+         * here i make the parking spaces, 20, significant tot the amount of trucks.
+         */
 
 	private void ParkingSpace()
 	{
-		for (int i = 0; i < 20; i++)
+		for (int i = 0; i < ParkingSpaceAmount; i++)
 		{
 			Box ParkingSpace = new Box(10, 0.1f, 5);
 			Geometry parkingGeom = new Geometry("Box", ParkingSpace);
@@ -60,6 +70,9 @@ public class TruckPlatform extends Platform
 		attachChild(parkingBox);
 	}
         
+        /**
+         * updriving roads, sideways next to the AGVParking
+         */
         private void SideWay()
         {
             for(int i = 0; i <2; i++)
@@ -73,6 +86,9 @@ public class TruckPlatform extends Platform
             attachChild(sideWayBox);
         }
         
+        /**
+         * road next to the parking space
+         */
         private void AGVparking()
         {
             Box AGVParking = new Box(3,0.1f,268);
