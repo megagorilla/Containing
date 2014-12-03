@@ -1,14 +1,11 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package nhl.containing.server.pathfinding;
 
 import nhl.containing.server.util.XMLFileReader.Container;
 
 /**
+ * Creates AVG's
+ * @author Fré-Meine
  *
- * @author FrÃ©-Meine
  */
 public class AGV 
 {
@@ -29,31 +26,51 @@ public class AGV
     	this.currentLocation = currentLocation;
     }
     
+    /**
+     * Set true when there is a container on the AGV
+     */
     public void setLoaded(boolean loaded)
     {
     	this.loaded = loaded;
     }
     
+    /**
+     * Returns a boolean if the AGV has a container or not
+     * @return true if there is a container on the AGV
+     */
     public boolean getLoaded()
     {
     	return loaded;
     }
     
+    /**
+     * Set true when the AGV is moving
+     */
     public void setIsMoving(boolean moving)
     {
     	this.isMoving = moving;
     }
     
+    /**
+     * Returns a boolean if the AGV is moving or not
+     * @return true if the AGV is moving
+     */
     public boolean getIsMoving()
     {
     	return isMoving;
     }
     
+    /**
+     * Set container info 
+     */
     public void setContainer(Container c)
     {
     	this.container = c;
     }
     
+    /**
+     * Get container info
+     */
     public Container getContainer()
     {
     	return container;

@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package nhl.containing.server.pathfinding;
 
 import com.jme3.math.Vector3f;
@@ -9,8 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
+ * Controller managing the shortest routes
+ * @author Fré-Meine
  *
- * @author FrÃ©-Meine
  */
 public class RouteController extends ShortestPath {
 
@@ -26,10 +23,16 @@ public class RouteController extends ShortestPath {
         s = new ShortestPath();
     }
 
+    /**
+     * Fills the HashMap with a String and Vector3f
+     */
     public void createWayPoints() {
         wayPoints.put("", new Vector3f(0, 0, 0));
     }
     
+    /**
+     * Returns a list of Vectors
+     */
     public List<Vector3f> sendAGV(String currentLocation, String destination)
     {
         dijkstra.dijkstra(currentLocation);
