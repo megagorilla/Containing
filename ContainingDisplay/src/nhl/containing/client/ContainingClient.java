@@ -172,7 +172,7 @@ public class ContainingClient extends SimpleApplication {
      * returns the static version of the assetmanager Usage:
      * DisplayController.getMyAssetManager()
      *
-     * @return
+     * @return a static assetmanager
      */
     public static AssetManager getMyAssetManager() {
         return myAssetManager;
@@ -182,7 +182,7 @@ public class ContainingClient extends SimpleApplication {
      * returns the static version of the RootNode Usage:
      * DisplayController.getMyRootNode()
      *
-     * @return
+     * @return a static rootnode
      */
     public static Node getMyRootNode() {
         return myRootNode;
@@ -192,12 +192,12 @@ public class ContainingClient extends SimpleApplication {
      * returns the static version of the ViewPort Usage:
      * DisplayController.getMyViewPort()
      *
-     * @return
+     * @return a static vieuwport
      */
     public static ViewPort getMyViewPort() {
         return myViewPort;
     }
-    
+
     public DirectionalLight getSun() {
         return sun;
     }
