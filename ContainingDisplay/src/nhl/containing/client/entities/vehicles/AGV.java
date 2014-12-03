@@ -4,38 +4,51 @@
  */
 package nhl.containing.client.entities.vehicles;
 
+import com.jme3.math.ColorRGBA;
+import com.jme3.scene.Node;
+import com.jme3.scene.Spatial;
 import nhl.containing.client.ContainingClient;
 import nhl.containing.client.entities.Vehicle;
-
+import nhl.containing.client.materials.PlainMaterial;
 
 /**
- * 
+ *
  * @author Sander
  */
-public class AGV extends Vehicle
-{
-        /**
-         * Creates the model for an AGV
-         * @param qualtiy the quality for the model
-         */
-	public AGV(ContainingClient.Quality qualtiy)
-	{
-		super();
-		String qualityPath = "Models/high/agv/agv.j3o";
-		switch (qualtiy)
-		{
-			case HIGH:
-				qualityPath = "Models/high/agv/agv.j3o";
-				break;
-			case MEDIUM:
-				qualityPath = "Models/medium/agv/agv.j3o";
-				break;
-			case LOW:
-				qualityPath = "Models/low/agv/agv.j3o";
-				break;
-		}
-		attachChild(ContainingClient.getMyAssetManager().loadModel(qualityPath));
-		ContainingClient.getMyRootNode().attachChild(this);
-	}
+public class AGV extends Vehicle {
 
+    /**
+     * Creates the model for an AGV
+     *
+     * @param qualtiy the quality for the model
+     */
+    public AGV(ContainingClient.Quality qualtiy) {
+        super();
+        String qualityPath = "Models/high/agv/agv.j3o";
+        switch (qualtiy) {
+            case HIGH:
+                qualityPath = "Models/high/agv/agv.j3o";
+                break;
+            case MEDIUM:
+                qualityPath = "Models/medium/agv/agv.j3o";
+                break;
+            case LOW:
+                qualityPath = "Models/low/agv/agv.j3o";
+                break;
+        }
+        attachChild(ContainingClient.getMyAssetManager().loadModel(qualityPath));
+
+        //ColourChaning Code
+        Node subNodes = (Node) children.get(0);
+        subNodes.getChild(0).setMaterial(new PlainMaterial(new ColorRGBA(1, 192f / 255f, 203f / 255f, 1f))); //mainBodyColour
+        subNodes.getChild(1).setMaterial(new PlainMaterial(ColorRGBA.White)); //WheelColour1
+        if (qualtiy != qualtiy.LOW) {
+            subNodes.getChild(2).setMaterial(new PlainMaterial(ColorRGBA.LightGray)); //wheelcolour2
+            if (qualtiy == qualtiy.HIGH) {
+                subNodes.getChild(3).setMaterial(new PlainMaterial(ColorRGBA.White)); //bodyColour2
+            }
+        }
+
+        ContainingClient.getMyRootNode().attachChild(this);
+    }
 }

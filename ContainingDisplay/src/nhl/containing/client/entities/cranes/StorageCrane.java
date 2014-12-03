@@ -4,10 +4,12 @@
  */
 package nhl.containing.client.entities.cranes;
 
+import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
 import com.jme3.scene.Node;
 import nhl.containing.client.ContainingClient;
 import nhl.containing.client.entities.Crane;
+import nhl.containing.client.materials.PlainMaterial;
 
 /**
  * 
@@ -31,6 +33,12 @@ public class StorageCrane extends Crane
                 grabber3.setLocalTranslation(0, -26, 0);
                 grabber.attachChild(grabber3);
 		attachChild(grabber);
+                
+                //set colour of the crane
+                Node subNodes = (Node) children.get(0);
+                subNodes.getChild(0).setMaterial(new PlainMaterial(new ColorRGBA(1, 20f / 255f, 147f / 255f, 1f))); //mainBodyColour
+                subNodes.getChild(1).setMaterial(new PlainMaterial(ColorRGBA.White)); //wheelColour
+                        
 		ContainingClient.getMyRootNode().attachChild(this);
 	}
 }

@@ -5,6 +5,7 @@
 package nhl.containing.server.pathfinding;
 
 import com.jme3.math.Vector3f;
+import java.util.ArrayList;
 import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -40,20 +41,19 @@ public class GraphTest {
 
     /**
      * Test of dijkstra method, of class Graph.
+     * not testable
      */
-    @Test
-    public void testDijkstra() {
-        System.out.println("dijkstra");
-        String startName = "a1";
-        Graph instance = new Graph(ShortestPath.GRAPH);
-        instance.dijkstra(startName);
-        
-        String startName2 = "";
-        Graph instance2 = new Graph(ShortestPath.GRAPH);
-        instance2.dijkstra(startName2);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
+//    @Test
+//    public void testDijkstra() {
+//        System.out.println("dijkstra");
+//        String startName = "a1";
+//        Graph instance = new Graph(ShortestPath.GRAPH);
+//        instance.dijkstra(startName);
+//        
+//        String startName2 = "";
+//        Graph instance2 = new Graph(ShortestPath.GRAPH);
+//        instance2.dijkstra(startName2);
+//    }
 
     /**
      * Test of printPath method, of class Graph.
@@ -63,7 +63,7 @@ public class GraphTest {
         System.out.println("printPath");
         String startName = "a1";
         String endNameRight = "a2";
-        String endNameWrong = "herpderp";
+        String endNameWrong = "wrongAtPringPath";
         
         Graph instance = new Graph(ShortestPath.GRAPH);
         instance.dijkstra(startName);
@@ -89,25 +89,35 @@ public class GraphTest {
     public void testGetLocations() {
         System.out.println("getLocations");
         String endNameRight = "d4";
-        String endNameWrong = "herpderp";
+        String endNameWrong = "wrongAtGetLocations";
+        
         Graph instance = new Graph(ShortestPath.GRAPH);
         instance.dijkstra("a1");
-        List expResult = null;
+        
+        List expResultRight = new ArrayList();
+        expResultRight.add(new Vector3f(303.5f, 0.0f, -778.5f));
+        expResultRight.add(new Vector3f(316.5f, 0.0f, -791.5f));
+        expResultRight.add(new Vector3f(-316.5f, 0.0f, -791.5f));
+        expResultRight.add(new Vector3f(-303.5f, 0.0f, -778.5f));
+        
         List result = instance.getLocations(endNameRight);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(expResultRight, result);
+        
+        Graph instance2 = new Graph(ShortestPath.GRAPH);
+        instance.dijkstra("a1");
+        List result2 = instance2.getLocations(endNameWrong);
+        assertNull(result2);
     }
 
     /**
      * Test of printAllPaths method, of class Graph.
+     * Not Used and not testable
      */
-    @Test
-    public void testPrintAllPaths() {
-        System.out.println("printAllPaths");
-        Graph instance =  new Graph(ShortestPath.GRAPH);
-        instance.printAllPaths();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
+//    @Test
+//    public void testPrintAllPaths() {
+//        System.out.println("printAllPaths");
+//        Graph instance =  new Graph(ShortestPath.GRAPH);
+//        instance.printAllPaths();
+//        
+//    }
 }
