@@ -5,6 +5,7 @@
 package nhl.containing.client.entities.cranes;
 
 import com.jme3.cinematic.MotionPath;
+import com.jme3.cinematic.MotionPathListener;
 import com.jme3.cinematic.events.MotionEvent;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
@@ -27,6 +28,9 @@ public class TruckCrane extends Crane {
     private MotionEvent motionControl3;
     private MotionEvent motionControl4;
     int truckCraneNR;
+    
+    private MotionPath craneToTruck;
+    private MotionEvent truckToCraneMotion;
 
     /**
      * creates the TruckCrane and loads all the models
@@ -38,7 +42,7 @@ public class TruckCrane extends Crane {
 		grabber2.attachChild(ContainingClient.getMyAssetManager().loadModel("Models/high/crane/truckcrane/grabbingGear.j3o"));
 		grabber2.attachChild(ContainingClient.getMyAssetManager().loadModel("Models/high/crane/truckcrane/hookLeft.j3o"));
 		grabber2.attachChild(ContainingClient.getMyAssetManager().loadModel("Models/high/crane/truckcrane/hookRight.j3o"));
-                grabber2.setLocalTranslation(0, -15, 0);
+                grabber2.setLocalTranslation(0, 1, 0);
 		attachChild(grabber2);
                 
         //Fabulous Colours *Sparkle*        
@@ -97,7 +101,7 @@ public class TruckCrane extends Crane {
     {
         path5 = new MotionPath();
         path5.addWayPoint(new Vector3f(400, 0, -750 + 25 * truckCraneNR));
-        path5.addWayPoint(new Vector3f(380, 0, -750 + 25 * truckCraneNR));
+        path5.addWayPoint(new Vector3f(379.5f, 0, -750 + 25 * truckCraneNR));
         path5.setCurveTension(0);
         
         motionControl4 = new MotionEvent(this, path5);
@@ -105,6 +109,59 @@ public class TruckCrane extends Crane {
         motionControl4.setInitialDuration(10f);
         motionControl4.setSpeed(1f);
         motionControl4.play();
+    }
+    
+    public void CranetoTruck()
+    {
+        craneToTruck = new MotionPath();
+        craneToTruck.addWayPoint(new Vector3f(380,0,-750 + 25 * truckCraneNR));
+        craneToTruck.addWayPoint(new Vector3f(400,0,-750 + 25 * truckCraneNR));
+        craneToTruck.setCurveTension(0);
+        
+        truckToCraneMotion = new MotionEvent(this, craneToTruck);
+        truckToCraneMotion.setDirectionType(MotionEvent.Direction.PathAndRotation);
+        truckToCraneMotion.setInitialDuration(10f);
+        truckToCraneMotion.setSpeed(1f);
+        truckToCraneMotion.play();
+    }
+    
+    public void down2() 
+    {
+        path4 = new  MotionPath();
+        path4.addWayPoint(new Vector3f(0,1, 0 + 25 * truckCraneNR));
+        path4.addWayPoint(new Vector3f(0, -4.8f, 0 + 25 * truckCraneNR));
+        path4.addWayPoint(new Vector3f(0,1, 0 + 25 * truckCraneNR));
+        path4.setCurveTension(0);
+        path4.addListener(new MotionPathListener() {
+            public void onWayPointReach(MotionEvent motionControl, int wayPointIndex) 
+            {
+                if(wayPointIndex == 1)
+                    System.out.println("6y");
+                    
+            }           
+        });
+        motionControl3 = new MotionEvent(grabber2, path4);
+        motionControl3.setDirectionType(MotionEvent.Direction.PathAndRotation);
+        motionControl3.setInitialDuration(10f);
+        motionControl3.setSpeed(1f);
+        motionControl3.play();        
+        System.out.println("DOWN");        
+    }
+    
+    public void MotionTruckCraneGrabber2(boolean down) {
+        path2 = new MotionPath();
+        
+        path2.addWayPoint(new Vector3f(0, 1, 0));
+        path2.addWayPoint(new Vector3f(0, 0.99f, 0));
+        path2.addWayPoint(new Vector3f(0, 1,0));
+
+        path2.setCurveTension(0);
+        path2.enableDebugShape(ContainingClient.getMyAssetManager(), ContainingClient.getMyRootNode());
+        motionControl = new MotionEvent(grabber2, path2);
+        motionControl.setDirectionType(MotionEvent.Direction.PathAndRotation);
+        motionControl.setInitialDuration(10f);
+        motionControl.setSpeed(1f);
+        motionControl.play();
     }
     
         @Override
