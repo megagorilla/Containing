@@ -16,6 +16,7 @@ import static org.junit.Assert.*;
  * @author Sander
  */
 public class ConnectionManagerTest {
+    boolean result;
     
     public ConnectionManagerTest() {
     }
@@ -30,10 +31,13 @@ public class ConnectionManagerTest {
     
     @Before
     public void setUp() {
+        int port = 3000;
+        result = ConnectionManager.initialize(port);
     }
     
     @After
     public void tearDown() {
+        ConnectionManager.stop();
     }
 
     /**
@@ -42,9 +46,6 @@ public class ConnectionManagerTest {
     @Test
     public void testInitialize() {
         System.out.println("initialize");
-        int port = 3000;
-        boolean expResult = false;
-        boolean result = ConnectionManager.initialize(port);
         assertTrue(result);
     }
 
@@ -53,20 +54,10 @@ public class ConnectionManagerTest {
      */
     @Test
     public void testStop() {
-        System.out.println("stop");
-        ConnectionManager.stop();
+//        System.out.println("stop");
+//        ConnectionManager.stop();
     }
 
-    /**
-     * Test of sendCommand method, of class ConnectionManager.
-     */
-    @Test
-    public void testSendCommand_int_UpdateMessage() {
-        System.out.println("sendCommand");
-        int connID = 0;
-        UpdateMessage msg = new UpdateMessage("TestMessage");
-        ConnectionManager.sendCommand(connID, msg);
-    }
 
     /**
      * Test of sendCommand method, of class ConnectionManager.
@@ -76,8 +67,6 @@ public class ConnectionManagerTest {
         System.out.println("sendCommand");
         UpdateMessage msg = null;
         ConnectionManager.sendCommand(msg);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -89,7 +78,5 @@ public class ConnectionManagerTest {
         boolean expResult = false;
         boolean result = ConnectionManager.hasConnections();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 }
