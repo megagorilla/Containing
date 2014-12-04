@@ -30,6 +30,9 @@ public class RiverShipPlatform extends Platform
                 ContainingClient.getMyRootNode().attachChild(this);
 	}
 
+        /**
+         * Road and platform for the river ships, AGV's drive here, and containers will load on them
+         */
 	private void SideWay()
 	{
 		Box SideWay = new Box(20, 5, 207.5f);
@@ -39,6 +42,9 @@ public class RiverShipPlatform extends Platform
 		sideWayGeom.setLocalTranslation(370, -5.1f, 390+(395/2));
 	}
 
+        /**
+         * THis is the ramp/entry for the rivership platform
+         */
 	private void HookNorth()
 	{
 		Box HookNorth = new Box(15, 5, 10);
@@ -48,6 +54,9 @@ public class RiverShipPlatform extends Platform
 		hookNorthGeom.setLocalTranslation(335, -5.1f, 390);
 	}
 
+        /**
+         * this is the exit to the road on the rivership platform
+         */
 	private void HookSouth()
 	{
 		Box HookSouth = new Box(15, 5, 10);
@@ -57,6 +66,9 @@ public class RiverShipPlatform extends Platform
 		hookSouthGeom.setLocalTranslation(335, -5.1f, 785);
 	}
 
+        /**
+         * 20 rails units 
+         */
 	private void littleShipRails()
 	{
 		for (int i = 1; i < 21; i++)

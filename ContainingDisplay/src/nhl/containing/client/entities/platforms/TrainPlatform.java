@@ -46,6 +46,9 @@ public class TrainPlatform extends Platform{
 		ContainingClient.getMyRootNode().attachChild(this);                
 	}
 
+        /**
+         * trainplatform
+         */
 	private void Ground()
 	{
 		Box Ground = new Box(10, 5f, 795);
@@ -55,6 +58,9 @@ public class TrainPlatform extends Platform{
 		attachChild(groundGeom);
 	}
 
+        /**
+         * 80 units of rails
+         */
 	private void CraneRails()
 	{
 		for (int i = 0; i < 80; i++)
@@ -64,6 +70,9 @@ public class TrainPlatform extends Platform{
 		}
 	}
 
+        /**
+         * parking space for the agv's, parallel to the train
+         */
 	private void ParkingSpace()
 	{
 		Box ParkingSpace = new Box(1.5f, 0.1f, 750);
@@ -74,6 +83,9 @@ public class TrainPlatform extends Platform{
 		ContainingClient.getMyRootNode().attachChild(this);
         }
         
+        /**
+         * entry and exit of the parking space
+         */
         private void Sideway()
         {
             for(int i = 0; i < 2; i++)

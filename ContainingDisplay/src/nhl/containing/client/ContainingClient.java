@@ -43,10 +43,8 @@ public class ContainingClient extends SimpleApplication {
     
     private DirectionalLight sun;
     
-    public enum Quality {
-        
-        LOW, MEDIUM, HIGH
-    };
+    public enum Quality {LOW, MEDIUM, HIGH};
+    
         private Quality quality = Quality.HIGH;
        //private ContainingClient main = new ContainingClient();
         private static Node myRootNode;
@@ -60,15 +58,10 @@ public class ContainingClient extends SimpleApplication {
         ArrayList<Platform> Platforms = new ArrayList<Platform>();
         ArrayList<AGV> AGVs = new ArrayList<AGV>();
         ArrayList<Truck> Trucks = new ArrayList<Truck>();
-        private MotionPath path;
         
         public AGV testAGV;
-        
-        private boolean up = false;
-        private boolean right = false;
         public boolean truckup = false;
         public boolean containerUp = false;
-        //public boolean containerBack = false;
         private boolean onTarget = false;
         public boolean down;
         Node rails;
@@ -82,19 +75,24 @@ public class ContainingClient extends SimpleApplication {
         app.start();
     }
     
+    /**
+     * Hier voegen we de objecten toe aan de "map"
+     * 20 truck kranen, 20 trucks, 39 opslagkranen en alle platformen
+     */
+    
     @Override
     public void simpleInitApp() {
         myAssetManager = assetManager;
         myRootNode = rootNode;
         myViewPort = viewPort;
         rootNode.attachChild(SkyFactory.createSky(assetManager, "Scenes/BrightSky.dds", false));
-		flyCam.setMoveSpeed(200);
+        flyCam.setMoveSpeed(200);
         cam.setFrustumFar(5000);
         cam.onFrameChange();
-                cam.setLocation(new Vector3f(300,20,-300));
+        cam.setLocation(new Vector3f(300,20,-300));
         
         for(int i = 0; i < 5; i++)
-        	agvs.add(new AGV(Quality.HIGH));
+            agvs.add(new AGV(Quality.HIGH));
 
         ConnectionManager.init("localhost", 3000);
 
@@ -113,19 +111,18 @@ public class ContainingClient extends SimpleApplication {
                 
         
         for (int i = 0; i < 20; i++) 
-                {
-                    TruckCranes.add(new TruckCrane(i));
-                    TruckCranes.get(i).setLocalTranslation(380, 0, -750 + 25*i);
-                    TruckCranes.get(i).rotate(0, FastMath.HALF_PI, 0);
-                    //TruckCranes.get(i).MotionTruckCraneGrabber(down);
-                }                
+        {
+           TruckCranes.add(new TruckCrane(i));
+           TruckCranes.get(i).setLocalTranslation(380, 0, -750 + 25*i);
+           TruckCranes.get(i).rotate(0, FastMath.HALF_PI, 0);
+        }                
                
                 
-                for(int i = 0; i < 20; i++)
-                {
-                    Trucks.add(new Truck(quality));
-                    Trucks.get(i).setLocalTranslation(400, 0, -750+25*i);
-                    Trucks.get(i).rotate(0, FastMath.HALF_PI, 0);
+       for(int i = 0; i < 20; i++)
+        {
+           Trucks.add(new Truck(quality));
+           Trucks.get(i).setLocalTranslation(400, 0, -750+25*i);
+           Trucks.get(i).rotate(0, FastMath.HALF_PI, 0);
         }
         
         for (int i = 0; i < 39; i++) 
@@ -142,14 +139,9 @@ public class ContainingClient extends SimpleApplication {
             test2 = new Container(quality);
             test2.rotate(0, FastMath.HALF_PI, 0);
             
-//            test3 = new Container(quality);
-//            test3.rotate(0,FastMath.HALF_PI, 0);
-            
             testAGV = new AGV(quality);
             testAGV.setLocalTranslation(380, 0, -750);
             testAGV.rotate(0,FastMath.HALF_PI, 0);
-            
-            //MoveTruckCraneTrucktoAGV();
                
     }
     
@@ -158,11 +150,11 @@ public class ContainingClient extends SimpleApplication {
         
      // if(test2.getLocalTranslation().x == 380)
      // {
-        MoveTruckCraneAGVtoTruck();  
+        //MoveTruckCraneAGVtoTruck();  
     //  }
      // else if(test2.getLocalTranslation().x == 400)
      // {
-        //MoveTruckCraneTrucktoAGV();
+        MoveTruckCraneTrucktoAGV();
      // }
     //    System.out.println(TruckCranes.get(0).getLocalTranslation().x + "XWAARDE");
         
@@ -207,6 +199,13 @@ public class ContainingClient extends SimpleApplication {
         // TODO: add render code
     }
     
+    
+    /**
+     * Dit is de methode van het verplaatsen van een container, van een AGV naar een truck
+     * Er wordt gekeken naar de posities van de objecten en aan de hand daarvan wordt hun beweging bepaald.
+     * Bijvoorbeeld, als de haak van een kraan op een bepaalde hoogte/laate is, begint de kraan te rijden en gaat de container met hem mee, 
+     * waardoor het lijkt of hij de container daadwerkelijk pakt.
+     */
     public void MoveTruckCraneAGVtoTruck()
     {
         if(TruckCranes.get(0).getGrabber().getLocalTranslation().y > 0 && TruckCranes.get(0).getLocalTranslation().x == 380.0f)
@@ -258,6 +257,11 @@ public class ContainingClient extends SimpleApplication {
                                            Trucks.get(0).getLocalTranslation().z);             }
     }
     
+    
+     /**
+     * Dit is de methode van het verplaatsen van een container, van een Truck naar een AGV
+     * Er wordt gekeken naar de posities van de objecten en aan de hand daarvan wordt hun beweging bepaald.
+     */
     public void MoveTruckCraneTrucktoAGV()
     {
         //motiontruckcranegrabber() aangepast!!!!
@@ -275,7 +279,7 @@ public class ContainingClient extends SimpleApplication {
          if(TruckCranes.get(0).getLocalTranslation().x == 380)
          {
             TruckCranes.get(0).CranetoTruck();
-            TruckCranes.get(0).MotionTruckCraneGrabber2(down);
+            //TruckCranes.get(0).MotionTruckCraneGrabber2(down);
          }
          
          if(TruckCranes.get(0).getLocalTranslation().x > 399 && TruckCranes.get(0).getLocalTranslation().x < 400f && !down)

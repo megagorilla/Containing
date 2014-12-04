@@ -41,10 +41,12 @@ public class StoragePlatform extends Platform
         Rails();
         ContainingClient.getMyRootNode().attachChild(this); 
     }
-    
+    /**
+     * 39 lanes for the storage of containers
+     */
     private void ContainerStocking()
     {
-        for(int i = 0; i < 39; i++)
+        for(int i = 0; i < parkinglots; i++)
         {
         Box Lane = new Box(225, 0.2f, 10);
         Geometry laneGeom = new Geometry("Box", Lane);
@@ -54,6 +56,9 @@ public class StoragePlatform extends Platform
         }
     }
     
+    /**
+     * parking lots for the AGV's, next to the storagelanes.
+     */
     private void AGVParking()
     {
         for (int a = 0; a < 2; a++)
@@ -69,6 +74,9 @@ public class StoragePlatform extends Platform
         }
     }
     
+    /**
+     * road for the AGV's to drive on
+     */
     private void Road()
     {
         Box Road = new Box(WIDTH + ROADWIDTH, DEPTH, HEIGHT + ROADWIDTH);
@@ -78,6 +86,9 @@ public class StoragePlatform extends Platform
         roadGeom.setLocalTranslation(0,-(DEPTH+0.1f),0);
     }
     
+    /**
+     * rail units between the parking lanes.
+     */
     private void Rails(){
         for(int i = 0; i<39;i++){
             for(int j = 0;j<32;j++){
