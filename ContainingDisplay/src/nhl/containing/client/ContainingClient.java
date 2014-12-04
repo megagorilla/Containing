@@ -32,6 +32,7 @@ import nhl.containing.client.entities.platforms.StoragePlatform;
 import nhl.containing.client.entities.platforms.TrainPlatform;
 import nhl.containing.client.entities.platforms.TruckPlatform;
 import nhl.containing.client.entities.vehicles.AGV;
+import nhl.containing.client.entities.vehicles.SpaceShip;
 import nhl.containing.client.entities.vehicles.Truck;
 
 /**
@@ -109,7 +110,8 @@ public class ContainingClient extends SimpleApplication {
         Platforms.add(new TruckPlatform());
         Platforms.add(new RiverShipPlatform());
 
-
+        SpaceShip ship = new SpaceShip();
+        
         for (int i = 0; i < 20; i++) {
             TruckCranes.add(new TruckCrane(i));
             TruckCranes.get(i).setLocalTranslation(380, 0, -750 + 25 * i);
