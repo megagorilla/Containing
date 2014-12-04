@@ -4,9 +4,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import nhl.containing.server.ContainingServer;
+import nhl.containing.server.network.ConnectionManager;
+import nhl.containing.server.network.TruckCraneData;
 import nhl.containing.server.pathfinding.AGV;
+import nhl.containing.server.pathfinding.AGVHandler;
+import nhl.containing.server.pathfinding.CMotionPathListener;
 import nhl.containing.server.util.ControlHandler;
+import nhl.containing.server.util.ServerSpatial;
 
+import com.jme3.cinematic.MotionPath;
+import com.jme3.cinematic.events.MotionEvent;
+import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 
 /**
@@ -131,5 +140,28 @@ public class TruckPlatformHandler
 			this.hasAGV = false;
 			this.hasContainer = false;
 		}
+	}
+
+	public void getContainerFromTruck(int agvId, int craneId) 
+	{
+		List<Vector3f> list = new ArrayList<Vector3f>();
+		list.add(new Vector3f());
+		list.add(new Vector3f(1, 0, 0));
+		ConnectionManager.sendCommand(new TruckCraneData(agvId, craneId, 0));
+		MotionPath path = new MotionPath();
+		for(Vector3f v : list)
+			path.addWayPoint(v);
+		path.setCurveTension(0.0f);
+		path.addListener(new CMotionPathListener());
+		
+		ServerSpatial spatial = new ServerSpatial(AGVHandler.getInstance().getAGV(agvId), "truckLocation_" + String.valueOf(craneId) + "_loaded");
+        ContainingServer.getRoot().attachChild(spatial);
+
+		MotionEvent motionControl = new MotionEvent(spatial, path);
+        motionControl.setDirectionType(MotionEvent.Direction.PathAndRotation);
+        motionControl.setRotation(new Quaternion().fromAngleNormalAxis(0, Vector3f.UNIT_Y));
+        motionControl.setInitialDuration(40f);
+        motionControl.setSpeed(1f);  
+        motionControl.play();
 	}
 }

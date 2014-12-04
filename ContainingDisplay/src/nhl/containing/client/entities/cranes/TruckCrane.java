@@ -4,15 +4,17 @@
  */
 package nhl.containing.client.entities.cranes;
 
+import nhl.containing.client.ContainingClient;
+import nhl.containing.client.entities.Crane;
+import nhl.containing.client.entities.vehicles.AGV;
+import nhl.containing.client.materials.PlainMaterial;
+
 import com.jme3.cinematic.MotionPath;
 import com.jme3.cinematic.MotionPathListener;
 import com.jme3.cinematic.events.MotionEvent;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
-import nhl.containing.client.ContainingClient;
-import nhl.containing.client.entities.Crane;
-import nhl.containing.client.materials.PlainMaterial;
 
 /**
  *
@@ -95,14 +97,32 @@ public class TruckCrane extends Crane {
     /**
      * This method is for dropping the container on the truck or on the AGV
      */
-    public void down() 
+    public void down(final AGV agv) 
     {
         dropContainer = new  MotionPath();
         dropContainer.addWayPoint(new Vector3f(0,1, 0 + 25 * truckCraneNR));
         dropContainer.addWayPoint(new Vector3f(0, -4.5f, 0 + 25 * truckCraneNR));
         dropContainer.addWayPoint(new Vector3f(0,1, 0 + 25 * truckCraneNR));
+        dropContainer.addListener(new MotionPathListener(){
+			@Override
+			public void onWayPointReach(MotionEvent motionControl,
+					int wayPointIndex) {
+				if(motionControl.getPath().getNbWayPoints() == wayPointIndex + 2)
+				{
+		             agv.setContainer(ContainingClient.test2);
+		             MotionPath path = new MotionPath();
+		             path.addWayPoint(agv.getLocalTranslation());
+		             path.addWayPoint(new Vector3f(agv.getLocalTranslation().x + 400, 0.0f, agv.getLocalTranslation().z));
+		             MotionEvent motionControl1 = new MotionEvent(agv, path);
+		             motionControl1.setDirectionType(MotionEvent.Direction.PathAndRotation);
+		             motionControl1.setInitialDuration(100f);
+		             motionControl1.setSpeed(2f);
+		             motionControl1.play();
+		             System.out.println("1");
+				}
+			}	
+        });
         dropContainer.setCurveTension(0);
-        
         motionControl3 = new MotionEvent(grabber2, dropContainer);
         motionControl3.setDirectionType(MotionEvent.Direction.PathAndRotation);
         motionControl3.setInitialDuration(10f);
@@ -160,7 +180,7 @@ public class TruckCrane extends Crane {
         motionControl3.setInitialDuration(10f);
         motionControl3.setSpeed(1f);
         motionControl3.play();        
-        System.out.println("DOWN");        
+        System.out.println("DOWN1");        
     }
     
 //    public void MotionTruckCraneGrabber2(boolean down) {

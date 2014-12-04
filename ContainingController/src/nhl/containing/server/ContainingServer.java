@@ -55,7 +55,7 @@ public class ContainingServer extends SimpleApplication
 	{
 		if(!hasSent && ConnectionManager.hasConnections())
 		{
-			StoragePlatformHandler.getInstance().handleAGV(AGVHandler.getInstance().getAGV(0));
+			ControlHandler.getInstance().sendAGV("a2", 0, "a1");
 			hasSent = true;
 		}
 	}

@@ -1,6 +1,7 @@
 package nhl.containing.client.network;
 
 import nhl.containing.client.ContainingClient;
+import nhl.containing.client.entities.cranes.TruckCrane;
 
 import com.jme3.cinematic.MotionPath;
 import com.jme3.cinematic.events.MotionEvent;
@@ -19,8 +20,20 @@ public class ClientListener implements MessageListener<Client>
 		{
 			this.handleUpdateMessage((UpdateMessage)m);
 		}
+		if(m instanceof TruckCraneData)
+		{
+			this.handleTruckCraneMessage((TruckCraneData)m);
+		}
 	}
 	
+	private void handleTruckCraneMessage(TruckCraneData m) 
+	{
+		TruckCrane crane = ContainingClient.TruckCranes.get(m.craneID);
+		ContainingClient.instance.hai = true;
+		ContainingClient.instance.crane = crane;
+		ContainingClient.instance.agv123 = ContainingClient.agvs.get(m.agvID);
+	}
+
 	private void handleUpdateMessage(UpdateMessage message)
 	{
 		for(AGVData data : message.data)
