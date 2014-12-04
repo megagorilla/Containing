@@ -19,15 +19,8 @@ import nhl.containing.client.entities.cranes.TruckCrane;
  */
 public abstract class Crane extends Node {
 
-    protected Node grabber = new Node();
-    protected Node grabber2 = new Node();
-    private MotionPath path;
-    
-    
-    private MotionEvent motionControl;
-    private boolean up = true;
-    private boolean move = false;
-
+     protected Node grabber = new Node();
+     protected Node grabber2 = new Node();
     public Crane() {
     }
 
@@ -38,22 +31,7 @@ public abstract class Crane extends Node {
         this.setLocalTranslation(craneLocation);
     }
 
-    public void MotionY() {
-        path = new MotionPath();
-        path.addWayPoint(new Vector3f(0, 25, 0));
-        path.addWayPoint(new Vector3f(8, 25, 0));
-        path.addWayPoint(new Vector3f(8, 2.5f, 0));
-        path.addWayPoint(new Vector3f(8, 25, 0));
-        path.addWayPoint(new Vector3f(0, 25, 0));
-
-        path.setCurveTension(0);
-        path.enableDebugShape(ContainingClient.getMyAssetManager(), ContainingClient.getMyRootNode());
-        motionControl = new MotionEvent(grabber, path);
-        motionControl.setDirectionType(MotionEvent.Direction.PathAndRotation);
-        motionControl.setInitialDuration(10f);
-        motionControl.setSpeed(0.5f);
-        motionControl.play();
-    }
+    
 
     
 

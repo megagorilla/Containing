@@ -118,7 +118,7 @@ public class TruckCrane extends Crane {
     {
         moveBack = new MotionPath();
         moveBack.addWayPoint(new Vector3f(400, 0, -750 + 25 * truckCraneNR));
-        moveBack.addWayPoint(new Vector3f(379.5f, 0, -750 + 25 * truckCraneNR));
+        moveBack.addWayPoint(new Vector3f(379.95f, 0, -750 + 25 * truckCraneNR));
         moveBack.setCurveTension(0);
         
         motionControl4 = new MotionEvent(this, moveBack);
