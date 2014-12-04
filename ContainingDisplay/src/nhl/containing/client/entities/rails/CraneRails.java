@@ -21,6 +21,7 @@ public class CraneRails extends Node
 	 * 
 	 * @param location x 42 for DockingCrane
 	 * @param width ~0.87f for DockingCrane
+         * @param yAngleRot rotation for the craneRails in radians
 	 */
 	public CraneRails(Vector3f location, float width, Float yAngleRot)
 	{

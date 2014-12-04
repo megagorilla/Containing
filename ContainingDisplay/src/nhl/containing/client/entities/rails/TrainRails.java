@@ -20,6 +20,7 @@ public class TrainRails extends Node
 	 * Loads the model for the TrainRails and puts them in a node
 	 * 
 	 * @param location the location of the TrainRails
+         * @param yAngleRot rotation for the Rails in radians
 	 */
 	public TrainRails(Vector3f location, Float yAngleRot)
 	{

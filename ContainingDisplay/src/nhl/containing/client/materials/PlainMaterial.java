@@ -18,7 +18,7 @@ public class PlainMaterial extends Material {
     /**
      * Creates a material with the color given in the parameter
      *
-     * @param color
+     * @param color the color of the material
      */
     public PlainMaterial(ColorRGBA color) {
         super(ContainingClient.getMyAssetManager(), "Common/MatDefs/Light/Lighting.j3md");

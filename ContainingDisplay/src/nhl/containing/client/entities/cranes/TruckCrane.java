@@ -35,6 +35,7 @@ public class TruckCrane extends Crane {
 
     /**
      * creates the TruckCrane and loads all the models
+     * @param truckCraneNR the number of this truck
      */
     public TruckCrane(int truckCraneNR) {
         super();
