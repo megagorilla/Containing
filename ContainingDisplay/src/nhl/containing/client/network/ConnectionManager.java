@@ -35,7 +35,7 @@ public final class ConnectionManager
 			return false;
 		}
 		
-		client.addMessageListener(new ClientListener(), UpdateMessage.class);
+		client.addMessageListener(new ClientListener(), UpdateMessage.class, TruckCraneData.class);
 		client.start();
 		return true;
 	}
