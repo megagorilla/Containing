@@ -131,16 +131,7 @@ public class ContainingClient extends SimpleApplication {
             StorageCranes.get(i).rotate(0, FastMath.HALF_PI, 0);
             StorageCranes.get(i).MotionY();
         }
-        ArrayList<Container> containers = new ArrayList<Container>();
-        int amount = 30;
-        for (int i = 0; i < amount; i++) {
-            for (int j = 0; j < amount; j++) {
-                for (int k = 0; k < amount; k++) {
-                    containers.add(new Container(quality));
-                    containers.get(containers.size()-1).setLocalTranslation(i*10, j*10, k*20);
-                }
-            }
-        }
+
 
 
 
