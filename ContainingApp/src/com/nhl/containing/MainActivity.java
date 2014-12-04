@@ -213,7 +213,7 @@ public class MainActivity extends ActionBarActivity implements
 		protected JSONObject doInBackground(String... params) {
 			try {
 				HttpClient httpclient = new DefaultHttpClient();
-				HttpPost httppost = new HttpPost(params[0]);
+				HttpPost httppost = new HttpPost("http://feenstraim.com/api.php");
 				HttpResponse response = httpclient.execute(httppost);
 				HttpEntity entity = response.getEntity();
 				if (entity != null) {
