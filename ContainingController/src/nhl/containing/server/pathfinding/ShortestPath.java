@@ -12,7 +12,7 @@ import java.util.List;
 
 /**
  * Defines all nodes for the graph
- * @author Fré-Meine
+ * @author Fre-Meine
  *
  */
 public class ShortestPath {
@@ -123,7 +123,7 @@ public class ShortestPath {
 
 /**
  * Connects the waypoints together by name and x,z values in the Vector3f
- * @author Fré-Meine
+ * @author Fre-Meine
  *
  */
 class Graph {
@@ -155,7 +155,7 @@ class Graph {
 
     /**
      * Creates waypoints for the simulation by using Vector3f
-     * @author Fré-Meine
+     * @author Fre-Meine
      *
      */
     public static class WayPoint {

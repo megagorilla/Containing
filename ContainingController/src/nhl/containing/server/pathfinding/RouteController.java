@@ -6,7 +6,7 @@ import java.util.List;
 
 /**
  * Controller managing the shortest routes
- * @author Fré-Meine
+ * @author Fre-Meine
  *
  */
 public class RouteController extends ShortestPath {
