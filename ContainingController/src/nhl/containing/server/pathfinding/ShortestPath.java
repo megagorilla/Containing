@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package nhl.containing.server.pathfinding;
 
 import java.util.ArrayList;
@@ -14,9 +10,13 @@ import java.util.TreeSet;
 import com.jme3.math.Vector3f;
 import java.util.List;
 
+/**
+ * Defines all nodes for the graph
+ * @author Fré-Meine
+ *
+ */
 public class ShortestPath {
 
-    //2313 2 3132
     protected static AGV[] truckParking;
     protected static AGV[] trainParking;
     protected static AGV[] smallShipParking;
@@ -33,7 +33,9 @@ public class ShortestPath {
     private static final float laneFour = 16.5f; // left slow
     public static final Graph.Edge[] GRAPH = {
         
-    	
+    	/**
+    	 * Graph Nodes
+    	 */
         //Inside lane
         new Graph.Edge(new Graph.WayPoint("a1", new Vector3f(WIDTH + laneOne, DEPTH, -HEIGHT - laneOne)),
         new Graph.WayPoint("a4", new Vector3f(WIDTH + laneOne, DEPTH, -HEIGHT + truckPlatform))),
@@ -119,6 +121,11 @@ public class ShortestPath {
     }
 }
 
+/**
+ * Connects the waypoints together by name and x,z values in the Vector3f
+ * @author Fré-Meine
+ *
+ */
 class Graph {
 
     private final Map<String, Vertex> graph; // mapping of vertex names to Vertex objects, built from a set of Edges
@@ -146,6 +153,11 @@ class Graph {
         }
     }
 
+    /**
+     * Creates waypoints for the simulation by using Vector3f
+     * @author Fré-Meine
+     *
+     */
     public static class WayPoint {
 
         public Vector3f location;
@@ -173,6 +185,9 @@ class Graph {
             this.loc = loc;
         }
 
+        /**
+         * Prints shortest route, if it is reachable or not. If it is not reachable the graph is incomplete.
+         */
         private void printPath() {
             if (this == this.previous) {
                 System.out.printf("%s (%s)", this.name, this.loc);
@@ -195,6 +210,9 @@ class Graph {
             }
         }
 
+        /**
+         * 
+         */
         @Override
         public int compareTo(Vertex other) {
             return Integer.compare(dist, other.dist);
