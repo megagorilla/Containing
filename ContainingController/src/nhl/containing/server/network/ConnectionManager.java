@@ -66,7 +66,6 @@ public final class ConnectionManager
 	public static void sendCommand(AbstractMessage msg)
 	{
 		server.broadcast(msg);
-		System.out.println("123123123");
 	}
 
 	/**

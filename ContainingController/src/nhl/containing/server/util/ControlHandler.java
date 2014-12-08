@@ -52,7 +52,7 @@ public class ControlHandler
 	 */
 	public void sendAGV(String destination, int id, String cl)
 	{
-		AGV agv = AGVHandler.getInstance().getFreeAGV();
+		AGV agv = AGVHandler.getInstance().getAGV(0);
 		RouteController controller = new RouteController();
 		agv.currentLocation = cl;
 		List<Vector3f> list = controller.sendAGV(agv.currentLocation, destination);
