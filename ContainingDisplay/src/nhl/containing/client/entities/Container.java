@@ -37,4 +37,8 @@ public class Container extends Node {
         attachChild(containerNode);
         ContainingClient.getMyRootNode().attachChild(this);
     }
+    
+    public void RotateContainer(float x, float y, float z){
+        containerNode.rotate(x, y, z);
+    }
 }

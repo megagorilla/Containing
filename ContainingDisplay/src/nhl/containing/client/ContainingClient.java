@@ -68,7 +68,7 @@ public class ContainingClient extends SimpleApplication {
     int truckAmount = 20;
     int craneAmount = 39;
     Node rails;
-    Container test2;
+    Container Container1;
     Container test3;
     public static int containerPositie;
 
@@ -128,11 +128,11 @@ public class ContainingClient extends SimpleApplication {
         for (int i = 0; i < craneAmount; i++) {
             StorageCranes.add(new StorageCrane());
             StorageCranes.get(i).setLocalTranslation(0, 0, -760 + 40 * i);
-            StorageCranes.get(i).rotate(0, FastMath.HALF_PI, 0);
+//            StorageCranes.get(i).rotate(0, FastMath.HALF_PI, 0);
 
         }
-        test2 = new Container(quality);
-        test2.rotate(0, FastMath.HALF_PI, 0);
+        Container1 = new Container(quality);
+        Container1.RotateContainer(0, FastMath.HALF_PI, 0);
 
         testAGV = new AGV(quality);
         testAGV.setLocalTranslation(380, 0, -750);
@@ -144,20 +144,21 @@ public class ContainingClient extends SimpleApplication {
     @Override
     public void simpleUpdate(float tpf) {
 
-        // if(test2.getLocalTranslation().x == 380)
+        // if(Container1.getLocalTranslation().x == 380)
         // {
         // MoveTruckCraneAGVtoTruck();  
         //  }
-        // else if(test2.getLocalTranslation().x == 400)
+        // else if(Container1.getLocalTranslation().x == 400)
         // {
         // MoveTruckCraneTrucktoAGV();
         // }
         //    System.out.println(TruckCranes.get(0).getLocalTranslation().x + "XWAARDE");
 
         MoveStorageCrane();
-        System.out.println(StorageCranes.get(0).getLocalTranslation().z + "z waarde");
-        System.out.println(StorageCranes.get(0).getLocalTranslation().x + "x waarde");
-        System.out.println(StorageCranes.get(0).getLocalTranslation().y + "y waarde");
+        //System.out.println(StorageCranes.get(0).getLocalTranslation().z + "z waarde");
+        //System.out.println(StorageCranes.get(0).getLocalTranslation().x + "x waarde");
+        //System.out.println(StorageCranes.get(0).getLocalTranslation().y + "y waarde");
+        System.out.println(Container1.getLocalTranslation().y + " Container");
     }
 
     /**
@@ -226,10 +227,10 @@ public class ContainingClient extends SimpleApplication {
         }
 
         if (truckup == false) {
-            test2.setLocalTranslation(380, 1, -750);
+            Container1.setLocalTranslation(380, 1, -750);
             TruckCranes.get(0).setLocalTranslation(380, 0, -750);
         } else if (truckup == true) {
-            test2.setLocalTranslation(TruckCranes.get(0).getLocalTranslation().x + TruckCranes.get(0).getGrabber().getLocalTranslation().z,
+            Container1.setLocalTranslation(TruckCranes.get(0).getLocalTranslation().x + TruckCranes.get(0).getGrabber().getLocalTranslation().z,
                     TruckCranes.get(0).getLocalTranslation().y + TruckCranes.get(0).getGrabber().getLocalTranslation().y + 6,
                     TruckCranes.get(0).getLocalTranslation().z + TruckCranes.get(0).getGrabber().getLocalTranslation().x);
 
@@ -244,7 +245,7 @@ public class ContainingClient extends SimpleApplication {
         }
 
         if (onTarget == true) {
-            test2.setLocalTranslation(Trucks.get(0).getLocalTranslation().x,
+            Container1.setLocalTranslation(Trucks.get(0).getLocalTranslation().x,
                     Trucks.get(0).getLocalTranslation().y + 1.5f,
                     Trucks.get(0).getLocalTranslation().z);
         }
@@ -258,9 +259,9 @@ public class ContainingClient extends SimpleApplication {
     public void MoveTruckCraneTrucktoAGV() {
         //motiontruckcranegrabber() aangepast!!!!
         if (containerUp == false) {
-            test2.setLocalTranslation(400, 1, -750);
+            Container1.setLocalTranslation(400, 1, -750);
         } else if (containerUp == true) {
-            test2.setLocalTranslation(TruckCranes.get(0).getLocalTranslation().x + TruckCranes.get(0).getGrabber().getLocalTranslation().z,
+            Container1.setLocalTranslation(TruckCranes.get(0).getLocalTranslation().x + TruckCranes.get(0).getGrabber().getLocalTranslation().z,
                                       TruckCranes.get(0).getLocalTranslation().y + TruckCranes.get(0).getGrabber().getLocalTranslation().y + 6,
                                       TruckCranes.get(0).getLocalTranslation().z + TruckCranes.get(0).getGrabber().getLocalTranslation().x);
         }
@@ -291,7 +292,7 @@ public class ContainingClient extends SimpleApplication {
 
         }
         if (onTarget) {
-            test2.setLocalTranslation(testAGV.getLocalTranslation().x,
+            Container1.setLocalTranslation(testAGV.getLocalTranslation().x,
                     testAGV.getLocalTranslation().y + 1.5f,
                     testAGV.getLocalTranslation().z);
         }
@@ -299,13 +300,8 @@ public class ContainingClient extends SimpleApplication {
 
     public void MoveStorageCrane() {
         if (containerUp == false) {
-            test2.setLocalTranslation(290, 0, -768);
-        }
-        else if(containerUp == true){
-            test2.setLocalTranslation(StorageCranes.get(0).getLocalTranslation().x + StorageCranes.get(0).getGrabber().getLocalTranslation().x-8,
-                                      StorageCranes.get(0).getLocalTranslation().y + StorageCranes.get(0).getGrabber().getLocalTranslation().y+23,
-                                      StorageCranes.get(0).getLocalTranslation().z + StorageCranes.get(0).getGrabber().getLocalTranslation().z-8);
-        }
+            Container1.setLocalTranslation(290, 0, -768);
+        }        
         if (StorageCranes.get(0).getLocalTranslation().x == 0) {
             StorageCranes.get(0).CraneMovement();
 
@@ -313,8 +309,11 @@ public class ContainingClient extends SimpleApplication {
         if (StorageCranes.get(0).getLocalTranslation().x > 280 && StorageCranes.get(0).getLocalTranslation().x < 281) {
             StorageCranes.get(0).MotionY();
         }
-        if (StorageCranes.get(0).getGrabber().getLocalTranslation().y < -22f) {
-            containerUp = true;            
+        if (StorageCranes.get(0).getGrabber().getLocalTranslation().y < -22f && !containerUp) {
+            containerUp = true;  
+            StorageCranes.get(0).getGrabber().attachChild(Container1);
+            Container1.RotateContainer(0, FastMath.HALF_PI, 0);
+            Container1.setLocalTranslation(0, 23, 0);   
         }
     }
 }
