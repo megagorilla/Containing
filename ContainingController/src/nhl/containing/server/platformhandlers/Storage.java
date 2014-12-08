@@ -4,7 +4,6 @@ import nhl.containing.server.util.XMLFileReader.Container;
 
 
 public class Storage {
-
 	private final int storageId;
 	private final int x = 15;
 	private final int y = 6;
