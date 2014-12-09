@@ -145,9 +145,9 @@ public class ContainingClient extends SimpleApplication {
     }
     
     @Override
-    public void simpleUpdate(float tpf) {
-    	if(hai)
-    		MoveTruckCraneTrucktoAGV(agv123, test2, crane);
+    public void simpleUpdate(float tpf) 
+    {
+    	
     }
 
     /**
@@ -187,113 +187,5 @@ public class ContainingClient extends SimpleApplication {
     @Override
     public void simpleRender(RenderManager rm) {
         // TODO: add render code
-    }
-    
-    
-    /**
-     * Dit is de methode van het verplaatsen van een container, van een AGV naar een truck
-     * Er wordt gekeken naar de posities van de objecten en aan de hand daarvan wordt hun beweging bepaald.
-     * Bijvoorbeeld, als de haak van een kraan op een bepaalde hoogte/laate is, begint de kraan te rijden en gaat de container met hem mee, 
-     * waardoor het lijkt of hij de container daadwerkelijk pakt.
-     */
-    public void MoveTruckCraneAGVtoTruck()
-    {
-        if(TruckCranes.get(0).getGrabber().getLocalTranslation().y > 0 && TruckCranes.get(0).getLocalTranslation().x == 380.0f)
-        {
-            TruckCranes.get(0).MotionTruckCraneGrabber(down);
-        }
-        
-        System.out.println(TruckCranes.get(0).getLocalTranslation().x + "XWAARDE");
-        if(TruckCranes.get(0).getLocalTranslation().x > 399 && TruckCranes.get(0).getLocalTranslation().x != 380.0f && !down)
-        {
-            down = true;
-            TruckCranes.get(0).down(null);
-            System.out.println("GASDROP");
-        }
-            System.out.println(TruckCranes.get(0).getGrabber().getLocalTranslation().y + "YWAARDE");
-
-             if(TruckCranes.get(0).getGrabber().getLocalTranslation().y < -4.5f && TruckCranes.get(0).getGrabber().getLocalTranslation().y > -5)
-             {
-                 truckup = true;
-                 TruckCranes.get(0).Go();
-             }
-             
-             if(truckup == false)
-             {
-                 test2.setLocalTranslation(380, 1, -750 );                 
-                 TruckCranes.get(0).setLocalTranslation(380, 0,-750);
-             }
-             else  if(truckup == true)
-             {
-                test2.setLocalTranslation(TruckCranes.get(0).getLocalTranslation().x + TruckCranes.get(0).getGrabber().getLocalTranslation().z,
-                                          TruckCranes.get(0).getLocalTranslation().y + TruckCranes.get(0).getGrabber().getLocalTranslation().y+6,
-                                          TruckCranes.get(0).getLocalTranslation().z + TruckCranes.get(0).getGrabber().getLocalTranslation().x);
-               
-             }
-             
-             System.out.println(TruckCranes.get(0).getGrabber().getLocalTranslation().x + " ZWAARDE");
-             if(TruckCranes.get(0).getLocalTranslation().x < 401f && TruckCranes.get(0).getLocalTranslation().x > 399 && TruckCranes.get(0).getGrabber().getLocalTranslation().y < -4.4f)
-             {
-                 onTarget = true;
-                 System.out.println("Los!");
-                 TruckCranes.get(0).GoBack();
-                 
-             }
-             
-             if(onTarget == true)
-             {
-                 test2.setLocalTranslation(Trucks.get(0).getLocalTranslation().x, 
-                                           Trucks.get(0).getLocalTranslation().y+1.5f, 
-                                           Trucks.get(0).getLocalTranslation().z);            
-             }
-    }
-    
-    
-     /**
-     * Dit is de methode van het verplaatsen van een container, van een Truck naar een AGV
-     * Er wordt gekeken naar de posities van de objecten en aan de hand daarvan wordt hun beweging bepaald.
-     */
-    public void MoveTruckCraneTrucktoAGV(AGV agv, Container c, TruckCrane crane)
-    {
-        if(containerUp)
-        {
-            c.setLocalTranslation(crane.getLocalTranslation().x + crane.getGrabber().getLocalTranslation().z,
-                                      crane.getLocalTranslation().y + crane.getGrabber().getLocalTranslation().y+6,
-                                      crane.getLocalTranslation().z + crane.getGrabber().getLocalTranslation().x);
-        }
-         
-         if(crane.getLocalTranslation().x == 380)
-         {
-            crane.CranetoTruck();
-         }
-         
-         if(crane.getLocalTranslation().x > 399 && crane.getLocalTranslation().x < 400f && !down)
-         {
-            down = true;
-            crane.down2();
-         }
-         if(crane.getGrabber().getLocalTranslation().y < -4.5f && crane.getGrabber().getLocalTranslation().y > -5)
-         {
-             containerUp = true;
-         }
-         if(crane.getLocalTranslation().x < 401f && crane.getLocalTranslation().x > 399 && crane.getGrabber().getLocalTranslation().y < -4.4f)
-         {
-            crane.GoBack(); 
-         }
-         if(crane.getLocalTranslation().x < 380 && crane.getLocalTranslation().x > 379 && down)
-         {
-             down = false;
-             crane.down(agv);
-         }
-         
-         if(crane.getLocalTranslation().x < 380 && crane.getGrabber().getLocalTranslation().y < -4.4f)
-         {  
-             onTarget = true;
-             
-         }
-         if(onTarget)
-         {
-        	 containerUp = false;
-         }
     }
 }
