@@ -71,6 +71,7 @@ public class ContainingServer extends SimpleApplication
                             break;
                     }
                 }
+                //forced garbage collection (reduces RAM usage from 700MB  to 60 MB in case of xml7)
                 System.gc();
         System.out.println("1");
 	}
