@@ -140,7 +140,7 @@ public class XMLFileReader {
      *
      * @author Arjen
      */
-    public static class Container {
+    public class Container {
 
         private ContainerInfo arrival, departure;
         private String ownerName;
@@ -213,7 +213,7 @@ public class XMLFileReader {
      * @author Arjen
      *
      */
-    public static class ContainerInfo {
+    public class ContainerInfo {
 
         private int day, month, year;
         private double arrivalTime, departureTime;
@@ -291,7 +291,7 @@ public class XMLFileReader {
      *
      * @author Arjen
      */
-    public static class ContainerInhoud {
+    public class ContainerInhoud {
 
         private String naam, soort, gevaar;
 
