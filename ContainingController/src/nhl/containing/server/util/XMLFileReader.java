@@ -120,7 +120,7 @@ public class XMLFileReader {
             e.printStackTrace();
         }
 
-        for (Container c : containers) {
+        /*for (Container c : containers) {
             ContainerInfo info1 = c.arrival;
             ContainerInfo info2 = c.departure;
             System.out.printf("AANKOMST: dag: %s maand: %s jaar: %s AankomstTijd: %s VertrekTijd: %s Soort Vervoer: %s Bedrijf: %s \n"
@@ -129,7 +129,7 @@ public class XMLFileReader {
                     info1.day, info1.month, info1.year, info1.arrivalTime, info1.departureTime, info1.type, info1.bedrijf, info2.day, info2.month, info2.year, info2.arrivalTime, info2.departureTime,
                     info2.type, info2.bedrijf, c.ownerName, c.containerNumber, c.positie.x, c.positie.y, c.positie.z, c.afmetingen.x, c.afmetingen.y, c.afmetingen.z, c.gewichtLeeg, c.gewichtVol,
                     c.inhoud.naam, c.inhoud.soort, c.inhoud.gevaar, c.ISO);
-        }
+        }*/
 
         return containers;
     }
