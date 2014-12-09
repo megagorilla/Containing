@@ -8,6 +8,7 @@ import nhl.containing.client.ContainingClient;
 import nhl.containing.client.entities.Container;
 import nhl.containing.client.entities.Crane;
 import nhl.containing.client.entities.vehicles.AGV;
+import nhl.containing.client.entities.vehicles.Truck;
 import nhl.containing.client.materials.PlainMaterial;
 
 import com.jme3.cinematic.MotionPath;
@@ -51,29 +52,25 @@ public class TruckCrane extends Crane {
                 grabber2.setLocalTranslation(0, 1, 0);
 		attachChild(grabber2);
                 
-        //Fabulous Colours *Sparkle*        
         Node subNodes = (Node) children.get(0);
         subNodes.getChild(0).setMaterial(new PlainMaterial(new ColorRGBA(1, 20f / 255f, 147f / 255f, 1f))); //Wheel Colour
         ContainingClient.getMyRootNode().attachChild(this);
     }
     
-    public void startMovement(final AGV agv, final Container container, final boolean shouldPickupFromTruck)
+    public void pickupFromTruck(AGV agv, Truck truck, Container container)
     {
-    	if(shouldPickupFromTruck)
-    		craneToTruck(agv, container, shouldPickupFromTruck);
-    	else
-    		down(agv, container, false, false);
+    	craneToTruck(agv, truck, container);
     }
     
     /**
      * This method is for dropping the container on the truck or on the AGV
      */
-    public void down(final AGV agv, final Container container, final boolean atTruck, final boolean finalMove) 
+    public void down(final AGV agv, final Truck truck, final Container container, final boolean shouldGrab) 
     {
-        dropContainer = new  MotionPath();
+        dropContainer = new MotionPath();
         dropContainer.addWayPoint(new Vector3f(0, 1, 0 + 25 * truckCraneNR));
         dropContainer.addWayPoint(new Vector3f(0, -4.5f, 0 + 25 * truckCraneNR));
-        dropContainer.addWayPoint(new Vector3f(0,1, 0 + 25 * truckCraneNR));
+        dropContainer.addWayPoint(new Vector3f(0, 1, 0 + 25 * truckCraneNR));
         dropContainer.addListener(new MotionPathListener()
         {
 			@Override
@@ -81,23 +78,14 @@ public class TruckCrane extends Crane {
 			{
 				if(motionControl.getPath().getNbWayPoints() == wayPointIndex + 2)
 				{
-					if(!atTruck && container != null)
-						agv.setContainer(container);
-					else if(atTruck && container != null)
-						truck.setContainer(container);
-					else
+					if(shouldGrab)
 						getGrabber().attachChild(container);
+					else
+						agv.attachChild(container);
 		        }
 				else if(motionControl.getPath().getNbWayPoints() == wayPointIndex + 1)
 				{
-					if(!atTruck && !finalMove)
-						craneToTruck(agv, container, false);
-					else if(!atTruck && finalMove)
-						;
-					else if(atTruck && container != null)
-						craneToAGV(agv, container, false);
-					else if(atTruck && container == null)
-						craneToAGV(agv, container, true);
+					craneToAGV(agv, container);
 				}
 			}	
         });
@@ -112,13 +100,23 @@ public class TruckCrane extends Crane {
     /**
      * This method is for the crane to move back from truck, back to its starting point: the AGV parkinglot
      */
-    public void craneToAGV(final AGV agv, final Container container, final boolean shouldPickupFromTruck)
+    public void craneToAGV(final AGV agv, final Container container)
     {
         moveBack = new MotionPath();
         moveBack.addWayPoint(new Vector3f(400, 0, -750 + 25 * truckCraneNR));
         moveBack.addWayPoint(new Vector3f(379.5f, 0, -750 + 25 * truckCraneNR));
         moveBack.setCurveTension(0);
-        
+        moveBack.addListener(new MotionPathListener()
+        {
+			@Override
+			public void onWayPointReach(MotionEvent motionControl, int wayPointIndex) 
+			{
+				if(motionControl.getPath().getNbWayPoints() == wayPointIndex + 1)
+				{
+					down(agv, null, container, false);
+				}
+			}	
+        });
         motionControl4 = new MotionEvent(this, moveBack);
         motionControl4.setDirectionType(MotionEvent.Direction.PathAndRotation);
         motionControl4.setInitialDuration(10f);
@@ -129,7 +127,7 @@ public class TruckCrane extends Crane {
     /**
      * method for movement without container, from AGV to truck
      */
-    public void craneToTruck(final AGV agv, final Container container, final boolean shouldPickupFromTruck)
+    public void craneToTruck(final AGV agv, final Truck truck, final Container container)
     {
         craneToTruck = new MotionPath();
         craneToTruck.addWayPoint(new Vector3f(380,0,-750 + 25 * truckCraneNR));
@@ -142,11 +140,8 @@ public class TruckCrane extends Crane {
 			{
 				if(motionControl.getPath().getNbWayPoints() == wayPointIndex + 1)
 				{
-					if(container == null)
-						down(agv, container, true, false);
-					else if(container != null)
-						down(agv, container, true, true);
-		        }
+					down(agv, truck, container, false);
+				}
 			}	
         });
         truckToCraneMotion = new MotionEvent(this, craneToTruck);
