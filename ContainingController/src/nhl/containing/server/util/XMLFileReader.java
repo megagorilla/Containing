@@ -142,14 +142,14 @@ public class XMLFileReader {
      */
     public class Container {
 
-        private ContainerInfo arrival, departure;
-        private String ownerName;
-        private int containerNumber;
-        private Vector3f positie;
-        private Vector3f afmetingen;
-        private int gewichtLeeg, gewichtVol;
-        private ContainerInhoud inhoud;
-        private String ISO;
+        private final ContainerInfo arrival, departure;
+        private final String ownerName;
+        private final int containerNumber;
+        private final Vector3f positie;
+        private final Vector3f afmetingen;
+        private final int gewichtLeeg, gewichtVol;
+        private final ContainerInhoud inhoud;
+        private final String ISO;
 
         public Container(ContainerInfo arrival, ContainerInfo departure, String ownerName, int containerNumber, Vector3f positie, Vector3f afmetingen, int gewichtLeeg, int gewichtVol,
                 ContainerInhoud inhoud, String ISO) {
@@ -215,10 +215,10 @@ public class XMLFileReader {
      */
     public class ContainerInfo {
 
-        private int day, month, year;
-        private double arrivalTime, departureTime;
-        private TravelType type;
-        private String bedrijf;
+        private final int day, month, year;
+        private final double arrivalTime, departureTime;
+        private final TravelType type;
+        private final String bedrijf;
 
         public ContainerInfo(int day, int month, int year, double arrivalTime, double departureTime, TravelType type, String bedrijf) {
             this.day = day;
@@ -293,7 +293,7 @@ public class XMLFileReader {
      */
     public class ContainerInhoud {
 
-        private String naam, soort, gevaar;
+        private final  String naam, soort, gevaar;
 
         public ContainerInhoud(String naam, String soort, String gevaar) {
             this.naam = naam;
