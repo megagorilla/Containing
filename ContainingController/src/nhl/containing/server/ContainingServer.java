@@ -53,27 +53,27 @@ public class ContainingServer extends SimpleApplication
 		ConnectionManager.initialize(3000);
 		API.start(8080);
                 
-                XMLFileReader instance = new XMLFileReader();
-		containers = instance.getContainers("../XMLFILES/xml7.xml");
-                for(Container c : containers){
-                    switch (c.getArrival().getType()){
-                        case BINNENSCHIP:
-                            riverShipContainers.add(c);
-                            break;
-                        case TREIN:
-                            trainContainers.add(c);
-                            break;
-                        case VRACHTAUTO:
-                            truckContainers.add(c);
-                            break;
-                        case ZEESCHIP:
-                            seaShipContainers.add(c);
-                            break;
-                    }
+            XMLFileReader xmlReader = new XMLFileReader();
+            containers = xmlReader.getContainers("../XMLFILES/xmltest.xml");
+            for (Container c : containers) {
+                switch (c.getArrival().getType()) {
+                    case BINNENSCHIP:
+                        riverShipContainers.add(c);
+                        break;
+                    case TREIN:
+                        trainContainers.add(c);
+                        break;
+                    case VRACHTAUTO:
+                        truckContainers.add(c);
+                        break;
+                    case ZEESCHIP:
+                        seaShipContainers.add(c);
+                        break;
                 }
-                //forced garbage collection (reduces RAM usage from 700MB  to 60 MB in case of xml7)
-                System.gc();
-        System.out.println("1");
+            }
+            //forced garbage collection (reduces RAM usage from 700MB  to 60 MB in case of xml7)
+            System.gc();
+            System.out.println("1");
 	}
 
 	/**
