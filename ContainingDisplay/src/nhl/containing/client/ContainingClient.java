@@ -64,6 +64,7 @@ public class ContainingClient extends SimpleApplication {
     public boolean truckup = false;
     public boolean containerUp = false;
     private boolean onTarget = false;
+    private boolean onStore = false;
     public boolean down;
     int truckAmount = 20;
     int craneAmount = 39;
@@ -158,7 +159,7 @@ public class ContainingClient extends SimpleApplication {
         //System.out.println(StorageCranes.get(0).getLocalTranslation().z + "z waarde");
         //System.out.println(StorageCranes.get(0).getLocalTranslation().x + "x waarde");
         //System.out.println(StorageCranes.get(0).getLocalTranslation().y + "y waarde");
-        System.out.println(Container1.getLocalTranslation().y + " Container");
+        //System.out.println(Container1.getLocalTranslation().y + " Container");
     }
 
     /**
@@ -304,16 +305,21 @@ public class ContainingClient extends SimpleApplication {
         }        
         if (StorageCranes.get(0).getLocalTranslation().x == 0) {
             StorageCranes.get(0).CraneMovement();
-
         }
-        if (StorageCranes.get(0).getLocalTranslation().x > 280 && StorageCranes.get(0).getLocalTranslation().x < 281) {
-            StorageCranes.get(0).MotionY();
-        }
-        if (StorageCranes.get(0).getGrabber().getLocalTranslation().y < -22f && !containerUp) {
+        if (StorageCranes.get(0).getGrabber().getLocalTranslation().y < -22.9f && !containerUp) {
             containerUp = true;  
             StorageCranes.get(0).getGrabber().attachChild(Container1);
             Container1.RotateContainer(0, FastMath.HALF_PI, 0);
             Container1.setLocalTranslation(0, 23, 0);   
+        }        
+        System.out.println(Container1.getLocalTranslation().x + " Container");
+        if(StorageCranes.get(0).getGrabber().getLocalTranslation().y < -22.9f && StorageCranes.get(0).getLocalTranslation().x < 215.1 && containerUp && !onStore)
+        {
+            onStore = true;            
+            rootNode.attachChild(Container1);
+            Container1.setLocalTranslation(215, 0, -768);
+            Container1.RotateContainer(0, FastMath.HALF_PI, 0);
         }
+       
     }
 }
