@@ -113,7 +113,7 @@ public class XMLFileReader {
                     ISO = eElement.getElementsByTagName("ISO").item(0).getTextContent();
                     containers.add(new Container(arrival, departure, ownerName, containerNumber, positie, afmetingen, gewichtLeeg, gewichtVol, inhoud, ISO));
 
-                    System.out.println(temp);
+//                    System.out.println(temp);
                 }
             }
         } catch (Exception e) {
