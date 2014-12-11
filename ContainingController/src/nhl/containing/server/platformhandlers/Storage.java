@@ -1,5 +1,7 @@
 package nhl.containing.server.platformhandlers;
 
+import java.util.Stack;
+
 import nhl.containing.server.util.XMLFileReader.Container;
 
 
@@ -10,6 +12,7 @@ public class Storage {
 	private final int z = 6;
 	
 	public Container[][][] containerStorage;
+	public Stack[][] containerStorage2;
 		
 	public enum ContainerType
 	{
@@ -19,6 +22,7 @@ public class Storage {
 	public Storage(int storageId) {
 		this.storageId = storageId;
 		containerStorage = new Container[x][z][y];
+		containerStorage2 = new Stack[x][z];
 	}
 	
 	public int getStorageId() {

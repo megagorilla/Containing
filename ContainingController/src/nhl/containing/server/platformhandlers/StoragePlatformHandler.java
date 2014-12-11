@@ -1,8 +1,10 @@
 package nhl.containing.server.platformhandlers;
 
+import java.awt.Container;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Stack;
 
 import nhl.containing.server.pathfinding.AGV;
 import nhl.containing.server.util.ControlHandler;
@@ -44,6 +46,11 @@ public class StoragePlatformHandler {
 		locations.put(location.id, location);
 	}
 	
+	public void storageStack() {
+		Container c = new Container();
+		//c.getDeparture();
+	}
+	
 	public ParkingLocation getLocation() {
 		
 		return locations.get(17);
@@ -83,6 +90,7 @@ public class StoragePlatformHandler {
 	public class StorageUnit {
 		public Storage storage;
 		public Vector3f location;
+		
 		
 		public StorageUnit(Storage storage, Vector3f location) {
 			this.storage = storage;
