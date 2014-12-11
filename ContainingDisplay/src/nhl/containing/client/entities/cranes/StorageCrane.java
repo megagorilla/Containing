@@ -111,7 +111,7 @@ public class StorageCrane extends Crane {
                 else
                 {
                     System.out.println("Crane has reached way point " + wayPointIndex);                    
-                }    
+                }  
             }           
         });
     }

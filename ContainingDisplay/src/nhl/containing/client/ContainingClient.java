@@ -26,12 +26,14 @@ import nhl.containing.client.ContainingClient.Quality;
 import nhl.containing.client.entities.Container;
 import nhl.containing.client.entities.Crane;
 import nhl.containing.client.entities.cranes.StorageCrane;
+import nhl.containing.client.entities.cranes.TrainCrane;
 import nhl.containing.client.entities.cranes.TruckCrane;
 import nhl.containing.client.entities.platforms.SeaShipPlatform;
 import nhl.containing.client.entities.platforms.StoragePlatform;
 import nhl.containing.client.entities.platforms.TrainPlatform;
 import nhl.containing.client.entities.platforms.TruckPlatform;
 import nhl.containing.client.entities.vehicles.AGV;
+import nhl.containing.client.entities.vehicles.Train;
 import nhl.containing.client.entities.vehicles.Truck;
 
 /**
@@ -54,12 +56,15 @@ public class ContainingClient extends SimpleApplication {
     private static ViewPort myViewPort;
     MotionEvent motionControl;
     public static AGV agv;
+    
     public static ArrayList<AGV> agvs = new ArrayList<AGV>();
     ArrayList<StorageCrane> StorageCranes = new ArrayList<StorageCrane>();
+    ArrayList<TrainCrane> TrainCranes = new ArrayList<TrainCrane>();
     public static ArrayList<TruckCrane> TruckCranes = new ArrayList<TruckCrane>();
     ArrayList<Platform> Platforms = new ArrayList<Platform>();
     ArrayList<AGV> AGVs = new ArrayList<AGV>();
     ArrayList<Truck> Trucks = new ArrayList<Truck>();
+    
     public AGV testAGV;
     public boolean truckup = false;
     public boolean containerUp = false;
@@ -68,6 +73,7 @@ public class ContainingClient extends SimpleApplication {
     public boolean down;
     int truckAmount = 20;
     int craneAmount = 39;
+    int trainCraneAmount = 4;
     Node rails;
     Container Container1;
     Container test3;
@@ -129,17 +135,24 @@ public class ContainingClient extends SimpleApplication {
         for (int i = 0; i < craneAmount; i++) {
             StorageCranes.add(new StorageCrane());
             StorageCranes.get(i).setLocalTranslation(0, 0, -760 + 40 * i);
-//            StorageCranes.get(i).rotate(0, FastMath.HALF_PI, 0);
-
         }
+        
+        for(int i = 0; i < trainCraneAmount; i++){
+            TrainCranes.add(new TrainCrane());
+            TrainCranes.get(i).setLocalTranslation(-327.5f, 0f, 100 + 100*i);
+        }
+        
+        Train test = new Train(quality, 30);
+        test.setLocalTranslation(-334, 0, 510);
         Container1 = new Container(quality);
         Container1.RotateContainer(0, FastMath.HALF_PI, 0);
 
         testAGV = new AGV(quality);
         testAGV.setLocalTranslation(380, 0, -750);
         testAGV.rotate(0, FastMath.HALF_PI, 0);
-
-
+        
+        AGV trainAGV = new AGV(quality);
+        trainAGV.setLocalTranslation(-327.5f, 0, 0);  
     }
 
     @Override
