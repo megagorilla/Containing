@@ -9,6 +9,7 @@ import nhl.containing.server.platformhandlers.TruckPlatformHandler;
 import nhl.containing.server.util.ControlHandler;
 
 import com.jme3.app.SimpleApplication;
+import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.system.JmeContext;
 import java.util.ArrayList;
@@ -76,6 +77,27 @@ public class ContainingServer extends SimpleApplication
             System.out.println("1");
 	}
 
+        /**
+         * retrieves arraylist for the next seaship and removes the containers
+         * from the list of all the seashipcontainers
+         * @return An arraylist of containers that fit in 1 seaship
+         */
+        public ArrayList<Container> getNextSeaShip() {
+        ArrayList<Container> containters = new ArrayList<>();
+        containters.add(seaShipContainers.get(0));
+        seaShipContainers.remove(0);
+        boolean shipFull = false;
+        while (!shipFull) {
+            if (seaShipContainers.get(0).getPositie().equals(new Vector3f(0.0f, 0.0f, 0.0f))) {
+                shipFull = true;
+            } else {
+                containters.add(seaShipContainers.get(0));
+                seaShipContainers.remove(0);
+            }
+        }
+        return containters;
+    }
+        
 	/**
 	 * Updates the server every frame
 	 */
