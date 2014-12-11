@@ -1,20 +1,13 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package nhl.containing.client.entities.platforms;
 
-import com.jme3.material.Material;
 import nhl.containing.client.ContainingClient;
 import nhl.containing.client.entities.Platform;
 import nhl.containing.client.materials.PlainMaterial;
 
 import com.jme3.math.ColorRGBA;
-import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.shape.Box;
-import nhl.containing.client.entities.cranes.StorageCrane;
 
 /**
  * This is the truckplatform

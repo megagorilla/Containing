@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package nhl.containing.client.entities;
 
 import nhl.containing.client.ContainingClient;
@@ -36,5 +32,9 @@ public class Container extends Node {
         containerNode.setMaterial(new PlainMaterial(ColorRGBA.randomColor()));
         attachChild(containerNode);
         ContainingClient.getMyRootNode().attachChild(this);
+    }
+    
+    public void RotateContainer(float x, float y, float z){
+        containerNode.rotate(x, y, z);
     }
 }

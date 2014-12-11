@@ -52,7 +52,7 @@ public class ControlHandler
 	 */
 	public void sendAGV(String destination, int id, String cl)
 	{
-		AGV agv = AGVHandler.getInstance().getFreeAGV();
+		AGV agv = AGVHandler.getInstance().getAGV(0);
 		RouteController controller = new RouteController();
 		agv.currentLocation = cl;
 		List<Vector3f> list = controller.sendAGV(agv.currentLocation, destination);
@@ -135,5 +135,10 @@ public class ControlHandler
         motionControl.setInitialDuration(100f);
         motionControl.setSpeed(8f);  
         motionControl.play();
+	}
+	
+	public void requestAGVToTrucks(int id)
+	{
+		sendAGV("a2", 0, "a1");
 	}
 }

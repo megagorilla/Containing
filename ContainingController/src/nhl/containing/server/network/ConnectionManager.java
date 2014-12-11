@@ -1,5 +1,8 @@
 package nhl.containing.server.network;
 
+import nhl.containing.server.network.TruckCraneData;
+
+import com.jme3.network.AbstractMessage;
 import com.jme3.network.Network;
 import com.jme3.network.Server;
 import com.jme3.network.serializing.Serializer;
@@ -22,6 +25,8 @@ public final class ConnectionManager
 	{
 		Serializer.registerClass(UpdateMessage.class);
 		Serializer.registerClass(AGVData.class);
+        Serializer.registerClass(TruckCraneData.class);
+        Serializer.registerClass(TruckSpawnData.class);
 		try
 		{
 			server = Network.createServer(port);
@@ -59,7 +64,7 @@ public final class ConnectionManager
 	 * 
 	 * @param msg
 	 */
-	public static void sendCommand(UpdateMessage msg)
+	public static void sendCommand(AbstractMessage msg)
 	{
 		server.broadcast(msg);
 	}

@@ -1,5 +1,6 @@
 package nhl.containing.server.pathfinding;
 
+import nhl.containing.server.platformhandlers.StoragePlatformHandler;
 import nhl.containing.server.platformhandlers.TruckPlatformHandler;
 import nhl.containing.server.util.ControlHandler;
 import nhl.containing.server.util.ServerSpatial;
@@ -40,12 +41,24 @@ public class CMotionPathListener implements MotionPathListener
 				case "a3":
 					handleAGVToStorage(spatial.agv);
 					return;
+				case "a1":
+					StoragePlatformHandler.getInstance().handleAGV(AGVHandler.getInstance().getAGV(spatial.agv.agvId));
+					return;
 			}
 			
 			if(AGVHandler.getInstance().getAGV(spatial.agv.agvId).currentLocation.startsWith("truckLocation_"))
 			{
+				String[] l = AGVHandler.getInstance().getAGV(spatial.agv.agvId).currentLocation.split("_");
+				int i = Integer.parseInt(l[1]);
+				if(l.length == 2)
+					TruckPlatformHandler.getInstance().getContainerFromTruck(spatial.agv.agvId, i);
+				else if(l.length == 3)
+					TruckPlatformHandler.getInstance().sendAGVToStorage(AGVHandler.getInstance().getAGV(spatial.agv.agvId), i);
+			}
+			else if(AGVHandler.getInstance().getAGV(spatial.agv.agvId).currentLocation.startsWith("storageLocation_"))
+			{
 				int i = Integer.parseInt(AGVHandler.getInstance().getAGV(spatial.agv.agvId).currentLocation.split("_")[1]);
-				TruckPlatformHandler.getInstance().sendAGVToStorage(AGVHandler.getInstance().getAGV(spatial.agv.agvId), i);
+				System.out.println("DESTINATION REACHED: " + i);
 			}
 		}
 	}

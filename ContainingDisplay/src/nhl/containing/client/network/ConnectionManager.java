@@ -4,6 +4,8 @@
  */
 package nhl.containing.client.network;
 
+import nhl.containing.server.network.TruckSpawnData;
+
 import com.jme3.network.Client;
 import com.jme3.network.Network;
 import com.jme3.network.serializing.Serializer;
@@ -24,6 +26,8 @@ public final class ConnectionManager
 	{
         Serializer.registerClass(UpdateMessage.class);
         Serializer.registerClass(AGVData.class);
+        Serializer.registerClass(TruckCraneData.class);
+        Serializer.registerClass(TruckSpawnData.class);
 		try
 		{
 			client = Network.connectToServer(host, port);
@@ -33,8 +37,7 @@ public final class ConnectionManager
 			System.out.println(e);
 			return false;
 		}
-		
-		client.addMessageListener(new ClientListener(), UpdateMessage.class);
+		client.addMessageListener(new ClientListener());
 		client.start();
 		return true;
 	}

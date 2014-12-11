@@ -4,9 +4,19 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import nhl.containing.server.ContainingServer;
+import nhl.containing.server.network.ConnectionManager;
+import nhl.containing.server.network.TruckCraneData;
+import nhl.containing.server.network.TruckSpawnData;
 import nhl.containing.server.pathfinding.AGV;
+import nhl.containing.server.pathfinding.AGVHandler;
+import nhl.containing.server.pathfinding.CMotionPathListener;
 import nhl.containing.server.util.ControlHandler;
+import nhl.containing.server.util.ServerSpatial;
 
+import com.jme3.cinematic.MotionPath;
+import com.jme3.cinematic.events.MotionEvent;
+import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 
 /**
@@ -56,7 +66,7 @@ public class TruckPlatformHandler
 		list.add(new Vector3f(353.5f, 0, location.location.z));
 		list.add(new Vector3f(location.location));
 		ControlHandler.getInstance().sendAGV(agv.agvId, list);
-		location.hasAGV = true;
+		location.needsAGV = false;
 		locations.put(location.id, location);
 	}
 	
@@ -74,7 +84,7 @@ public class TruckPlatformHandler
 		list.add(new Vector3f(353.5f, 0, location.location.z));
 		list.add(new Vector3f(location.location));
 		ControlHandler.getInstance().sendAGV(agv.agvId, list);
-		location.hasAGV = true;
+		location.needsAGV = false;
 		locations.put(location.id, location);
 	}
 	
@@ -91,12 +101,27 @@ public class TruckPlatformHandler
 		list.add(new Vector3f(353.5f, 0, location.location.z));
 		list.add(new Vector3f(353.5f, 0, -250));
 		ControlHandler.getInstance().sendAGV(agv.agvId, list, "a3");
-		location.hasAGV = false;
-		if(location.hasContainer)
-			location.hasContainer = false;
-		else
-			location.hasContainer = true;
+		location.needsAGV = false;
 		locations.put(i, location);
+	}
+	
+	public void spawnTruck()
+	{
+		TruckLocation location = getFreeTruckLocation();
+		location.isAvailable = false;
+		location.needsAGV = true;
+		locations.put(location.id, location);
+		TruckSpawnData data = new TruckSpawnData(location.id, 0);
+		ConnectionManager.sendCommand(data);
+	}
+	
+	public void checkRequirements()
+	{
+		for(TruckLocation location : locations.values())
+		{
+			if(location.needsAGV)
+				ControlHandler.getInstance().requestAGVToTrucks(location.id);
+		}
 	}
 	
 	/**
@@ -107,10 +132,20 @@ public class TruckPlatformHandler
 	{
 		for(TruckLocation location : locations.values())
 		{
-			if(!location.hasAGV && location.hasContainer)
+			if(location.needsAGV)
 				return location;
 		}
 		return locations.get(0);
+	}
+	
+	private TruckLocation getFreeTruckLocation()
+	{
+		for(TruckLocation location : locations.values())
+		{
+			if(location.isAvailable)
+				return location;
+		}
+		return null;
 	}
 	
 	/**
@@ -121,15 +156,38 @@ public class TruckPlatformHandler
 	{
 		public int id;
 		public Vector3f location;
-		public boolean hasAGV;
-		public boolean hasContainer;
+		public boolean needsAGV;
+		public boolean isAvailable;
 		
 		public TruckLocation(int id, Vector3f location)
 		{
 			this.id = id;
 			this.location = location;
-			this.hasAGV = false;
-			this.hasContainer = false;
+			this.needsAGV = false;
+			this.isAvailable = true;
 		}
+	}
+
+	public void getContainerFromTruck(int agvId, int craneId) 
+	{
+		List<Vector3f> list = new ArrayList<Vector3f>();
+		list.add(new Vector3f());
+		list.add(new Vector3f(1, 0, 0));
+		ConnectionManager.sendCommand(new TruckCraneData(agvId, craneId, 0));
+		MotionPath path = new MotionPath();
+		for(Vector3f v : list)
+			path.addWayPoint(v);
+		path.setCurveTension(0.0f);
+		path.addListener(new CMotionPathListener());
+		
+		ServerSpatial spatial = new ServerSpatial(AGVHandler.getInstance().getAGV(agvId), "truckLocation_" + String.valueOf(craneId) + "_loaded");
+        ContainingServer.getRoot().attachChild(spatial);
+
+		MotionEvent motionControl = new MotionEvent(spatial, path);
+        motionControl.setDirectionType(MotionEvent.Direction.PathAndRotation);
+        motionControl.setRotation(new Quaternion().fromAngleNormalAxis(0, Vector3f.UNIT_Y));
+        motionControl.setInitialDuration(30f);
+        motionControl.setSpeed(1f);  
+        motionControl.play();
 	}
 }

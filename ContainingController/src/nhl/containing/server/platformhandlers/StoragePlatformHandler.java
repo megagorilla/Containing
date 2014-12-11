@@ -1,8 +1,10 @@
 package nhl.containing.server.platformhandlers;
 
+import java.awt.Container;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Stack;
 
 import nhl.containing.server.pathfinding.AGV;
 import nhl.containing.server.util.ControlHandler;
@@ -12,6 +14,7 @@ import com.jme3.math.Vector3f;
 public class StoragePlatformHandler {
 	private static StoragePlatformHandler instance;
 	private HashMap<Integer, ParkingLocation> locations = new HashMap<Integer, ParkingLocation>();
+	private HashMap<Integer, StorageUnit> storageUnits = new HashMap<Integer, StorageUnit>();
 	
 	public StoragePlatformHandler() {
 		instance = this;
@@ -24,12 +27,8 @@ public class StoragePlatformHandler {
 	}
 	
 	private void init() {
-		for (int i = 0; i < 39/*Parking lots*/; i++) {
-			for(int j = 0; j < 6/*Truck amount*/; j++)
-			{
-				locations.put(i*6+j, new ParkingLocation(i*6+j, i, new Vector3f(267.5f - 22.5f, 0, (-768.2f + (20 / 6 + 0.3f)*j) + 40 * i)));
-			}
-		}
+		CreateParkingLots();
+		CreateStorageUnits();
 	}
 	
 	public void handleAGV(AGV agv)
@@ -42,9 +41,14 @@ public class StoragePlatformHandler {
 		list.add(new Vector3f(267.5f, 0.0f, -760 + 40 * location.parkID));
 		list.add(new Vector3f(location.location.x + 10, 0.0f, location.location.z));
 		list.add(new Vector3f(location.location));
-		ControlHandler.getInstance().sendAGV(agv.agvId, list);
+		ControlHandler.getInstance().sendAGV(agv.agvId, list, "storageLocation_" + String.valueOf(location.id));
 		location.hasAGV = true;
 		locations.put(location.id, location);
+	}
+	
+	public void storageStack() {
+		Container c = new Container();
+		//c.getDeparture();
 	}
 	
 	public ParkingLocation getLocation() {
@@ -52,7 +56,23 @@ public class StoragePlatformHandler {
 		return locations.get(17);
 	}
 	
-	public class ParkingLocation{
+	public void CreateParkingLots() {
+		for (int i = 0; i < 39/*Parking lots*/; i++) {
+			for(int j = 0; j < 6/*Truck amount*/; j++)
+			{
+				locations.put(i*6+j, new ParkingLocation(i*6+j, i, new Vector3f(267.5f - 22.5f, 0, (-768.2f + (20 / 6 + 0.3f)*j) + 40 * i)));
+			}
+		}
+	}
+	
+	public void CreateStorageUnits() {
+		for (int i = 0; i < 39; i++) {
+			StorageUnit unit = new StorageUnit(new Storage(i),new Vector3f(110 ,0,-760+ 40*i));
+			storageUnits.put(i, unit);
+		}
+	}
+	
+	public class ParkingLocation {
 		public int id;
 		public int parkID;
 		public Vector3f location;
@@ -65,6 +85,19 @@ public class StoragePlatformHandler {
 			this.location = location;
 			this.hasAGV = true;
 		}
+	}
+	
+	public class StorageUnit {
+		public Storage storage;
+		public Vector3f location;
+		
+		
+		public StorageUnit(Storage storage, Vector3f location) {
+			this.storage = storage;
+			this.location = location;
+		}
+		
+		
 	}
 }
 
