@@ -26,6 +26,7 @@ public final class ConnectionManager
 		Serializer.registerClass(UpdateMessage.class);
 		Serializer.registerClass(AGVData.class);
         Serializer.registerClass(TruckCraneData.class);
+        Serializer.registerClass(TruckSpawnData.class);
 		try
 		{
 			server = Network.createServer(port);

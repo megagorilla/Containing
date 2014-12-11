@@ -7,6 +7,7 @@ import java.util.List;
 import nhl.containing.server.ContainingServer;
 import nhl.containing.server.network.ConnectionManager;
 import nhl.containing.server.network.TruckCraneData;
+import nhl.containing.server.network.TruckSpawnData;
 import nhl.containing.server.pathfinding.AGV;
 import nhl.containing.server.pathfinding.AGVHandler;
 import nhl.containing.server.pathfinding.CMotionPathListener;
@@ -65,7 +66,7 @@ public class TruckPlatformHandler
 		list.add(new Vector3f(353.5f, 0, location.location.z));
 		list.add(new Vector3f(location.location));
 		ControlHandler.getInstance().sendAGV(agv.agvId, list);
-		location.hasAGV = true;
+		location.needsAGV = false;
 		locations.put(location.id, location);
 	}
 	
@@ -83,7 +84,7 @@ public class TruckPlatformHandler
 		list.add(new Vector3f(353.5f, 0, location.location.z));
 		list.add(new Vector3f(location.location));
 		ControlHandler.getInstance().sendAGV(agv.agvId, list);
-		location.hasAGV = true;
+		location.needsAGV = false;
 		locations.put(location.id, location);
 	}
 	
@@ -100,12 +101,27 @@ public class TruckPlatformHandler
 		list.add(new Vector3f(353.5f, 0, location.location.z));
 		list.add(new Vector3f(353.5f, 0, -250));
 		ControlHandler.getInstance().sendAGV(agv.agvId, list, "a3");
-		location.hasAGV = false;
-		if(location.hasContainer)
-			location.hasContainer = false;
-		else
-			location.hasContainer = true;
+		location.needsAGV = false;
 		locations.put(i, location);
+	}
+	
+	public void spawnTruck()
+	{
+		TruckLocation location = getFreeTruckLocation();
+		location.isAvailable = false;
+		location.needsAGV = true;
+		locations.put(location.id, location);
+		TruckSpawnData data = new TruckSpawnData(location.id, 0);
+		ConnectionManager.sendCommand(data);
+	}
+	
+	public void checkRequirements()
+	{
+		for(TruckLocation location : locations.values())
+		{
+			if(location.needsAGV)
+				ControlHandler.getInstance().requestAGVToTrucks(location.id);
+		}
 	}
 	
 	/**
@@ -116,10 +132,20 @@ public class TruckPlatformHandler
 	{
 		for(TruckLocation location : locations.values())
 		{
-			if(!location.hasAGV && location.hasContainer)
+			if(location.needsAGV)
 				return location;
 		}
 		return locations.get(0);
+	}
+	
+	private TruckLocation getFreeTruckLocation()
+	{
+		for(TruckLocation location : locations.values())
+		{
+			if(location.isAvailable)
+				return location;
+		}
+		return null;
 	}
 	
 	/**
@@ -130,15 +156,15 @@ public class TruckPlatformHandler
 	{
 		public int id;
 		public Vector3f location;
-		public boolean hasAGV;
-		public boolean hasContainer;
+		public boolean needsAGV;
+		public boolean isAvailable;
 		
 		public TruckLocation(int id, Vector3f location)
 		{
 			this.id = id;
 			this.location = location;
-			this.hasAGV = false;
-			this.hasContainer = false;
+			this.needsAGV = false;
+			this.isAvailable = true;
 		}
 	}
 
@@ -160,7 +186,7 @@ public class TruckPlatformHandler
 		MotionEvent motionControl = new MotionEvent(spatial, path);
         motionControl.setDirectionType(MotionEvent.Direction.PathAndRotation);
         motionControl.setRotation(new Quaternion().fromAngleNormalAxis(0, Vector3f.UNIT_Y));
-        motionControl.setInitialDuration(40f);
+        motionControl.setInitialDuration(30f);
         motionControl.setSpeed(1f);  
         motionControl.play();
 	}

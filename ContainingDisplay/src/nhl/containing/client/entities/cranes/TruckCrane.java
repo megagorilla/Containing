@@ -15,6 +15,8 @@ import com.jme3.cinematic.MotionPath;
 import com.jme3.cinematic.MotionPathListener;
 import com.jme3.cinematic.events.MotionEvent;
 import com.jme3.math.ColorRGBA;
+import com.jme3.math.FastMath;
+import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 
@@ -39,7 +41,7 @@ public class TruckCrane extends Crane {
 
     /**
      * creates the TruckCrane and loads all the models
-     * @param truckCraneNR the number of this truck
+     * @param truckCraneNR the number of this truckCrane
      */
     public TruckCrane(int truckCraneNR)
     {
@@ -62,6 +64,82 @@ public class TruckCrane extends Crane {
     	craneToTruck(agv, truck, container);
     }
     
+    public void fromTruck(final AGV agv, final Container container)
+    {
+    	container.rotate(0, FastMath.HALF_PI, 0);
+        craneToTruck = new MotionPath();
+        craneToTruck.addWayPoint(new Vector3f(380,0,-750 + 25 * truckCraneNR));
+        craneToTruck.addWayPoint(new Vector3f(400,0,-750 + 25 * truckCraneNR));
+        craneToTruck.addWayPoint(new Vector3f(380,0,-750 + 25 * truckCraneNR));
+        truckToCraneMotion = new MotionEvent(this, craneToTruck);
+        craneToTruck.addListener(new MotionPathListener()
+        {
+			@Override
+			public void onWayPointReach(MotionEvent motionControl, int wayPointIndex) 
+			{
+				if(motionControl.getPath().getNbWayPoints() == wayPointIndex + 2)
+				{
+					motionControl.pause();
+			        dropContainer = new MotionPath();
+			        dropContainer.addWayPoint(new Vector3f(0, 1, 0));
+			        dropContainer.addWayPoint(new Vector3f(0, -4.5f, 0));
+			        dropContainer.addWayPoint(new Vector3f(0, 1, 0));
+			        dropContainer.addListener(new MotionPathListener()
+			        {
+						@Override
+						public void onWayPointReach(MotionEvent motionControl, int wayPointIndex) 
+						{
+							if(motionControl.getPath().getNbWayPoints() == wayPointIndex + 2)
+							{
+								getGrabber().attachChild(container);
+								container.setLocalTranslation(new Vector3f(0, 6.0f, 0));
+					        }
+							else if(motionControl.getPath().getNbWayPoints() == wayPointIndex + 1)
+							{
+								truckToCraneMotion.play();
+							}
+						}	
+			        });
+			        dropContainer.setCurveTension(0);
+			        motionControl3 = new MotionEvent(grabber2, dropContainer);
+			        motionControl3.setDirectionType(MotionEvent.Direction.PathAndRotation);
+			        motionControl3.setInitialDuration(10f);
+			        motionControl3.setSpeed(1f);
+			        motionControl3.play();        
+				}
+				else if(motionControl.getPath().getNbWayPoints() == wayPointIndex + 1)
+				{
+			        dropContainer = new MotionPath();
+			        dropContainer.addWayPoint(new Vector3f(0, 1, 0));
+			        dropContainer.addWayPoint(new Vector3f(0, -4.5f, 0));
+			        dropContainer.addWayPoint(new Vector3f(0, 1, 0));
+			        dropContainer.addListener(new MotionPathListener()
+			        {
+						@Override
+						public void onWayPointReach(MotionEvent motionControl, int wayPointIndex) 
+						{
+							if(motionControl.getPath().getNbWayPoints() == wayPointIndex + 2)
+							{
+								agv.attachChild(container);
+								container.setLocalTranslation(new Vector3f(0, 1.2f, 0));
+					        }
+						}	
+			        });
+			        dropContainer.setCurveTension(0);
+			        motionControl3 = new MotionEvent(grabber2, dropContainer);
+			        motionControl3.setDirectionType(MotionEvent.Direction.PathAndRotation);
+			        motionControl3.setInitialDuration(10f);
+			        motionControl3.setSpeed(1f);
+			        motionControl3.play(); 
+				}
+			}
+        });
+        truckToCraneMotion.setDirectionType(MotionEvent.Direction.PathAndRotation);
+        truckToCraneMotion.setInitialDuration(10f);
+        truckToCraneMotion.setSpeed(1f);
+        truckToCraneMotion.play();
+    }
+     
     /**
      * This method is for dropping the container on the truck or on the AGV
      */

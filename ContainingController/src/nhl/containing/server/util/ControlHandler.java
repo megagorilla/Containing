@@ -136,4 +136,9 @@ public class ControlHandler
         motionControl.setSpeed(8f);  
         motionControl.play();
 	}
+	
+	public void requestAGVToTrucks(int id)
+	{
+		sendAGV("a2", 0, "a1");
+	}
 }

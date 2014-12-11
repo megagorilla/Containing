@@ -3,7 +3,10 @@ package nhl.containing.client.network;
 import java.util.concurrent.Callable;
 
 import nhl.containing.client.ContainingClient;
+import nhl.containing.client.ContainingClient.Quality;
+import nhl.containing.client.entities.Container;
 import nhl.containing.client.entities.cranes.TruckCrane;
+import nhl.containing.client.entities.vehicles.Truck;
 
 import com.jme3.cinematic.MotionPath;
 import com.jme3.cinematic.events.MotionEvent;
@@ -26,14 +29,26 @@ public class ClientListener implements MessageListener<Client>
 		{
 			this.handleTruckCraneMessage((TruckCraneData)m);
 		}
+		if(m instanceof TruckSpawnData)
+		{
+			this.handleTruckSpawnMessage((TruckSpawnData)m);
+		}
 	}
 	
+	private void handleTruckSpawnMessage(TruckSpawnData m)
+	{
+		Truck truck = new Truck(Quality.HIGH);
+		Container container = new Container(Quality.HIGH);
+		truck.attachChild(container);
+		container.setLocalTranslation(0, 1.5f, 0);
+		truck.setLocalTranslation(400, 0, -750 + 25 * m.truckID);
+	}
+
 	private void handleTruckCraneMessage(TruckCraneData m) 
 	{
 		TruckCrane crane = ContainingClient.TruckCranes.get(m.craneID);
-		ContainingClient.instance.hai = true;
-		ContainingClient.instance.crane = crane;
-		ContainingClient.instance.agv123 = ContainingClient.agvs.get(m.agvID);
+		ContainingClient.agvs.get(m.agvID);
+		crane.fromTruck(ContainingClient.agvs.get(m.agvID), ContainingClient.test2);
 	}
 
 	private void handleUpdateMessage(final UpdateMessage message)
