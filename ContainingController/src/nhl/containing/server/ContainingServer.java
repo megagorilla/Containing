@@ -55,7 +55,7 @@ public class ContainingServer extends SimpleApplication
 		API.start(8080);
                 
             XMLFileReader xmlReader = new XMLFileReader();
-            containers = xmlReader.getContainers("../XMLFILES/xmltest.xml");
+            containers = xmlReader.getContainers("../XMLFILES/xml7.xml");
             for (Container c : containers) {
                 switch (c.getArrival().getType()) {
                     case BINNENSCHIP:
@@ -87,7 +87,7 @@ public class ContainingServer extends SimpleApplication
         containters.add(seaShipContainers.get(0));
         seaShipContainers.remove(0);
         boolean shipFull = false;
-        while (!shipFull) {
+        while (!shipFull && seaShipContainers.size()>0) {
             if (seaShipContainers.get(0).getPositie().equals(new Vector3f(0.0f, 0.0f, 0.0f))) {
                 shipFull = true;
             } else {
@@ -97,6 +97,26 @@ public class ContainingServer extends SimpleApplication
         }
         return containters;
     }
+        /**
+         * retrieves arraylist for the next train and removes the containers
+         * from the list of all the trainContainers
+         * @return An arraylist of containers that fit in 1 train
+         */
+        public ArrayList<Container> getNextTrain() {
+            ArrayList<Container> containters = new ArrayList<>();
+            containters.add(trainContainers.get(0));
+            trainContainers.remove(0);
+            boolean trainFull = false;
+            while (!trainFull && trainContainers.size()>0) {
+                if (trainContainers.get(0).getPositie().equals(new Vector3f(0.0f, 0.0f, 0.0f))) {
+                    trainFull = true;
+                }else{
+                    containters.add(trainContainers.get(0));
+                    trainContainers.remove(0);
+                }
+            }
+            return containters;
+        }
         
 	/**
 	 * Updates the server every frame
