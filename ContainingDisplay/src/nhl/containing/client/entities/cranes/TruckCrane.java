@@ -12,7 +12,6 @@ import com.jme3.cinematic.MotionPathListener;
 import com.jme3.cinematic.events.MotionEvent;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
-import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 
@@ -62,7 +61,6 @@ public class TruckCrane extends Crane {
     
     public void fromTruck(final AGV agv, final Container container)
     {
-    	container.rotate(0, FastMath.HALF_PI, 0);
         craneToTruck = new MotionPath();
         craneToTruck.addWayPoint(new Vector3f(380,0,-750 + 25 * truckCraneNR));
         craneToTruck.addWayPoint(new Vector3f(400,0,-750 + 25 * truckCraneNR));

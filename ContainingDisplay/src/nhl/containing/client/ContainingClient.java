@@ -56,7 +56,7 @@ public class ContainingClient extends SimpleApplication {
     public static ArrayList<TruckCrane> TruckCranes = new ArrayList<TruckCrane>();
     ArrayList<Platform> Platforms = new ArrayList<Platform>();
     ArrayList<AGV> AGVs = new ArrayList<AGV>();
-    ArrayList<Truck> Trucks = new ArrayList<Truck>();
+    public static ArrayList<Truck> Trucks = new ArrayList<Truck>();
         public static ContainingClient instance;
         public static AGV testAGV;
     public boolean truckup = false;
@@ -99,9 +99,16 @@ public class ContainingClient extends SimpleApplication {
         cam.onFrameChange();
         cam.setLocation(new Vector3f(300, 20, -300));
 
-        for (int i = 0; i < 5; i++) {
-            agvs.add(new AGV(Quality.HIGH));
-        }
+		for (int i = 0; i < 39/*Parking lots*/; i++)
+		{
+			for(int j = 0; j < 6/*Truck amount*/; j++)
+			{
+				AGV agv = new AGV(Quality.HIGH);
+				agv.setLocalTranslation(new Vector3f(267.5f - 22.5f, 0, (-768.2f + (20 / 6 + 0.3f)*j) + 40 * i));
+				agv.rotate(0, FastMath.HALF_PI, 0);
+				agvs.add(agv);
+			}
+		}
 
         ConnectionManager.init("localhost", 3000);
 
@@ -127,9 +134,9 @@ public class ContainingClient extends SimpleApplication {
 
 
         for (int i = 0; i < truckAmount; i++) {
-            Trucks.add(new Truck(quality));
-            Trucks.get(i).setLocalTranslation(400, 0, -750 + 25 * i);
-            Trucks.get(i).rotate(0, FastMath.HALF_PI, 0);
+//            Trucks.add(new Truck(quality));
+//            Trucks.get(i).setLocalTranslation(400, 0, -750 + 25 * i);
+//            Trucks.get(i).rotate(0, FastMath.HALF_PI, 0);
         }
 
         for (int i = 0; i < craneAmount; i++) {
@@ -147,9 +154,9 @@ public class ContainingClient extends SimpleApplication {
         Container1 = new Container(quality);
         Container1.RotateContainer(0, FastMath.HALF_PI, 0);
 
-        testAGV = new AGV(quality);
-        testAGV.setLocalTranslation(380, 0, -750);
-        testAGV.rotate(0, FastMath.HALF_PI, 0);
+//        testAGV = new AGV(quality);
+//        testAGV.setLocalTranslation(380, 0, -750);
+//        testAGV.rotate(0, FastMath.HALF_PI, 0);
         
         AGV trainAGV = new AGV(quality);
         trainAGV.setLocalTranslation(-327.5f, 0, 0);  
@@ -157,9 +164,8 @@ public class ContainingClient extends SimpleApplication {
 
     @Override
     public void simpleUpdate(float tpf) 
-    {
-    	
-        MoveStorageCrane();
+    {  	
+        //MoveStorageCrane();
         //System.out.println(StorageCranes.get(0).getLocalTranslation().z + "z waarde");
         //System.out.println(StorageCranes.get(0).getLocalTranslation().x + "x waarde");
         //System.out.println(StorageCranes.get(0).getLocalTranslation().y + "y waarde");
@@ -218,7 +224,7 @@ public class ContainingClient extends SimpleApplication {
             Container1.RotateContainer(0, FastMath.HALF_PI, 0);
             Container1.setLocalTranslation(0, 23, 0);   
         }        
-        System.out.println(Container1.getLocalTranslation().x + " Container");
+        //System.out.println(Container1.getLocalTranslation().x + " Container");
         if(StorageCranes.get(0).getGrabber().getLocalTranslation().y < -22.9f && StorageCranes.get(0).getLocalTranslation().x < 215.1 && containerUp && !onStore)
         {
             onStore = true;            

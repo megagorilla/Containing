@@ -4,7 +4,6 @@ import java.awt.Container;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Stack;
 
 import nhl.containing.server.pathfinding.AGV;
 import nhl.containing.server.util.ControlHandler;
@@ -33,7 +32,7 @@ public class StoragePlatformHandler {
 	
 	public void handleAGV(AGV agv)
 	{
-		ParkingLocation location = this.getLocation();
+		ParkingLocation location = this.getFreeLocation();
 		List<Vector3f> list = new ArrayList<Vector3f>();
 		list.add(new Vector3f(303.5f, 0.0f, -778.5f));
 		list.add(new Vector3f(303.5f, 0.0f, -760 + 40 * location.parkID));
@@ -51,9 +50,22 @@ public class StoragePlatformHandler {
 		//c.getDeparture();
 	}
 	
-	public ParkingLocation getLocation() {
-		
-		return locations.get(17);
+	public ParkingLocation getFreeLocation() 
+	{
+		for(ParkingLocation location : locations.values())
+		{
+			if(!location.hasAGV)
+			{
+				location.hasAGV = true;
+				return location;
+			}
+		}
+		return null;
+	}
+	
+	public ParkingLocation getLocation(int id)
+	{
+		return locations.get(id);
 	}
 	
 	public void CreateParkingLots() {
@@ -72,7 +84,8 @@ public class StoragePlatformHandler {
 		}
 	}
 	
-	public class ParkingLocation {
+	public class ParkingLocation
+	{
 		public int id;
 		public int parkID;
 		public Vector3f location;
@@ -87,17 +100,16 @@ public class StoragePlatformHandler {
 		}
 	}
 	
-	public class StorageUnit {
+	public class StorageUnit
+	{
 		public Storage storage;
 		public Vector3f location;
 		
-		
-		public StorageUnit(Storage storage, Vector3f location) {
+		public StorageUnit(Storage storage, Vector3f location)
+		{
 			this.storage = storage;
 			this.location = location;
-		}
-		
-		
+		}	
 	}
 }
 

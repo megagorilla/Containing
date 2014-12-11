@@ -1,5 +1,6 @@
 package nhl.containing.server.util;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import nhl.containing.server.ContainingServer;
@@ -9,6 +10,8 @@ import nhl.containing.server.pathfinding.AGV;
 import nhl.containing.server.pathfinding.AGVHandler;
 import nhl.containing.server.pathfinding.CMotionPathListener;
 import nhl.containing.server.pathfinding.RouteController;
+import nhl.containing.server.platformhandlers.StoragePlatformHandler;
+import nhl.containing.server.platformhandlers.StoragePlatformHandler.ParkingLocation;
 
 import com.jme3.cinematic.MotionPath;
 import com.jme3.cinematic.events.MotionEvent;
@@ -52,7 +55,7 @@ public class ControlHandler
 	 */
 	public void sendAGV(String destination, int id, String cl)
 	{
-		AGV agv = AGVHandler.getInstance().getAGV(0);
+		AGV agv = AGVHandler.getInstance().getAGV(id);
 		RouteController controller = new RouteController();
 		agv.currentLocation = cl;
 		List<Vector3f> list = controller.sendAGV(agv.currentLocation, destination);
@@ -139,6 +142,15 @@ public class ControlHandler
 	
 	public void requestAGVToTrucks(int id)
 	{
-		sendAGV("a2", 0, "a1");
+		AGV agv = AGVHandler.getInstance().getFreeAGV();
+		List<Vector3f> list = new ArrayList<Vector3f>();
+		int i = Integer.parseInt(agv.currentLocation.split("_")[1]);
+		ParkingLocation location = StoragePlatformHandler.getInstance().getLocation(i);
+		list.add(location.location);
+		list.add(new Vector3f(location.location.x + 10, 0.0f, location.location.z));
+		list.add(new Vector3f(267.5f, 0.0f, -760 + 40 * location.parkID));
+		list.add(new Vector3f(303.5f, 0.0f, -760 + 40 * location.parkID));
+		list.add(new Vector3f(303.5f, 0.0f, -778.5f));
+		list.add(new Vector3f(353.5f, 0.0f, -778.5f));
 	}
 }

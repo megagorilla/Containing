@@ -6,10 +6,12 @@ import nhl.containing.client.ContainingClient;
 import nhl.containing.client.ContainingClient.Quality;
 import nhl.containing.client.entities.Container;
 import nhl.containing.client.entities.cranes.TruckCrane;
+import nhl.containing.client.entities.vehicles.AGV;
 import nhl.containing.client.entities.vehicles.Truck;
 
 import com.jme3.cinematic.MotionPath;
 import com.jme3.cinematic.events.MotionEvent;
+import com.jme3.math.FastMath;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.network.Client;
@@ -35,20 +37,36 @@ public class ClientListener implements MessageListener<Client>
 		}
 	}
 	
-	private void handleTruckSpawnMessage(TruckSpawnData m)
+	private void handleTruckSpawnMessage(final TruckSpawnData m)
 	{
-		Truck truck = new Truck(Quality.HIGH);
-		Container container = new Container(Quality.HIGH);
-		truck.attachChild(container);
-		container.setLocalTranslation(0, 1.5f, 0);
-		truck.setLocalTranslation(400, 0, -750 + 25 * m.truckID);
+		 ContainingClient.instance.enqueue(new Callable<Object>() 
+		 {
+            public Object call() throws Exception
+            {
+				Truck truck = new Truck(Quality.HIGH);
+				Container container = new Container(Quality.HIGH);
+				truck.addContainer(container);
+				container.setLocalTranslation(0, 1.5f, 0);
+				truck.setLocalTranslation(400, 0, -750 + 25 * m.truckID);
+		        truck.rotate(0, FastMath.HALF_PI, 0);
+		        ContainingClient.Trucks.add(truck);
+		        return null;
+            }
+		 });
 	}
 
-	private void handleTruckCraneMessage(TruckCraneData m) 
+	private void handleTruckCraneMessage(final TruckCraneData m) 
 	{
-		TruckCrane crane = ContainingClient.TruckCranes.get(m.craneID);
-		ContainingClient.agvs.get(m.agvID);
-		crane.fromTruck(ContainingClient.agvs.get(m.agvID), ContainingClient.test2);
+		 ContainingClient.instance.enqueue(new Callable<Object>() 
+		 {
+            public Object call() throws Exception
+            {
+				TruckCrane crane = ContainingClient.TruckCranes.get(m.craneID);
+				AGV agv = ContainingClient.agvs.get(m.agvID);
+				crane.fromTruck(agv, ContainingClient.Trucks.get(m.containerID).getContainer());
+				return null;
+            }
+		 });
 	}
 
 	private void handleUpdateMessage(final UpdateMessage message)
@@ -73,7 +91,7 @@ public class ClientListener implements MessageListener<Client>
         	        motionControl.setInitialDuration(100f);
         	        motionControl.setSpeed(8f);  
         	        motionControl.play();
-                     return null;
+                    return null;
                  }
              });
 			System.out.println(System.currentTimeMillis());

@@ -54,6 +54,12 @@ public class TruckPlatformHandler
 		}
 	}
 	
+
+	public void update(float tpf)
+	{
+		checkRequirements();
+	}
+	
 	/**
 	 * Handles the agv when it arrives at location 'a2'
 	 * @param agv
@@ -109,7 +115,7 @@ public class TruckPlatformHandler
 	{
 		TruckLocation location = getFreeTruckLocation();
 		location.isAvailable = false;
-		location.needsAGV = true;
+		location.needsAGVRequested = true;
 		locations.put(location.id, location);
 		TruckSpawnData data = new TruckSpawnData(location.id, 0);
 		ConnectionManager.sendCommand(data);
@@ -119,8 +125,12 @@ public class TruckPlatformHandler
 	{
 		for(TruckLocation location : locations.values())
 		{
-			if(location.needsAGV)
+			if(location.needsAGVRequested)
+			{	
 				ControlHandler.getInstance().requestAGVToTrucks(location.id);
+				location.needsAGVRequested = false;
+				location.needsAGV = true;
+			}
 		}
 	}
 	
@@ -156,6 +166,7 @@ public class TruckPlatformHandler
 	{
 		public int id;
 		public Vector3f location;
+		public boolean needsAGVRequested;
 		public boolean needsAGV;
 		public boolean isAvailable;
 		
@@ -163,6 +174,7 @@ public class TruckPlatformHandler
 		{
 			this.id = id;
 			this.location = location;
+			this.needsAGVRequested = false;
 			this.needsAGV = false;
 			this.isAvailable = true;
 		}
@@ -173,7 +185,7 @@ public class TruckPlatformHandler
 		List<Vector3f> list = new ArrayList<Vector3f>();
 		list.add(new Vector3f());
 		list.add(new Vector3f(1, 0, 0));
-		ConnectionManager.sendCommand(new TruckCraneData(agvId, craneId, 0));
+		ConnectionManager.sendCommand(new TruckCraneData(agvId, craneId, craneId));
 		MotionPath path = new MotionPath();
 		for(Vector3f v : list)
 			path.addWayPoint(v);

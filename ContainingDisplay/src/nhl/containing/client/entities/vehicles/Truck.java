@@ -2,6 +2,7 @@ package nhl.containing.client.entities.vehicles;
 
 import com.jme3.math.ColorRGBA;
 import nhl.containing.client.ContainingClient;
+import nhl.containing.client.entities.Container;
 import nhl.containing.client.entities.Vehicle;
 
 import com.jme3.math.Vector3f;
@@ -15,8 +16,10 @@ import nhl.containing.client.materials.PlainMaterial;
  *
  * @author Sander
  */
-public class Truck extends Vehicle {
-
+public class Truck extends Vehicle
+{
+	Container c;
+	
 	/**
      * creates a Truck and loads the models
      * @param quality the quality for the model;
@@ -56,4 +59,15 @@ public class Truck extends Vehicle {
         
         ContainingClient.getMyRootNode().attachChild(this);
     }
+    
+    public void addContainer(Container c)
+    {
+    	this.c = c;
+    	this.attachChild(c);
+    }
+
+	public Container getContainer()
+	{
+		return c;
+	}
 }

@@ -24,6 +24,8 @@ public class AGV
     {
     	this.agvId = agvId;
     	this.currentLocation = currentLocation;
+    	this.isMoving = false;
+    	this.loaded = false;
     }
     
     /**

@@ -17,6 +17,7 @@ public class AGVHandler
 	public AGVHandler()
 	{
 		instance = this;
+		init();
 	}
 	
 	/**
