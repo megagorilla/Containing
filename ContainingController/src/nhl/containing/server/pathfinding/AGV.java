@@ -4,7 +4,7 @@ import nhl.containing.server.util.XMLFileReader.Container;
 
 /**
  * Creates AVG's
- * @author Fré-Meine
+ * @author Fre-Meine
  *
  */
 public class AGV 

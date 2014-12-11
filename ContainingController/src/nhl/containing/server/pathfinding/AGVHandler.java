@@ -6,7 +6,7 @@ import nhl.containing.server.util.XMLFileReader.Container;
 
 /**
  * Controller for AGV's, by creating Hashmap with all the AGV's in it
- * @author Fré-Meine
+ * @author Fre-Meine
  *
  */
 public class AGVHandler

@@ -49,14 +49,6 @@ public class ConnectionManagerTest {
         assertTrue(result);
     }
 
-    /**
-     * Test of stop method, of class ConnectionManager.
-     */
-    @Test
-    public void testStop() {
-//        System.out.println("stop");
-//        ConnectionManager.stop();
-    }
 
 
     /**
