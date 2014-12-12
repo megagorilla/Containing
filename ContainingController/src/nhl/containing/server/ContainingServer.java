@@ -24,6 +24,11 @@ public class ContainingServer extends SimpleApplication
 	private boolean hasSent;
 	private static Node staticRootNode;
         
+        private int currentDay = 1;
+        private float dayCounter = 0;
+        private final float dayLength = 1f; //the time 1 gameday should be in seconds
+        long startTime;
+        
         ArrayList<Container> containers;
         Stack<Stack<Container>> listofSeaShipContainers = new Stack<>();
         Stack<Stack<Container>> listofriverShipContainers = new Stack<>();
@@ -58,6 +63,7 @@ public class ContainingServer extends SimpleApplication
                 
             initContainers();
             System.out.println("1");
+            startTime = System.currentTimeMillis();
 	}
         
         /**
@@ -148,6 +154,13 @@ public class ContainingServer extends SimpleApplication
 	@Override
 	public void simpleUpdate(float tpf)
 	{
+            
+            dayCounter += tpf;
+            if(dayCounter > dayLength){
+                currentDay++;
+                dayCounter = 0;
+                System.out.println("time since start: " + ((System.currentTimeMillis()-startTime)/1000f) + " program day: " +currentDay);
+            }
 		if(!hasSent && ConnectionManager.hasConnections())
 		{
 			ControlHandler.getInstance().sendAGV("a2", 0, "a1");
