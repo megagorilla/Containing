@@ -111,5 +111,9 @@ public class StoragePlatformHandler {
 			this.location = location;
 		}	
 	}
+
+	public void setParkingLocation(ParkingLocation location) {
+		this.locations.put(location.id, location);
+	}
 }
 

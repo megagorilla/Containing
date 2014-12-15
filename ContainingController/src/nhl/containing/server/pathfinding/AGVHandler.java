@@ -39,7 +39,9 @@ public class AGVHandler
 	 */
 	public void addAGV(int id)
 	{
-		agvs.put(id, new AGV(id));
+		AGV agv = new AGV(id);
+		agv.currentLocation = new StringBuilder().append("storageLocation_").append(id).toString();
+		agvs.put(id, agv);
 	}
 	
 	/**

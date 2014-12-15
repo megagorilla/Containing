@@ -43,14 +43,23 @@ public class ClientListener implements MessageListener<Client>
 		 {
             public Object call() throws Exception
             {
-				Truck truck = new Truck(Quality.HIGH);
-				Container container = new Container(Quality.HIGH);
-				truck.addContainer(container);
-				container.setLocalTranslation(0, 1.5f, 0);
-				truck.setLocalTranslation(400, 0, -750 + 25 * m.truckID);
-		        truck.rotate(0, FastMath.HALF_PI, 0);
-		        ContainingClient.Trucks.add(truck);
-		        return null;
+            	if(m.shouldDespawn)
+            	{
+            		Truck truck = ContainingClient.Trucks.get(m.truckID);
+            		truck.removeFromParent();
+            		ContainingClient.Trucks.remove(m.truckID);
+            	}
+            	else
+            	{	            	
+	            	Truck truck = new Truck(Quality.HIGH);
+					Container container = new Container(Quality.HIGH);
+					truck.addContainer(container);
+					container.setLocalTranslation(0, 1.5f, 0);
+					truck.setLocalTranslation(400, 0, -750 + 25 * m.truckID);
+			        truck.rotate(0, FastMath.HALF_PI, 0);
+			        ContainingClient.Trucks.add(truck);
+            	}
+            	return null;
             }
 		 });
 	}

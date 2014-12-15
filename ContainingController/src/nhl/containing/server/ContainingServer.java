@@ -1,5 +1,8 @@
 package nhl.containing.server;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 import nhl.containing.server.network.API;
 import nhl.containing.server.network.ConnectionManager;
 import nhl.containing.server.pathfinding.AGVHandler;
@@ -7,14 +10,13 @@ import nhl.containing.server.pathfinding.RouteController;
 import nhl.containing.server.platformhandlers.StoragePlatformHandler;
 import nhl.containing.server.platformhandlers.TruckPlatformHandler;
 import nhl.containing.server.util.ControlHandler;
+import nhl.containing.server.util.XMLFileReader;
+import nhl.containing.server.util.XMLFileReader.Container;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.system.JmeContext;
-import java.util.ArrayList;
-import nhl.containing.server.util.XMLFileReader;
-import nhl.containing.server.util.XMLFileReader.*;
 
 public class ContainingServer extends SimpleApplication
 {
@@ -121,15 +123,19 @@ public class ContainingServer extends SimpleApplication
 	/**
 	 * Updates the server every frame
 	 */
-	@Override
-	public void simpleUpdate(float tpf)
-	{
-		if(!hasSent && ConnectionManager.hasConnections())
-		{
-			ControlHandler.getInstance().sendAGV("a2", 0, "a1");
-			hasSent = true;
-		}
-	}
+        Random rand = new Random();
+        
+    	@Override
+    	public void simpleUpdate(float tpf)
+    	{
+    		if(ConnectionManager.hasConnections())
+    		{
+    			if(rand.nextInt(500) == 10) 
+    				TruckPlatformHandler.getInstance().spawnTruck();
+    			
+    			TruckPlatformHandler.getInstance().update(tpf);
+    		}
+    	}
 	
 	/**
 	 * @return {@link #staticRootNode}

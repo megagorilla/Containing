@@ -8,6 +8,7 @@ public class TruckSpawnData extends AbstractMessage
 {
 	public int truckID;
 	public int containerID;
+	public boolean shouldDespawn;
 	
 	public TruckSpawnData(){}
 
@@ -16,9 +17,10 @@ public class TruckSpawnData extends AbstractMessage
 	 * @param truckID
 	 * @param containerID
 	 */
-	public TruckSpawnData(int truckID, int containerID)
+	public TruckSpawnData(int truckID, int containerID, boolean shouldDespawn)
 	{
 		this.truckID = truckID;
 		this.containerID = containerID;
+		this.shouldDespawn = shouldDespawn;
 	}
 }

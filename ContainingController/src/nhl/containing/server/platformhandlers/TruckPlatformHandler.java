@@ -108,7 +108,11 @@ public class TruckPlatformHandler
 		list.add(new Vector3f(353.5f, 0, -250));
 		ControlHandler.getInstance().sendAGV(agv.agvId, list, "a3");
 		location.needsAGV = false;
+		location.isAvailable = true;
+		location.needsAGVRequested = false;
 		locations.put(i, location);
+		TruckSpawnData data = new TruckSpawnData(location.id, 0, true);
+		ConnectionManager.sendCommand(data);
 	}
 	
 	public void spawnTruck()
@@ -117,7 +121,7 @@ public class TruckPlatformHandler
 		location.isAvailable = false;
 		location.needsAGVRequested = true;
 		locations.put(location.id, location);
-		TruckSpawnData data = new TruckSpawnData(location.id, 0);
+		TruckSpawnData data = new TruckSpawnData(location.id, 0, false);
 		ConnectionManager.sendCommand(data);
 	}
 	
@@ -126,7 +130,7 @@ public class TruckPlatformHandler
 		for(TruckLocation location : locations.values())
 		{
 			if(location.needsAGVRequested)
-			{	
+			{
 				ControlHandler.getInstance().requestAGVToTrucks(location.id);
 				location.needsAGVRequested = false;
 				location.needsAGV = true;
@@ -199,7 +203,7 @@ public class TruckPlatformHandler
         motionControl.setDirectionType(MotionEvent.Direction.PathAndRotation);
         motionControl.setRotation(new Quaternion().fromAngleNormalAxis(0, Vector3f.UNIT_Y));
         motionControl.setInitialDuration(30f);
-        motionControl.setSpeed(1f);  
+        motionControl.setSpeed(1f);
         motionControl.play();
 	}
 }
