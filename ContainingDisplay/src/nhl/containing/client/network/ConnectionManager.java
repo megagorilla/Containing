@@ -4,7 +4,7 @@
  */
 package nhl.containing.client.network;
 
-import nhl.containing.server.network.TruckSpawnData;
+//import nhl.containing.server.network.TruckSpawnData;
 
 import com.jme3.network.Client;
 import com.jme3.network.Network;

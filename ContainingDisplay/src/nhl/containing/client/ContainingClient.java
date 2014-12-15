@@ -26,6 +26,7 @@ import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
 import com.jme3.util.SkyFactory;
+import java.util.Stack;
 
 import nhl.containing.client.entities.cranes.TrainCrane;
 import nhl.containing.client.entities.vehicles.Train;
@@ -204,11 +205,11 @@ public class ContainingClient extends SimpleApplication {
     public void simpleRender(RenderManager rm) {
         // TODO: add render code
     }
-     * gaat de container met hem mee, waardoor het lijkt of hij de container
-     * daadwerkelijk pakt.
-        }
-     * hand daarvan wordt hun beweging bepaald.
-    }
+//     * gaat de container met hem mee, waardoor het lijkt of hij de container
+//     * daadwerkelijk pakt.
+//        }
+//     * hand daarvan wordt hun beweging bepaald.
+    
 
     public void MoveStorageCrane() {
         if (containerUp == false) {
@@ -232,4 +233,5 @@ public class ContainingClient extends SimpleApplication {
             Container1.RotateContainer(0, FastMath.HALF_PI, 0);
         }
        
+}
 }
