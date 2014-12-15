@@ -92,17 +92,7 @@ public class ContainingServer extends SimpleApplication
                     break;
             }
         }
-        float highestx = 0;
-        float highesty = 0;
-        float highestz = 0;
-        for(Container c :  riverShipContainers){
-            if(c.getPositie().x > highestx)
-                highestx = c.getPositie().x;
-            if(c.getPositie().y > highesty)
-                highesty = c.getPositie().y;
-            if(c.getPositie().z > highestz)
-                highestz = c.getPositie().z;
-        }
+        
         boolean isFull;
         while(riverShipContainers.size()>0){
             listofBargeConatiners.add((Stack<Container>[][]) new Stack[13][3]);
