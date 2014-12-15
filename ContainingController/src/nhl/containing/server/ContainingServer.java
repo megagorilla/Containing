@@ -15,6 +15,8 @@ import com.jme3.system.JmeContext;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Stack;
+import nhl.containing.server.platformhandlers.BargePlatformHandler;
+import nhl.containing.server.platformhandlers.SeaShipPlatformHandler;
 import nhl.containing.server.util.XMLFileReader;
 import nhl.containing.server.util.XMLFileReader.*;
 
@@ -30,8 +32,8 @@ public class ContainingServer extends SimpleApplication
         long startTime;
         
         ArrayList<Container> containers;
-        Stack<Stack<Container>[][]> listofSeaShipContainers = new Stack<>();
-        Stack<Stack<Container>[][]> listofBargeConatiners = new Stack<>();
+        BargePlatformHandler bargePlatformHandler;
+        SeaShipPlatformHandler seaShipPlatformHandler;
         Stack<Stack<Container>> listoftrainContainers = new Stack<>();
         Stack<Container> listoftruckContainers = new Stack<>();
 
@@ -94,30 +96,8 @@ public class ContainingServer extends SimpleApplication
         }
         
         boolean isFull;
-        while(riverShipContainers.size()>0){
-            listofBargeConatiners.add((Stack<Container>[][]) new Stack[13][3]);
-           for(int i = 0; i<13;i++){
-               for(int j = 0; j< 3;j++){
-                   listofBargeConatiners.get(listofBargeConatiners.size()-1)[i][j] = new Stack<>();
-               }
-           }
-           int x = (int)riverShipContainers.get(0).getPositie().x;
-           int z = (int)riverShipContainers.get(0).getPositie().z;
-            listofBargeConatiners.get(listofBargeConatiners.size()-1)[x][z].push(riverShipContainers.get(0));
-            riverShipContainers.remove(0);
-            isFull = false;
-            while(riverShipContainers.size()>0 && !isFull){
-                if(riverShipContainers.get(0).getPositie().equals(Vector3f.ZERO)){
-                    isFull = true;
-                }else{
-                    x = (int)riverShipContainers.get(0).getPositie().x;
-                    z = (int)riverShipContainers.get(0).getPositie().z;
-                    listofBargeConatiners.get(listofBargeConatiners.size()-1)[x][z].push(riverShipContainers.get(0));
-                    riverShipContainers.remove(0);
-                }
-            }
-        }
-        Collections.sort(listofBargeConatiners, (a,b) -> ((a[0][0].get(0).getArrival().getDay()) < (b[0][0].get(0).getArrival().getDay())) ? 1 : ((a[0][0].get(0).getArrival().getDay()) > (b[0][0].get(0).getArrival().getDay())) ? -1 : 0);
+        bargePlatformHandler = new BargePlatformHandler(riverShipContainers);
+        seaShipPlatformHandler = new SeaShipPlatformHandler(seaShipContainers);
         
         while(trainContainers.size()>0){
             listoftrainContainers.add(new Stack<>());
@@ -136,32 +116,6 @@ public class ContainingServer extends SimpleApplication
         Collections.sort(listoftrainContainers, (a,b) -> ((a.get(0).getArrival().getDay()) < (b.get(0).getArrival().getDay())) ? 1 : ((a.get(0).getArrival().getDay()) > (b.get(0).getArrival().getDay())) ? -1 : 0);
         
         Collections.sort(listoftruckContainers, (a,b) -> ((a.getArrival().getDay()) < (b.getArrival().getDay())) ? 1 : ((a.getArrival().getDay()) > (b.getArrival().getDay())) ? -1 : 0);
-        
-        while(seaShipContainers.size()>0){
-           listofSeaShipContainers.add((Stack<Container>[][]) new Stack[21][6]);
-           for(int i = 0; i<21;i++){
-               for(int j = 0; j< 6;j++){
-                   listofSeaShipContainers.get(listofSeaShipContainers.size()-1)[i][j] = new Stack<>();
-               }
-           }
-           int x = (int)seaShipContainers.get(0).getPositie().x;
-           int z = (int)seaShipContainers.get(0).getPositie().z;
-           listofSeaShipContainers.get(listofSeaShipContainers.size()-1)[x][z].push(seaShipContainers.get(0));
-            seaShipContainers.remove(0);
-            isFull = false;
-            while(seaShipContainers.size()>0 && !isFull){
-                if(seaShipContainers.get(0).getPositie().equals(Vector3f.ZERO)){
-                    isFull = true;
-                }else{
-                    x = (int)seaShipContainers.get(0).getPositie().x;
-                    z = (int)seaShipContainers.get(0).getPositie().z;
-                    listofSeaShipContainers.get(listofSeaShipContainers.size()-1)[x][z].push(seaShipContainers.get(0));
-                    seaShipContainers.remove(0);
-                }
-            }
-        }
-        Collections.sort(listofSeaShipContainers, (a,b) -> ((a[0][0].get(0).getArrival().getDay()) < (b[0][0].get(0).getArrival().getDay())) ? 1 : ((a[0][0].get(0).getArrival().getDay()) > (b[0][0].get(0).getArrival().getDay())) ? -1 : 0);
-        
         
         //forced garbage collection (reduces RAM usage from 700MB  to 60 MB in case of xml7)
         System.gc();
