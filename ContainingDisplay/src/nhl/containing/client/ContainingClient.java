@@ -211,11 +211,11 @@ public class ContainingClient extends SimpleApplication {
     public void simpleRender(RenderManager rm) {
         // TODO: add render code
     }
-//     * gaat de container met hem mee, waardoor het lijkt of hij de container
-//     * daadwerkelijk pakt.
-//        }
-//     * hand daarvan wordt hun beweging bepaald.
-    
+    // * gaat de container met hem mee, waardoor het lijkt of hij de container
+    // * daadwerkelijk pakt.
+        
+    // * hand daarvan wordt hun beweging bepaald.
+   
 
     public void MoveStorageCrane() {
         if (containerUp == false) {
@@ -239,5 +239,5 @@ public class ContainingClient extends SimpleApplication {
             Container1.RotateContainer(0, FastMath.HALF_PI, 0);
         }
        
-}
+    }
 }
