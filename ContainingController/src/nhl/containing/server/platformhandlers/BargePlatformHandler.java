@@ -17,7 +17,7 @@ import nhl.containing.server.util.XMLFileReader.*;
  * @author Sander
  */
 public class BargePlatformHandler {
-    Stack<Ship> ships = new Stack<Ship>();
+    Stack<Ship> shipsEnRoute = new Stack<Ship>();
     
     public BargePlatformHandler(ArrayList<Container> BargeContainers) {
         boolean isFull;
@@ -34,11 +34,11 @@ public class BargePlatformHandler {
                     BargeContainers.remove(0);
                 }
             }
-            ships.push(new Ship(buffList));
+            shipsEnRoute.push(new Ship(buffList));
             buffList.clear();
 
         }
-        Collections.sort(ships, (a, b) -> (a.getArrivalDay() < b.getArrivalDay()) ? 1 : (a.getArrivalDay() > b.getArrivalDay()) ? -1 : 0);
+        Collections.sort(shipsEnRoute, (a, b) -> (a.getArrivalDay() < b.getArrivalDay()) ? 1 : (a.getArrivalDay() > b.getArrivalDay()) ? -1 : 0);
     }
     
     /**
@@ -46,6 +46,6 @@ public class BargePlatformHandler {
      * @return the day the next ship should arrive
      */
     public int getDayOfNextShip(){
-        return ships.peek().getArrivalDay();
+        return shipsEnRoute.peek().getArrivalDay();
     }
 }

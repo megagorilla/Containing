@@ -18,7 +18,7 @@ import nhl.containing.server.util.XMLFileReader.*;
  */
 public class SeaShipPlatformHandler {
 
-    Stack<Ship> ships = new Stack<Ship>();
+    Stack<Ship> shipsEnRoute = new Stack<Ship>();
 
     public SeaShipPlatformHandler(ArrayList<Container> seaShipContainers) {
         boolean isFull;
@@ -35,11 +35,11 @@ public class SeaShipPlatformHandler {
                     seaShipContainers.remove(0);
                 }
             }
-            ships.push(new Ship(buffList));
+            shipsEnRoute.push(new Ship(buffList));
             buffList.clear();
 
         }
-        Collections.sort(ships, (a, b) -> (a.getArrivalDay() < b.getArrivalDay()) ? 1 : (a.getArrivalDay() > b.getArrivalDay()) ? -1 : 0);
+        Collections.sort(shipsEnRoute, (a, b) -> (a.getArrivalDay() < b.getArrivalDay()) ? 1 : (a.getArrivalDay() > b.getArrivalDay()) ? -1 : 0);
     }
 
     /**
@@ -47,7 +47,7 @@ public class SeaShipPlatformHandler {
      * @return the day the next ship should arrive
      */
     public int getDayOfNextShip() {
-        return this.ships.peek().getArrivalDay();
+        return this.shipsEnRoute.peek().getArrivalDay();
     }
 
 }
