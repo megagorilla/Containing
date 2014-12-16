@@ -1,6 +1,7 @@
 package nhl.containing.client;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import nhl.containing.client.entities.Container;
 import nhl.containing.client.entities.Platform;
@@ -26,6 +27,7 @@ import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
 import com.jme3.util.SkyFactory;
+
 import java.util.Stack;
 
 import nhl.containing.client.entities.cranes.TrainCrane;
@@ -57,7 +59,7 @@ public class ContainingClient extends SimpleApplication {
     public static ArrayList<TruckCrane> TruckCranes = new ArrayList<TruckCrane>();
     ArrayList<Platform> Platforms = new ArrayList<Platform>();
     ArrayList<AGV> AGVs = new ArrayList<AGV>();
-    public static ArrayList<Truck> Trucks = new ArrayList<Truck>();
+    public static HashMap<Integer, Truck> Trucks = new HashMap<Integer, Truck>();
         public static ContainingClient instance;
         public static AGV testAGV;
     public boolean truckup = false;

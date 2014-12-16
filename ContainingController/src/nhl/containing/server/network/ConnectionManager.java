@@ -1,8 +1,5 @@
 package nhl.containing.server.network;
 
-import nhl.containing.client.network.StorageCranePickupData;
-import nhl.containing.server.network.TruckCraneData;
-
 import com.jme3.network.AbstractMessage;
 import com.jme3.network.Network;
 import com.jme3.network.Server;

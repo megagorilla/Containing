@@ -13,6 +13,7 @@ import nhl.containing.server.pathfinding.AGVHandler;
 import nhl.containing.server.pathfinding.CMotionPathListener;
 import nhl.containing.server.util.ControlHandler;
 import nhl.containing.server.util.ServerSpatial;
+import nhl.containing.server.util.XMLFileReader.Container;
 
 import com.jme3.cinematic.MotionPath;
 import com.jme3.cinematic.events.MotionEvent;
@@ -83,8 +84,7 @@ public class TruckPlatformHandler
 	 */
 	public void handleAGV(AGV agv, int i)
 	{
-		//TruckLocation location = this.getTruckLocation();
-		TruckLocation location = this.locations.get(i);
+		TruckLocation location = this.getTruckLocation();
 		List<Vector3f> list = new ArrayList<Vector3f>();
 		list.add(new Vector3f(353.5f, 0, -778.5f));
 		list.add(new Vector3f(353.5f, 0, location.location.z));
@@ -115,13 +115,13 @@ public class TruckPlatformHandler
 		ConnectionManager.sendCommand(data);
 	}
 	
-	public void spawnTruck()
+	public void spawnTruck(Container c)
 	{
 		TruckLocation location = getFreeTruckLocation();
 		location.isAvailable = false;
 		location.needsAGVRequested = true;
 		locations.put(location.id, location);
-		TruckSpawnData data = new TruckSpawnData(location.id, 0, false);
+		TruckSpawnData data = new TruckSpawnData(location.id, c.getContainerNumber(), false);
 		ConnectionManager.sendCommand(data);
 	}
 	

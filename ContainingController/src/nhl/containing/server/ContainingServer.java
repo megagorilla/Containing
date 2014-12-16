@@ -30,7 +30,7 @@ public class ContainingServer extends SimpleApplication
         
         private int currentDay = 1;
         private float dayCounter = 0;
-        private final float dayLength = 30f; //the time 1 gameday should be in seconds
+        private final float dayLength = 15f; //the time 1 gameday should be in seconds
         long startTime;
         
         ArrayList<Container> containers;
@@ -76,7 +76,7 @@ public class ContainingServer extends SimpleApplication
          */
         private void initContainers() {
         XMLFileReader xmlReader = new XMLFileReader();
-        containers = xmlReader.getContainers("../XMLFILES/xml7.xml");
+        containers = xmlReader.getContainers("C:/school/ProjectContaining/Containing/XMLFILES/xml1.xml");
         ArrayList<Container> riverShipContainers = new ArrayList<>();
         ArrayList<Container> trainContainers = new ArrayList<>();
         ArrayList<Container> seaShipContainers = new ArrayList<>();
@@ -131,17 +131,22 @@ public class ContainingServer extends SimpleApplication
     	@Override
     	public void simpleUpdate(float tpf)
     	{
-            dayCounter += tpf;
-            if(dayCounter > dayLength){
-                currentDay++;
-                dayCounter = 0;
-                System.out.println("time since start: " + ((System.currentTimeMillis()-startTime)/1000f) + " program day: " +currentDay);
-            }
+    		if(ConnectionManager.hasConnections())
     		{
-    			if(rand.nextInt(500) == 10) 
-    				TruckPlatformHandler.getInstance().spawnTruck();
-    			
-    			TruckPlatformHandler.getInstance().update(tpf);
+	            dayCounter += tpf;
+	            if(dayCounter > dayLength)
+	            {
+	                currentDay++;
+	                dayCounter = 0;
+	                System.out.println("time since start: " + ((System.currentTimeMillis()-startTime)/1000f) + " program day: " +currentDay);
+	                
+	                while(listoftruckContainers.peek().getArrival().getDay() == currentDay)
+	                {
+	                	Container c = listoftruckContainers.pop();
+	                	TruckPlatformHandler.getInstance().spawnTruck(c);
+	                }
+	            }
+	            TruckPlatformHandler.getInstance().update(tpf);
     		}
     	}
 	

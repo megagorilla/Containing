@@ -66,7 +66,7 @@ public class ClientListener implements MessageListener<Client>
 					container.setLocalTranslation(0, 1.5f, 0);
 					truck.setLocalTranslation(400, 0, -750 + 25 * m.truckID);
 			        truck.rotate(0, FastMath.HALF_PI, 0);
-			        ContainingClient.Trucks.add(truck);
+			        ContainingClient.Trucks.put(m.truckID, truck);
             	}
             	return null;
             }
@@ -81,7 +81,7 @@ public class ClientListener implements MessageListener<Client>
             {
 				TruckCrane crane = ContainingClient.TruckCranes.get(m.craneID);
 				AGV agv = ContainingClient.agvs.get(m.agvID);
-				crane.fromTruck(agv, ContainingClient.Trucks.get(m.containerID).getContainer());
+				crane.fromTruck(agv, ContainingClient.Trucks.get(m.truckID).getContainer());
 				return null;
             }
 		 });
@@ -107,7 +107,7 @@ public class ClientListener implements MessageListener<Client>
         	        motionControl.setDirectionType(MotionEvent.Direction.PathAndRotation);
         	        motionControl.setRotation(new Quaternion().fromAngleNormalAxis(0, Vector3f.UNIT_Y));
         	        motionControl.setInitialDuration(100f);
-        	        motionControl.setSpeed(8f);  
+        	        motionControl.setSpeed(12f);  
         	        motionControl.play();
                     return null;
                  }

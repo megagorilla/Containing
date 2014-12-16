@@ -40,9 +40,7 @@ public class StoragePlatformHandler {
 		list.add(new Vector3f(267.5f, 0.0f, -760 + 40 * location.parkID));
 		list.add(new Vector3f(location.location.x + 10, 0.0f, location.location.z));
 		list.add(new Vector3f(location.location));
-		ControlHandler.getInstance().sendAGV(agv.agvId, list);
-		location.hasAGV = true;
-		locations.put(location.id, location);
+		ControlHandler.getInstance().sendAGV(agv.agvId, list, "storageLocation_" + location.id);
 	}
 	
 	public void storageStack() {
