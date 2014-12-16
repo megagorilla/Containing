@@ -17,23 +17,23 @@ public class TruckPlatform extends Platform
 {
 	Node groundBox = new Node();
 	Node parkingBox = new Node();
-        Node sideWayBox = new Node();
-        Node AGVparkingBox = new Node();
-        private static final int ParkingSpaceAmount = 20;
+    Node sideWayBox = new Node();
+    Node AGVparkingBox = new Node();
+    private static final int ParkingSpaceAmount = 20;
 
 	public TruckPlatform()
 	{
 		Ground();
 		ParkingSpace();
 		ContainingClient.getMyRootNode().attachChild(this);
-                SideWay();
-                AGVparking();
+        SideWay();
+        AGVparking();
 	}
         
-        /**
-         * This is the ground box, with width 100, height 10 & length 560
-         * Color dark gray
-         */
+    /**
+     * This is the ground box, with width 100, height 10 & length 560
+     * Color dark gray
+     */
         
 	private void Ground()
 	{
@@ -45,9 +45,9 @@ public class TruckPlatform extends Platform
 		ContainingClient.getMyRootNode().attachChild(groundBox);
 	}
         
-        /**
-         * here i make the parking spaces, 20, significant tot the amount of trucks.
-         */
+    /**
+     * here i make the parking spaces, 20, significant tot the amount of trucks.
+     */
 
 	private void ParkingSpace()
 	{
@@ -63,34 +63,34 @@ public class TruckPlatform extends Platform
 		attachChild(parkingBox);
 	}
         
-        /**
-         * updriving roads, sideways next to the AGVParking
-         */
-        private void SideWay()
+    /**
+     * updriving roads, sideways next to the AGVParking
+     */
+    private void SideWay()
+    {
+        for(int i = 0; i <2; i++)
         {
-            for(int i = 0; i <2; i++)
-            {
-                Box SideWay = new Box(15,0.1f,3);
-                Geometry SideWayGeom = new Geometry("Box", SideWay);
-                SideWayGeom.setMaterial(new PlainMaterial(ColorRGBA.White));
-                sideWayBox.attachChild(SideWayGeom);
-                SideWayGeom.setLocalTranslation(335, 0, -780+530*i);
-            }
-            attachChild(sideWayBox);
+            Box SideWay = new Box(15,0.1f,3);
+            Geometry SideWayGeom = new Geometry("Box", SideWay);
+            SideWayGeom.setMaterial(new PlainMaterial(ColorRGBA.White));
+            sideWayBox.attachChild(SideWayGeom);
+            SideWayGeom.setLocalTranslation(335, 0, -780+530*i);
         }
-        
-        /**
-         * road next to the parking space
-         */
-        private void AGVparking()
-        {
-            Box AGVParking = new Box(3,0.1f,268);
-            Geometry AGVParkingGeom = new Geometry("Box", AGVParking);
-            AGVParkingGeom.setMaterial(new PlainMaterial(ColorRGBA.White));
-            AGVparkingBox.attachChild(AGVParkingGeom);
-            AGVParkingGeom.setLocalTranslation(353f, 0, -515);
-            attachChild(AGVparkingBox);
-        }
+        attachChild(sideWayBox);
+    }
+    
+    /**
+     * road next to the parking space
+     */
+    private void AGVparking()
+    {
+        Box AGVParking = new Box(3,0.1f,268);
+        Geometry AGVParkingGeom = new Geometry("Box", AGVParking);
+        AGVParkingGeom.setMaterial(new PlainMaterial(ColorRGBA.White));
+        AGVparkingBox.attachChild(AGVParkingGeom);
+        AGVParkingGeom.setLocalTranslation(353f, 0, -515);
+        attachChild(AGVparkingBox);
+    }
         
       
 }
