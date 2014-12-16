@@ -166,7 +166,7 @@ public class ContainingClient extends SimpleApplication {
     @Override
     public void simpleUpdate(float tpf) 
     {  	
-        //MoveStorageCrane();
+        MoveStorageCrane();
         //System.out.println(StorageCranes.get(0).getLocalTranslation().z + "z waarde");
         //System.out.println(StorageCranes.get(0).getLocalTranslation().x + "x waarde");
         //System.out.println(StorageCranes.get(0).getLocalTranslation().y + "y waarde");
