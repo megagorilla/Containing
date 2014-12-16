@@ -17,6 +17,9 @@ import com.jme3.math.Vector3f;
 import com.jme3.network.Client;
 import com.jme3.network.Message;
 import com.jme3.network.MessageListener;
+import java.util.ArrayList;
+import nhl.containing.client.entities.vehicles.RiverShip;
+import nhl.containing.client.entities.vehicles.SeaShip;
 
 public class ClientListener implements MessageListener<Client>
 {
@@ -35,8 +38,81 @@ public class ClientListener implements MessageListener<Client>
 		{
 			this.handleTruckSpawnMessage((TruckSpawnData)m);
 		}
+                if(m instanceof SeaShipSpawnData){
+                    this.handleSeaShipSpawnMessage((SeaShipSpawnData)m);
+                }
+                if(m instanceof BargeSpawnData){
+                    this.handleBargeSpawnMessage((BargeSpawnData)m);
+                }
 	}
 	
+    private void handleBargeSpawnMessage(final BargeSpawnData m) {
+        ContainingClient.instance.enqueue(new Callable<Object>() {
+            public Object call() throws Exception {
+                if (m.shouldDespawn) {
+                    ArrayList<RiverShip> ships = ContainingClient.riverShips;
+                    RiverShip ship = null;
+                    for (RiverShip s : ships) {
+                        if (s.getbargeID() == m.BargeID) {
+                            ship = s;
+                        }
+                    }
+                    if (ship != null) {
+                        ship.removeFromParent();
+                        ContainingClient.riverShips.remove(m);
+                    }
+                } else {
+                    RiverShip ship = new RiverShip(ContainingClient.quality, m.BargeID);
+                    for (ContainerData c : m.containers) {
+                        Container container = new Container(ContainingClient.quality, m.BargeID);
+                        container.setLocalTranslation(Container.width * c.Location.y-3,
+                                Container.height * c.Location.z, Container.length * c.Location.x - 30);
+                        ship.addContainer(container);
+                    }
+                    ship.setLocalTranslation(450, 0, 200f * ContainingClient.riverShips.size() + 600);
+                    ContainingClient.riverShips.add(ship);
+                }
+                return null;
+            }
+        });
+    }
+        
+        private void handleSeaShipSpawnMessage(final SeaShipSpawnData m) {
+        ContainingClient.instance.enqueue(new Callable<Object>() {
+            public Object call() throws Exception {
+                if (m.shouldDespawn) {
+                    ArrayList<SeaShip> ships = ContainingClient.seaShips;
+                    SeaShip ship = null;
+                    for(SeaShip s : ships){
+                        if(s.getSeaShipID() == m.seaShipID){
+                            ship = s;
+                        }
+                    }
+                    if(ship != null){
+                        ship.removeFromParent();
+                        ContainingClient.seaShips.remove(m);
+                    }
+                } else {
+                    SeaShip ship = new SeaShip(ContainingClient.quality, m.seaShipID);
+                    
+
+                    for(ContainerData c : m.containers){
+                        Container container = new Container(ContainingClient.quality, c.containerID);
+                        container.setLocalTranslation(Container.width*c.Location.z-20,
+                                Container.height*c.Location.y, Container.length*c.Location.x);
+                        
+                        ship.addContainer(container);
+                    }
+                    
+                    ship.setLocalTranslation(800f*ContainingClient.seaShips.size(), 0, 930);
+                    ship.rotate(0, FastMath.HALF_PI, 0);
+                    ContainingClient.seaShips.add(ship);
+                }
+                return null;
+            }
+        });
+    }
+        
 	private void handleTruckSpawnMessage(final TruckSpawnData m)
 	{
 		 ContainingClient.instance.enqueue(new Callable<Object>() 
@@ -52,7 +128,7 @@ public class ClientListener implements MessageListener<Client>
             	else
             	{	            	
 	            	Truck truck = new Truck(Quality.HIGH);
-					Container container = new Container(Quality.HIGH);
+					Container container = new Container(Quality.HIGH,0);//TODO change to containerData
 					truck.addContainer(container);
 					container.setLocalTranslation(0, 1.5f, 0);
 					truck.setLocalTranslation(400, 0, -750 + 25 * m.truckID);

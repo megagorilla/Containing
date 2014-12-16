@@ -14,8 +14,12 @@ import com.jme3.scene.Node;
 public class Container extends Node {
 
     Node containerNode = new Node();
-
-    public Container(ContainingClient.Quality qualtiy) {
+    int ID;
+    public static final float length = 13.4f;
+    public static final float width = 2.55f;
+    public static final float height = 2.9f;
+    public Container(ContainingClient.Quality qualtiy, int ID) {
+        this.ID = ID;
         String modelPath = "Models/high/container/container.j3o";
         switch (qualtiy) {
             case LOW:

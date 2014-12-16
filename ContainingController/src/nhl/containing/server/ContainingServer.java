@@ -30,7 +30,7 @@ public class ContainingServer extends SimpleApplication
         
         private int currentDay = 1;
         private float dayCounter = 0;
-        private final float dayLength = 30f; //the time 1 gameday should be in seconds
+        private final float dayLength = 10f; //the time 1 gameday should be in seconds
         long startTime;
         
         ArrayList<Container> containers;
@@ -77,6 +77,13 @@ public class ContainingServer extends SimpleApplication
         private void initContainers() {
         XMLFileReader xmlReader = new XMLFileReader();
         containers = xmlReader.getContainers("../XMLFILES/xml7.xml");
+        
+        ArrayList<String> bedrijven = new ArrayList<>();
+        for(Container c : containers){
+            if(!bedrijven.contains(c.getOwnerName()))
+                bedrijven.add(c.getOwnerName());
+        }
+        
         ArrayList<Container> riverShipContainers = new ArrayList<>();
         ArrayList<Container> trainContainers = new ArrayList<>();
         ArrayList<Container> seaShipContainers = new ArrayList<>();
@@ -131,10 +138,17 @@ public class ContainingServer extends SimpleApplication
     	@Override
     	public void simpleUpdate(float tpf)
     	{
-            dayCounter += tpf;
+            if(ConnectionManager.hasConnections())
+                dayCounter += tpf;
             if(dayCounter > dayLength){
                 currentDay++;
                 dayCounter = 0;
+                while (bargePlatformHandler.getShipsEnRouteSize() > 0 & bargePlatformHandler.getDayOfNextShip() == currentDay) {
+                    bargePlatformHandler.nextShipArrives();
+                }
+                while (seaShipPlatformHandler.getShipsEnRouteSize() > 0 && seaShipPlatformHandler.getDayOfNextShip() == currentDay) {
+                    seaShipPlatformHandler.nextShipArrives();
+                }
                 System.out.println("time since start: " + ((System.currentTimeMillis()-startTime)/1000f) + " program day: " +currentDay);
             }
     		{
