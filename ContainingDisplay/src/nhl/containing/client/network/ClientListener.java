@@ -35,8 +35,17 @@ public class ClientListener implements MessageListener<Client>
 		{
 			this.handleTruckSpawnMessage((TruckSpawnData)m);
 		}
+		if(m instanceof StorageCranePickupData)
+		{
+			this.handleStorageCraneMessage((StorageCranePickupData)m);
+		}
 	}
 	
+	private void handleStorageCraneMessage(StorageCranePickupData m) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	private void handleTruckSpawnMessage(final TruckSpawnData m)
 	{
 		 ContainingClient.instance.enqueue(new Callable<Object>() 

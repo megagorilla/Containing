@@ -1,5 +1,6 @@
 package nhl.containing.server.network;
 
+import nhl.containing.client.network.StorageCranePickupData;
 import nhl.containing.server.network.TruckCraneData;
 
 import com.jme3.network.AbstractMessage;
@@ -27,6 +28,7 @@ public final class ConnectionManager
 		Serializer.registerClass(AGVData.class);
         Serializer.registerClass(TruckCraneData.class);
         Serializer.registerClass(TruckSpawnData.class);
+        Serializer.registerClass(StorageCranePickupData.class);
 		try
 		{
 			server = Network.createServer(port);

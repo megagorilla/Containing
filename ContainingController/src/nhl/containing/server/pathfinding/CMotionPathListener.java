@@ -51,9 +51,15 @@ public class CMotionPathListener implements MotionPathListener
 				String[] l = AGVHandler.getInstance().getAGV(spatial.agv.agvId).currentLocation.split("_");
 				int i = Integer.parseInt(l[1]);
 				if(l.length == 2)
+				{
 					TruckPlatformHandler.getInstance().getContainerFromTruck(spatial.agv.agvId, i);
+					System.out.println("TruckPlatform Arrival: " + i);
+				}
 				else if(l.length == 3)
+				{	
 					TruckPlatformHandler.getInstance().sendAGVToStorage(AGVHandler.getInstance().getAGV(spatial.agv.agvId), i);
+					System.out.println("TruckPlatform Departure: " + i);
+				}
 			}
 			else if(AGVHandler.getInstance().getAGV(spatial.agv.agvId).currentLocation.startsWith("storageLocation_"))
 			{
