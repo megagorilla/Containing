@@ -29,6 +29,9 @@ import com.jme3.util.SkyFactory;
 import java.util.Stack;
 
 import nhl.containing.client.entities.cranes.TrainCrane;
+import nhl.containing.client.entities.vehicles.RiverShip;
+import nhl.containing.client.entities.vehicles.SeaShip;
+import nhl.containing.client.entities.vehicles.SpaceShip;
 import nhl.containing.client.entities.vehicles.Train;
 /**
  * test
@@ -43,7 +46,7 @@ public class ContainingClient extends SimpleApplication {
 
         LOW, MEDIUM, HIGH
     };
-    private Quality quality = Quality.HIGH;
+    public static Quality quality = Quality.LOW;
     //private ContainingClient main = new ContainingClient();
     private static Node myRootNode;
     private static AssetManager myAssetManager;
@@ -58,8 +61,9 @@ public class ContainingClient extends SimpleApplication {
     ArrayList<Platform> Platforms = new ArrayList<Platform>();
     ArrayList<AGV> AGVs = new ArrayList<AGV>();
     public static ArrayList<Truck> Trucks = new ArrayList<Truck>();
-        public static ContainingClient instance;
-        public static AGV testAGV;
+    public static ArrayList<SeaShip> seaShips = new ArrayList<SeaShip>();
+    public static ArrayList<RiverShip> riverShips = new ArrayList<RiverShip>();
+    public static ContainingClient instance;
     public boolean truckup = false;
     public boolean containerUp = false;
     private boolean onTarget = false;
@@ -117,7 +121,7 @@ public class ContainingClient extends SimpleApplication {
         sun.setDirection((new Vector3f(-0.5f, -0.5f, -0.5f)).normalizeLocal());
         sun.setColor(ColorRGBA.White);
         rootNode.addLight(sun);
-
+        SpaceShip s = new SpaceShip();
         //SeaNode sea = new SeaNode();
         //this.getRootNode().attachChild(sea);
         Platforms.add(new StoragePlatform());
@@ -149,28 +153,11 @@ public class ContainingClient extends SimpleApplication {
             TrainCranes.add(new TrainCrane());
             TrainCranes.get(i).setLocalTranslation(-327.5f, 0f, 100 + 100*i);
         }
-        
-        Train test = new Train(quality, 30);
-        test.setLocalTranslation(-334, 0, 510);
-        Container1 = new Container(quality);
-        Container1.RotateContainer(0, FastMath.HALF_PI, 0);
-
-//        testAGV = new AGV(quality);
-//        testAGV.setLocalTranslation(380, 0, -750);
-//        testAGV.rotate(0, FastMath.HALF_PI, 0);
-        
-        AGV trainAGV = new AGV(quality);
-        trainAGV.setLocalTranslation(-327.5f, 0, 0);  
     }
 
     @Override
     public void simpleUpdate(float tpf) 
-    {  	
-        //MoveStorageCrane();
-        //System.out.println(StorageCranes.get(0).getLocalTranslation().z + "z waarde");
-        //System.out.println(StorageCranes.get(0).getLocalTranslation().x + "x waarde");
-        //System.out.println(StorageCranes.get(0).getLocalTranslation().y + "y waarde");
-        //System.out.println(Container1.getLocalTranslation().y + " Container");
+    {
     }
 
     /**
