@@ -87,7 +87,7 @@ public class StorageCrane extends Crane {
     public void CraneMovement() {
         craneMove = new MotionPath();
         craneMove.addWayPoint(new Vector3f(0, 0, -760));
-        craneMove.addWayPoint(new Vector3f(290, 0, -760));
+        craneMove.addWayPoint(new Vector3f(245, 0, -760));
         
         craneMove.setCurveTension(0);
         craneMove.enableDebugShape(ContainingClient.getMyAssetManager(), ContainingClient.getMyRootNode());
