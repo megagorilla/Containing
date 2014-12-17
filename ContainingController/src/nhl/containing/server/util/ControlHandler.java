@@ -88,10 +88,33 @@ public class ControlHandler
 	 */
 	public void sendAGV(int id, List<Vector3f> list)
 	{
+		
 		AGV agv = AGVHandler.getInstance().getAGV(id);
 		UpdateMessage message = new UpdateMessage(Integer.toString(id));
 		message.addData(id, list, 0, 0);
 		ConnectionManager.sendCommand(message);
+		
+		//distance / movementspeed
+		
+		float tempdist = 0f;
+		float duration = 0f;
+		for (int i = 0; i < list.size(); i++) {
+			
+			if(list.get(i).x != list.get(i+1).x && list.get(i).z == list.get(i+1).z){
+				tempdist += Math.abs(list.get(i).x-list.get(i+1).x);
+			}
+			else if(list.get(i).z != list.get(i+1).z && list.get(i).x == list.get(i+1).x){
+				tempdist += Math.abs(list.get(i).z-list.get(i+1).z);
+			}
+			else if(list.get(i).x != list.get(i+1).x && list.get(i).z != list.get(i+1).z){
+				tempdist += Math.abs(Math.sqrt(Math.pow(list.get(i).x-list.get(i+1).x, 2) + Math.pow(list.get(i).z-list.get(i+1).z, 2)));
+			}
+			
+			if(i+1 == list.size()-1)
+				break;
+		}
+		
+		duration = tempdist / (agv.getLoaded() ? 5.555f : 11.111f);//Loaded and Unloaded speed for the AGV
 		
 		MotionPath path = new MotionPath();
 		for(Vector3f v : list)
@@ -105,8 +128,8 @@ public class ControlHandler
 		MotionEvent motionControl = new MotionEvent(spatial, path);
         motionControl.setDirectionType(MotionEvent.Direction.PathAndRotation);
         motionControl.setRotation(new Quaternion().fromAngleNormalAxis(0, Vector3f.UNIT_Y));
-        motionControl.setInitialDuration(100f);
-        motionControl.setSpeed(8f);  
+        motionControl.setInitialDuration(duration);
+        motionControl.setSpeed(1f);  
         motionControl.play();
 	}
 	
@@ -123,6 +146,26 @@ public class ControlHandler
 		message.addData(id, list, 0, 0);
 		ConnectionManager.sendCommand(message);
 		
+		float tempdist = 0f;
+		float duration = 0f;
+		for (int i = 0; i < list.size(); i++) {
+			
+			if(list.get(i).x != list.get(i+1).x && list.get(i).z == list.get(i+1).z){
+				tempdist += Math.abs(list.get(i).x-list.get(i+1).x);
+			}
+			else if(list.get(i).z != list.get(i+1).z && list.get(i).x == list.get(i+1).x){
+				tempdist += Math.abs(list.get(i).z-list.get(i+1).z);
+			}
+			else if(list.get(i).x != list.get(i+1).x && list.get(i).z != list.get(i+1).z){
+				tempdist += Math.abs(Math.sqrt(Math.pow(list.get(i).x-list.get(i+1).x, 2) + Math.pow(list.get(i).z-list.get(i+1).z, 2)));
+			}
+			
+			if(i+1 == list.size()-1)
+				break;
+		}
+		
+		duration = tempdist / (agv.getLoaded() ? 5.555f : 11.111f);//Loaded and Unloaded speed for the AGV
+		
 		MotionPath path = new MotionPath();
 		for(Vector3f v : list)
 			path.addWayPoint(v);
@@ -135,8 +178,8 @@ public class ControlHandler
 		MotionEvent motionControl = new MotionEvent(spatial, path);
         motionControl.setDirectionType(MotionEvent.Direction.PathAndRotation);
         motionControl.setRotation(new Quaternion().fromAngleNormalAxis(0, Vector3f.UNIT_Y));
-        motionControl.setInitialDuration(100f);
-        motionControl.setSpeed(12f);  
+        motionControl.setInitialDuration(duration);
+        motionControl.setSpeed(1f);  
         motionControl.play();
 	}
 	
