@@ -34,7 +34,7 @@ public class TrainPlatformHandler
 		Vector3f location = getPosition();
 		ArrayList<Vector3f> list = new ArrayList<>();
 		list.add(location);
-		ControlHandler.getInstance().sendAGV(agv.agvId, list);
+//		ControlHandler.getInstance().sendAGV(agv.agvId, list);
 		positions.replace(location, false);
 	}
 	

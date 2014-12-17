@@ -75,7 +75,7 @@ public class ContainingServer extends SimpleApplication
          */
         private void initContainers() {
         XMLFileReader xmlReader = new XMLFileReader();
-        containers = xmlReader.getContainers("C:/school/ProjectContaining/Containing/XMLFILES/xml1.xml");
+        containers = xmlReader.getContainers("G:/School/Jaar2/Containing/XMLFILES/xml1.xml");
         ArrayList<Container> riverShipContainers = new ArrayList<>();
         ArrayList<Container> trainContainers = new ArrayList<>();
         ArrayList<Container> seaShipContainers = new ArrayList<>();
