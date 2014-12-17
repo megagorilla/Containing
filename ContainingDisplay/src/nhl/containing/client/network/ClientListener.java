@@ -106,8 +106,8 @@ public class ClientListener implements MessageListener<Client>
         			MotionEvent motionControl = new MotionEvent(ContainingClient.agvs.get(Integer.parseInt(message.msg)), path);
         	        motionControl.setDirectionType(MotionEvent.Direction.PathAndRotation);
         	        motionControl.setRotation(new Quaternion().fromAngleNormalAxis(0, Vector3f.UNIT_Y));
-        	        motionControl.setInitialDuration(100f);
-        	        motionControl.setSpeed(12f);  
+        	        motionControl.setInitialDuration(10f); 
+        	        motionControl.setSpeed(20f);  
         	        motionControl.play();
                     return null;
                  }

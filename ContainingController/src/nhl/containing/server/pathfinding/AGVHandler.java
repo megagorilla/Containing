@@ -32,6 +32,13 @@ public class AGVHandler
 	{
 		for(int i = 0; i < 100; i++)
 			addAGV(i);
+		
+		for(int i = 0; i < 6; i++)
+		{
+			AGV agv = getAGV(i);
+			agv.isMoving = true;
+			setAGV(agv.agvId, agv);
+		}
 	}
 	
 	/**

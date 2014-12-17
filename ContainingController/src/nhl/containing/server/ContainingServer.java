@@ -25,7 +25,6 @@ import nhl.containing.server.platformhandlers.SeaShipPlatformHandler;
 public class ContainingServer extends SimpleApplication
 {
 	float time = 0;
-	private boolean hasSent;
 	private static Node staticRootNode;
         
         private int currentDay = 1;
@@ -140,10 +139,13 @@ public class ContainingServer extends SimpleApplication
 	                dayCounter = 0;
 	                System.out.println("time since start: " + ((System.currentTimeMillis()-startTime)/1000f) + " program day: " +currentDay);
 	                
-	                while(listoftruckContainers.peek().getArrival().getDay() == currentDay)
+	                if(!listoftruckContainers.isEmpty())
 	                {
-	                	Container c = listoftruckContainers.pop();
-	                	TruckPlatformHandler.getInstance().spawnTruck(c);
+	                	while(listoftruckContainers.peek().getArrival().getDay() == currentDay)
+		                {
+		                	Container c = listoftruckContainers.pop();
+		                	TruckPlatformHandler.getInstance().spawnTruck(c);
+		                }
 	                }
 	            }
 	            TruckPlatformHandler.getInstance().update(tpf);

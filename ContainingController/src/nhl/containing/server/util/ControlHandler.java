@@ -61,7 +61,7 @@ public class ControlHandler
 		List<Vector3f> list = controller.sendAGV(agv.currentLocation, destination);
 		
 		UpdateMessage message = new UpdateMessage(Integer.toString(id));
-		message.addData(agv.agvId, list);
+		message.addData(agv.agvId, list, 0, 0);
 		ConnectionManager.sendCommand(message);
 		
 		MotionPath path = new MotionPath();
@@ -90,7 +90,7 @@ public class ControlHandler
 	{
 		AGV agv = AGVHandler.getInstance().getAGV(id);
 		UpdateMessage message = new UpdateMessage(Integer.toString(id));
-		message.addData(id, list);
+		message.addData(id, list, 0, 0);
 		ConnectionManager.sendCommand(message);
 		
 		MotionPath path = new MotionPath();
@@ -120,7 +120,7 @@ public class ControlHandler
 	{
 		AGV agv = AGVHandler.getInstance().getAGV(id);
 		UpdateMessage message = new UpdateMessage(Integer.toString(id));
-		message.addData(id, list);
+		message.addData(id, list, 0, 0);
 		ConnectionManager.sendCommand(message);
 		
 		MotionPath path = new MotionPath();

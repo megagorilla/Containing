@@ -72,7 +72,7 @@ public class TruckPlatformHandler
 		list.add(new Vector3f(353.5f, 0, -778.5f));
 		list.add(new Vector3f(353.5f, 0, location.location.z));
 		list.add(new Vector3f(location.location));
-		ControlHandler.getInstance().sendAGV(agv.agvId, list);
+		ControlHandler.getInstance().sendAGV(agv.agvId, list, "truckLocation_" + location.id);
 		location.needsAGV = false;
 		locations.put(location.id, location);
 	}

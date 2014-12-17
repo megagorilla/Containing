@@ -6,6 +6,7 @@ import java.util.HashMap;
 import nhl.containing.client.entities.Container;
 import nhl.containing.client.entities.Platform;
 import nhl.containing.client.entities.cranes.StorageCrane;
+import nhl.containing.client.entities.cranes.TrainCrane;
 import nhl.containing.client.entities.cranes.TruckCrane;
 import nhl.containing.client.entities.platforms.RiverShipPlatform;
 import nhl.containing.client.entities.platforms.SeaShipPlatform;
@@ -13,6 +14,7 @@ import nhl.containing.client.entities.platforms.StoragePlatform;
 import nhl.containing.client.entities.platforms.TrainPlatform;
 import nhl.containing.client.entities.platforms.TruckPlatform;
 import nhl.containing.client.entities.vehicles.AGV;
+import nhl.containing.client.entities.vehicles.Train;
 import nhl.containing.client.entities.vehicles.Truck;
 import nhl.containing.client.network.ConnectionManager;
 
@@ -27,11 +29,6 @@ import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
 import com.jme3.util.SkyFactory;
-
-import java.util.Stack;
-
-import nhl.containing.client.entities.cranes.TrainCrane;
-import nhl.containing.client.entities.vehicles.Train;
 /**
  * test
  *
@@ -168,7 +165,7 @@ public class ContainingClient extends SimpleApplication {
     @Override
     public void simpleUpdate(float tpf) 
     {  	
-        MoveStorageCrane();
+        //MoveStorageCrane();
         //System.out.println(StorageCranes.get(0).getLocalTranslation().z + "z waarde");
         //System.out.println(StorageCranes.get(0).getLocalTranslation().x + "x waarde");
         //System.out.println(StorageCranes.get(0).getLocalTranslation().y + "y waarde");
