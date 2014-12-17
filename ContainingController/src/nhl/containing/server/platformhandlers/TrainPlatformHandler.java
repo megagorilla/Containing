@@ -8,8 +8,6 @@ import nhl.containing.server.ContainingServer;
 import nhl.containing.server.network.ConnectionManager;
 import nhl.containing.server.network.TrainCraneData;
 import nhl.containing.server.network.TrainSpawnData;
-import nhl.containing.server.network.TruckCraneData;
-import nhl.containing.server.network.TruckSpawnData;
 import nhl.containing.server.pathfinding.AGV;
 import nhl.containing.server.pathfinding.AGVHandler;
 import nhl.containing.server.pathfinding.CMotionPathListener;
@@ -107,7 +105,7 @@ public class TrainPlatformHandler
 		locations.put(i, location);
 	}
 	
-	public void spawnTruck()
+	public void spawnTrain()
 	{
 		TrainLocation location = getFreeTrainLocation();
 		location.isAvailable = false;
@@ -189,7 +187,7 @@ public class TrainPlatformHandler
         motionControl.setDirectionType(MotionEvent.Direction.PathAndRotation);
         motionControl.setRotation(new Quaternion().fromAngleNormalAxis(0, Vector3f.UNIT_Y));
         motionControl.setInitialDuration(30f);
-        motionControl.setSpeed(1f);  
+        motionControl.setSpeed(1f);
         motionControl.play();
 	}
 }
