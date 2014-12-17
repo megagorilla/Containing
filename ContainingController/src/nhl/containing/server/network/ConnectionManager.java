@@ -3,6 +3,7 @@ package nhl.containing.server.network;
 import nhl.containing.server.network.TruckCraneData;
 
 import com.jme3.network.AbstractMessage;
+import com.jme3.network.HostedConnection;
 import com.jme3.network.Network;
 import com.jme3.network.Server;
 import com.jme3.network.serializing.Serializer;
@@ -36,6 +37,7 @@ public final class ConnectionManager
 			System.err.println(e);
 			return false;
 		}
+		server.addConnectionListener(new nhl.containing.server.network.ConnectionListener());
 		server.start();
 		return true;
 	}
@@ -77,4 +79,6 @@ public final class ConnectionManager
 	{
 		return server.hasConnections();
 	}
+	
+	public void connectionAdded(Server s, HostedConnection c){}
 }

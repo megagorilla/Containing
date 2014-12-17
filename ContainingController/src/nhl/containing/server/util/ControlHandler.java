@@ -156,4 +156,9 @@ public class ControlHandler
 		list.add(new Vector3f(353.5f, 0.0f, -778.5f));
 		this.sendAGV(agv.agvId, list, "a2");
 	}
+
+	public void requestAGVToTrain(int id) {
+		// TODO Auto-generated method stub
+		
+	}
 }
