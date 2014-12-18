@@ -17,9 +17,12 @@ import com.jme3.math.Vector3f;
 import com.jme3.network.Client;
 import com.jme3.network.Message;
 import com.jme3.network.MessageListener;
+import nhl.containing.client.entities.cranes.StorageCrane;
+
 
 public class ClientListener implements MessageListener<Client>
 {
+    
 	@Override
 	public void messageReceived(Client source, Message m)
 	{
@@ -41,9 +44,18 @@ public class ClientListener implements MessageListener<Client>
 		}
 	}
 	
-	private void handleStorageCraneMessage(StorageCranePickupData m) {
-		// TODO Auto-generated method stub
-		
+	private void handleStorageCraneMessage(StorageCranePickupData m) 
+        {
+//            ContainingClient.instance.enqueue(new Callable<Object>() {
+//
+//                public Object call() throws Exception {
+//                    
+//                         StorageCrane crane = ContainingClient.TruckCranes.get(m.craneID);
+//		           AGV agv = ContainingClient.agvs.get(m.agvID);
+//			   crane.fromTruck(agv, ContainingClient.Trucks.get(m.containerID).getContainer());
+//			   return null;
+//                }
+//            });
 	}
 
 	private void handleTruckSpawnMessage(final TruckSpawnData m)

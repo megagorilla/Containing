@@ -52,7 +52,7 @@ public class ContainingClient extends SimpleApplication {
     public static AGV agv;
     
     public static ArrayList<AGV> agvs = new ArrayList<AGV>();
-    ArrayList<StorageCrane> StorageCranes = new ArrayList<StorageCrane>();
+    public static ArrayList<StorageCrane> StorageCranes = new ArrayList<StorageCrane>();
     ArrayList<TrainCrane> TrainCranes = new ArrayList<TrainCrane>();
     public static ArrayList<TruckCrane> TruckCranes = new ArrayList<TruckCrane>();
     ArrayList<Platform> Platforms = new ArrayList<Platform>();
@@ -163,14 +163,16 @@ public class ContainingClient extends SimpleApplication {
         trainAGV.setLocalTranslation(-327.5f, 0, 0);  
     }
 
+    boolean hasSent;
+    
     @Override
     public void simpleUpdate(float tpf) 
     {  	
-        MoveStorageCrane();
-        //System.out.println(StorageCranes.get(0).getLocalTranslation().z + "z waarde");
-        //System.out.println(StorageCranes.get(0).getLocalTranslation().x + "x waarde");
-        //System.out.println(StorageCranes.get(0).getLocalTranslation().y + "y waarde");
-        //System.out.println(Container1.getLocalTranslation().y + " Container");
+        if(!hasSent)
+        {   
+            this.StorageCranes.get(0).Store(Container1, rootNode, new Vector3f(14, 0, 5), 5, StorageCranes.get(0));
+            hasSent = true;
+        }
     }
 
     /**
@@ -222,7 +224,7 @@ public class ContainingClient extends SimpleApplication {
             Container1.setLocalTranslation(290, 0, -768);
         }        
         if (StorageCranes.get(0).getLocalTranslation().x == 0) {
-            StorageCranes.get(0).CraneMovement();
+            //StorageCranes.get(0).CraneMovement();
         }
         if (StorageCranes.get(0).getGrabber().getLocalTranslation().y < -22.9f && !containerUp) {
             containerUp = true;  

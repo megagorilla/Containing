@@ -197,7 +197,7 @@ public class TruckPlatformHandler
 		path.addListener(new CMotionPathListener());
 		
 		ServerSpatial spatial = new ServerSpatial(AGVHandler.getInstance().getAGV(agvId), "truckLocation_" + String.valueOf(craneId) + "_loaded");
-        ContainingServer.getRoot().attachChild(spatial);
+                ContainingServer.getRoot().attachChild(spatial);
 
 		MotionEvent motionControl = new MotionEvent(spatial, path);
         motionControl.setDirectionType(MotionEvent.Direction.PathAndRotation);
