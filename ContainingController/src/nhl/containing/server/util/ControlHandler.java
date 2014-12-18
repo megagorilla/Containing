@@ -199,4 +199,17 @@ public class ControlHandler
 		list.add(new Vector3f(353.5f, 0.0f, -778.5f));
 		this.sendAGV(agv.agvId, list, "a2");
 	}
+
+	public void requestAGVToTrain(int id) {
+		// TODO Auto-generated method stub
+		AGV agv = AGVHandler.getInstance().getFreeAGV();
+		List<Vector3f> list = new ArrayList<Vector3f>();
+		int i = Integer.parseInt(agv.currentLocation.split("_")[1]);
+		ParkingLocation location = StoragePlatformHandler.getInstance().getLocation(i);
+		location.hasAGV = false;
+		StoragePlatformHandler.getInstance().setParkingLocation(location);
+		list.add(location.location);
+		list.add(new Vector3f()); // TODO: find proper "magic numbers"
+		this.sendAGV(agv.agvId, list);
+	}
 }
