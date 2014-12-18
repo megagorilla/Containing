@@ -1,24 +1,26 @@
 package nhl.containing.server.network;
 
 import com.jme3.network.AbstractMessage;
+import com.jme3.network.serializing.Serializable;
 
+@Serializable
 public class TrainSpawnData extends AbstractMessage
 {
-	public int trainID;
-	public int containerID;
+	public int[] trainIDs;
+	public int[] containerIDs;
 	public boolean shouldDespawn;
 	
 	public TrainSpawnData(){}
 
 	/**
 	 * Data to let the client spawn a train
-	 * @param trainID
+	 * @param ids
 	 * @param containerID
 	 */
-	public TrainSpawnData(int trainID, int containerID, boolean shouldDespawn)
+	public TrainSpawnData(int[] ids, int[] containerIDs, boolean shouldDespawn)
 	{
-		this.trainID = trainID;
-		this.containerID = containerID;
+		this.trainIDs = ids;
+		this.containerIDs = containerIDs;
 		this.shouldDespawn = shouldDespawn;
 	}
 }

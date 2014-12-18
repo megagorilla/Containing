@@ -1,6 +1,7 @@
 package nhl.containing.server.platformhandlers;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -27,6 +28,10 @@ public class TrainPlatformHandler
 {
 	private static TrainPlatformHandler instance;
 	private HashMap<Integer, TrainLocation> locations = new HashMap<Integer, TrainLocation>();
+	private final float baseX = 380f, 
+			baseY = 0f, 
+			baseZ = -750f, 
+			containerOffset = 25f;
 	
 	/**
 	 * Initializes instance and the truckLocations (DO NOT CALL THIS OUTSIDE OF THE INIT METHOD OF THE SERVER)
@@ -50,7 +55,7 @@ public class TrainPlatformHandler
 	{
 		for(int i = 0; i < 20; i++)
 		{
-			locations.put(i, new TrainLocation(i, new Vector3f(380f, 0f, -750f + 25f * i)));
+			locations.put(i, new TrainLocation(i, new Vector3f(baseX, baseY, baseZ + containerOffset * i)));
 		}
 	}
 	
@@ -62,7 +67,7 @@ public class TrainPlatformHandler
 	{
 		TrainLocation location = this.getTrainLocation();
 		List<Vector3f> list = new ArrayList<Vector3f>();
-		list.add(new Vector3f(353.5f, 0, -778.5f));
+		list.add(new Vector3f(353.5f, 0, -778.5f)); //TODO: proper coords
 		list.add(new Vector3f(353.5f, 0, location.location.z));
 		list.add(new Vector3f(location.location));
 		ControlHandler.getInstance().sendAGV(agv.agvId, list);
@@ -80,7 +85,7 @@ public class TrainPlatformHandler
 		//TruckLocation location = this.getTruckLocation();
 		TrainLocation location = this.locations.get(i);
 		List<Vector3f> list = new ArrayList<Vector3f>();
-		list.add(new Vector3f(353.5f, 0, -778.5f));
+		list.add(new Vector3f(353.5f, 0, -778.5f)); //TODO: proper coords
 		list.add(new Vector3f(353.5f, 0, location.location.z));
 		list.add(new Vector3f(location.location));
 		ControlHandler.getInstance().sendAGV(agv.agvId, list);
@@ -98,20 +103,27 @@ public class TrainPlatformHandler
 		TrainLocation location = locations.get(i);
 		List<Vector3f> list = new ArrayList<Vector3f>();
 		list.add(new Vector3f(location.location));
-		list.add(new Vector3f(353.5f, 0, location.location.z));
+		list.add(new Vector3f(353.5f, 0, location.location.z)); //TODO: proper coords
 		list.add(new Vector3f(353.5f, 0, -250));
-		ControlHandler.getInstance().sendAGV(agv.agvId, list, "a3");
+		ControlHandler.getInstance().sendAGV(agv.agvId, list, "a3"); // TODO: proper destination string
 		location.needsAGV = false;
 		locations.put(i, location);
 	}
 	
-	public void spawnTrain()
+	public void spawnTrain(int carts)
 	{
-		TrainLocation location = getFreeTrainLocation();
-		location.isAvailable = false;
-		location.needsAGV = true;
-		locations.put(location.id, location);
-		TrainSpawnData data = new TrainSpawnData(location.id, 0, true);
+		TrainLocation[] cartLocations = new TrainLocation[carts];
+		for(int i = carts; i > 0; i--)
+		{
+			TrainLocation location = getFreeTrainLocation();
+			location.isAvailable = false;
+			location.needsAGV = true;
+			cartLocations[i] = location;
+			locations.put(location.id, location);
+		}
+		TrainSpawnData data = new TrainSpawnData(
+				Arrays.stream(cartLocations).mapToInt(loc -> loc.id).toArray(), 
+				new int[carts], false);
 		ConnectionManager.sendCommand(data);
 	}
 	
