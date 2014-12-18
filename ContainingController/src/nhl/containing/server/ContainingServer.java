@@ -66,7 +66,7 @@ public class ContainingServer extends SimpleApplication
 		API.start(8080);
                 
             initContainers();
-            System.out.println("1");
+            System.out.println("Server Operational");
             
 	}
         

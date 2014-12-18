@@ -123,8 +123,8 @@ public class ControlHandler
 		list.add(location.location);
 		list.add(new Vector3f(location.location.x + 10, 0.0f, location.location.z));
 		list.add(new Vector3f(267.5f, 0.0f, -760 + 40 * location.parkID));
-		list.add(new Vector3f(303.5f, 0.0f, -760 + 40 * location.parkID));
-		list.add(new Vector3f(303.5f, 0.0f, -778.5f));
+		list.add(new Vector3f(316.5f, 0.0f, -760 + 40 * location.parkID));
+		list.add(new Vector3f(316.5f, 0.0f, -778.5f));
 		list.add(new Vector3f(353.5f, 0.0f, -778.5f));
 		this.sendAGV(agv.agvId, list, "a2");
 	}
