@@ -27,12 +27,14 @@ import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
 import com.jme3.util.SkyFactory;
 import java.util.Stack;
+import nhl.containing.client.entities.cranes.DockingCrane;
 
 import nhl.containing.client.entities.cranes.TrainCrane;
-import nhl.containing.client.entities.vehicles.RiverShip;
+import nhl.containing.client.entities.vehicles.Barge;
 import nhl.containing.client.entities.vehicles.SeaShip;
 import nhl.containing.client.entities.vehicles.SpaceShip;
 import nhl.containing.client.entities.vehicles.Train;
+import nhl.containing.client.scenery.SeaNode;
 /**
  * test
  *
@@ -62,7 +64,9 @@ public class ContainingClient extends SimpleApplication {
     ArrayList<AGV> AGVs = new ArrayList<AGV>();
     public static ArrayList<Truck> Trucks = new ArrayList<Truck>();
     public static ArrayList<SeaShip> seaShips = new ArrayList<SeaShip>();
-    public static ArrayList<RiverShip> riverShips = new ArrayList<RiverShip>();
+    public static ArrayList<Barge> barges = new ArrayList<Barge>();
+    public static ArrayList<DockingCrane> seaShipCranes = new ArrayList<DockingCrane>();
+    public static ArrayList<DockingCrane> bargeCranes = new ArrayList<DockingCrane>();
     public static ContainingClient instance;
     public boolean truckup = false;
     public boolean containerUp = false;
@@ -108,13 +112,18 @@ public class ContainingClient extends SimpleApplication {
 		{
 			for(int j = 0; j < 6/*Truck amount*/; j++)
 			{
-				AGV agv = new AGV(Quality.HIGH);
+				AGV agv = new AGV(quality);
 				agv.setLocalTranslation(new Vector3f(267.5f - 22.5f, 0, (-768.2f + (20 / 6 + 0.3f)*j) + 40 * i));
 				agv.rotate(0, FastMath.HALF_PI, 0);
 				agvs.add(agv);
 			}
 		}
-
+        for(int i = 0;i<1;i++){
+            seaShipCranes.add(new DockingCrane(quality, true, i));
+        }
+        for(int i = 0;i<1;i++){
+            bargeCranes.add(new DockingCrane(quality, false,i));
+        }
         ConnectionManager.init("localhost", 3000);
 
         sun = new DirectionalLight();
@@ -122,8 +131,8 @@ public class ContainingClient extends SimpleApplication {
         sun.setColor(ColorRGBA.White);
         rootNode.addLight(sun);
         SpaceShip s = new SpaceShip();
-        //SeaNode sea = new SeaNode();
-        //this.getRootNode().attachChild(sea);
+//        SeaNode sea = new SeaNode();
+//        this.getRootNode().attachChild(sea);
         Platforms.add(new StoragePlatform());
         Platforms.add(new SeaShipPlatform());
         Platforms.add(new TrainPlatform());
@@ -227,4 +236,5 @@ public class ContainingClient extends SimpleApplication {
         }
        
     }
+    
 }

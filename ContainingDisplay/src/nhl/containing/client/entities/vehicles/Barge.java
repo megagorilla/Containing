@@ -13,7 +13,7 @@ import nhl.containing.client.entities.Vehicle;
  *
  * @author Sander
  */
-public class RiverShip extends Vehicle {
+public class Barge extends Vehicle {
     ArrayList<Container> containers = new ArrayList<Container>();
     int bargeID;
     
@@ -22,7 +22,7 @@ public class RiverShip extends Vehicle {
      * Rivership is the same as SeaShip, but made smaller (0,5)
      * @param quality the quality of the model
      */
-    public RiverShip(ContainingClient.Quality quality, int ID) {
+    public Barge(ContainingClient.Quality quality, int ID) {
         super();
         Node ship = new Node();
         bargeID = ID;

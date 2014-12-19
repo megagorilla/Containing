@@ -1,5 +1,6 @@
 package nhl.containing.client.entities.vehicles;
 
+import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import java.util.ArrayList;
 import nhl.containing.client.ContainingClient;
@@ -41,6 +42,15 @@ public class SeaShip extends Vehicle {
     public  void addContainer(Container c){
         this.containers.add(c);
         this.attachChild(containers.get(containers.size()-1));
+    }
+    
+    public Container getContainerAt(int ID){
+        for(int i = 0;i<containers.size();i++)
+        {
+            if(containers.get(i).getID() == ID)
+                return containers.get(i);
+        }
+        return null;
     }
 
     public int getSeaShipID() {

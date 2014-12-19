@@ -28,9 +28,9 @@ public class ContainingServer extends SimpleApplication
 	private boolean hasSent;
 	private static Node staticRootNode;
         
-        private int currentDay = 1;
+        private int currentDay = 0;
         private float dayCounter = 0;
-        private final float dayLength = 10f; //the time 1 gameday should be in seconds
+        private static final float dayLength = 5f; //the time 1 gameday should be in seconds
         long startTime;
         
         ArrayList<Container> containers;
@@ -140,13 +140,17 @@ public class ContainingServer extends SimpleApplication
     	{
             if(ConnectionManager.hasConnections())
                 dayCounter += tpf;
+            if(seaShipPlatformHandler.hasShips() && seaShipPlatformHandler.currentShipIsUnloading()){
+                seaShipPlatformHandler.Unload();
+            }
             if(dayCounter > dayLength){
                 currentDay++;
                 dayCounter = 0;
-                while (bargePlatformHandler.getShipsEnRouteSize() > 0 & bargePlatformHandler.getDayOfNextShip() == currentDay) {
+                while (bargePlatformHandler.getShipsEnRouteSize() > 0 && bargePlatformHandler.getDayOfNextShip() == currentDay) {
                     bargePlatformHandler.nextShipArrives();
                 }
                 while (seaShipPlatformHandler.getShipsEnRouteSize() > 0 && seaShipPlatformHandler.getDayOfNextShip() == currentDay) {
+                    
                     seaShipPlatformHandler.nextShipArrives();
                 }
                 System.out.println("time since start: " + ((System.currentTimeMillis()-startTime)/1000f) + " program day: " +currentDay);
@@ -176,4 +180,10 @@ public class ContainingServer extends SimpleApplication
 		ConnectionManager.stop();
 		super.destroy();
 	}
+
+        public static float getDayLength() {
+            return dayLength;
+        }
+        
+        
 }

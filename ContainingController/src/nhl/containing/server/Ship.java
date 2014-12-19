@@ -5,6 +5,7 @@
  */
 package nhl.containing.server;
 
+import com.jme3.math.Vector3f;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
@@ -22,30 +23,33 @@ public class Ship {
     private static final AtomicInteger count = new AtomicInteger(0); 
     private final int ID;
     Stack<Container>[][] containers;
-
+    boolean unloading = true;
+    int xContainerAmount;
+    int zContainerAmount;
+            
     public Ship(ArrayList<Container> containers) {
         this.ID = count.incrementAndGet();
         if (containers.isEmpty()) {
             arrivalDay = 0;
         } else {
-            int highestX = 0;
-            int highestZ = 0;
+            xContainerAmount = 0;
+            zContainerAmount = 0;
             for (Container c : containers) {
-                if ((int) c.getPositie().x > highestX) {
-                    highestX = (int) c.getPositie().x;
+                if ((int) c.getPositie().x > xContainerAmount) {
+                    xContainerAmount = (int) c.getPositie().x;
                 }
-                if ((int) c.getPositie().z > highestZ) {
-                    highestZ = (int) c.getPositie().z;
+                if ((int) c.getPositie().z > zContainerAmount) {
+                    zContainerAmount = (int) c.getPositie().z;
                 }
             }
-            highestX++;
-            highestZ++;
-            this.containers = (Stack<Container>[][]) new Stack[highestX][highestZ];
+            xContainerAmount++;
+            zContainerAmount++;
+            this.containers = (Stack<Container>[][]) new Stack[xContainerAmount][zContainerAmount];
 
             this.arrivalDay = containers.get(0).getArrival().getDay();
 
-            for (int i = 0; i < highestX; i++) {
-                for (int j = 0; j < highestZ; j++) {
+            for (int i = 0; i < xContainerAmount; i++) {
+                for (int j = 0; j < zContainerAmount; j++) {
                     this.containers[i][j] = new Stack<>();
                 }
             }
@@ -75,8 +79,15 @@ public class Ship {
      */
     public Container pop(int x, int z) {
         containerAmount--;
+        if(containerAmount == 0)
+            unloading = false;
         return containers[x][z].pop();
     }
+
+    public boolean isUnloading() {
+        return unloading;
+    }
+    
 
     /**
      *
@@ -116,6 +127,10 @@ public class Ship {
             }
         }
         return containers;
+    }
+    
+    public Vector3f getShipSize(){
+        return new Vector3f(xContainerAmount, 0, zContainerAmount);
     }
     
 }

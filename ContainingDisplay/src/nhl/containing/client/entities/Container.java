@@ -41,4 +41,10 @@ public class Container extends Node {
     public void RotateContainer(float x, float y, float z){
         containerNode.rotate(x, y, z);
     }
+
+    public int getID() {
+        return ID;
+    }
+    
+    
 }

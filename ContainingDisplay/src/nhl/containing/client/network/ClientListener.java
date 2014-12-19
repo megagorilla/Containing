@@ -18,7 +18,7 @@ import com.jme3.network.Client;
 import com.jme3.network.Message;
 import com.jme3.network.MessageListener;
 import java.util.ArrayList;
-import nhl.containing.client.entities.vehicles.RiverShip;
+import nhl.containing.client.entities.vehicles.Barge;
 import nhl.containing.client.entities.vehicles.SeaShip;
 
 public class ClientListener implements MessageListener<Client>
@@ -44,33 +44,45 @@ public class ClientListener implements MessageListener<Client>
                 if(m instanceof BargeSpawnData){
                     this.handleBargeSpawnMessage((BargeSpawnData)m);
                 }
-	}
-	
-    private void handleBargeSpawnMessage(final BargeSpawnData m) {
+                if(m instanceof SeaShipCraneData){
+                    this.handleSeaShipCraneMessage((SeaShipCraneData)m);
+                }
+	   }
+
+    private void handleSeaShipCraneMessage(final SeaShipCraneData m) {
+        ContainingClient.instance.enqueue(new Callable<Object>() {
+            public Object call() throws Exception {
+                ContainingClient.seaShipCranes.get(m.craneID).getContainerFrom(m.location, m.containerID, m.dayLength);
+                return null;
+            }
+        });
+    }
+
+private void handleBargeSpawnMessage(final BargeSpawnData m) {
         ContainingClient.instance.enqueue(new Callable<Object>() {
             public Object call() throws Exception {
                 if (m.shouldDespawn) {
-                    ArrayList<RiverShip> ships = ContainingClient.riverShips;
-                    RiverShip ship = null;
-                    for (RiverShip s : ships) {
+                    ArrayList<Barge> ships = ContainingClient.barges;
+                    Barge ship = null;
+                    for (Barge s : ships) {
                         if (s.getbargeID() == m.BargeID) {
                             ship = s;
                         }
                     }
                     if (ship != null) {
                         ship.removeFromParent();
-                        ContainingClient.riverShips.remove(m);
+                        ContainingClient.barges.remove(m);
                     }
                 } else {
-                    RiverShip ship = new RiverShip(ContainingClient.quality, m.BargeID);
+                    Barge ship = new Barge(ContainingClient.quality, m.BargeID);
                     for (ContainerData c : m.containers) {
-                        Container container = new Container(ContainingClient.quality, m.BargeID);
+                        Container container = new Container(ContainingClient.quality, c.containerID);
                         container.setLocalTranslation(Container.width * c.Location.y-3,
                                 Container.height * c.Location.z, Container.length * c.Location.x - 30);
                         ship.addContainer(container);
                     }
-                    ship.setLocalTranslation(450, 0, 200f * ContainingClient.riverShips.size() + 600);
-                    ContainingClient.riverShips.add(ship);
+                    ship.setLocalTranslation(450, 0, 200f * ContainingClient.barges.size() + 600);
+                    ContainingClient.barges.add(ship);
                 }
                 return null;
             }
@@ -127,8 +139,8 @@ public class ClientListener implements MessageListener<Client>
             	}
             	else
             	{	            	
-	            	Truck truck = new Truck(Quality.HIGH);
-					Container container = new Container(Quality.HIGH,0);//TODO change to containerData
+	            	Truck truck = new Truck(ContainingClient.quality);
+					Container container = new Container(ContainingClient.quality,0);//TODO change to containerData
 					truck.addContainer(container);
 					container.setLocalTranslation(0, 1.5f, 0);
 					truck.setLocalTranslation(400, 0, -750 + 25 * m.truckID);
