@@ -54,7 +54,7 @@ public class StorageCrane extends Crane {
         ContainingClient.getMyRootNode().attachChild(this);
     }
 
-    public void Store(final Container container, final Node rootNode, final Vector3f location, final int i, final Crane StorageCranes)
+    public void StoreRight(final Container container, final Node rootNode, final Vector3f location, final int i, final Crane StorageCranes)
     {
         craneMove = new MotionPath();
         craneMove.addWayPoint(new Vector3f(0, 0, -760));
@@ -140,6 +140,95 @@ public class StorageCrane extends Crane {
         motionControl.setSpeed(1f);
         motionControl.play();
     }
+    
+    
+    public void StoreLeft(final Container container, final Node rootNode, final Vector3f location, final int i, final Crane StorageCranes)
+    {
+        craneMove = new MotionPath();
+        craneMove.addWayPoint(new Vector3f(0, 0, -720));
+        craneMove.addWayPoint(new Vector3f(-245, 0, -720));
+        craneMove.addWayPoint(new Vector3f(-215 + location.x * 13.4f, 0, -720));
+        
+        motionControl = new MotionEvent(this, craneMove);
+                
+        craneMove.addListener(new MotionPathListener() 
+        {
+            @Override
+            public void onWayPointReach(MotionEvent control, int wayPointIndex) 
+            {
+              if (control.getPath().getNbWayPoints() == wayPointIndex + 2) {
+                    control.pause();
+                    
+                    path = new MotionPath();
+                    path.addWayPoint(new Vector3f(0, 0, 0));
+                    path.addWayPoint(new Vector3f(8.2f - (i * 3.3f), 0, 0));
+                    path.addWayPoint(new Vector3f(8.2f - (i * 3.3f), -21.8f, 0));
+                    path.addWayPoint(new Vector3f(8.2f - (i * 3.3f), 0, 0));
+                    path.addWayPoint(new Vector3f(0, 0, 0));
+                    
+                    path.addListener(new MotionPathListener() {
+                        
+                    @Override    
+                    public void onWayPointReach(MotionEvent Motioncontrol, int wayPointIndex) {
+                   
+                    if (path.getNbWayPoints() == wayPointIndex + 3) 
+                    {
+                        getGrabber().attachChild(container); 
+                        container.setLocalTranslation(0, 23f, 0);
+                        container.rotate(0, FastMath.HALF_PI, 0);
+                    }  
+                    else if(path.getNbWayPoints() == wayPointIndex + 1)
+                    {
+                        motionControl.play();
+                    }                
+            }           
+        });
+                 path.setCurveTension(0);
+		 motionControl3 = new MotionEvent(grabber, path);
+		 motionControl3.setDirectionType(MotionEvent.Direction.PathAndRotation);
+		 motionControl3.setInitialDuration(10f);
+		 motionControl3.setSpeed(1f);
+		 motionControl3.play(); 
+                }  
+              else if(control.getPath().getNbWayPoints() == wayPointIndex + 1)
+                {
+                    path = new MotionPath();
+                    path.addWayPoint(new Vector3f(0, 0, 0));
+                    path.addWayPoint(new Vector3f(8.2f - location.z * 3.3f, 0, 0));
+                    path.addWayPoint(new Vector3f(8.2f - location.z * 3.3f, -23f + location.y * 3.0f, 0));
+                    path.addWayPoint(new Vector3f(8.2f - location.z * 3.3f, 0, 0));
+                    path.addWayPoint(new Vector3f(0, 0, 0));
+                    
+                    path.addListener(new MotionPathListener() {
+                           
+                        @Override
+                            public void onWayPointReach(MotionEvent Motioncontrol, int wayPointIndex) 
+                        {
+                            if (path.getNbWayPoints() == wayPointIndex + 3) 
+                            {
+                               rootNode.attachChild(container);     
+                               container.setLocalTranslation(ContainingClient.StorageCranes.get(1).getLocalTranslation().x + getGrabber().getLocalTranslation().z ,0 , ContainingClient.StorageCranes.get(1).getLocalTranslation().z - getGrabber().getLocalTranslation().x);
+                               container.rotate(0, FastMath.HALF_PI, 0);
+                            }               
+            }           
+        });     
+                    
+        path.setCurveTension(0);
+        motionControl3 = new MotionEvent(grabber, path);
+	motionControl3.setDirectionType(MotionEvent.Direction.PathAndRotation);
+	motionControl3.setInitialDuration(10f);
+	motionControl3.setSpeed(1f);
+	motionControl3.play(); 
+                }  
+            }           
+        });
+        craneMove.setCurveTension(0);
+        motionControl.setDirectionType(MotionEvent.Direction.PathAndRotation);
+        motionControl.setInitialDuration(10f);
+        motionControl.setSpeed(1f);
+        motionControl.play();
+    }
+    
     
    /* public void MotionY(float x, float y, float z) {
         path = new MotionPath();

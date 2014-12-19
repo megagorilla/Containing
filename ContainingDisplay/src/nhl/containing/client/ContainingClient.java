@@ -70,7 +70,7 @@ public class ContainingClient extends SimpleApplication {
     int trainCraneAmount = 4;
     Node rails;
     Container Container1;
-        public static Container test2;
+    Container Container2;        public static Container test2;
     Container test3;
         public boolean hai = false;
         
@@ -154,6 +154,11 @@ public class ContainingClient extends SimpleApplication {
         test.setLocalTranslation(-334, 0, 510);
         Container1 = new Container(quality);
         Container1.RotateContainer(0, FastMath.HALF_PI, 0);
+        Container1.setLocalTranslation(245,1.2f,-751.7f);
+        
+        Container2 = new Container(quality);
+        Container2.RotateContainer(0, FastMath.HALF_PI, 0);
+        Container2.setLocalTranslation(-245,1.2f,-711.7f);
 
 //        testAGV = new AGV(quality);
 //        testAGV.setLocalTranslation(380, 0, -750);
@@ -170,7 +175,8 @@ public class ContainingClient extends SimpleApplication {
     {  	
         if(!hasSent)
         {   
-            this.StorageCranes.get(0).Store(Container1, rootNode, new Vector3f(14, 0, 5), 5, StorageCranes.get(0));
+            this.StorageCranes.get(0).StoreRight(Container1, rootNode, new Vector3f(14, 0, 5), 5, StorageCranes.get(0));
+            this.StorageCranes.get(1).StoreLeft(Container2, rootNode, new Vector3f(14,0,5), 5, StorageCranes.get(1));
             hasSent = true;
         }
     }
