@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import nhl.containing.client.entities.Container;
 import nhl.containing.client.entities.Platform;
+import nhl.containing.client.entities.cranes.DockingCrane;
 import nhl.containing.client.entities.cranes.StorageCrane;
 import nhl.containing.client.entities.cranes.TrainCrane;
 import nhl.containing.client.entities.cranes.TruckCrane;
@@ -14,7 +15,9 @@ import nhl.containing.client.entities.platforms.StoragePlatform;
 import nhl.containing.client.entities.platforms.TrainPlatform;
 import nhl.containing.client.entities.platforms.TruckPlatform;
 import nhl.containing.client.entities.vehicles.AGV;
-import nhl.containing.client.entities.vehicles.Train;
+import nhl.containing.client.entities.vehicles.Barge;
+import nhl.containing.client.entities.vehicles.SeaShip;
+import nhl.containing.client.entities.vehicles.SpaceShip;
 import nhl.containing.client.entities.vehicles.Truck;
 import nhl.containing.client.network.ConnectionManager;
 
@@ -29,11 +32,6 @@ import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
 import com.jme3.util.SkyFactory;
-import nhl.containing.client.entities.cranes.DockingCrane;
-import nhl.containing.client.entities.vehicles.Barge;
-import nhl.containing.client.entities.vehicles.SeaShip;
-import nhl.containing.client.entities.vehicles.SpaceShip;
-import nhl.containing.client.scenery.SeaNode;
 /**
  * test
  *
@@ -163,7 +161,7 @@ public class ContainingClient extends SimpleApplication {
         }
         Container1.setLocalTranslation(245,1.2f,-751.7f);
         
-        Container2 = new Container(quality);
+        Container2 = new Container(quality, 0);
         Container2.RotateContainer(0, FastMath.HALF_PI, 0);
         Container2.setLocalTranslation(-245,1.2f,-711.7f);
     }

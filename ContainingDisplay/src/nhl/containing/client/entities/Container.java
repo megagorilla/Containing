@@ -4,7 +4,6 @@ import nhl.containing.client.ContainingClient;
 import nhl.containing.client.materials.PlainMaterial;
 
 import com.jme3.math.ColorRGBA;
-import com.jme3.renderer.queue.RenderQueue;
 import com.jme3.scene.Node;
 
 /**

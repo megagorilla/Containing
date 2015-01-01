@@ -4,12 +4,13 @@
  */
 package nhl.containing.client.entities.vehicles;
 
+import nhl.containing.client.ContainingClient;
+import nhl.containing.client.entities.Vehicle;
+
 import com.jme3.animation.LoopMode;
 import com.jme3.cinematic.MotionPath;
 import com.jme3.cinematic.events.MotionEvent;
 import com.jme3.math.Vector3f;
-import nhl.containing.client.ContainingClient;
-import nhl.containing.client.entities.Vehicle;
 
 /**
  *

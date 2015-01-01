@@ -1,11 +1,11 @@
 package nhl.containing.client.entities.vehicles;
 
+import java.util.ArrayList;
+
 import nhl.containing.client.ContainingClient;
 import nhl.containing.client.entities.Vehicle;
 
 import com.jme3.scene.Node;
-import java.util.ArrayList;
-import static nhl.containing.client.ContainingClient.Quality.*;
 
 /**
  *

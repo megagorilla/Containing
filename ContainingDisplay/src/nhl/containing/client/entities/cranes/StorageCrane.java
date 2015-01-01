@@ -1,14 +1,15 @@
 package nhl.containing.client.entities.cranes;
 
+import nhl.containing.client.ContainingClient;
+import nhl.containing.client.entities.Container;
+import nhl.containing.client.entities.Crane;
+
 import com.jme3.cinematic.MotionPath;
 import com.jme3.cinematic.MotionPathListener;
 import com.jme3.cinematic.events.MotionEvent;
 import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
-import nhl.containing.client.ContainingClient;
-import nhl.containing.client.entities.Container;
-import nhl.containing.client.entities.Crane;
 
 /**
  *

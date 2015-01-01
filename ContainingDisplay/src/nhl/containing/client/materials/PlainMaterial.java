@@ -3,7 +3,6 @@ package nhl.containing.client.materials;
 import nhl.containing.client.ContainingClient;
 
 import com.jme3.material.Material;
-import com.jme3.material.RenderState.FaceCullMode;
 import com.jme3.math.ColorRGBA;
 
 /**

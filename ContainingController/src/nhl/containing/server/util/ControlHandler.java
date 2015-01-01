@@ -139,6 +139,6 @@ public class ControlHandler
 		StoragePlatformHandler.getInstance().setParkingLocation(location);
 		list.add(location.location);
 		list.add(new Vector3f()); // TODO: find proper "magic numbers"
-		this.sendAGV(agv.agvId, list);
+		this.sendAGV(agv.agvId, list, ""); //TODO: String
 	}
 }

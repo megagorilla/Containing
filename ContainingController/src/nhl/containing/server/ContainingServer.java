@@ -27,16 +27,16 @@ public class ContainingServer extends SimpleApplication
 	float time = 0;
 	private static Node staticRootNode;
         
-        private int currentDay = 0;
-        private float dayCounter = 0;
-        private final float dayLength = 30f; //the time 1 gameday should be in seconds
-        long startTime;
+    private int currentDay = 0;
+    private float dayCounter = 0;
+    private final static float dayLength = 30f; //the time 1 gameday should be in seconds
+    long startTime;
         
-        ArrayList<Container> containers;
-        BargePlatformHandler bargePlatformHandler;
-        SeaShipPlatformHandler seaShipPlatformHandler;
-        Stack<Stack<Container>> listoftrainContainers = new Stack<>();
-        Stack<Container> listoftruckContainers = new Stack<>();
+    ArrayList<Container> containers;
+    BargePlatformHandler bargePlatformHandler;
+    SeaShipPlatformHandler seaShipPlatformHandler;
+    Stack<Stack<Container>> listoftrainContainers = new Stack<>();
+    Stack<Container> listoftruckContainers = new Stack<>();
 
 	/**
 	 * Starts the app headless (no display)
@@ -54,7 +54,7 @@ public class ContainingServer extends SimpleApplication
 	@Override
 	public void simpleInitApp()
 	{
-            startTime = System.currentTimeMillis();
+        startTime = System.currentTimeMillis();
 		staticRootNode = this.getRootNode();
 		new RouteController();
 		new ControlHandler();
@@ -142,16 +142,15 @@ public class ContainingServer extends SimpleApplication
 	            dayCounter += tpf;
 	            if(dayCounter > dayLength)
 	            {
-            }
 	                currentDay++;
 	                dayCounter = 0;
-                while (bargePlatformHandler.getShipsEnRouteSize() > 0 && bargePlatformHandler.getDayOfNextShip() == currentDay) {
-                    bargePlatformHandler.nextShipArrives();
-                }
-                while (seaShipPlatformHandler.getShipsEnRouteSize() > 0 && seaShipPlatformHandler.getDayOfNextShip() == currentDay) {
-                    
-                    seaShipPlatformHandler.nextShipArrives();
-                }
+	                while (bargePlatformHandler.getShipsEnRouteSize() > 0 && bargePlatformHandler.getDayOfNextShip() == currentDay) {
+	                    bargePlatformHandler.nextShipArrives();
+	                }
+	                while (seaShipPlatformHandler.getShipsEnRouteSize() > 0 && seaShipPlatformHandler.getDayOfNextShip() == currentDay) {
+	                    
+	                    seaShipPlatformHandler.nextShipArrives();
+	                }
 	                System.out.println("time since start: " + ((System.currentTimeMillis()-startTime)/1000f) + " program day: " +currentDay);
 	                
 	                if(!listoftruckContainers.isEmpty())
@@ -166,6 +165,7 @@ public class ContainingServer extends SimpleApplication
 	            TruckPlatformHandler.getInstance().update(tpf);
     		}
     	}
+    	
 	
 	/**
 	 * @return {@link #staticRootNode}

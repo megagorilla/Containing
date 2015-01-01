@@ -1,12 +1,14 @@
 package nhl.containing.client.network;
 
+import java.util.ArrayList;
 import java.util.concurrent.Callable;
 
 import nhl.containing.client.ContainingClient;
-import nhl.containing.client.ContainingClient.Quality;
 import nhl.containing.client.entities.Container;
 import nhl.containing.client.entities.cranes.TruckCrane;
 import nhl.containing.client.entities.vehicles.AGV;
+import nhl.containing.client.entities.vehicles.Barge;
+import nhl.containing.client.entities.vehicles.SeaShip;
 import nhl.containing.client.entities.vehicles.Truck;
 
 import com.jme3.cinematic.MotionPath;
@@ -17,9 +19,6 @@ import com.jme3.math.Vector3f;
 import com.jme3.network.Client;
 import com.jme3.network.Message;
 import com.jme3.network.MessageListener;
-import nhl.containing.client.entities.cranes.StorageCrane;
-
-import nhl.containing.client.entities.vehicles.SeaShip;
 
 public class ClientListener implements MessageListener<Client>
 {
@@ -43,6 +42,15 @@ public class ClientListener implements MessageListener<Client>
 		{
 			this.handleStorageCraneMessage((StorageCranePickupData)m);
 		}
+        if(m instanceof SeaShipSpawnData){
+            this.handleSeaShipSpawnMessage((SeaShipSpawnData)m);
+        }
+        if(m instanceof BargeSpawnData){
+            this.handleBargeSpawnMessage((BargeSpawnData)m);
+        }
+        if(m instanceof SeaShipCraneData){
+            this.handleSeaShipCraneMessage((SeaShipCraneData)m);
+        }
 	}
 	
 	private void handleStorageCraneMessage(StorageCranePickupData m) 
@@ -57,15 +65,7 @@ public class ClientListener implements MessageListener<Client>
 //			   return null;
 //                }
 //            });
-                if(m instanceof SeaShipSpawnData){
-                    this.handleSeaShipSpawnMessage((SeaShipSpawnData)m);
-                }
-                if(m instanceof BargeSpawnData){
-                    this.handleBargeSpawnMessage((BargeSpawnData)m);
-                }
-                if(m instanceof SeaShipCraneData){
-                    this.handleSeaShipCraneMessage((SeaShipCraneData)m);
-                }
+
 	   }
 
     private void handleSeaShipCraneMessage(final SeaShipCraneData m) {
@@ -77,36 +77,36 @@ public class ClientListener implements MessageListener<Client>
         });
     }
 
-private void handleBargeSpawnMessage(final BargeSpawnData m) {
-        ContainingClient.instance.enqueue(new Callable<Object>() {
-            public Object call() throws Exception {
-                if (m.shouldDespawn) {
-                    ArrayList<Barge> ships = ContainingClient.barges;
-                    Barge ship = null;
-                    for (Barge s : ships) {
-                        if (s.getbargeID() == m.BargeID) {
-                            ship = s;
-                        }
-                    }
-                    if (ship != null) {
-                        ship.removeFromParent();
-                        ContainingClient.barges.remove(m);
-                    }
-                } else {
-                    Barge ship = new Barge(ContainingClient.quality, m.BargeID);
-                    for (ContainerData c : m.containers) {
-                        Container container = new Container(ContainingClient.quality, c.containerID);
-                        container.setLocalTranslation(Container.width * c.Location.y-3,
-                                Container.height * c.Location.z, Container.length * c.Location.x - 30);
-                        ship.addContainer(container);
-                    }
-                    ship.setLocalTranslation(450, 0, 200f * ContainingClient.barges.size() + 600);
-                    ContainingClient.barges.add(ship);
-                }
-                return null;
-            }
-        });
-    }
+	private void handleBargeSpawnMessage(final BargeSpawnData m) {
+	        ContainingClient.instance.enqueue(new Callable<Object>() {
+	            public Object call() throws Exception {
+	                if (m.shouldDespawn) {
+	                    ArrayList<Barge> ships = ContainingClient.barges;
+	                    Barge ship = null;
+	                    for (Barge s : ships) {
+	                        if (s.getbargeID() == m.BargeID) {
+	                            ship = s;
+	                        }
+	                    }
+	                    if (ship != null) {
+	                        ship.removeFromParent();
+	                        ContainingClient.barges.remove(m);
+	                    }
+	                } else {
+	                    Barge ship = new Barge(ContainingClient.quality, m.BargeID);
+	                    for (ContainerData c : m.containers) {
+	                        Container container = new Container(ContainingClient.quality, c.containerID);
+	                        container.setLocalTranslation(Container.width * c.Location.y-3,
+	                                Container.height * c.Location.z, Container.length * c.Location.x - 30);
+	                        ship.addContainer(container);
+	                    }
+	                    ship.setLocalTranslation(450, 0, 200f * ContainingClient.barges.size() + 600);
+	                    ContainingClient.barges.add(ship);
+	                }
+	                return null;
+	            }
+	        });
+	    }
         
         private void handleSeaShipSpawnMessage(final SeaShipSpawnData m) {
         ContainingClient.instance.enqueue(new Callable<Object>() {

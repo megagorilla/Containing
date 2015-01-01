@@ -1,16 +1,12 @@
 package nhl.containing.client.entities.vehicles;
 
-import com.jme3.math.ColorRGBA;
 import nhl.containing.client.ContainingClient;
 import nhl.containing.client.entities.Container;
 import nhl.containing.client.entities.Vehicle;
-
-import com.jme3.math.Vector3f;
-import com.jme3.scene.Node;
-import static nhl.containing.client.ContainingClient.Quality.HIGH;
-import static nhl.containing.client.ContainingClient.Quality.LOW;
-import static nhl.containing.client.ContainingClient.Quality.MEDIUM;
 import nhl.containing.client.materials.PlainMaterial;
+
+import com.jme3.math.ColorRGBA;
+import com.jme3.scene.Node;
 
 /**
  *
