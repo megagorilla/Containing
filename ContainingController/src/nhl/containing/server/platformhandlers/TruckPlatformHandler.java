@@ -82,17 +82,17 @@ public class TruckPlatformHandler
 	 * @param agv
 	 * @param i
 	 */
-	public void handleAGV(AGV agv, int i)
-	{
-		TruckLocation location = this.getTruckLocation();
-		List<Vector3f> list = new ArrayList<Vector3f>();
-		list.add(new Vector3f(353.5f, 0, -778.5f));
-		list.add(new Vector3f(353.5f, 0, location.location.z));
-		list.add(new Vector3f(location.location));
-		ControlHandler.getInstance().sendAGV(agv.agvId, list);
-		location.needsAGV = false;
-		locations.put(location.id, location);
-	}
+//	public void handleAGV(AGV agv, int i)
+//	{
+//		TruckLocation location = this.getTruckLocation();
+//		List<Vector3f> list = new ArrayList<Vector3f>();
+//		list.add(new Vector3f(353.5f, 0, -778.5f));
+//		list.add(new Vector3f(353.5f, 0, location.location.z));
+//		list.add(new Vector3f(location.location));
+//		ControlHandler.getInstance().sendAGV(agv.agvId, list);
+//		location.needsAGV = false;
+//		locations.put(location.id, location);
+//	}
 	
 	/**
 	 * Handles agv with certain ID when it arrives at the 'a3' location

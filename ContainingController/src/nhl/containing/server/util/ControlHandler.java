@@ -59,80 +59,9 @@ public class ControlHandler
 		RouteController controller = new RouteController();
 		agv.currentLocation = cl;
 		List<Vector3f> list = controller.sendAGV(agv.currentLocation, destination);
-		
-		UpdateMessage message = new UpdateMessage(Integer.toString(id));
-		message.addData(agv.agvId, list, 0, 0);
-		ConnectionManager.sendCommand(message);
-		
-		MotionPath path = new MotionPath();
-		for(Vector3f v : list)
-			path.addWayPoint(v);
-		path.setCurveTension(0.0f);
-		path.addListener(new CMotionPathListener());
-		
-		ServerSpatial spatial = new ServerSpatial(agv, destination);
-        ContainingServer.getRoot().attachChild(spatial);
-
-		MotionEvent motionControl = new MotionEvent(spatial, path);
-        motionControl.setDirectionType(MotionEvent.Direction.PathAndRotation);
-        motionControl.setRotation(new Quaternion().fromAngleNormalAxis(0, Vector3f.UNIT_Y));
-        motionControl.setInitialDuration(100f);
-        motionControl.setSpeed(8f);  
-        motionControl.play();
+		this.sendAGV(id, list, destination);
 	}
-	
-	/**
-	 * Sends the agv to a certain location on the graph and creates a motionpath for the server to keep track of that object.
-	 * @param id
-	 * @param list
-	 */
-	public void sendAGV(int id, List<Vector3f> list)
-	{
 		
-		AGV agv = AGVHandler.getInstance().getAGV(id);
-		UpdateMessage message = new UpdateMessage(Integer.toString(id));
-		message.addData(id, list, 0, 0);
-		ConnectionManager.sendCommand(message);
-		
-		//distance / movementspeed
-		
-		float tempdist = 0f;
-		float duration = 0f;
-		for (int i = 0; i < list.size(); i++) {
-			
-			if(list.get(i).x != list.get(i+1).x && list.get(i).z == list.get(i+1).z){
-				tempdist += Math.abs(list.get(i).x-list.get(i+1).x);
-			}
-			else if(list.get(i).z != list.get(i+1).z && list.get(i).x == list.get(i+1).x){
-				tempdist += Math.abs(list.get(i).z-list.get(i+1).z);
-			}
-			else if(list.get(i).x != list.get(i+1).x && list.get(i).z != list.get(i+1).z){
-				tempdist += Math.abs(Math.sqrt(Math.pow(list.get(i).x-list.get(i+1).x, 2) + Math.pow(list.get(i).z-list.get(i+1).z, 2)));
-			}
-			
-			if(i+1 == list.size()-1)
-				break;
-		}
-		
-		duration = tempdist / (agv.getLoaded() ? 5.555f : 11.111f);//Loaded and Unloaded speed for the AGV
-		
-		MotionPath path = new MotionPath();
-		for(Vector3f v : list)
-			path.addWayPoint(v);
-		path.setCurveTension(0.0f);
-		path.addListener(new CMotionPathListener());
-		
-		ServerSpatial spatial = new ServerSpatial(agv, "truckLocation_" + Integer.toString(id));
-        ContainingServer.getRoot().attachChild(spatial);
-
-		MotionEvent motionControl = new MotionEvent(spatial, path);
-        motionControl.setDirectionType(MotionEvent.Direction.PathAndRotation);
-        motionControl.setRotation(new Quaternion().fromAngleNormalAxis(0, Vector3f.UNIT_Y));
-        motionControl.setInitialDuration(duration);
-        motionControl.setSpeed(1f);  
-        motionControl.play();
-	}
-	
 	/**
  	 * Sends the agv to a certain location on the graph and creates a motionpath for the server to keep track of that object.
 	 * @param id
@@ -143,8 +72,6 @@ public class ControlHandler
 	{
 		AGV agv = AGVHandler.getInstance().getAGV(id);
 		UpdateMessage message = new UpdateMessage(Integer.toString(id));
-		message.addData(id, list, 0, 0);
-		ConnectionManager.sendCommand(message);
 		
 		float tempdist = 0f;
 		float duration = 0f;
@@ -165,7 +92,9 @@ public class ControlHandler
 		}
 		
 		duration = tempdist / (agv.getLoaded() ? 5.555f : 11.111f);//Loaded and Unloaded speed for the AGV
-		
+		message.addData(id, list, duration, 5);
+		ConnectionManager.sendCommand(message);
+
 		MotionPath path = new MotionPath();
 		for(Vector3f v : list)
 			path.addWayPoint(v);
@@ -179,7 +108,7 @@ public class ControlHandler
         motionControl.setDirectionType(MotionEvent.Direction.PathAndRotation);
         motionControl.setRotation(new Quaternion().fromAngleNormalAxis(0, Vector3f.UNIT_Y));
         motionControl.setInitialDuration(duration);
-        motionControl.setSpeed(1f);  
+        motionControl.setSpeed(5f);  
         motionControl.play();
 	}
 	
@@ -194,8 +123,8 @@ public class ControlHandler
 		list.add(location.location);
 		list.add(new Vector3f(location.location.x + 10, 0.0f, location.location.z));
 		list.add(new Vector3f(267.5f, 0.0f, -760 + 40 * location.parkID));
-		list.add(new Vector3f(303.5f, 0.0f, -760 + 40 * location.parkID));
-		list.add(new Vector3f(303.5f, 0.0f, -778.5f));
+		list.add(new Vector3f(316.5f, 0.0f, -760 + 40 * location.parkID));
+		list.add(new Vector3f(316.5f, 0.0f, -778.5f));
 		list.add(new Vector3f(353.5f, 0.0f, -778.5f));
 		this.sendAGV(agv.agvId, list, "a2");
 	}
