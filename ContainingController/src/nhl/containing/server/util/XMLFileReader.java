@@ -72,8 +72,8 @@ public class XMLFileReader {
                     containerNumber = Integer.parseInt(eElement.getElementsByTagName("eigenaar").item(0).getChildNodes().item(3).getTextContent());
 
                     positie = new Vector3f(Float.parseFloat(eElement.getElementsByTagName("positie").item(0).getChildNodes().item(1).getTextContent()), Float.parseFloat(eElement
-                            .getElementsByTagName("positie").item(0).getChildNodes().item(3).getTextContent()), Float.parseFloat(eElement.getElementsByTagName("positie").item(0).getChildNodes()
-                            .item(5).getTextContent()));
+                            .getElementsByTagName("positie").item(0).getChildNodes().item(5).getTextContent()), Float.parseFloat(eElement.getElementsByTagName("positie").item(0).getChildNodes()
+                            .item(3).getTextContent()));
 
                     String[] x = eElement.getElementsByTagName("afmetingen").item(0).getChildNodes().item(1).getTextContent().split("'");
 

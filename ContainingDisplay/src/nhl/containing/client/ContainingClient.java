@@ -29,6 +29,11 @@ import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
 import com.jme3.util.SkyFactory;
+import nhl.containing.client.entities.cranes.DockingCrane;
+import nhl.containing.client.entities.vehicles.Barge;
+import nhl.containing.client.entities.vehicles.SeaShip;
+import nhl.containing.client.entities.vehicles.SpaceShip;
+import nhl.containing.client.scenery.SeaNode;
 /**
  * test
  *
@@ -42,7 +47,7 @@ public class ContainingClient extends SimpleApplication {
 
         LOW, MEDIUM, HIGH
     };
-    private Quality quality = Quality.HIGH;
+    public static Quality quality = Quality.LOW;
     //private ContainingClient main = new ContainingClient();
     private static Node myRootNode;
     private static AssetManager myAssetManager;
@@ -57,8 +62,11 @@ public class ContainingClient extends SimpleApplication {
     ArrayList<Platform> Platforms = new ArrayList<Platform>();
     ArrayList<AGV> AGVs = new ArrayList<AGV>();
     public static HashMap<Integer, Truck> Trucks = new HashMap<Integer, Truck>();
-        public static ContainingClient instance;
-        public static AGV testAGV;
+    public static ArrayList<SeaShip> seaShips = new ArrayList<SeaShip>();
+    public static ArrayList<Barge> barges = new ArrayList<Barge>();
+    public static ArrayList<DockingCrane> seaShipCranes = new ArrayList<DockingCrane>();
+    public static ArrayList<DockingCrane> bargeCranes = new ArrayList<DockingCrane>();
+    public static ContainingClient instance;
     public boolean truckup = false;
     public boolean containerUp = false;
     private boolean onTarget = false;
@@ -103,22 +111,27 @@ public class ContainingClient extends SimpleApplication {
 		{
 			for(int j = 0; j < 6/*Truck amount*/; j++)
 			{
-				AGV agv = new AGV(Quality.HIGH);
+				AGV agv = new AGV(quality);
 				agv.setLocalTranslation(new Vector3f(267.5f - 22.5f, 0, (-768.2f + (20 / 6 + 0.3f)*j) + 40 * i));
 				agv.rotate(0, FastMath.HALF_PI, 0);
 				agvs.add(agv);
 			}
 		}
-
+        for(int i = 0;i<1;i++){
+            seaShipCranes.add(new DockingCrane(quality, true, i));
+        }
+        for(int i = 0;i<1;i++){
+            bargeCranes.add(new DockingCrane(quality, false,i));
+        }
         ConnectionManager.init("localhost", 3000);
 
         sun = new DirectionalLight();
         sun.setDirection((new Vector3f(-0.5f, -0.5f, -0.5f)).normalizeLocal());
         sun.setColor(ColorRGBA.White);
         rootNode.addLight(sun);
-
-        //SeaNode sea = new SeaNode();
-        //this.getRootNode().attachChild(sea);
+        SpaceShip s = new SpaceShip();
+//        SeaNode sea = new SeaNode();
+//        this.getRootNode().attachChild(sea);
         Platforms.add(new StoragePlatform());
         Platforms.add(new SeaShipPlatform());
         Platforms.add(new TrainPlatform());
@@ -148,30 +161,18 @@ public class ContainingClient extends SimpleApplication {
             TrainCranes.add(new TrainCrane());
             TrainCranes.get(i).setLocalTranslation(-327.5f, 0f, 100 + 100*i);
         }
-        
-        Train test = new Train(quality, 30);
-        test.setLocalTranslation(-334, 0, 510);
-        Container1 = new Container(quality);
-        Container1.RotateContainer(0, FastMath.HALF_PI, 0);
         Container1.setLocalTranslation(245,1.2f,-751.7f);
         
         Container2 = new Container(quality);
         Container2.RotateContainer(0, FastMath.HALF_PI, 0);
         Container2.setLocalTranslation(-245,1.2f,-711.7f);
-
-//        testAGV = new AGV(quality);
-//        testAGV.setLocalTranslation(380, 0, -750);
-//        testAGV.rotate(0, FastMath.HALF_PI, 0);
-        
-        AGV trainAGV = new AGV(quality);
-        trainAGV.setLocalTranslation(-327.5f, 0, 0);  
     }
 
     boolean hasSent;
     
     @Override
     public void simpleUpdate(float tpf) 
-    {  	
+    {
         if(!hasSent)
         {   
             this.StorageCranes.get(0).StoreRight(Container1, rootNode, new Vector3f(14, 0, 5), 5, StorageCranes.get(0));
@@ -247,4 +248,5 @@ public class ContainingClient extends SimpleApplication {
         }
        
     }
+    
 }
