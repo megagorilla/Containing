@@ -51,7 +51,7 @@ public class ContainingClient extends SimpleApplication {
     public static AGV agv;
     
     public static ArrayList<AGV> agvs = new ArrayList<AGV>();
-    ArrayList<StorageCrane> StorageCranes = new ArrayList<StorageCrane>();
+    public static ArrayList<StorageCrane> StorageCranes = new ArrayList<StorageCrane>();
     ArrayList<TrainCrane> TrainCranes = new ArrayList<TrainCrane>();
     public static ArrayList<TruckCrane> TruckCranes = new ArrayList<TruckCrane>();
     ArrayList<Platform> Platforms = new ArrayList<Platform>();
@@ -69,7 +69,7 @@ public class ContainingClient extends SimpleApplication {
     int trainCraneAmount = 4;
     Node rails;
     Container Container1;
-        public static Container test2;
+    Container Container2;        public static Container test2;
     Container test3;
         public boolean hai = false;
         
@@ -153,6 +153,11 @@ public class ContainingClient extends SimpleApplication {
         test.setLocalTranslation(-334, 0, 510);
         Container1 = new Container(quality);
         Container1.RotateContainer(0, FastMath.HALF_PI, 0);
+        Container1.setLocalTranslation(245,1.2f,-751.7f);
+        
+        Container2 = new Container(quality);
+        Container2.RotateContainer(0, FastMath.HALF_PI, 0);
+        Container2.setLocalTranslation(-245,1.2f,-711.7f);
 
 //        testAGV = new AGV(quality);
 //        testAGV.setLocalTranslation(380, 0, -750);
@@ -162,14 +167,17 @@ public class ContainingClient extends SimpleApplication {
         trainAGV.setLocalTranslation(-327.5f, 0, 0);  
     }
 
+    boolean hasSent;
+    
     @Override
     public void simpleUpdate(float tpf) 
     {  	
-        //MoveStorageCrane();
-        //System.out.println(StorageCranes.get(0).getLocalTranslation().z + "z waarde");
-        //System.out.println(StorageCranes.get(0).getLocalTranslation().x + "x waarde");
-        //System.out.println(StorageCranes.get(0).getLocalTranslation().y + "y waarde");
-        //System.out.println(Container1.getLocalTranslation().y + " Container");
+        if(!hasSent)
+        {   
+            this.StorageCranes.get(0).StoreRight(Container1, rootNode, new Vector3f(14, 0, 5), 5, StorageCranes.get(0));
+            this.StorageCranes.get(1).StoreLeft(Container2, rootNode, new Vector3f(14,0,5), 5, StorageCranes.get(1));
+            hasSent = true;
+        }
     }
 
     /**
@@ -221,7 +229,7 @@ public class ContainingClient extends SimpleApplication {
             Container1.setLocalTranslation(290, 0, -768);
         }        
         if (StorageCranes.get(0).getLocalTranslation().x == 0) {
-            StorageCranes.get(0).CraneMovement();
+            //StorageCranes.get(0).CraneMovement();
         }
         if (StorageCranes.get(0).getGrabber().getLocalTranslation().y < -22.9f && !containerUp) {
             containerUp = true;  

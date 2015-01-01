@@ -7,6 +7,10 @@ import nhl.containing.server.util.ServerSpatial;
 
 import com.jme3.cinematic.MotionPathListener;
 import com.jme3.cinematic.events.MotionEvent;
+import com.jme3.math.Vector3f;
+import nhl.containing.server.network.ConnectionManager;
+import nhl.containing.server.network.StorageCranePickupData;
+import nhl.containing.server.platformhandlers.Storage;
 
 /**
  * The motionpath Listener for the server, this makes it so that the server can keep track of objects when they are moving and when they stopped moving
@@ -64,6 +68,11 @@ public class CMotionPathListener implements MotionPathListener
 			else if(AGVHandler.getInstance().getAGV(spatial.agv.agvId).currentLocation.startsWith("storageLocation_"))
 			{
 				int i = Integer.parseInt(AGVHandler.getInstance().getAGV(spatial.agv.agvId).currentLocation.split("_")[1]);
+                                Storage storage = StoragePlatformHandler.getInstance().getStorage(0);
+                                Vector3f vec = storage.PushContainer(spatial.agv.getContainer());
+                                StorageCranePickupData data = new StorageCranePickupData(vec.x, vec.y, vec.z, i);
+                                ConnectionManager.sendCommand(data);
+
 				System.out.println("DESTINATION REACHED: " + i);
 			}
 		}
