@@ -1,12 +1,16 @@
 package nhl.containing.server;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
+import java.util.Stack;
 
 import nhl.containing.server.network.API;
 import nhl.containing.server.network.ConnectionManager;
 import nhl.containing.server.pathfinding.AGVHandler;
 import nhl.containing.server.pathfinding.RouteController;
+import nhl.containing.server.platformhandlers.BargePlatformHandler;
+import nhl.containing.server.platformhandlers.SeaShipPlatformHandler;
 import nhl.containing.server.platformhandlers.StoragePlatformHandler;
 import nhl.containing.server.platformhandlers.TruckPlatformHandler;
 import nhl.containing.server.util.ControlHandler;
@@ -17,17 +21,13 @@ import com.jme3.app.SimpleApplication;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.system.JmeContext;
-import java.util.Collections;
-import java.util.Stack;
-import nhl.containing.server.platformhandlers.BargePlatformHandler;
-import nhl.containing.server.platformhandlers.SeaShipPlatformHandler;
 
 public class ContainingServer extends SimpleApplication
 {
 	float time = 0;
 	private static Node staticRootNode;
         
-    private int currentDay = 0;
+    private int currentDay = 1;
     private float dayCounter = 0;
     private final static float dayLength = 30f; //the time 1 gameday should be in seconds
     long startTime;
@@ -64,7 +64,6 @@ public class ContainingServer extends SimpleApplication
 		AGVHandler.getInstance().init();
 		ConnectionManager.initialize(3000);
 		API.start(8080);
-                
             initContainers();
             System.out.println("Server Operational");
             
@@ -75,7 +74,7 @@ public class ContainingServer extends SimpleApplication
          */
         private void initContainers() {
         XMLFileReader xmlReader = new XMLFileReader();
-        containers = xmlReader.getContainers("G:/School/Jaar2/Containing/XMLFILES/xml1.xml");
+        containers = xmlReader.getContainers("C:/school/ProjectContaining/Containing/XMLFILES/xml1Edited.xml");
         
         ArrayList<String> bedrijven = new ArrayList<>();
         for(Container c : containers){
@@ -102,7 +101,7 @@ public class ContainingServer extends SimpleApplication
                     break;
             }
         }
-        
+        System.out.println(listoftruckContainers.size());
         boolean isFull;
         bargePlatformHandler = new BargePlatformHandler(riverShipContainers);
         seaShipPlatformHandler = new SeaShipPlatformHandler(seaShipContainers);

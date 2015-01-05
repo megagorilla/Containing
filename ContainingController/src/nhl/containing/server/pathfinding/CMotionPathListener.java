@@ -56,7 +56,14 @@ public class CMotionPathListener implements MotionPathListener
 				int i = Integer.parseInt(l[1]);
 				if(l.length == 2)
 				{
-					TruckPlatformHandler.getInstance().getContainerFromTruck(spatial.agv.agvId, i);
+					if(!AGVHandler.getInstance().getAGV(spatial.agv.agvId).getLoaded())
+					{
+						TruckPlatformHandler.getInstance().getContainerFromTruck(spatial.agv.agvId, i);
+					}
+					else
+					{
+						TruckPlatformHandler.getInstance().getContainerFromAGV(spatial.agv.agvId, i);
+					}
 					System.out.println("TruckPlatform Arrival: " + i);
 				}
 				else if(l.length == 3)
@@ -68,10 +75,10 @@ public class CMotionPathListener implements MotionPathListener
 			else if(AGVHandler.getInstance().getAGV(spatial.agv.agvId).currentLocation.startsWith("storageLocation_"))
 			{
 				int i = Integer.parseInt(AGVHandler.getInstance().getAGV(spatial.agv.agvId).currentLocation.split("_")[1]);
-                                Storage storage = StoragePlatformHandler.getInstance().getStorage(0);
-                                Vector3f vec = storage.PushContainer(spatial.agv.getContainer());
-                                StorageCranePickupData data = new StorageCranePickupData(vec.x, vec.y, vec.z, i);
-                                ConnectionManager.sendCommand(data);
+                Storage storage = StoragePlatformHandler.getInstance().getStorage(0);
+                Vector3f vec = storage.PushContainer(spatial.agv.getContainer());
+                StorageCranePickupData data = new StorageCranePickupData(0, vec.x, vec.y, vec.z, i);
+                ConnectionManager.sendCommand(data);
 
 				System.out.println("DESTINATION REACHED: " + i);
 			}

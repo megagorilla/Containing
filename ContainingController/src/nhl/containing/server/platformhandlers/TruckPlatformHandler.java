@@ -67,14 +67,31 @@ public class TruckPlatformHandler
 	 */
 	public void handleAGV(AGV agv)
 	{
-		TruckLocation location = this.getTruckLocation();
-		List<Vector3f> list = new ArrayList<Vector3f>();
-		list.add(new Vector3f(353.5f, 0, -778.5f));
-		list.add(new Vector3f(353.5f, 0, location.location.z));
-		list.add(new Vector3f(location.location));
-		ControlHandler.getInstance().sendAGV(agv.agvId, list, "truckLocation_" + location.id);
-		location.needsAGV = false;
-		locations.put(location.id, location);
+		if(agv.getLoaded())
+		{
+			TruckLocation location = getFreeTruckLocation();
+			location.isAvailable = false;
+			location.needsAGVRequested = false;
+			locations.put(location.id, location);
+			TruckSpawnData data = new TruckSpawnData(location.id, 0, false);
+			ConnectionManager.sendCommand(data);
+			List<Vector3f> list = new ArrayList<Vector3f>();
+			list.add(new Vector3f(353.5f, 0, -778.5f));
+			list.add(new Vector3f(353.5f, 0, location.location.z));
+			list.add(new Vector3f(location.location));
+			ControlHandler.getInstance().sendAGV(agv.agvId, list, "truckLocation_" + location.id);			
+		}
+		else
+		{
+			TruckLocation location = this.getTruckLocation();
+			List<Vector3f> list = new ArrayList<Vector3f>();
+			list.add(new Vector3f(353.5f, 0, -778.5f));
+			list.add(new Vector3f(353.5f, 0, location.location.z));
+			list.add(new Vector3f(location.location));
+			ControlHandler.getInstance().sendAGV(agv.agvId, list, "truckLocation_" + location.id);
+			location.needsAGV = false;
+			locations.put(location.id, location);
+		}
 	}
 	
 	/**
@@ -189,7 +206,7 @@ public class TruckPlatformHandler
 		List<Vector3f> list = new ArrayList<Vector3f>();
 		list.add(new Vector3f());
 		list.add(new Vector3f(1, 0, 0));
-		ConnectionManager.sendCommand(new TruckCraneData(agvId, craneId, craneId));
+		ConnectionManager.sendCommand(new TruckCraneData(agvId, craneId, craneId, false));
 		MotionPath path = new MotionPath();
 		for(Vector3f v : list)
 			path.addWayPoint(v);
@@ -197,7 +214,30 @@ public class TruckPlatformHandler
 		path.addListener(new CMotionPathListener());
 		
 		ServerSpatial spatial = new ServerSpatial(AGVHandler.getInstance().getAGV(agvId), "truckLocation_" + String.valueOf(craneId) + "_loaded");
-                ContainingServer.getRoot().attachChild(spatial);
+        ContainingServer.getRoot().attachChild(spatial);
+
+		MotionEvent motionControl = new MotionEvent(spatial, path);
+        motionControl.setDirectionType(MotionEvent.Direction.PathAndRotation);
+        motionControl.setRotation(new Quaternion().fromAngleNormalAxis(0, Vector3f.UNIT_Y));
+        motionControl.setInitialDuration(30f);
+        motionControl.setSpeed(1f);
+        motionControl.play();
+	}
+
+	public void getContainerFromAGV(int agvId, int craneId) 
+	{
+		List<Vector3f> list = new ArrayList<Vector3f>();
+		list.add(new Vector3f());
+		list.add(new Vector3f(1, 0, 0));
+		ConnectionManager.sendCommand(new TruckCraneData(agvId, craneId, craneId, true));
+		MotionPath path = new MotionPath();
+		for(Vector3f v : list)
+			path.addWayPoint(v);
+		path.setCurveTension(0.0f);
+		path.addListener(new CMotionPathListener());
+		
+		ServerSpatial spatial = new ServerSpatial(AGVHandler.getInstance().getAGV(agvId), "truckLocation_" + String.valueOf(craneId) + "_loaded");
+        ContainingServer.getRoot().attachChild(spatial);
 
 		MotionEvent motionControl = new MotionEvent(spatial, path);
         motionControl.setDirectionType(MotionEvent.Direction.PathAndRotation);

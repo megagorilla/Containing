@@ -5,6 +5,7 @@ import java.util.concurrent.Callable;
 
 import nhl.containing.client.ContainingClient;
 import nhl.containing.client.entities.Container;
+import nhl.containing.client.entities.cranes.StorageCrane;
 import nhl.containing.client.entities.cranes.TruckCrane;
 import nhl.containing.client.entities.vehicles.AGV;
 import nhl.containing.client.entities.vehicles.Barge;
@@ -54,19 +55,18 @@ public class ClientListener implements MessageListener<Client>
 	}
 	
 	private void handleStorageCraneMessage(StorageCranePickupData m) 
-        {
-//            ContainingClient.instance.enqueue(new Callable<Object>() {
-//
-//                public Object call() throws Exception {
-//                    
-//                         StorageCrane crane = ContainingClient.TruckCranes.get(m.craneID);
-//		           AGV agv = ContainingClient.agvs.get(m.agvID);
-//			   crane.fromTruck(agv, ContainingClient.Trucks.get(m.containerID).getContainer());
-//			   return null;
-//                }
-//            });
-
-	   }
+	{
+		ContainingClient.instance.enqueue(new Callable<Object>() 
+		{
+			public Object call() throws Exception 
+			{	
+				StorageCrane crane = ContainingClient.StorageCranes.get(m.craneID);
+				AGV agv = ContainingClient.agvs.get(m.i);
+				crane.StoreRight(agv.getContainer(), ContainingClient.getMyRootNode(), new Vector3f(m.x, m.y, m.z), m.i  % 6, crane);
+				return null;
+			}
+		});
+	}
 
     private void handleSeaShipCraneMessage(final SeaShipCraneData m) {
         ContainingClient.instance.enqueue(new Callable<Object>() {
@@ -159,9 +159,12 @@ public class ClientListener implements MessageListener<Client>
             	else
             	{	            	
 	            	Truck truck = new Truck(ContainingClient.quality);
-					Container container = new Container(ContainingClient.quality,0);//TODO change to containerData
-					truck.addContainer(container);
-					container.setLocalTranslation(0, 1.5f, 0);
+	            	if(m.containerID != 0)
+	            	{
+						Container container = new Container(ContainingClient.quality, m.containerID);
+						truck.addContainer(container);
+						container.setLocalTranslation(0, 1.5f, 0);
+	            	}
 					truck.setLocalTranslation(400, 0, -750 + 25 * m.truckID);
 			        truck.rotate(0, FastMath.HALF_PI, 0);
 			        ContainingClient.Trucks.put(m.truckID, truck);
@@ -179,7 +182,10 @@ public class ClientListener implements MessageListener<Client>
             {
 				TruckCrane crane = ContainingClient.TruckCranes.get(m.craneID);
 				AGV agv = ContainingClient.agvs.get(m.agvID);
-				crane.fromTruck(agv, ContainingClient.Trucks.get(m.truckID).getContainer());
+				if(!m.fromAGV)
+					crane.fromTruck(agv, ContainingClient.Trucks.get(m.truckID).getContainer());
+				else
+					crane.fromAGV(agv, agv.getContainer(), ContainingClient.Trucks.get(m.truckID));
 				return null;
             }
 		 });

@@ -60,6 +60,11 @@ public class AGV extends Vehicle {
     	this.attachChild(container);
     }
     
+    public Container getContainer()
+    {
+    	return this.container;
+    }
+    
     public void removeContainer()
     {
     	container = null;
