@@ -169,4 +169,8 @@ public class ContainingServer extends SimpleApplication
 		ConnectionManager.stop();
 		super.destroy();
 	}
+	
+	public int getCurrentDay() {
+		return currentDay;
+	}
 }

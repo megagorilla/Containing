@@ -1,7 +1,9 @@
 package nhl.containing.server.platformhandlers;
 
+import java.util.ArrayList;
 import java.util.Stack;
 
+import nhl.containing.server.ContainingServer;
 import nhl.containing.server.util.XMLFileReader.Container;
 
 import com.jme3.math.Vector3f;
@@ -13,11 +15,17 @@ public class Storage {
 	private final int storageY = 6;
 	private final int storageZ = 6;
 	private final Stack<Container>[][] containerStorage;
+	
+	private int currentDay;
+	private ArrayList<Container> departureList;
+	private ContainingServer c;
 		
 	public Storage(int storageId) {
 		this.storageId = storageId;
 		containerStorage = new Stack[storageX][storageZ];
 		InitContainerStorage();
+		departureList = new ArrayList<Container>();
+		c = new ContainingServer();
 	}
 	
 	public void InitContainerStorage() {
@@ -62,5 +70,20 @@ public class Storage {
 	
 	public int getStorageId() {
 		return this.storageId;
+	}
+	
+	public ArrayList DepartureList(){
+		currentDay = c.getCurrentDay();
+		
+		for (int x = storageX; x <= 0; x--) {
+			for (int z = storageZ; z <= 0; z--) {
+				if (currentDay == containerStorage[x][z].peek().getDeparture().getDay())
+					departureList.add(containerStorage[x][z].pop());
+			}
+		}
+		if(departureList == null)
+			return null;
+		else 
+			return departureList;
 	}
 }
