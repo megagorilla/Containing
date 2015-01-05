@@ -53,7 +53,7 @@ public class ContainingClient extends SimpleApplication {
     
     public static ArrayList<AGV> agvs = new ArrayList<AGV>();
     ArrayList<StorageCrane> StorageCranes = new ArrayList<StorageCrane>();
-    ArrayList<TrainCrane> TrainCranes = new ArrayList<TrainCrane>();
+    public static ArrayList<TrainCrane> TrainCranes = new ArrayList<TrainCrane>();
     public static ArrayList<TruckCrane> TruckCranes = new ArrayList<TruckCrane>();
     ArrayList<Platform> Platforms = new ArrayList<Platform>();
     ArrayList<AGV> AGVs = new ArrayList<AGV>();
@@ -78,6 +78,7 @@ public class ContainingClient extends SimpleApplication {
         public AGV agv123;
         
     public static int containerPositie;
+	public static Train train;
 
     public static void main(String[] args) {
         ContainingClient app = new ContainingClient();

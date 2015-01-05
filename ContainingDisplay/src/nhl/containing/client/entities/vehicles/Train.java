@@ -1,10 +1,14 @@
 package nhl.containing.client.entities.vehicles;
 
 import nhl.containing.client.ContainingClient;
+import nhl.containing.client.entities.Container;
 import nhl.containing.client.entities.Vehicle;
 
 import com.jme3.scene.Node;
+
 import java.util.ArrayList;
+import java.util.List;
+
 import static nhl.containing.client.ContainingClient.Quality.*;
 
 /**
@@ -12,9 +16,11 @@ import static nhl.containing.client.ContainingClient.Quality.*;
  * @author Sander
  */
 public class Train extends Vehicle {
+	
+	List<Container> containers;
 
     /**
-     * Creates a train with wagons ans loads all the models
+     * Creates a train with wagons and loads all the models
      *
      * @param quality the quality of the models (in ContainingClient.Quality)
      * @param nrOfWagons amount of wagons behind the train
@@ -54,7 +60,17 @@ public class Train extends Vehicle {
             wagonNodes.get(i).setLocalTranslation(0, 0, -13.2f - 18.4f * i);
             attachChild(wagonNodes.get(i));
         }
+        
+        containers = new ArrayList<Container>();
 
         ContainingClient.getMyRootNode().attachChild(this);
+    }
+    
+    public void addContainer(Container c) {
+    	containers.add(c);
+    }
+    
+    public Container getContainer(int id) {
+    	return containers.get(id);
     }
 }

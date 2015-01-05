@@ -55,7 +55,7 @@ public class ContainingServer extends SimpleApplication
 	@Override
 	public void simpleInitApp()
 	{
-            startTime = System.currentTimeMillis();
+        startTime = System.currentTimeMillis();
 		staticRootNode = this.getRootNode();
 		new RouteController();
 		new ControlHandler();

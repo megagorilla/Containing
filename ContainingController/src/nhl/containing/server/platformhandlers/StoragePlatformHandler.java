@@ -91,10 +91,10 @@ public class StoragePlatformHandler {
 		public Vector3f location;
 		public boolean hasAGV;
 		
-		public ParkingLocation(int id, int parkID, Vector3f location)
+		public ParkingLocation(int id, Integer parkID, Vector3f location)
 		{
 			this.id = id;
-			this.parkID = parkID;
+			this.parkID = (parkID==null)?0:parkID;
 			this.location = location;
 			this.hasAGV = true;
 		}

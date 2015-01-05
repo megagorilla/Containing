@@ -1,9 +1,9 @@
 package nhl.containing.server.platformhandlers;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Stream;
 
 import nhl.containing.server.ContainingServer;
 import nhl.containing.server.network.ConnectionManager;
@@ -28,9 +28,9 @@ public class TrainPlatformHandler
 {
 	private static TrainPlatformHandler instance;
 	private HashMap<Integer, TrainLocation> locations = new HashMap<Integer, TrainLocation>();
-	private final float baseX = 380f, 
-			baseY = 0f, 
-			baseZ = -750f, 
+	private final float baseX = -334f,
+			baseY = 0f,
+			baseZ = 725f,
 			containerOffset = 25f;
 	
 	/**
@@ -57,6 +57,7 @@ public class TrainPlatformHandler
 		{
 			locations.put(i, new TrainLocation(i, new Vector3f(baseX, baseY, baseZ + containerOffset * i)));
 		}
+		spawnTrain(10);
 	}
 	
 	/**
@@ -122,7 +123,7 @@ public class TrainPlatformHandler
 			locations.put(location.id, location);
 		}
 		TrainSpawnData data = new TrainSpawnData(
-				Arrays.stream(cartLocations).mapToInt(loc -> loc.id).toArray(), 
+				Stream.of(cartLocations).mapToInt(loc -> loc.id).toArray(), 
 				new int[carts], false);
 		ConnectionManager.sendCommand(data);
 	}

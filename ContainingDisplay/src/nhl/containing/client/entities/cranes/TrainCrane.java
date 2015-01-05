@@ -1,7 +1,9 @@
 package nhl.containing.client.entities.cranes;
 
 import nhl.containing.client.ContainingClient;
+import nhl.containing.client.entities.Container;
 import nhl.containing.client.entities.Crane;
+import nhl.containing.client.entities.vehicles.AGV;
 
 /**
  *
@@ -21,5 +23,11 @@ public class TrainCrane extends Crane {
         grabber.attachChild(ContainingClient.getMyAssetManager().loadModel("Models/high/crane/traincrane/hookRight.j3o"));
         attachChild(grabber);
         ContainingClient.getMyRootNode().attachChild(this);
+    }
+    
+    //TODO: implement
+    public void fromTrain(final AGV agv, final Container container)
+    {
+    	System.out.println("fromTrain called!");
     }
 }
