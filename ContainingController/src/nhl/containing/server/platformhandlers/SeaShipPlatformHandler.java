@@ -31,8 +31,8 @@ public class SeaShipPlatformHandler {
 
     public SeaShipPlatformHandler(ArrayList<Container> seaShipContainers) {
         boolean isFull;
-        for(int i = 0;i<1;i++)
-            cranes.add(new ShipCrane(Vector3f.ZERO, i));
+        for(int i = 0;i<3;i++)
+            cranes.add(new ShipCrane(Vector3f.ZERO, i,true));
         ArrayList<Container> buffList = new ArrayList<>();
         while (seaShipContainers.size() > 0) {
             buffList.add(seaShipContainers.get(0));
@@ -59,8 +59,8 @@ public class SeaShipPlatformHandler {
                 Vector3f shipSize = shipsInHarbor.get(0).getShipSize();
                 for(int i = 0;i < shipSize.x;i++){
                     for(int j = 0; j< shipSize.z;j++){
-                        if(shipsInHarbor.get(0).containsContainers(i, j)){
-                            Container container = shipsInHarbor.get(0).pop(i, j);
+                        if(shipsInHarbor.get(0).containsContainers(j,i)){
+                            Container container = shipsInHarbor.get(0).pop(j,i);
                             crane.startUnloading(container);
                             break;
                         }

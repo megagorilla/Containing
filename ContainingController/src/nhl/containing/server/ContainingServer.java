@@ -143,6 +143,9 @@ public class ContainingServer extends SimpleApplication
             if(seaShipPlatformHandler.hasShips() && seaShipPlatformHandler.currentShipIsUnloading()){
                 seaShipPlatformHandler.Unload();
             }
+            if( bargePlatformHandler.hasShips() && bargePlatformHandler.currentShipIsUnloading()){
+                bargePlatformHandler.Unload();
+            }
             if(dayCounter > dayLength){
                 currentDay++;
                 dayCounter = 0;

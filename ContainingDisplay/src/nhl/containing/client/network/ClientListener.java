@@ -47,8 +47,20 @@ public class ClientListener implements MessageListener<Client>
                 if(m instanceof SeaShipCraneData){
                     this.handleSeaShipCraneMessage((SeaShipCraneData)m);
                 }
+                if(m instanceof BargeCraneData){
+                    this.handleBargeCraneMessage((BargeCraneData)m);
+                }
 	   }
 
+        private void handleBargeCraneMessage(final BargeCraneData m) {
+        ContainingClient.instance.enqueue(new Callable<Object>() {
+            public Object call() throws Exception {
+                ContainingClient.bargeCranes.get(m.craneID).getContainerFrom(m.location, m.containerID, m.dayLength);
+                return null;
+            }
+        });
+    }
+        
     private void handleSeaShipCraneMessage(final SeaShipCraneData m) {
         ContainingClient.instance.enqueue(new Callable<Object>() {
             public Object call() throws Exception {
@@ -81,7 +93,7 @@ private void handleBargeSpawnMessage(final BargeSpawnData m) {
                                 Container.height * c.Location.z, Container.length * c.Location.x - 30);
                         ship.addContainer(container);
                     }
-                    ship.setLocalTranslation(450, 0, 200f * ContainingClient.barges.size() + 600);
+                    ship.setLocalTranslation(400, 0, 200f * ContainingClient.barges.size() + 600);
                     ContainingClient.barges.add(ship);
                 }
                 return null;

@@ -29,6 +29,7 @@ public final class ConnectionManager
         Serializer.registerClass(TruckSpawnData.class);
         
         Serializer.registerClass(SeaShipCraneData.class);
+        Serializer.registerClass(BargeCraneData.class);
         
         Serializer.registerClass(SeaShipSpawnData.class);
         Serializer.registerClass(BargeSpawnData.class);

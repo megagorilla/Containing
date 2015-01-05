@@ -97,7 +97,11 @@ public class Ship {
      * if not)
      */
     public boolean containsContainers(int x, int z) {
+        try{
         return !containers[x][z].isEmpty();
+        }catch(Exception e){
+            return false;
+        }
     }
 
     /**
