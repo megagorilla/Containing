@@ -116,7 +116,7 @@ public class ContainingClient extends SimpleApplication {
 				agvs.add(agv);
 			}
 		}
-        for(int i = 0;i<1;i++){
+        for(int i = 0;i<3;i++){
             seaShipCranes.add(new DockingCrane(quality, true, i));
         }
         for(int i = 0;i<1;i++){

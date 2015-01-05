@@ -47,6 +47,15 @@ public class Barge extends Vehicle {
         this.containers.add(c);
         this.attachChild(containers.get(containers.size()-1));
     }
+    
+    public Container getContainerAt(int ID){
+        for(int i = 0;i<containers.size();i++)
+        {
+            if(containers.get(i).getID() == ID)
+                return containers.get(i);
+        }
+        return null;
+    }
 
     public int getbargeID() {
         return bargeID;

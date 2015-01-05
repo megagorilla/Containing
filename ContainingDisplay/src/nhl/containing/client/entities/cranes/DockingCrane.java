@@ -72,10 +72,10 @@ public class DockingCrane extends Crane {
         ContainingClient.getMyRootNode().attachChild(this);
         if (isShipCrane) {
             this.rotate(0, FastMath.HALF_PI, 0);
-            this.setLocalTranslation(100, 0, 922);
+            this.setLocalTranslation(40 * ID - 200, 0, 922);
         } else {
             this.rotate(0, FastMath.PI, 0);
-            this.setLocalTranslation(400, 0, 500);
+            this.setLocalTranslation(400, 0, 570);
         }
     }
 
@@ -190,6 +190,132 @@ public class DockingCrane extends Crane {
                                                 motionpath.enableDebugShape(ContainingClient.getMyAssetManager(), ContainingClient.getMyRootNode());
                                                 motionpath.setCurveTension(0f);
                                                 motionevent = new MotionEvent(ContainingClient.seaShipCranes.get(ID).getGrabber(), motionpath);
+                                                motionevent.setDirectionType(MotionEvent.Direction.None);
+                                                if (dayLength < 10f) {
+                                                    motionevent.setInitialDuration(1f);
+                                                } else if (dayLength >= 10f && dayLength < 30f) {
+                                                    motionevent.setInitialDuration(10f);
+                                                } else if (dayLength >= 30f) {
+                                                    motionevent.setInitialDuration(30f);
+                                                }
+                                                motionevent.setSpeed(1f);
+                                                motionevent.play();
+                                            }
+                                        }
+                                    });
+                                }
+                            }
+                        });
+                    }
+                }
+            });
+        } else {
+            //start moving the whole crane to the z location of the container
+            Unloading = true;
+            motionpath = new MotionPath();
+            Vector3f loc = this.getLocalTranslation();
+            motionpath.addWayPoint(this.getLocalTranslation());
+            Vector3f loc2 = new Vector3f(loc.x, loc.y, 570 + (location.z * Container.length));
+
+            if (!loc2.equals(loc)) {
+                motionpath.addWayPoint(loc2);
+            } else {
+                motionpath.addWayPoint(new Vector3f(loc2.x + 0.00001f, loc2.y + 0.00001f, loc2.z + 0.00001f));
+            }
+
+            motionpath.enableDebugShape(ContainingClient.getMyAssetManager(), ContainingClient.getMyRootNode());
+            motionpath.setCurveTension(0f);
+
+            motionevent = new MotionEvent(this, motionpath);
+            motionevent.setDirectionType(MotionEvent.Direction.None);
+            if (dayLength < 10f) {
+                motionevent.setInitialDuration(1f);
+            } else if (dayLength >= 10f && dayLength < 30f) {
+                motionevent.setInitialDuration(10f);
+            } else if (dayLength >= 30f) {
+                motionevent.setInitialDuration(30f);
+            }
+            motionevent.setSpeed(1f);
+            motionevent.play();
+            motionpath.addListener(new MotionPathListener() {
+                @Override
+                public void onWayPointReach(MotionEvent motionControl, int wayPointIndex) {
+                    if (motionControl.getPath().getNbWayPoints() == wayPointIndex + 1) {
+                        //moves the hook to the x location, then down to the container
+                        motionevent.pause();
+                        motionpath = new MotionPath();
+
+                        Vector3f grabberLoc = ContainingClient.bargeCranes.get(ID).getGrabber().getLocalTranslation();
+                        motionpath.addWayPoint(grabberLoc);
+
+                        Vector3f loc2 = new Vector3f(grabberLoc.x , grabberLoc.y, grabberLoc.z +(Container.width * location.z));
+                        if (!loc2.equals(grabberLoc)) {
+                            motionpath.addWayPoint(loc2);
+                        } else {
+                            motionpath.addWayPoint(new Vector3f(loc2.x + 0.00001f, loc2.y, loc2.z));
+                        }
+
+                        Vector3f loc3 = new Vector3f(grabberLoc.x + Container.width * location.z, grabberLoc.y + Container.height * (-3 + location.y), grabberLoc.z);
+                        if (!loc3.equals(grabberLoc)) {
+                            motionpath.addWayPoint(new Vector3f(loc3.x + 0.00001f, loc3.y, loc3.z));
+                        } else {
+                            motionpath.addWayPoint(loc3);
+                        }
+
+                        motionpath.enableDebugShape(ContainingClient.getMyAssetManager(), ContainingClient.getMyRootNode());
+                        motionpath.setCurveTension(0f);
+
+                        motionevent = new MotionEvent(ContainingClient.bargeCranes.get(ID).getGrabber(), motionpath);
+                        motionevent.setDirectionType(MotionEvent.Direction.None);
+                        if (dayLength < 10f) {
+                            motionevent.setInitialDuration(1f);
+                        } else if (dayLength >= 10f && dayLength < 30f) {
+                            motionevent.setInitialDuration(10f);
+                        } else if (dayLength >= 30f) {
+                            motionevent.setInitialDuration(30f);
+                        }
+                        motionevent.setSpeed(1f);
+                        motionevent.play();
+                        motionpath.addListener(new MotionPathListener() {
+                            @Override
+                            public void onWayPointReach(MotionEvent motionControl, int wayPointIndex) {
+                                if (motionControl.getPath().getNbWayPoints() == wayPointIndex + 2) {
+                                    ContainingClient.bargeCranes.get(ID).connectContainer(ContainingClient.barges.get(0).getContainerAt(ContainerID));
+                                    motionevent.pause();
+                                    motionpath = new MotionPath();
+                                    Vector3f grabberLoc = ContainingClient.bargeCranes.get(ID).getGrabber().getLocalTranslation();
+                                    motionpath.addWayPoint(grabberLoc);
+                                    motionpath.addWayPoint(new Vector3f(grabberLoc.x, 10, grabberLoc.z));
+                                    motionpath.addWayPoint(new Vector3f(grabberLoc.x + 65, 10, grabberLoc.z));
+                                    motionpath.addWayPoint(new Vector3f(grabberLoc.x + 65, -10, grabberLoc.z));
+
+                                    motionpath.enableDebugShape(ContainingClient.getMyAssetManager(), ContainingClient.getMyRootNode());
+                                    motionpath.setCurveTension(0f);
+                                    motionevent = new MotionEvent(ContainingClient.bargeCranes.get(ID).getGrabber(), motionpath);
+                                    motionevent.setDirectionType(MotionEvent.Direction.None);
+                                    if (dayLength < 10f) {
+                                        motionevent.setInitialDuration(1f);
+                                    } else if (dayLength >= 10f && dayLength < 30f) {
+                                        motionevent.setInitialDuration(10f);
+                                    } else if (dayLength >= 30f) {
+                                        motionevent.setInitialDuration(30f);
+                                    }
+                                    motionevent.setSpeed(1f);
+                                    motionevent.play();
+                                    motionpath.addListener(new MotionPathListener() {
+                                        @Override
+                                        public void onWayPointReach(MotionEvent motionControl, int wayPointIndex) {
+                                            if (motionControl.getPath().getNbWayPoints() == wayPointIndex + 1) {
+                                                motionevent.pause();
+                                                motionpath = new MotionPath();
+                                                Vector3f grabberLoc = ContainingClient.bargeCranes.get(ID).getGrabber().getLocalTranslation();
+                                                motionpath.addWayPoint(grabberLoc);
+                                                motionpath.addWayPoint(new Vector3f(grabberLoc.x, 10, grabberLoc.z));
+                                                motionpath.addWayPoint(new Vector3f(-28, -2, 0));
+
+                                                motionpath.enableDebugShape(ContainingClient.getMyAssetManager(), ContainingClient.getMyRootNode());
+                                                motionpath.setCurveTension(0f);
+                                                motionevent = new MotionEvent(ContainingClient.bargeCranes.get(ID).getGrabber(), motionpath);
                                                 motionevent.setDirectionType(MotionEvent.Direction.None);
                                                 if (dayLength < 10f) {
                                                     motionevent.setInitialDuration(1f);
