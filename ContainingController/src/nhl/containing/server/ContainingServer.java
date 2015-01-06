@@ -160,6 +160,7 @@ public class ContainingServer extends SimpleApplication
 	public void destroy()
 	{
 		ConnectionManager.stop();
+		API.stop();
 		super.destroy();
 	}
 }
