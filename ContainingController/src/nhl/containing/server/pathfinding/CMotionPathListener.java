@@ -7,6 +7,10 @@ import nhl.containing.server.util.ServerSpatial;
 
 import com.jme3.cinematic.MotionPathListener;
 import com.jme3.cinematic.events.MotionEvent;
+import com.jme3.math.Vector3f;
+import nhl.containing.server.network.ConnectionManager;
+import nhl.containing.server.network.StorageCranePickupData;
+import nhl.containing.server.platformhandlers.Storage;
 
 /**
  * The motionpath Listener for the server, this makes it so that the server can keep track of objects when they are moving and when they stopped moving
@@ -51,13 +55,31 @@ public class CMotionPathListener implements MotionPathListener
 				String[] l = AGVHandler.getInstance().getAGV(spatial.agv.agvId).currentLocation.split("_");
 				int i = Integer.parseInt(l[1]);
 				if(l.length == 2)
-					TruckPlatformHandler.getInstance().getContainerFromTruck(spatial.agv.agvId, i);
+				{
+					if(!AGVHandler.getInstance().getAGV(spatial.agv.agvId).getLoaded())
+					{
+						TruckPlatformHandler.getInstance().getContainerFromTruck(spatial.agv.agvId, i);
+					}
+					else
+					{
+						TruckPlatformHandler.getInstance().getContainerFromAGV(spatial.agv.agvId, i);
+					}
+					System.out.println("TruckPlatform Arrival: " + i);
+				}
 				else if(l.length == 3)
+				{	
 					TruckPlatformHandler.getInstance().sendAGVToStorage(AGVHandler.getInstance().getAGV(spatial.agv.agvId), i);
+					System.out.println("TruckPlatform Departure: " + i);
+				}
 			}
 			else if(AGVHandler.getInstance().getAGV(spatial.agv.agvId).currentLocation.startsWith("storageLocation_"))
 			{
 				int i = Integer.parseInt(AGVHandler.getInstance().getAGV(spatial.agv.agvId).currentLocation.split("_")[1]);
+                Storage storage = StoragePlatformHandler.getInstance().getStorage(0);
+                Vector3f vec = storage.PushContainer(spatial.agv.getContainer());
+                StorageCranePickupData data = new StorageCranePickupData(0, vec.x, vec.y, vec.z, i);
+                ConnectionManager.sendCommand(data);
+
 				System.out.println("DESTINATION REACHED: " + i);
 			}
 		}

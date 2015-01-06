@@ -42,7 +42,7 @@ public class AGV
      */
     public boolean getLoaded()
     {
-    	return loaded;
+    	return container != null;
     }
     
     /**

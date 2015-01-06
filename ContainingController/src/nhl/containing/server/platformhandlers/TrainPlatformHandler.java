@@ -71,7 +71,6 @@ public class TrainPlatformHandler
 		list.add(new Vector3f(353.5f, 0, -778.5f)); //TODO: proper coords
 		list.add(new Vector3f(353.5f, 0, location.location.z));
 		list.add(new Vector3f(location.location));
-		ControlHandler.getInstance().sendAGV(agv.agvId, list);
 		location.needsAGV = false;
 		locations.put(location.id, location);
 	}
@@ -89,7 +88,7 @@ public class TrainPlatformHandler
 		list.add(new Vector3f(353.5f, 0, -778.5f)); //TODO: proper coords
 		list.add(new Vector3f(353.5f, 0, location.location.z));
 		list.add(new Vector3f(location.location));
-		ControlHandler.getInstance().sendAGV(agv.agvId, list);
+		ControlHandler.getInstance().sendAGV(agv.agvId, list, ""); //TODO: string
 		location.needsAGV = false;
 		locations.put(location.id, location);
 	}

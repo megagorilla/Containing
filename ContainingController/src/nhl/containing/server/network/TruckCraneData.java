@@ -8,7 +8,8 @@ public class TruckCraneData extends AbstractMessage
 {
 	public int craneID;
 	public int agvID;
-	public int containerID;
+	public int truckID;
+	public boolean fromAGV;
 	
 	public TruckCraneData(){}
 
@@ -17,10 +18,11 @@ public class TruckCraneData extends AbstractMessage
 	 * @param id
 	 * @param list
 	 */
-	public TruckCraneData(int agvID, int craneID, int containerID)
+	public TruckCraneData(int agvID, int craneID, int truckID, boolean fromAGV)
 	{
 		this.agvID = agvID;
 		this.craneID = craneID;
-		this.containerID = containerID;
+		this.truckID = truckID;
+		this.fromAGV = fromAGV;
 	}
 }

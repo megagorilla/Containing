@@ -47,9 +47,9 @@ public class UpdateMessage extends AbstractMessage
 	 * @param name
 	 * @param location
 	 */
-	public void addData(int id, List<Vector3f> list)
+	public void addData(int id, List<Vector3f> list, float duration, float speed)
 	{
-		data.add(new AGVData(id, list));
+		data.add(new AGVData(id, list, duration, speed));
 	}
 
 	/**

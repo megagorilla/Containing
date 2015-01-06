@@ -1,12 +1,16 @@
 package nhl.containing.server;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
+import java.util.Stack;
 
 import nhl.containing.server.network.API;
 import nhl.containing.server.network.ConnectionManager;
 import nhl.containing.server.pathfinding.AGVHandler;
 import nhl.containing.server.pathfinding.RouteController;
+import nhl.containing.server.platformhandlers.BargePlatformHandler;
+import nhl.containing.server.platformhandlers.SeaShipPlatformHandler;
 import nhl.containing.server.platformhandlers.StoragePlatformHandler;
 import nhl.containing.server.platformhandlers.TruckPlatformHandler;
 import nhl.containing.server.util.ControlHandler;
@@ -17,27 +21,22 @@ import com.jme3.app.SimpleApplication;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.system.JmeContext;
-import java.util.Collections;
-import java.util.Stack;
-import nhl.containing.server.platformhandlers.BargePlatformHandler;
-import nhl.containing.server.platformhandlers.SeaShipPlatformHandler;
 
 public class ContainingServer extends SimpleApplication
 {
 	float time = 0;
-	private boolean hasSent;
 	private static Node staticRootNode;
         
-        private int currentDay = 1;
-        private float dayCounter = 0;
-        private final float dayLength = 30f; //the time 1 gameday should be in seconds
-        long startTime;
+    private int currentDay = 1;
+    private float dayCounter = 0;
+    private final static float dayLength = 30f; //the time 1 gameday should be in seconds
+    long startTime;
         
-        ArrayList<Container> containers;
-        BargePlatformHandler bargePlatformHandler;
-        SeaShipPlatformHandler seaShipPlatformHandler;
-        Stack<Stack<Container>> listoftrainContainers = new Stack<>();
-        Stack<Container> listoftruckContainers = new Stack<>();
+    ArrayList<Container> containers;
+    BargePlatformHandler bargePlatformHandler;
+    SeaShipPlatformHandler seaShipPlatformHandler;
+    Stack<Stack<Container>> listoftrainContainers = new Stack<>();
+    Stack<Container> listoftruckContainers = new Stack<>();
 
 	/**
 	 * Starts the app headless (no display)
@@ -65,9 +64,8 @@ public class ContainingServer extends SimpleApplication
 		AGVHandler.getInstance().init();
 		ConnectionManager.initialize(3000);
 		API.start(8080);
-                
             initContainers();
-            System.out.println("1");
+            System.out.println("Server Operational");
             
 	}
         
@@ -77,6 +75,13 @@ public class ContainingServer extends SimpleApplication
         private void initContainers() {
         XMLFileReader xmlReader = new XMLFileReader();
         containers = xmlReader.getContainers("../XMLFILES/xml7.xml");
+        
+        ArrayList<String> bedrijven = new ArrayList<>();
+        for(Container c : containers){
+            if(!bedrijven.contains(c.getOwnerName()))
+                bedrijven.add(c.getOwnerName());
+        }
+        
         ArrayList<Container> riverShipContainers = new ArrayList<>();
         ArrayList<Container> trainContainers = new ArrayList<>();
         ArrayList<Container> seaShipContainers = new ArrayList<>();
@@ -96,7 +101,6 @@ public class ContainingServer extends SimpleApplication
                     break;
             }
         }
-        
         boolean isFull;
         bargePlatformHandler = new BargePlatformHandler(riverShipContainers);
         seaShipPlatformHandler = new SeaShipPlatformHandler(seaShipContainers);
@@ -131,19 +135,35 @@ public class ContainingServer extends SimpleApplication
     	@Override
     	public void simpleUpdate(float tpf)
     	{
-            dayCounter += tpf;
-            if(dayCounter > dayLength){
-                currentDay++;
-                dayCounter = 0;
-                System.out.println("time since start: " + ((System.currentTimeMillis()-startTime)/1000f) + " program day: " +currentDay);
-            }
+    		if(ConnectionManager.hasConnections())
     		{
-    			if(rand.nextInt(500) == 10) 
-    				TruckPlatformHandler.getInstance().spawnTruck();
-    			
-    			TruckPlatformHandler.getInstance().update(tpf);
+	            dayCounter += tpf;
+	            if(dayCounter > dayLength)
+	            {
+	                currentDay++;
+	                dayCounter = 0;
+	                while (bargePlatformHandler.getShipsEnRouteSize() > 0 && bargePlatformHandler.getDayOfNextShip() == currentDay) {
+	                    bargePlatformHandler.nextShipArrives();
+	                }
+	                while (seaShipPlatformHandler.getShipsEnRouteSize() > 0 && seaShipPlatformHandler.getDayOfNextShip() == currentDay) {
+	                    
+	                    seaShipPlatformHandler.nextShipArrives();
+	                }
+	                System.out.println("time since start: " + ((System.currentTimeMillis()-startTime)/1000f) + " program day: " +currentDay);
+	                
+	                if(!listoftruckContainers.isEmpty())
+	                {
+	                	while(listoftruckContainers.peek().getArrival().getDay() == currentDay)
+		                {
+		                	Container c = listoftruckContainers.pop();
+		                	TruckPlatformHandler.getInstance().spawnTruck(c);
+		                }
+	                }
+	            }
+	            TruckPlatformHandler.getInstance().update(tpf);
     		}
     	}
+    	
 	
 	/**
 	 * @return {@link #staticRootNode}
@@ -163,4 +183,12 @@ public class ContainingServer extends SimpleApplication
 		API.stop();
 		super.destroy();
 	}
+
+        public static float getDayLength() {
+            return dayLength;
+        }
+        
+        public int getCurrentDay() {
+			return currentDay;
+		}
 }

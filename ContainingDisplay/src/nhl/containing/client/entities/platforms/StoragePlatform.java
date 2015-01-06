@@ -1,15 +1,15 @@
 package nhl.containing.client.entities.platforms;
 
+import nhl.containing.client.ContainingClient;
+import nhl.containing.client.entities.Platform;
+import nhl.containing.client.entities.rails.StripRails;
+import nhl.containing.client.materials.PlainMaterial;
+
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
-import nhl.containing.client.entities.Platform;
-
 import com.jme3.scene.shape.Box;
-import nhl.containing.client.ContainingClient;
-import nhl.containing.client.entities.rails.StripRails;
-import nhl.containing.client.materials.PlainMaterial;
 
 /**
  * 

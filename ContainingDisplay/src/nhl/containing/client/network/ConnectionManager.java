@@ -29,6 +29,13 @@ public final class ConnectionManager
         Serializer.registerClass(TruckSpawnData.class);
         Serializer.registerClass(TrainCraneData.class);
         Serializer.registerClass(TrainSpawnData.class);
+        Serializer.registerClass(StorageCranePickupData.class);
+        Serializer.registerClass(SeaShipCraneData.class);
+        Serializer.registerClass(BargeCraneData.class);
+        
+        Serializer.registerClass(SeaShipSpawnData.class);
+        Serializer.registerClass(BargeSpawnData.class);
+        Serializer.registerClass(ContainerData.class);
 		try
 		{
 			client = Network.connectToServer(host, port);

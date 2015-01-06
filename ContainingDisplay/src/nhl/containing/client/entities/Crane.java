@@ -1,9 +1,5 @@
 package nhl.containing.client.entities;
 
-import nhl.containing.client.ContainingClient;
-
-import com.jme3.cinematic.MotionPath;
-import com.jme3.cinematic.events.MotionEvent;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 
