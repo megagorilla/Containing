@@ -1,6 +1,7 @@
 package nhl.containing.server.platformhandlers;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Stack;
 
 import nhl.containing.server.ContainingServer;
@@ -51,13 +52,13 @@ public class Storage {
 	
 	public Vector3f PushContainer(Container container) {
 		for (int x = 0; x < storageX; x++) {
-			for (int z = 0; z < storageZ; z++) {
+			for (int z = 0; z < storageZ; z++) {				
 				if(containerStorage[x][z].isEmpty() || 
 				   container.getDeparture().getDay() <= containerStorage[x][z].peek().getDeparture().getDay() && 
 				   containerStorage[x][z].size() < storageY) {
 					
 						containerStorage[x][z].push(container);
-						return new Vector3f(x,containerStorage[x][z].size(),z);
+						return new Vector3f(x,containerStorage[x][z].size() - 1,z);
 				}
 			}
 		}
@@ -72,18 +73,17 @@ public class Storage {
 		return this.storageId;
 	}
 	
-	public ArrayList DepartureList(){
-		currentDay = c.getCurrentDay();
+	public HashMap<Vector3f, Container> getDepartureList(){
+		int currentDay = c.getCurrentDay();
+		HashMap<Vector3f, Container> containers = new HashMap<Vector3f, Container>();
+		
 		
 		for (int x = storageX; x <= 0; x--) {
 			for (int z = storageZ; z <= 0; z--) {
 				if (currentDay == containerStorage[x][z].peek().getDeparture().getDay())
-					departureList.add(containerStorage[x][z].pop());
+					containers.put(new Vector3f(x, containerStorage.length - 1, z), containerStorage[x][z].pop());
 			}
 		}
-		if(departureList == null)
-			return null;
-		else 
-			return departureList;
+		return containers;
 	}
 }

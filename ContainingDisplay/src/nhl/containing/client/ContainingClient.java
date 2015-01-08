@@ -248,4 +248,8 @@ public class ContainingClient extends SimpleApplication {
        
     }
     
+    public static float getSpeed()
+    {
+    	return 10f;
+    }
 }

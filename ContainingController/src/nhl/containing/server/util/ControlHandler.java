@@ -92,7 +92,7 @@ public class ControlHandler
 		}
 		
 		duration = tempdist / (agv.getLoaded() ? 5.555f : 11.111f);//Loaded and Unloaded speed for the AGV
-		message.addData(id, list, duration, 5);
+		message.addData(id, list, duration, ContainingServer.getSpeed());
 		ConnectionManager.sendCommand(message);
 
 		MotionPath path = new MotionPath();
@@ -108,7 +108,7 @@ public class ControlHandler
         motionControl.setDirectionType(MotionEvent.Direction.PathAndRotation);
         motionControl.setRotation(new Quaternion().fromAngleNormalAxis(0, Vector3f.UNIT_Y));
         motionControl.setInitialDuration(duration);
-        motionControl.setSpeed(5f);  
+        motionControl.setSpeed(ContainingServer.getSpeed());  
         motionControl.play();
 	}
 	

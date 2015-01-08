@@ -2,6 +2,9 @@ package nhl.containing.server.pathfinding;
 
 import java.util.HashMap;
 
+import nhl.containing.server.platformhandlers.Storage;
+import nhl.containing.server.platformhandlers.StoragePlatformHandler;
+import nhl.containing.server.platformhandlers.StoragePlatformHandler.ParkingLocation;
 import nhl.containing.server.util.XMLFileReader.Container;
 
 /**
@@ -90,5 +93,22 @@ public class AGVHandler
 		agv.setIsMoving(true);
 		setAGV(agv.agvId, agv);
 		return agv;
+	}
+
+	public AGV getFreeAGVAtStorageLocation(int i) 
+	{
+		Storage storage = StoragePlatformHandler.getInstance().getStorage(i);
+		for(AGV agv : agvs.values())
+		{
+			if(agv.currentLocation.startsWith("StorageLocation"))
+			{
+				int j = Integer.parseInt(AGVHandler.getInstance().getAGV(agv.agvId).currentLocation.split("_")[1]);
+				if(Math.floor(j / 6) == i)
+				{
+					return agv;
+				}
+			}
+		}
+		return null;
 	}
 }

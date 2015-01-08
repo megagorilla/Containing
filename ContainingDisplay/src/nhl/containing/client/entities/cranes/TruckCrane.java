@@ -98,7 +98,7 @@ public class TruckCrane extends Crane {
 			        MotionEvent motionControl3 = new MotionEvent(grabber2, dropContainer);
 			        motionControl3.setDirectionType(MotionEvent.Direction.PathAndRotation);
 			        motionControl3.setInitialDuration(10f);
-			        motionControl3.setSpeed(1f);
+			        motionControl3.setSpeed(ContainingClient.getSpeed());
 			        motionControl3.play();        
 				}
 				else if(motionControl.getPath().getNbWayPoints() == wayPointIndex + 1)
@@ -114,8 +114,7 @@ public class TruckCrane extends Crane {
 						{
 							if(motionControl.getPath().getNbWayPoints() == wayPointIndex + 2)
 							{
-								agv.attachChild(container);
-								container.setLocalTranslation(new Vector3f(0, 1.2f, 0));
+								agv.setContainer(container);
 					        }
 						}	
 			        });
@@ -123,14 +122,14 @@ public class TruckCrane extends Crane {
 			        MotionEvent motionControl3 = new MotionEvent(grabber2, dropContainer);
 			        motionControl3.setDirectionType(MotionEvent.Direction.PathAndRotation);
 			        motionControl3.setInitialDuration(10f);
-			        motionControl3.setSpeed(1f);
+			        motionControl3.setSpeed(ContainingClient.getSpeed());
 			        motionControl3.play(); 
 				}
 			}
         });
         truckToCraneMotion.setDirectionType(MotionEvent.Direction.PathAndRotation);
         truckToCraneMotion.setInitialDuration(10f);
-        truckToCraneMotion.setSpeed(1f);
+        truckToCraneMotion.setSpeed(ContainingClient.getSpeed());
         truckToCraneMotion.play();
     }
     
@@ -205,7 +204,7 @@ public class TruckCrane extends Crane {
         });
         truckToCraneMotion.setDirectionType(MotionEvent.Direction.PathAndRotation);
         truckToCraneMotion.setInitialDuration(10f);
-        truckToCraneMotion.setSpeed(1f);
+        truckToCraneMotion.setSpeed(ContainingClient.getSpeed());
         truckToCraneMotion.play();
     }
      

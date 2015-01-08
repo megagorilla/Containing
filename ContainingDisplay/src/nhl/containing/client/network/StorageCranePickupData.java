@@ -8,16 +8,17 @@ public class StorageCranePickupData extends AbstractMessage
 {
 	public int craneID;
 	public float x, y, z;
-    public int i;
-
+    public int i, agvId;
+    
 	public StorageCranePickupData(){}
 	
-	public StorageCranePickupData(int craneID, float x, float y, float z, int i)
+	public StorageCranePickupData(int craneID, float x, float y, float z, int i, int agvId)
 	{
 		this.craneID = craneID;
 		this.x = x;
 		this.y = y;
 		this.z = z;
         this.i = i;
+        this.agvId = agvId;
 	}
 }

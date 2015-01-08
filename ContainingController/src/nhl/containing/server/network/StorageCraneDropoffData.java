@@ -1,23 +1,22 @@
 package nhl.containing.server.network;
 
+import com.jme3.math.Vector3f;
 import com.jme3.network.AbstractMessage;
 import com.jme3.network.serializing.Serializable;
 
 @Serializable
-public class StorageCranePickupData extends AbstractMessage 
+public class StorageCraneDropoffData extends AbstractMessage 
 {
+	public Vector3f containerLoc;
 	public int craneID;
-	public float x, y, z;
     public int i, agvId;
     
-	public StorageCranePickupData(){}
+	public StorageCraneDropoffData(){}
 	
-	public StorageCranePickupData(int craneID, float x, float y, float z, int i, int agvId)
+	public StorageCraneDropoffData(Vector3f containerLoc, int craneID, int i, int agvId)
 	{
+		this.containerLoc = containerLoc;
 		this.craneID = craneID;
-		this.x = x;
-		this.y = y;
-		this.z = z;
         this.i = i;
         this.agvId = agvId;
 	}

@@ -137,6 +137,7 @@ public class TruckPlatformHandler
 		TruckLocation location = getFreeTruckLocation();
 		location.isAvailable = false;
 		location.needsAGVRequested = true;
+		location.c = c;
 		locations.put(location.id, location);
 		TruckSpawnData data = new TruckSpawnData(location.id, c.getContainerNumber(), false);
 		ConnectionManager.sendCommand(data);
@@ -190,6 +191,7 @@ public class TruckPlatformHandler
 		public boolean needsAGVRequested;
 		public boolean needsAGV;
 		public boolean isAvailable;
+		public Container c; 
 		
 		public TruckLocation(int id, Vector3f location)
 		{
@@ -212,7 +214,9 @@ public class TruckPlatformHandler
 			path.addWayPoint(v);
 		path.setCurveTension(0.0f);
 		path.addListener(new CMotionPathListener());
-		
+		AGV agv = AGVHandler.getInstance().getAGV(agvId);
+		agv.setContainer(this.locations.get(craneId).c);
+		AGVHandler.getInstance().setAGV(agv.agvId, agv);
 		ServerSpatial spatial = new ServerSpatial(AGVHandler.getInstance().getAGV(agvId), "truckLocation_" + String.valueOf(craneId) + "_loaded");
         ContainingServer.getRoot().attachChild(spatial);
 
@@ -220,7 +224,7 @@ public class TruckPlatformHandler
         motionControl.setDirectionType(MotionEvent.Direction.PathAndRotation);
         motionControl.setRotation(new Quaternion().fromAngleNormalAxis(0, Vector3f.UNIT_Y));
         motionControl.setInitialDuration(30f);
-        motionControl.setSpeed(1f);
+        motionControl.setSpeed(ContainingServer.getSpeed());
         motionControl.play();
 	}
 

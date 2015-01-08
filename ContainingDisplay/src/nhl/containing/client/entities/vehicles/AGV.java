@@ -56,7 +56,6 @@ public class AGV extends Vehicle {
     {
     	container = c;
     	container.setLocalTranslation(new Vector3f(0, 1.2f, 0));
-    	container.rotate(0, FastMath.HALF_PI, 0);
     	this.attachChild(container);
     }
     

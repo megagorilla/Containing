@@ -29,7 +29,8 @@ public class ContainingServer extends SimpleApplication
         
     private int currentDay = 1;
     private float dayCounter = 0;
-    private final static float dayLength = 30f; //the time 1 gameday should be in seconds
+    private final static float dayLength = 120f; //the time 1 gameday should be in seconds
+    private final static float speed = 10f;
     long startTime;
         
     ArrayList<Container> containers;
@@ -38,6 +39,11 @@ public class ContainingServer extends SimpleApplication
     Stack<Stack<Container>> listoftrainContainers = new Stack<>();
     Stack<Container> listoftruckContainers = new Stack<>();
 
+    public int getCurrentDay()
+    {
+    	return currentDay;
+    }
+    
 	/**
 	 * Starts the app headless (no display)
 	 * @param args
@@ -64,9 +70,8 @@ public class ContainingServer extends SimpleApplication
 		AGVHandler.getInstance().init();
 		ConnectionManager.initialize(3000);
 		API.start(8080);
-            initContainers();
-            System.out.println("Server Operational");
-            
+        initContainers();
+        System.out.println("Server Operational");    
 	}
         
         /**
@@ -139,7 +144,7 @@ public class ContainingServer extends SimpleApplication
     		if(ConnectionManager.hasConnections())
     		{
 	            dayCounter += tpf;
-	            if(dayCounter > dayLength)
+	            if(dayCounter > (dayLength / getSpeed()))
 	            {
 	                currentDay++;
 	                dayCounter = 0;
@@ -154,14 +159,34 @@ public class ContainingServer extends SimpleApplication
 	                
 	                if(!listoftruckContainers.isEmpty())
 	                {
-	                	while(listoftruckContainers.peek().getArrival().getDay() == currentDay)
-		                {
-		                	Container c = listoftruckContainers.pop();
-		                	TruckPlatformHandler.getInstance().spawnTruck(c);
-		                }
+	                	if(listoftruckContainers.peek() != null)
+	                	{
+		                	while(listoftruckContainers.peek().getArrival().getDay() == currentDay)
+			                {
+			                	Container c = listoftruckContainers.pop();
+			                	TruckPlatformHandler.getInstance().spawnTruck(c);
+			                }
+	                	}
 	                }
+	                
+//	                for(int i = 0; i < StoragePlatformHandler.getInstance().maxStorageLocations; i++)
+//	                {
+//	                	Storage storage = StoragePlatformHandler.getInstance().getStorage(i);
+//	                	HashMap<Vector3f, Container> list = storage.getDepartureList();
+//	                	for(Vector3f vec : list.keySet())
+//	                	{
+//	                		Container container = list.get(vec);
+//	                		AGV agv = AGVHandler.getInstance().getFreeAGVAtStorageLocation(i);
+//	                		agv.setContainer(container);
+//	                		agv.isMoving = true;
+//	                		AGVHandler.getInstance().setAGV(agv.agvId, agv);
+//	                		int j = Integer.parseInt(AGVHandler.getInstance().getAGV(agv.agvId).currentLocation.split("_")[1]);
+//	                		StorageCraneDropoffData data = new StorageCraneDropoffData(new Vector3f(vec.x, vec.y, vec.z), i, (int)Math.floor(j / 6), agv.agvId);
+//	                	}
+//	                }
 	            }
 	            TruckPlatformHandler.getInstance().update(tpf);
+	            StoragePlatformHandler.getInstance().update(tpf);
     		}
     	}
     	
@@ -187,6 +212,9 @@ public class ContainingServer extends SimpleApplication
         public static float getDayLength() {
             return dayLength;
         }
-        
-        
+
+		public static float getSpeed() 
+		{
+			return speed;
+		}
 }

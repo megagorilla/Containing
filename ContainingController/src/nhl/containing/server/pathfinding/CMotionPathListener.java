@@ -75,11 +75,13 @@ public class CMotionPathListener implements MotionPathListener
 			else if(AGVHandler.getInstance().getAGV(spatial.agv.agvId).currentLocation.startsWith("storageLocation_"))
 			{
 				int i = Integer.parseInt(AGVHandler.getInstance().getAGV(spatial.agv.agvId).currentLocation.split("_")[1]);
-                Storage storage = StoragePlatformHandler.getInstance().getStorage(0);
+                Storage storage = StoragePlatformHandler.getInstance().getStorage((int)Math.floor(i / 6));
                 Vector3f vec = storage.PushContainer(spatial.agv.getContainer());
-                StorageCranePickupData data = new StorageCranePickupData(0, vec.x, vec.y, vec.z, i);
-                ConnectionManager.sendCommand(data);
-
+                
+                StorageCranePickupData data = new StorageCranePickupData(storage.getStorageId(), vec.x, vec.y, vec.z, i, spatial.agv.agvId);
+                StoragePlatformHandler.getInstance().addContainerToOffload(data);
+                spatial.agv.isMoving = false;
+                AGVHandler.getInstance().setAGV(agv.agvId, agv);
 				System.out.println("DESTINATION REACHED: " + i);
 			}
 		}
