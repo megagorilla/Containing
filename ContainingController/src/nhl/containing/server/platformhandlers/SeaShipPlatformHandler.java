@@ -5,32 +5,51 @@
  */
 package nhl.containing.server.platformhandlers;
 
-import com.jme3.math.Vector3f;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 import nhl.containing.server.Ship;
 import nhl.containing.server.ShipCrane;
 import nhl.containing.server.network.ConnectionManager;
 import nhl.containing.server.network.ContainerData;
 import nhl.containing.server.network.SeaShipSpawnData;
-import nhl.containing.server.util.XMLFileReader.*;
+import nhl.containing.server.pathfinding.AGV;
+import nhl.containing.server.util.ControlHandler;
+import nhl.containing.server.util.XMLFileReader.Container;
+
+import com.jme3.math.Vector3f;
 
 /**
  *
  * @author Sander
  */
 public class SeaShipPlatformHandler {
-
+	
     Stack<Ship> shipsEnRoute = new Stack<Ship>();
     ArrayList<Ship> shipsInHarbor = new ArrayList<>();
     ArrayList<ShipCrane> cranes = new ArrayList<>();
+    private static SeaShipPlatformHandler instance;
+    private int agvAmount = 0;
 
     public SeaShipPlatformHandler(ArrayList<Container> seaShipContainers) {
-        boolean isFull;
+    	instance = this;
+        initSeaShips(seaShipContainers);
+    }
+    
+    public void update(float tpf)
+	{
+    	RequestAGVToSeaship();
+	}
+    
+    public static SeaShipPlatformHandler getInstance()
+	{
+		return instance;
+	}
+    
+    private void initSeaShips(ArrayList<Container> seaShipContainers){
+    	boolean isFull;
         for(int i = 0;i<3;i++)
             cranes.add(new ShipCrane(Vector3f.ZERO, i,true));
         ArrayList<Container> buffList = new ArrayList<>();
@@ -55,17 +74,17 @@ public class SeaShipPlatformHandler {
     
     public void Unload(){
         for(ShipCrane crane: cranes){
-            if(!crane.isUnloading()){
+            if(!crane.GetUnloading()){
                 Vector3f shipSize = shipsInHarbor.get(0).getShipSize();
-                for(int i = 0;i < shipSize.x;i++){
-                    for(int j = 0; j< shipSize.z;j++){
-                        if(shipsInHarbor.get(0).containsContainers(j,i)){
-                            Container container = shipsInHarbor.get(0).pop(j,i);
+                for(int x = 0;x < shipSize.x;x++){
+                    for(int z = 0; z< shipSize.z;z++){
+                        if(shipsInHarbor.get(0).containsContainers(z,x)){
+                            Container container = shipsInHarbor.get(0).pop(z,x);
                             crane.startUnloading(container);
                             break;
                         }
                     }
-                    if(crane.isUnloading())
+                    if(crane.GetUnloading())
                         break;
                 }
             }
@@ -87,10 +106,37 @@ public class SeaShipPlatformHandler {
         shipsInHarbor.add(shipsEnRoute.pop());
         List<Container> containers = shipsInHarbor.get(0).getContainerList();
         List<ContainerData> containerData = new ArrayList<>();
+        
         for(Container c : containers)
             containerData.add(new ContainerData(c.getContainerNumber(), c.getPositie()));
         SeaShipSpawnData data = new SeaShipSpawnData(shipsInHarbor.get(0).getID(),containerData,false);
         ConnectionManager.sendCommand(data);
+    }
+    
+    // x =  y = 0.0f z = 882.5f
+    public void RequestAGVToSeaship(){
+    	if(getCurrentShip() != null){
+    		if(agvAmount < 12){
+				for(int i = 0; i < this.getCurrentShip().getContainerAmount() && i < 4; i++){
+					ControlHandler.getInstance().requestAGVToSeaship();
+					agvAmount++;
+				}
+    		}
+    	}
+    }
+    
+    //fix iitt
+    public void SendAGVToSeaShipCrane(AGV agv){
+    	for(ShipCrane c : cranes){
+    		if(c.GetUnloading() == false){
+    			Vector3f tempCraneLoc = c.getLocation();
+    			c.SetUnloading(true);
+    			List<Vector3f> list = new ArrayList<Vector3f>();
+    			list.add(new Vector3f(316.5f, 0.0f, 882.5f));
+    			list.add(new Vector3f(tempCraneLoc, 0.0f, 882.5f));
+    			ControlHandler.getInstance().sendAGV(agv.agvId, list, destination);;
+    		}
+    	}
     }
     
     public int getShipsEnRouteSize(){
@@ -102,7 +148,7 @@ public class SeaShipPlatformHandler {
     }
     
     public Ship getCurrentShip(){
-        return shipsInHarbor.get(0);
+        return shipsInHarbor.isEmpty() ? null : shipsInHarbor.get(0);
     }
 
     public boolean currentShipIsUnloading(){

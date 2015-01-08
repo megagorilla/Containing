@@ -150,10 +150,10 @@ public class ShortestPath {
         new Graph.WayPoint("b4", new Vector3f(WIDTH, DEPTH, HEIGHT))),
         //sea ship platform
         new Graph.Edge(new Graph.WayPoint("b4", new Vector3f(WIDTH, DEPTH, HEIGHT)),
-        new Graph.WayPoint("c2", new Vector3f(WIDTH, DEPTH, HEIGHT + 50))),
-        new Graph.Edge(new Graph.WayPoint("c2", new Vector3f(WIDTH, DEPTH, HEIGHT + 50)),
-        new Graph.WayPoint("c3", new Vector3f(-WIDTH, DEPTH, HEIGHT + 50))),
-        new Graph.Edge(new Graph.WayPoint("c3", new Vector3f(-WIDTH, DEPTH, HEIGHT + 50)),
+        new Graph.WayPoint("c2", new Vector3f(WIDTH+laneFour, DEPTH, HEIGHT + 107.5f))),
+        new Graph.Edge(new Graph.WayPoint("c2", new Vector3f(WIDTH+laneFour, DEPTH, HEIGHT + 107.5f)),
+        new Graph.WayPoint("c3", new Vector3f(-WIDTH-laneFour, DEPTH, HEIGHT + 107.5f))),
+        new Graph.Edge(new Graph.WayPoint("c3", new Vector3f(-WIDTH-laneFour, DEPTH, HEIGHT + 107.5f)),
         new Graph.WayPoint("c4", new Vector3f(-WIDTH, DEPTH, HEIGHT))),
         //train platform
         new Graph.Edge(new Graph.WayPoint("c4", new Vector3f(-WIDTH, DEPTH, HEIGHT)),

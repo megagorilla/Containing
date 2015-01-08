@@ -27,7 +27,7 @@ public class ContainingServer extends SimpleApplication
 	float time = 0;
 	private static Node staticRootNode;
         
-    private int currentDay = 1;
+    private int currentDay = 20;
     private float dayCounter = 0;
     private final static float dayLength = 30f; //the time 1 gameday should be in seconds
     long startTime;
@@ -74,7 +74,7 @@ public class ContainingServer extends SimpleApplication
          */
         private void initContainers() {
         XMLFileReader xmlReader = new XMLFileReader();
-        containers = xmlReader.getContainers("C:/school/ProjectContaining/Containing/XMLFILES/xml1Edited.xml");
+        containers = xmlReader.getContainers("../XMLFILES/xml4.xml");
         
         ArrayList<String> bedrijven = new ArrayList<>();
         for(Container c : containers){
@@ -162,6 +162,7 @@ public class ContainingServer extends SimpleApplication
 	                }
 	            }
 	            TruckPlatformHandler.getInstance().update(tpf);
+	            seaShipPlatformHandler.update(tpf);
     		}
     	}
     	
@@ -188,5 +189,8 @@ public class ContainingServer extends SimpleApplication
             return dayLength;
         }
         
+    public int getCurrentDay() {
+		return currentDay;
+	}
         
 }

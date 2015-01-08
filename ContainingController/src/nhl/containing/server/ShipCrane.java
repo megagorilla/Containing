@@ -21,25 +21,25 @@ public class ShipCrane {
     boolean isSeaShipCrane;
     Vector3f location;
     Container container;
-    boolean Unloading;
+    boolean unloading;
 
     public ShipCrane(Vector3f location, int ID, boolean isSeaShipCrane) {
         this.location = new Vector3f(location);
         this.ID = ID;
-        Unloading = false;
+        unloading = false;
         this.isSeaShipCrane = isSeaShipCrane;
     }
 
-    public boolean isUnloading() {
-        return Unloading;
+    public boolean GetUnloading() {
+        return unloading;
     }
 
-    public void setUnloading(boolean Unloading) {
-        this.Unloading = Unloading;
+    public void SetUnloading(boolean unloading) {
+        this.unloading = unloading;
     }
 
     public void startUnloading(Container container) {
-        Unloading = true;
+        unloading = true;
         this.container = container;
         if (isSeaShipCrane) {
             SeaShipCraneData data = new SeaShipCraneData(container.getPositie(), ID, this.container.getContainerNumber());

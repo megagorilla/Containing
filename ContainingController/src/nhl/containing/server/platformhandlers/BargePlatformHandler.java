@@ -74,7 +74,7 @@ public class BargePlatformHandler {
     
     public void Unload(){
         for(ShipCrane crane: cranes){
-            if(!crane.isUnloading()){
+            if(!crane.GetUnloading()){
                 Vector3f shipSize = shipsInHarbor.get(0).getShipSize();
                 for(int i = 0;i < shipSize.x;i++){
                     for(int j = 0; j< shipSize.z;j++){
@@ -84,7 +84,7 @@ public class BargePlatformHandler {
                             break;
                         }
                     }
-                    if(crane.isUnloading())
+                    if(crane.GetUnloading())
                         break;
                 }
             }

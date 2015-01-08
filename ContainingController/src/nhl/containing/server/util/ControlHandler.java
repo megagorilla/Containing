@@ -141,4 +141,22 @@ public class ControlHandler
 		list.add(new Vector3f()); // TODO: find proper "magic numbers"
 		this.sendAGV(agv.agvId, list, ""); //TODO: String
 	}
+	
+	public void requestAGVToSeaship(){
+		AGV agv = AGVHandler.getInstance().getFreeAGV();
+		List<Vector3f> list = new ArrayList<Vector3f>();
+		int i = Integer.parseInt(agv.currentLocation.split("_")[1]);
+		ParkingLocation location = StoragePlatformHandler.getInstance().getLocation(i);
+		location.hasAGV = false;
+		StoragePlatformHandler.getInstance().setParkingLocation(location);
+		list.add(location.location);
+		list.add(new Vector3f(location.location.x + 10, 0.0f, location.location.z));
+		list.add(new Vector3f(267.5f, 0.0f, -760 + 40 * location.parkID));
+		list.add(new Vector3f(303.5f, 0.0f, -760 + 40 * location.parkID));
+		list.add(new Vector3f(303.5f, 0.0f, 778.5f));
+		list.add(new Vector3f(316.5f, 0.0f, 791.5f));
+		list.add(new Vector3f(316.5f, 0.0f, 882.5f));
+		list.add(new Vector3f(-316.5f, 0.0f, 882.5f));
+		this.sendAGV(agv.agvId, list, "c2");
+	}
 }
