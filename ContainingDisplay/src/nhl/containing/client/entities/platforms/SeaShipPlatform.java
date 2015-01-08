@@ -25,6 +25,9 @@ public class SeaShipPlatform extends Platform
 		BigShipRails();
 		HookEast();
 		HookWest();
+                agvRoad();
+                entry();
+                exit();
 		ContainingClient.getMyRootNode().attachChild(this);
                 
                 s = new StoragePlatform();
@@ -76,4 +79,31 @@ public class SeaShipPlatform extends Platform
 			attachChild(new CraneRails(new Vector3f(-249 + 18 * i, 0f, 880), 0.87f, FastMath.HALF_PI));
 		}
 	}
+        
+        private void agvRoad()
+        {
+            Box Road = new Box(s.WIDTH+13.5f, 0.1f, 3); 
+            Geometry RoadGeom = new Geometry("Box", Road);
+            RoadGeom.setMaterial(new PlainMaterial(ColorRGBA.White));
+            attachChild(RoadGeom);
+            RoadGeom.setLocalTranslation(0, 0.1f, 882.5f);
+        }
+        
+        private void entry()
+        {
+            Box Entry = new Box(3,0.1f,45.25f);
+            Geometry EntryGeom = new Geometry("Box", Entry);
+            EntryGeom.setMaterial(new PlainMaterial(ColorRGBA.White));
+            attachChild(EntryGeom);
+            EntryGeom.setLocalTranslation(316.5f, 0.1f, 840.25f);
+        }
+        
+        private void exit()
+        {
+            Box Exit = new Box(3,0.1f,45.25f);
+            Geometry ExitGeom = new Geometry("Box", Exit);
+            ExitGeom.setMaterial(new PlainMaterial(ColorRGBA.White));
+            attachChild(ExitGeom);
+            ExitGeom.setLocalTranslation(-316.5f, 0.1f, 840.25f);
+        }
 }
