@@ -71,9 +71,11 @@ public class DockingCrane extends Crane {
         attachChild(grabber2);
         ContainingClient.getMyRootNode().attachChild(this);
         if (isShipCrane) {
+        	grabber.setLocalTranslation(-28, -2, 0);
             this.rotate(0, FastMath.HALF_PI, 0);
             this.setLocalTranslation(40 * ID - 200, 0, 922);
         } else {
+        	grabber.setLocalTranslation(3f, -4.9f, 0);
             this.rotate(0, FastMath.PI, 0);
             this.setLocalTranslation(400, 0, 570);
         }
@@ -131,9 +133,9 @@ public class DockingCrane extends Crane {
 
                         Vector3f loc3 = new Vector3f(grabberLoc.x + Container.width * location.z, grabberLoc.y + Container.height * (-3 + location.y), grabberLoc.z);
                         if (!loc3.equals(grabberLoc)) {
-                            motionpath.addWayPoint(new Vector3f(loc3.x + 0.00001f, loc3.y, loc3.z));
+                        	motionpath.addWayPoint(loc3);
                         } else {
-                            motionpath.addWayPoint(loc3);
+                            motionpath.addWayPoint(new Vector3f(loc3.x + 0.00001f, loc3.y+ 0.00001f, loc3.z));
                         }
 
                         motionpath.enableDebugShape(ContainingClient.getMyAssetManager(), ContainingClient.getMyRootNode());
@@ -160,8 +162,8 @@ public class DockingCrane extends Crane {
                                     Vector3f grabberLoc = ContainingClient.seaShipCranes.get(ID).getGrabber().getLocalTranslation();
                                     motionpath.addWayPoint(grabberLoc);
                                     motionpath.addWayPoint(new Vector3f(grabberLoc.x, 10, grabberLoc.z));
-                                    motionpath.addWayPoint(new Vector3f(grabberLoc.x + 65, 10, grabberLoc.z));
-                                    motionpath.addWayPoint(new Vector3f(grabberLoc.x + 65, -10, grabberLoc.z));
+                                    motionpath.addWayPoint(new Vector3f(37, 10, grabberLoc.z));
+                                    motionpath.addWayPoint(new Vector3f(37, -10, grabberLoc.z));
 
                                     motionpath.enableDebugShape(ContainingClient.getMyAssetManager(), ContainingClient.getMyRootNode());
                                     motionpath.setCurveTension(0f);
@@ -185,6 +187,7 @@ public class DockingCrane extends Crane {
                                                 Vector3f grabberLoc = ContainingClient.seaShipCranes.get(ID).getGrabber().getLocalTranslation();
                                                 motionpath.addWayPoint(grabberLoc);
                                                 motionpath.addWayPoint(new Vector3f(grabberLoc.x, 10, grabberLoc.z));
+                                                motionpath.addWayPoint(new Vector3f(-28, 10, 0));
                                                 motionpath.addWayPoint(new Vector3f(-28, -2, 0));
 
                                                 motionpath.enableDebugShape(ContainingClient.getMyAssetManager(), ContainingClient.getMyRootNode());
@@ -311,7 +314,7 @@ public class DockingCrane extends Crane {
                                                 Vector3f grabberLoc = ContainingClient.bargeCranes.get(ID).getGrabber().getLocalTranslation();
                                                 motionpath.addWayPoint(grabberLoc);
                                                 motionpath.addWayPoint(new Vector3f(grabberLoc.x, 10, grabberLoc.z));
-                                                motionpath.addWayPoint(new Vector3f(-28, -2, 0));
+                                                motionpath.addWayPoint(new Vector3f(3f, -4.9f, 0));
 
                                                 motionpath.enableDebugShape(ContainingClient.getMyAssetManager(), ContainingClient.getMyRootNode());
                                                 motionpath.setCurveTension(0f);

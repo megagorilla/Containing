@@ -108,8 +108,8 @@ public class ClientListener implements MessageListener<Client>
 	                    Barge ship = new Barge(ContainingClient.quality, m.BargeID);
 	                    for (ContainerData c : m.containers) {
 	                        Container container = new Container(ContainingClient.quality, c.containerID);
-	                        container.setLocalTranslation(Container.width * c.Location.y-3,
-	                                Container.height * c.Location.z, Container.length * c.Location.x - 30);
+	                        container.setLocalTranslation(Container.width * c.Location.z-3,
+	                                Container.height * c.Location.y, Container.length * c.Location.x - 30);
 	                        ship.addContainer(container);
 	                    }
                     ship.setLocalTranslation(400, 0, 200f * ContainingClient.barges.size() + 600);
