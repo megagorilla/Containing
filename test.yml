@@ -1,0 +1,63 @@
+%YAML 1.1
+---
+xml1:
+	aankomst:
+		vrachtauto: 10 containers
+	vertrek:
+		zeeschip: 4 containers
+		binnenschip: 5 containers
+		trein: 1 containers
+xml2:
+	aankomst:
+		trein: 17 containers
+	vertrek:
+		vrachtauto: 9 containers
+		zeeschip: 4 containers
+		binnenschip: 4 containers
+xml3:
+	aankomst:
+		binnenschip: 62 containers
+	vertrek:
+		vrachtauto: 39 containers
+		zeeschip: 17 containers
+		trein: 6 containers
+xml4:
+	aankomst:
+		zeeschip: 1920 containers
+	vertrek:
+		vrachtauto: 1129 containers
+		binnenschip: 600 containers
+		trein: 191 containers
+xml5:
+	aankomst:
+		trein: 18 containers
+		binnenschip: 53 containers
+		zeeschip: 1544 containers
+		vrachtauto: 1615 containers
+	vertrek:
+		vrachtauto: 952 containers
+		zeeschip: 628 containers
+		binnenschip: 1248 containers
+		trein: 402 containers
+xml6:
+	aankomst:
+		zeeschip: 7649 containers
+		trein: 123 containers
+		binnenschip: 400 containers
+		vrachtauto: 1 containers
+	vertrek:
+		vrachtauto: 4814 containers
+		binnenschip: 2420 containers
+		trein: 805 containers
+		zeeschip: 134 containers
+xml7:
+	aankomst:
+		zeeschip: 18904 containers
+		trein: 1570 containers
+		binnenschip: 5361 containers
+		vrachtauto: 25835 containers
+	vertrek:
+		vrachtauto: 15339 containers
+		binnenschip: 18484 containers
+		trein: 6326 containers
+		zeeschip: 11521 containers
