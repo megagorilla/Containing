@@ -37,7 +37,15 @@ public class ShipCrane {
     public void SetUnloading(boolean unloading) {
         this.unloading = unloading;
     }
+    
+    public Vector3f getLocation() {
+		return location;
+	}
 
+    public int getID() {
+		return ID;
+	}
+    
     public void startUnloading(Container container) {
         unloading = true;
         this.container = container;

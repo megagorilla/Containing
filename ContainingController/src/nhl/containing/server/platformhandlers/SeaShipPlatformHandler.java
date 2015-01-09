@@ -32,6 +32,7 @@ public class SeaShipPlatformHandler {
     ArrayList<ShipCrane> cranes = new ArrayList<>();
     private static SeaShipPlatformHandler instance;
     private int agvAmount = 0;
+    ControlHandler c = new ControlHandler();
 
     public SeaShipPlatformHandler(ArrayList<Container> seaShipContainers) {
     	instance = this;
@@ -41,6 +42,9 @@ public class SeaShipPlatformHandler {
     public void update(float tpf)
 	{
     	RequestAGVToSeaship();
+    	while(!c.agvShipQueue.isEmpty()){
+    		SendAGVToSeaShipCrane(c.agvShipQueue.get(0));
+    	}
 	}
     
     public static SeaShipPlatformHandler getInstance()
@@ -113,7 +117,6 @@ public class SeaShipPlatformHandler {
         ConnectionManager.sendCommand(data);
     }
     
-    // x =  y = 0.0f z = 882.5f
     public void RequestAGVToSeaship(){
     	if(getCurrentShip() != null){
     		if(agvAmount < 12){
@@ -125,7 +128,6 @@ public class SeaShipPlatformHandler {
     	}
     }
     
-    //fix iitt
     public void SendAGVToSeaShipCrane(AGV agv){
     	for(ShipCrane c : cranes){
     		if(c.GetUnloading() == false){
@@ -133,8 +135,8 @@ public class SeaShipPlatformHandler {
     			c.SetUnloading(true);
     			List<Vector3f> list = new ArrayList<Vector3f>();
     			list.add(new Vector3f(316.5f, 0.0f, 882.5f));
-    			list.add(new Vector3f(tempCraneLoc, 0.0f, 882.5f));
-    			ControlHandler.getInstance().sendAGV(agv.agvId, list, destination);;
+    			list.add(new Vector3f(tempCraneLoc.x, 0.0f, 882.5f));
+    			ControlHandler.getInstance().sendAGV(agv.agvId, list, "shipCrane_" + c.getID());;
     		}
     	}
     }
