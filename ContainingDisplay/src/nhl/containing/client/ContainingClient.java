@@ -20,6 +20,7 @@ import nhl.containing.client.entities.vehicles.SeaShip;
 import nhl.containing.client.entities.vehicles.SpaceShip;
 import nhl.containing.client.entities.vehicles.Truck;
 import nhl.containing.client.network.ConnectionManager;
+import nhl.containing.client.scenery.SeaNode;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.asset.AssetManager;
@@ -115,15 +116,15 @@ public class ContainingClient extends SimpleApplication {
 			for(int j = 0; j < 6/*Truck amount*/; j++)
 			{
 				AGV agv = new AGV(quality);
-				agv.setLocalTranslation(new Vector3f(267.5f - 22.5f, 0, (-768.2f + (20 / 6 + 0.3f)*j) + 40 * i));
+				agv.setLocalTranslation(new Vector3f(245, 0, (-768.2f + (3.633333f)*j) + 40 * i));
 				agv.rotate(0, FastMath.HALF_PI, 0);
 				agvs.add(agv);
 			}
 		}
-        for(int i = 0;i<3;i++){
+        for(int i = 0;i<12;i++){
             seaShipCranes.add(new DockingCrane(quality, true, i));
         }
-        for(int i = 0;i<1;i++){
+        for(int i = 0;i<4;i++){
             bargeCranes.add(new DockingCrane(quality, false,i));
         }
         ConnectionManager.init("localhost", 3000);

@@ -81,7 +81,7 @@ public class Ship {
         containerAmount--;
         if(containerAmount == 0)
             unloading = false;
-        return containers[x][z].pop();
+        return containers[z][x].pop();
     }
 
     public boolean isUnloading() {
@@ -98,7 +98,7 @@ public class Ship {
      */
     public boolean containsContainers(int x, int z) {
         try{
-        return !containers[x][z].isEmpty();
+        return !containers[z][x].isEmpty();
         }catch(Exception e){
             return false;
         }

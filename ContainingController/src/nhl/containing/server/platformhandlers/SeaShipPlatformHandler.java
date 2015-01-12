@@ -6,12 +6,15 @@
 package nhl.containing.server.platformhandlers;
 
 import com.jme3.math.Vector3f;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import nhl.containing.server.ContainingServer;
 import nhl.containing.server.Ship;
 import nhl.containing.server.ShipCrane;
 import nhl.containing.server.network.ConnectionManager;
@@ -28,10 +31,14 @@ public class SeaShipPlatformHandler {
     Stack<Ship> shipsEnRoute = new Stack<Ship>();
     ArrayList<Ship> shipsInHarbor = new ArrayList<>();
     ArrayList<ShipCrane> cranes = new ArrayList<>();
+    
+    private final float durationFastest = 4;
+    private final float durationMedium = 40;
+    private final float durationSlowest = 120;
 
     public SeaShipPlatformHandler(ArrayList<Container> seaShipContainers) {
         boolean isFull;
-        for(int i = 0;i<3;i++)
+        for(int i = 0;i<12;i++)
             cranes.add(new ShipCrane(Vector3f.ZERO, i,true));
         ArrayList<Container> buffList = new ArrayList<>();
         while (seaShipContainers.size() > 0) {
@@ -53,20 +60,35 @@ public class SeaShipPlatformHandler {
         Collections.sort(shipsEnRoute, (a, b) -> (a.getArrivalDay() < b.getArrivalDay()) ? 1 : (a.getArrivalDay() > b.getArrivalDay()) ? -1 : 0);
     }
     
+    public void update(){
+    	float currentTime = ContainingServer.timeSinceStart;
+    	for(int i = 0; i<cranes.size();i++){
+    		if(((currentTime - cranes.get(i).getTimeStartedUnloading())>durationFastest && ContainingServer.getDayLength() < 10f ) ||
+    				((currentTime - cranes.get(i).getTimeStartedUnloading())>durationMedium && (ContainingServer.getDayLength() >= 10f && ContainingServer.getDayLength() < 30f) ) ||
+    				((currentTime - cranes.get(i).getTimeStartedUnloading())>durationSlowest && ContainingServer.getDayLength() >= 30f )){
+    			cranes.get(i).setUnloading(false);
+    			Container container = cranes.get(i).getContainer(); //TODO connect this container to the AGV
+    			cranes.get(i).setTimeStartedUnloading(0f);
+    		}
+    	}
+    }
+    
     public void Unload(){
-        for(ShipCrane crane: cranes){
-            if(!crane.isUnloading()){
+    	if(shipsInHarbor.get(0).getContainerAmount() ==0){
+    		System.out.println("ship empty");
+    	}
+        for(int i = 0; i<cranes.size();i++){
+            if(!cranes.get(i).isUnloading()){
                 Vector3f shipSize = shipsInHarbor.get(0).getShipSize();
-                for(int i = 0;i < shipSize.x;i++){
-                    for(int j = 0; j< shipSize.z;j++){
-                        if(shipsInHarbor.get(0).containsContainers(j,i)){
-                            Container container = shipsInHarbor.get(0).pop(j,i);
-                            crane.startUnloading(container);
-                            break;
+                isUnloading:
+                for(int x = 0;x < shipSize.x;x++){
+                    for(int y = 0; y< shipSize.z;y++){
+                        if(shipsInHarbor.get(0).containsContainers(y,x)){
+                            Container container = shipsInHarbor.get(0).pop(y,x);
+                            cranes.get(i).startUnloading(container);
+                            break isUnloading;
                         }
                     }
-                    if(crane.isUnloading())
-                        break;
                 }
             }
         }

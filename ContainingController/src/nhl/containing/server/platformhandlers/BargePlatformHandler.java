@@ -6,10 +6,13 @@
 package nhl.containing.server.platformhandlers;
 
 import com.jme3.math.Vector3f;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
+
+import nhl.containing.server.ContainingServer;
 import nhl.containing.server.Ship;
 import nhl.containing.server.ShipCrane;
 import nhl.containing.server.network.BargeSpawnData;
@@ -27,10 +30,14 @@ public class BargePlatformHandler {
     ArrayList<Ship> shipsInHarbor = new ArrayList<>();
     ArrayList<ShipCrane> cranes = new ArrayList<>();
     
+    private final float durationFastest = 4;
+    private final float durationMedium = 40;
+    private final float durationSlowest = 120;
+    
     public BargePlatformHandler(ArrayList<Container> BargeContainers) {
         boolean isFull;
         ArrayList<Container> buffList = new ArrayList<>();
-        for(int i = 0;i<1;i++)
+        for(int i = 0;i<4;i++)
             cranes.add(new ShipCrane(Vector3f.ZERO, i, false));
         while (BargeContainers.size() > 0) {
             buffList.add(BargeContainers.get(0));
@@ -49,6 +56,19 @@ public class BargePlatformHandler {
 
         }
         Collections.sort(shipsEnRoute, (a, b) -> (a.getArrivalDay() < b.getArrivalDay()) ? 1 : (a.getArrivalDay() > b.getArrivalDay()) ? -1 : 0);
+    }
+    
+    public void update(){
+    	float currentTime = ContainingServer.timeSinceStart;
+    	for(int i = 0; i<cranes.size();i++){
+    		if(cranes.get(i).getTimeStartedUnloading()>0 &&(((currentTime - cranes.get(i).getTimeStartedUnloading())>durationFastest && ContainingServer.getDayLength() < 10f ) ||
+    				((currentTime - cranes.get(i).getTimeStartedUnloading())>durationMedium && (ContainingServer.getDayLength() >= 10f && ContainingServer.getDayLength() < 30f) ) ||
+    				((currentTime - cranes.get(i).getTimeStartedUnloading())>durationSlowest && ContainingServer.getDayLength() >= 30f ))){
+    			cranes.get(i).setUnloading(false);
+    			Container container = cranes.get(i).getContainer(); //TODO connect this container to the AGV
+    			cranes.get(i).setTimeStartedUnloading(0f);
+    		}
+    	}
     }
     
     /**
@@ -78,8 +98,8 @@ public class BargePlatformHandler {
                 Vector3f shipSize = shipsInHarbor.get(0).getShipSize();
                 for(int i = 0;i < shipSize.x;i++){
                     for(int j = 0; j< shipSize.z;j++){
-                        if(shipsInHarbor.get(0).containsContainers(i, j)){
-                            Container container = shipsInHarbor.get(0).pop(i, j);
+                        if(shipsInHarbor.get(0).containsContainers(j, i)){
+                            Container container = shipsInHarbor.get(0).pop(j, i);
                             crane.startUnloading(container);
                             break;
                         }

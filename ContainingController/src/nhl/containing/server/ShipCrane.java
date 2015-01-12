@@ -22,6 +22,7 @@ public class ShipCrane {
     Vector3f location;
     Container container;
     boolean Unloading;
+    float timeStartedUnloading = 0f;
 
     public ShipCrane(Vector3f location, int ID, boolean isSeaShipCrane) {
         this.location = new Vector3f(location);
@@ -29,6 +30,12 @@ public class ShipCrane {
         Unloading = false;
         this.isSeaShipCrane = isSeaShipCrane;
     }
+    
+    public Container getContainer() {
+    	Container c = container;
+    	container = null;
+		return c;
+	}
 
     public boolean isUnloading() {
         return Unloading;
@@ -37,9 +44,18 @@ public class ShipCrane {
     public void setUnloading(boolean Unloading) {
         this.Unloading = Unloading;
     }
+    
+    public float getTimeStartedUnloading() {
+		return timeStartedUnloading;
+	}
+    
+    public void setTimeStartedUnloading(float timeStartedUnloading) {
+		this.timeStartedUnloading = timeStartedUnloading;
+	}
 
     public void startUnloading(Container container) {
         Unloading = true;
+        timeStartedUnloading = ContainingServer.timeSinceStart;
         this.container = container;
         if (isSeaShipCrane) {
             SeaShipCraneData data = new SeaShipCraneData(container.getPositie(), ID, this.container.getContainerNumber());
