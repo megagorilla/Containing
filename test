@@ -1,0 +1,6 @@
+echo -e "%YAML 1.1\n---" > test.yml
+for i in {1..7}
+do
+  echo "xml$i:" >> test.yml
+  ./xml.rb $i >> test.yml
+done

@@ -18,7 +18,7 @@ import com.jme3.scene.shape.Box;
  * 
  * @author Sander
  */
-public class TrainPlatform extends Platform{
+public class TrainPlatform extends Platform {
 
 	ArrayList<TrainRails> TrainRailsLst = new ArrayList<TrainRails>();
 	ArrayList<CraneRails> CraneRailsLst = new ArrayList<CraneRails>();
@@ -38,7 +38,7 @@ public class TrainPlatform extends Platform{
 		Ground();
 		ParkingSpace();
 		CraneRails();
-                Sideway();
+        Sideway();
 		ContainingClient.getMyRootNode().attachChild(this);                
 	}
 

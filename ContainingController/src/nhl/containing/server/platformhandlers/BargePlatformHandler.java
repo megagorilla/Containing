@@ -11,10 +11,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
-
-import nhl.containing.server.ContainingServer;
-import nhl.containing.server.Ship;
-import nhl.containing.server.ShipCrane;
+import nhl.containing.server.entities.Ship;
+import nhl.containing.server.entities.ShipCrane;
 import nhl.containing.server.network.BargeSpawnData;
 import nhl.containing.server.network.ConnectionManager;
 import nhl.containing.server.network.ContainerData;

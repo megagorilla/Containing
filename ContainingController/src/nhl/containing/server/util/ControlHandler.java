@@ -129,7 +129,7 @@ public class ControlHandler
 		this.sendAGV(agv.agvId, list, "a2");
 	}
 
-	public void requestAGVToTrain(int id) {
+	public void requestAGVToTrain(int cart) {
 		// TODO Auto-generated method stub
 		AGV agv = AGVHandler.getInstance().getFreeAGV();
 		List<Vector3f> list = new ArrayList<Vector3f>();

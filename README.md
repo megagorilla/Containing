@@ -63,3 +63,16 @@ Containers:
 * Lengte = 44ft (rest nog even opzoeken) (13,555 mm* 2,348 mm * 2,695 mm)
 * RFID tags vol met gegevens, koppeling aan de container
 * Containers mits mogelijk op tijd sorteren in opslag
+
+#container count (XML7)
+##aankomst
+* zeeschip: 18904 containers
+* trein: 1570 containers
+* binnenschip: 5361 containers
+* vrachtauto: 25835 containers
+
+##vertrek
+* vrachtauto: 15339 containers
+* binnenschip: 18484 containers
+* trein: 6326 containers
+* zeeschip: 11521 containers

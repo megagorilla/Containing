@@ -51,4 +51,9 @@ public final class API
 		});
 		vertx.createHttpServer().requestHandler(rm).listen(port); // listen on the specified port (change if needed)
 	}
+	
+	public static void stop() 
+	{
+		vertx.stop();
+	}
 }

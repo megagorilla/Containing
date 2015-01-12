@@ -18,6 +18,7 @@ import nhl.containing.client.entities.vehicles.AGV;
 import nhl.containing.client.entities.vehicles.Barge;
 import nhl.containing.client.entities.vehicles.SeaShip;
 import nhl.containing.client.entities.vehicles.SpaceShip;
+import nhl.containing.client.entities.vehicles.Train;
 import nhl.containing.client.entities.vehicles.Truck;
 import nhl.containing.client.network.ConnectionManager;
 import nhl.containing.client.scenery.SeaNode;
@@ -56,7 +57,7 @@ public class ContainingClient extends SimpleApplication {
     
     public static ArrayList<AGV> agvs = new ArrayList<AGV>();
     public static ArrayList<StorageCrane> StorageCranes = new ArrayList<StorageCrane>();
-    ArrayList<TrainCrane> TrainCranes = new ArrayList<TrainCrane>();
+    public static ArrayList<TrainCrane> TrainCranes = new ArrayList<TrainCrane>();
     public static ArrayList<TruckCrane> TruckCranes = new ArrayList<TruckCrane>();
     ArrayList<Platform> Platforms = new ArrayList<Platform>();
     ArrayList<AGV> AGVs = new ArrayList<AGV>();
@@ -89,6 +90,7 @@ public class ContainingClient extends SimpleApplication {
         public AGV agv123;
         
     public static int containerPositie;
+	public static Train train;
 
     public static void main(String[] args) {
         ContainingClient app = new ContainingClient();

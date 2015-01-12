@@ -78,7 +78,7 @@ public class ContainingServer extends SimpleApplication {
 	 */
 	private void initContainers() {
 		XMLFileReader xmlReader = new XMLFileReader();
-		containers = xmlReader.getContainers("../XMLFILES/xmlsander.xml");
+        containers = xmlReader.getContainers("C:/school/ProjectContaining/Containing/XMLFILES/xml1Edited.xml");
 
 		ArrayList<String> bedrijven = new ArrayList<>();
 		for (Container c : containers) {
@@ -226,6 +226,7 @@ public class ContainingServer extends SimpleApplication {
 	@Override
 	public void destroy() {
 		ConnectionManager.stop();
+		API.stop();
 		super.destroy();
 	}
 

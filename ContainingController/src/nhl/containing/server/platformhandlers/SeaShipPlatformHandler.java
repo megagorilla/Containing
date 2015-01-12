@@ -15,8 +15,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import nhl.containing.server.ContainingServer;
-import nhl.containing.server.Ship;
-import nhl.containing.server.ShipCrane;
 import nhl.containing.server.network.ConnectionManager;
 import nhl.containing.server.network.ContainerData;
 import nhl.containing.server.network.SeaShipSpawnData;
