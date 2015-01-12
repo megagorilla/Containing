@@ -75,7 +75,11 @@ public class ContainingClient extends SimpleApplication {
     int trainCraneAmount = 4;
     Node rails;
     Container Container1;
-    Container Container2;       
+    Container Container2;        public static Container test2;
+    Container AGVtester;
+    
+    AGV trainAGV;
+    
     public static Container test2;
     Container test3;
         public boolean hai = false;
@@ -158,13 +162,28 @@ public class ContainingClient extends SimpleApplication {
         
         for(int i = 0; i < trainCraneAmount; i++){
             TrainCranes.add(new TrainCrane());
-            TrainCranes.get(i).setLocalTranslation(-327.5f, 0f, 100 + 100*i);
+            //TrainCranes.get(i).setLocalTranslation(-327.5f, 0f, 100 + 100*i);
+            TrainCranes.get(i).setLocalTranslation(-327.5f, 0f, 497.2f - 18.4f * i);
         }
         //Container1.setLocalTranslation(245,1.2f,-751.7f);
         
         Container2 = new Container(quality, 0);
+        //110.8
+        
         Container2.RotateContainer(0, FastMath.HALF_PI, 0);
         Container2.setLocalTranslation(-245,1.2f,-711.7f);
+
+        Container3 = new Container(quality);
+        Container3.RotateContainer(0, FastMath.HALF_PI, 0);
+        Container3.setLocalTranslation(0, 1.2f, -671.7f);
+
+        trainAGV = new AGV(quality);
+        trainAGV.setLocalTranslation(-327.5f, 0, 423.6f); 
+        
+        AGVtester = new Container(quality);
+        AGVtester.setLocalTranslation(-334, 1.2f, 423.6f);
+        
+        //18.4 verschil per wagon
     }
 
     boolean hasSent;
@@ -176,7 +195,8 @@ public class ContainingClient extends SimpleApplication {
         {   
 //            this.StorageCranes.get(0).StoreRight(Container1, rootNode, new Vector3f(14, 0, 5), 5, StorageCranes.get(0));
 //            this.StorageCranes.get(1).StoreLeft(Container2, rootNode, new Vector3f(14,0,5), 5, StorageCranes.get(1));
-//            hasSent = true;
+            //this.StorageCranes.get(2).LoadAGV(Container3, rootNode, new Vector3f(14, 0, 5), 5, StorageCranes.get(2));
+            this.TrainCranes.get(0).loadContainer(AGVtester, trainAGV, 4);
         }
     }
 
