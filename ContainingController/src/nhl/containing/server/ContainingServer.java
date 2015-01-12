@@ -13,6 +13,7 @@ import nhl.containing.server.pathfinding.RouteController;
 import nhl.containing.server.platformhandlers.BargePlatformHandler;
 import nhl.containing.server.platformhandlers.SeaShipPlatformHandler;
 import nhl.containing.server.platformhandlers.StoragePlatformHandler;
+import nhl.containing.server.platformhandlers.TrainPlatformHandler;
 import nhl.containing.server.platformhandlers.TruckPlatformHandler;
 import nhl.containing.server.util.ControlHandler;
 import nhl.containing.server.util.XMLFileReader;
@@ -37,7 +38,7 @@ public class ContainingServer extends SimpleApplication {
 	ArrayList<Container> containers;
 	BargePlatformHandler bargePlatformHandler;
 	SeaShipPlatformHandler seaShipPlatformHandler;
-	Stack<Stack<Container>> listoftrainContainers = new Stack<>();
+	Stack<ArrayList<Container>> listoftrainContainers = new Stack<>();
 	Stack<Container> listoftruckContainers = new Stack<>();
     
 	/**
@@ -74,7 +75,7 @@ public class ContainingServer extends SimpleApplication {
 	 */
 	private void initContainers() {
 		XMLFileReader xmlReader = new XMLFileReader();
-        containers = xmlReader.getContainers("C:/school/ProjectContaining/Containing/XMLFILES/xml1.xml");
+        containers = xmlReader.getContainers("../XMLFILES/xmlrogier.xml");
 
 		ArrayList<String> bedrijven = new ArrayList<>();
 		for (Container c : containers) {
@@ -107,8 +108,8 @@ public class ContainingServer extends SimpleApplication {
 		seaShipPlatformHandler = new SeaShipPlatformHandler(seaShipContainers);
 
 		while (trainContainers.size() > 0) {
-			listoftrainContainers.add(new Stack<>());
-			listoftrainContainers.get(listoftrainContainers.size() - 1).push(
+			listoftrainContainers.add(new ArrayList<>());
+			listoftrainContainers.get(listoftrainContainers.size() - 1).add(
 					trainContainers.get(0));
 			trainContainers.remove(0);
 			isFull = false;
@@ -117,7 +118,7 @@ public class ContainingServer extends SimpleApplication {
 					isFull = true;
 				} else {
 					listoftrainContainers.get(listoftrainContainers.size() - 1)
-							.push(trainContainers.get(0));
+							.add(trainContainers.get(0));
 					trainContainers.remove(0);
 				}
 			}
@@ -205,8 +206,15 @@ public class ContainingServer extends SimpleApplication {
 	//	                	}
 	//	                }
 		            }
+				if(!listoftrainContainers.isEmpty()) {
+					if(listoftrainContainers.peek().get(0).getArrival().getDay() == currentDay)
+					{
+						TrainPlatformHandler.spawnTrain(listoftrainContainers.pop());
+					}
+				}
 				TruckPlatformHandler.getInstance().update(tpf);
-		            StoragePlatformHandler.getInstance().update(tpf);
+	            StoragePlatformHandler.getInstance().update(tpf);
+	            TrainPlatformHandler.update();
 				}
 	        }
 		}
