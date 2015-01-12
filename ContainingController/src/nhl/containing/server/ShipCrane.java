@@ -56,7 +56,6 @@ public class ShipCrane {
     public void startUnloading(Container container) {
         Unloading = true;
         timeStartedUnloading = ContainingServer.timeSinceStart;
-        System.out.println(timeStartedUnloading + " == " + System.currentTimeMillis() + "==" + getTimeStartedUnloading() + " = " + (timeStartedUnloading == System.currentTimeMillis() && timeStartedUnloading == getTimeStartedUnloading()));
         this.container = container;
         if (isSeaShipCrane) {
             SeaShipCraneData data = new SeaShipCraneData(container.getPositie(), ID, this.container.getContainerNumber());

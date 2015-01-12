@@ -98,8 +98,8 @@ public class BargePlatformHandler {
                 Vector3f shipSize = shipsInHarbor.get(0).getShipSize();
                 for(int i = 0;i < shipSize.x;i++){
                     for(int j = 0; j< shipSize.z;j++){
-                        if(shipsInHarbor.get(0).containsContainers(i, j)){
-                            Container container = shipsInHarbor.get(0).pop(i, j);
+                        if(shipsInHarbor.get(0).containsContainers(j, i)){
+                            Container container = shipsInHarbor.get(0).pop(j, i);
                             crane.startUnloading(container);
                             break;
                         }

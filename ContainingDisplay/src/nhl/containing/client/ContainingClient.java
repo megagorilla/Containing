@@ -20,6 +20,7 @@ import nhl.containing.client.entities.vehicles.SeaShip;
 import nhl.containing.client.entities.vehicles.SpaceShip;
 import nhl.containing.client.entities.vehicles.Truck;
 import nhl.containing.client.network.ConnectionManager;
+import nhl.containing.client.scenery.SeaNode;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.asset.AssetManager;
