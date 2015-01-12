@@ -11,8 +11,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
-import nhl.containing.server.entities.Ship;
-import nhl.containing.server.entities.ShipCrane;
+
+import nhl.containing.server.ContainingServer;
+import nhl.containing.server.Ship;
+import nhl.containing.server.ShipCrane;
 import nhl.containing.server.network.BargeSpawnData;
 import nhl.containing.server.network.ConnectionManager;
 import nhl.containing.server.network.ContainerData;
@@ -62,7 +64,7 @@ public class BargePlatformHandler {
     		if(cranes.get(i).getTimeStartedUnloading()>0 &&(((currentTime - cranes.get(i).getTimeStartedUnloading())>durationFastest && ContainingServer.getDayLength() < 10f ) ||
     				((currentTime - cranes.get(i).getTimeStartedUnloading())>durationMedium && (ContainingServer.getDayLength() >= 10f && ContainingServer.getDayLength() < 30f) ) ||
     				((currentTime - cranes.get(i).getTimeStartedUnloading())>durationSlowest && ContainingServer.getDayLength() >= 30f ))){
-    			cranes.get(i).setUnloading(false);
+    			cranes.get(i).SetUnloading(false);
     			Container container = cranes.get(i).getContainer(); //TODO connect this container to the AGV
     			cranes.get(i).setTimeStartedUnloading(0f);
     		}
@@ -92,7 +94,7 @@ public class BargePlatformHandler {
     
     public void Unload(){
         for(ShipCrane crane: cranes){
-            if(!crane.GetUnloading()){
+            if(!crane.isUnloading()){
                 Vector3f shipSize = shipsInHarbor.get(0).getShipSize();
                 for(int i = 0;i < shipSize.x;i++){
                     for(int j = 0; j< shipSize.z;j++){
@@ -102,7 +104,7 @@ public class BargePlatformHandler {
                             break;
                         }
                     }
-                    if(crane.GetUnloading())
+                    if(crane.isUnloading())
                         break;
                 }
             }

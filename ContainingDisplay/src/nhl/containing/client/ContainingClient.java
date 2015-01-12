@@ -21,8 +21,6 @@ import nhl.containing.client.entities.vehicles.SpaceShip;
 import nhl.containing.client.entities.vehicles.Train;
 import nhl.containing.client.entities.vehicles.Truck;
 import nhl.containing.client.network.ConnectionManager;
-import nhl.containing.client.scenery.SeaNode;
-
 import com.jme3.app.SimpleApplication;
 import com.jme3.asset.AssetManager;
 import com.jme3.cinematic.events.MotionEvent;
@@ -77,12 +75,12 @@ public class ContainingClient extends SimpleApplication {
     int trainCraneAmount = 4;
     Node rails;
     Container Container1;
-    Container Container2;        public static Container test2;
+    Container Container2;        
+    public static Container test2;
     Container AGVtester;
     
     AGV trainAGV;
     
-    public static Container test2;
     Container test3;
         public boolean hai = false;
         
@@ -176,16 +174,9 @@ public class ContainingClient extends SimpleApplication {
         Container2.RotateContainer(0, FastMath.HALF_PI, 0);
         Container2.setLocalTranslation(-245,1.2f,-711.7f);
 
-        Container3 = new Container(quality);
-        Container3.RotateContainer(0, FastMath.HALF_PI, 0);
-        Container3.setLocalTranslation(0, 1.2f, -671.7f);
-
         trainAGV = new AGV(quality);
         trainAGV.setLocalTranslation(-327.5f, 0, 423.6f); 
-        
-        AGVtester = new Container(quality);
-        AGVtester.setLocalTranslation(-334, 1.2f, 423.6f);
-        
+                
         //18.4 verschil per wagon
     }
 
@@ -196,10 +187,6 @@ public class ContainingClient extends SimpleApplication {
     {
         if(!hasSent)
         {   
-//            this.StorageCranes.get(0).StoreRight(Container1, rootNode, new Vector3f(14, 0, 5), 5, StorageCranes.get(0));
-//            this.StorageCranes.get(1).StoreLeft(Container2, rootNode, new Vector3f(14,0,5), 5, StorageCranes.get(1));
-            //this.StorageCranes.get(2).LoadAGV(Container3, rootNode, new Vector3f(14, 0, 5), 5, StorageCranes.get(2));
-            this.TrainCranes.get(0).loadContainer(AGVtester, trainAGV, 4);
         }
     }
 
@@ -240,36 +227,7 @@ public class ContainingClient extends SimpleApplication {
     @Override
     public void simpleRender(RenderManager rm) {
         // TODO: add render code
-    }
-    // * gaat de container met hem mee, waardoor het lijkt of hij de container
-    // * daadwerkelijk pakt.
-        
-    // * hand daarvan wordt hun beweging bepaald.
-   
-
-    public void MoveStorageCrane() {
-        if (containerUp == false) {
-            Container1.setLocalTranslation(290, 0, -768);
-        }        
-        if (StorageCranes.get(0).getLocalTranslation().x == 0) {
-            //StorageCranes.get(0).CraneMovement();
-        }
-        if (StorageCranes.get(0).getGrabber().getLocalTranslation().y < -22.9f && !containerUp) {
-            containerUp = true;  
-            StorageCranes.get(0).getGrabber().attachChild(Container1);
-            Container1.RotateContainer(0, FastMath.HALF_PI, 0);
-            Container1.setLocalTranslation(0, 23, 0);   
-        }        
-        //System.out.println(Container1.getLocalTranslation().x + " Container");
-        if(StorageCranes.get(0).getGrabber().getLocalTranslation().y < -22.9f && StorageCranes.get(0).getLocalTranslation().x < 215.1 && containerUp && !onStore)
-        {
-            onStore = true;            
-            rootNode.attachChild(Container1);
-            Container1.setLocalTranslation(215, 0, -768);
-            Container1.RotateContainer(0, FastMath.HALF_PI, 0);
-        }
-       
-    }
+    }   
     
     public static float getSpeed()
     {

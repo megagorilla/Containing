@@ -12,7 +12,11 @@ import java.util.List;
 import java.util.Stack;
 
 
+
+
 import nhl.containing.server.ContainingServer;
+import nhl.containing.server.Ship;
+import nhl.containing.server.ShipCrane;
 import nhl.containing.server.network.ConnectionManager;
 import nhl.containing.server.network.ContainerData;
 import nhl.containing.server.network.SeaShipSpawnData;
@@ -87,7 +91,7 @@ public class SeaShipPlatformHandler {
     		if(((currentTime - cranes.get(i).getTimeStartedUnloading())>durationFastest && ContainingServer.getDayLength() < 10f ) ||
     				((currentTime - cranes.get(i).getTimeStartedUnloading())>durationMedium && (ContainingServer.getDayLength() >= 10f && ContainingServer.getDayLength() < 30f) ) ||
     				((currentTime - cranes.get(i).getTimeStartedUnloading())>durationSlowest && ContainingServer.getDayLength() >= 30f )){
-    			cranes.get(i).setUnloading(false);
+    			cranes.get(i).SetUnloading(false);
     			Container container = cranes.get(i).getContainer(); //TODO connect this container to the AGV
     			cranes.get(i).setTimeStartedUnloading(0f);
     		}
@@ -101,13 +105,12 @@ public class SeaShipPlatformHandler {
         for(int i = 0; i<cranes.size();i++){
             if(!cranes.get(i).isUnloading()){
                 Vector3f shipSize = shipsInHarbor.get(0).getShipSize();
-                for(int i = 0;i < shipSize.x;i++){
+                for(int i1 = 0; i1 < shipSize.x;i1++){
                     for(int j = 0; j< shipSize.z;j++){
-                        if(shipsInHarbor.get(0).containsContainers(j,i)){
-                            Container container = shipsInHarbor.get(0).pop(j,i);
-                            Container container = shipsInHarbor.get(0).pop(y,x);
+                        if(shipsInHarbor.get(0).containsContainers(j,i1)){
+                            Container container = shipsInHarbor.get(0).pop(j,i1);
                             cranes.get(i).startUnloading(container);
-                            break isUnloading;
+                            break;
                         }
                     }
                 }
@@ -150,7 +153,7 @@ public class SeaShipPlatformHandler {
     
     public void SendAGVToSeaShipCrane(AGV agv){
     	for(ShipCrane c : cranes){
-    		if(c.GetUnloading() == false){
+    		if(c.isUnloading() == false){
     			Vector3f tempCraneLoc = c.getLocation();
     			c.SetUnloading(true);
     			List<Vector3f> list = new ArrayList<Vector3f>();

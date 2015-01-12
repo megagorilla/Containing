@@ -6,15 +6,13 @@ import java.util.concurrent.Callable;
 import nhl.containing.client.ContainingClient;
 import nhl.containing.client.ContainingClient.Quality;
 import nhl.containing.client.entities.Container;
-import nhl.containing.client.entities.cranes.TrainCrane;
-import nhl.containing.client.entities.cranes.TruckCrane;
-import nhl.containing.client.entities.vehicles.AGV;
-import nhl.containing.client.entities.vehicles.Train;
 import nhl.containing.client.entities.cranes.StorageCrane;
+import nhl.containing.client.entities.cranes.TrainCrane;
 import nhl.containing.client.entities.cranes.TruckCrane;
 import nhl.containing.client.entities.vehicles.AGV;
 import nhl.containing.client.entities.vehicles.Barge;
 import nhl.containing.client.entities.vehicles.SeaShip;
+import nhl.containing.client.entities.vehicles.Train;
 import nhl.containing.client.entities.vehicles.Truck;
 
 import com.jme3.cinematic.MotionPath;
@@ -33,20 +31,19 @@ public class ClientListener implements MessageListener<Client> {
 		if (m instanceof UpdateMessage) {
 			this.handleUpdateMessage((UpdateMessage) m);
 		}
-		else if(m instanceof TruckCraneData)
+		if(m instanceof TruckCraneData) {
 			this.handleTruckCraneMessage((TruckCraneData) m);
 		}
 		if (m instanceof TruckSpawnData) {
 			this.handleTruckSpawnMessage((TruckSpawnData) m);
 		}
-		if (m instanceof StorageCranePickupData) {
-		{
+		if (m instanceof StorageCranePickupData){
 			this.handleTrainSpawnMessage((TrainSpawnData)m);
 		}
-		else if(m instanceof TrainCraneData)
-		{
+		if(m instanceof TrainCraneData)	{
 			this.handleTrainCraneMessage((TrainCraneData)m);
 		}
+		if(m instanceof StorageCranePickupData) {
 			this.handleStorageCraneMessage((StorageCranePickupData) m);
 		}
 		if (m instanceof SeaShipSpawnData) {
@@ -65,7 +62,7 @@ public class ClientListener implements MessageListener<Client> {
 			this.handleStorageCraneDropoffMessage((StorageCraneDropoffData) m);
 	}
 
-	private void handleStorageCraneDropoffMessage(StorageCraneDropoffData m) 
+	private void handleStorageCraneDropoffMessage(final StorageCraneDropoffData m) 
 	{
 		ContainingClient.instance.enqueue(new Callable<Object>() 
 		{
@@ -73,7 +70,7 @@ public class ClientListener implements MessageListener<Client> {
 			{
 				StorageCrane crane = ContainingClient.StorageCranes.get(m.craneID);
 				AGV agv = ContainingClient.agvs.get(m.agvId);
-				//crane.StoreRight(agv.getContainer(), ContainingClient.getMyRootNode(), new Vector3f(m.x, m.y, m.z), m.i % 6, crane);
+				crane.StoreRight(agv.getContainer(), ContainingClient.getMyRootNode(), m.containerLoc, m.i % 6, crane);
 				return null;
 			}
 		});
@@ -93,12 +90,9 @@ public class ClientListener implements MessageListener<Client> {
 	private void handleStorageCraneMessage(StorageCranePickupData m) {
 		ContainingClient.instance.enqueue(new Callable<Object>() {
 			public Object call() throws Exception {
-				StorageCrane crane = ContainingClient.StorageCranes
-						.get(m.craneID);
+				StorageCrane crane = ContainingClient.StorageCranes.get(m.craneID);
 				AGV agv = ContainingClient.agvs.get(m.agvId);
-				crane.StoreRight(agv.getContainer(), ContainingClient
-						.getMyRootNode(), new Vector3f(m.x, m.y, m.z), m.i % 6,
-						crane);
+				crane.StoreRight(agv.getContainer(), ContainingClient.getMyRootNode(), new Vector3f(m.x, m.y, m.z), m.i % 6, crane);
 				return null;
 			}
 		});
@@ -243,6 +237,12 @@ public class ClientListener implements MessageListener<Client> {
             }
 		 });
 	}
+	private void handleTruckCraneMessage(final TruckCraneData m)
+	{
+		 ContainingClient.instance.enqueue(new Callable<Object>() 
+		 {
+            public Object call() throws Exception
+            {
 
 				TruckCrane crane = ContainingClient.TruckCranes.get(m.craneID);
 				AGV agv = ContainingClient.agvs.get(m.agvID);
@@ -263,7 +263,7 @@ public class ClientListener implements MessageListener<Client> {
             {
 				TrainCrane crane = ContainingClient.TrainCranes.get(m.craneID);
 				AGV agv = ContainingClient.agvs.get(m.agvID);
-				crane.fromTrain(agv, ContainingClient.Trucks.get(m.containerID).getContainer());
+				crane.loadContainer(ContainingClient.Trucks.get(m.containerID).getContainer(), agv, m.craneID);
 				return null;
 			}
 		});

@@ -39,11 +39,6 @@ public class ContainingServer extends SimpleApplication {
 	SeaShipPlatformHandler seaShipPlatformHandler;
 	Stack<Stack<Container>> listoftrainContainers = new Stack<>();
 	Stack<Container> listoftruckContainers = new Stack<>();
-
-    public int getCurrentDay()
-    {
-    	return currentDay;
-    }
     
 	/**
 	 * Starts the app headless (no display)
@@ -79,7 +74,7 @@ public class ContainingServer extends SimpleApplication {
 	 */
 	private void initContainers() {
 		XMLFileReader xmlReader = new XMLFileReader();
-        containers = xmlReader.getContainers("../XMLFILES/xml4.xml");
+        containers = xmlReader.getContainers("C:/school/ProjectContaining/Containing/XMLFILES/xml1.xml");
 
 		ArrayList<String> bedrijven = new ArrayList<>();
 		for (Container c : containers) {
@@ -151,68 +146,70 @@ public class ContainingServer extends SimpleApplication {
 	Random rand = new Random();
 
 	@Override
-	public void simpleUpdate(float tpf) {
+	public void simpleUpdate(float tpf) 
+	{
 		timeSinceStart += tpf;
-		if (ConnectionManager.hasConnections()) {
+		if (ConnectionManager.hasConnections())
+		{
 			bargePlatformHandler.update();
 			seaShipPlatformHandler.update();
 			dayCounter += tpf;
-	            if(dayCounter > (dayLength / getSpeed()))
-			if (seaShipPlatformHandler.hasShips()
-					&& seaShipPlatformHandler.currentShipIsUnloading()) {
-				seaShipPlatformHandler.Unload();
-			}
-			if (bargePlatformHandler.hasShips()
-					&& bargePlatformHandler.currentShipIsUnloading()) {
-				bargePlatformHandler.Unload();
-			}
-			if (dayCounter > dayLength) {
-				currentDay++;
-				dayCounter = 0;
-				while (bargePlatformHandler.getShipsEnRouteSize() > 0
-						&& bargePlatformHandler.getDayOfNextShip() == currentDay) {
-					bargePlatformHandler.nextShipArrives();
+	        if(dayCounter > (dayLength / getSpeed()))
+	        {
+				if (seaShipPlatformHandler.hasShips() && seaShipPlatformHandler.currentShipIsUnloading())
+				{
+					seaShipPlatformHandler.Unload();
 				}
-				while (seaShipPlatformHandler.getShipsEnRouteSize() > 0
-						&& seaShipPlatformHandler.getDayOfNextShip() == currentDay) {
-					seaShipPlatformHandler.nextShipArrives();
+				if (bargePlatformHandler.hasShips()	&& bargePlatformHandler.currentShipIsUnloading()) {
+					bargePlatformHandler.Unload();
 				}
-				System.out.println("time since start: "
-						+ ((System.currentTimeMillis() - startTime) / 1000f)
-						+ " program day: " + currentDay);
-
-				if (!listoftruckContainers.isEmpty()) {
-					while (listoftruckContainers.peek().getArrival().getDay() == currentDay) {
-	                	if(listoftruckContainers.peek() != null)
-	                	{
-		                	while(listoftruckContainers.peek().getArrival().getDay() == currentDay)
-			                {
-			                	Container c = listoftruckContainers.pop();
-			                	TruckPlatformHandler.getInstance().spawnTruck(c);
-			                }
-	                	}
-	                }
-	                
-//	                for(int i = 0; i < StoragePlatformHandler.getInstance().maxStorageLocations; i++)
-//	                {
-//	                	Storage storage = StoragePlatformHandler.getInstance().getStorage(i);
-//	                	HashMap<Vector3f, Container> list = storage.getDepartureList();
-//	                	for(Vector3f vec : list.keySet())
-//	                	{
-//	                		Container container = list.get(vec);
-//	                		AGV agv = AGVHandler.getInstance().getFreeAGVAtStorageLocation(i);
-//	                		agv.setContainer(container);
-//	                		agv.isMoving = true;
-//	                		AGVHandler.getInstance().setAGV(agv.agvId, agv);
-//	                		int j = Integer.parseInt(AGVHandler.getInstance().getAGV(agv.agvId).currentLocation.split("_")[1]);
-//	                		StorageCraneDropoffData data = new StorageCraneDropoffData(new Vector3f(vec.x, vec.y, vec.z), i, (int)Math.floor(j / 6), agv.agvId);
-//	                	}
-//	                }
-	            }
-			TruckPlatformHandler.getInstance().update(tpf);
-	            StoragePlatformHandler.getInstance().update(tpf);
+					currentDay++;
+					dayCounter = 0;
+					while (bargePlatformHandler.getShipsEnRouteSize() > 0
+							&& bargePlatformHandler.getDayOfNextShip() == currentDay) {
+						bargePlatformHandler.nextShipArrives();
+					}
+					while (seaShipPlatformHandler.getShipsEnRouteSize() > 0
+							&& seaShipPlatformHandler.getDayOfNextShip() == currentDay) {
+						seaShipPlatformHandler.nextShipArrives();
+					}
+					System.out.println("time since start: "
+							+ ((System.currentTimeMillis() - startTime) / 1000f)
+							+ " program day: " + currentDay);
+	
+					if (!listoftruckContainers.isEmpty()) {
+						while (listoftruckContainers.peek().getArrival().getDay() == currentDay) {
+		                	if(listoftruckContainers.peek() != null)
+		                	{
+			                	while(listoftruckContainers.peek().getArrival().getDay() == currentDay)
+				                {
+				                	Container c = listoftruckContainers.pop();
+				                	TruckPlatformHandler.getInstance().spawnTruck(c);
+				                }
+		                	}
+		                }
+		                
+	//	                for(int i = 0; i < StoragePlatformHandler.getInstance().maxStorageLocations; i++)
+	//	                {
+	//	                	Storage storage = StoragePlatformHandler.getInstance().getStorage(i);
+	//	                	HashMap<Vector3f, Container> list = storage.getDepartureList();
+	//	                	for(Vector3f vec : list.keySet())
+	//	                	{
+	//	                		Container container = list.get(vec);
+	//	                		AGV agv = AGVHandler.getInstance().getFreeAGVAtStorageLocation(i);
+	//	                		agv.setContainer(container);
+	//	                		agv.isMoving = true;
+	//	                		AGVHandler.getInstance().setAGV(agv.agvId, agv);
+	//	                		int j = Integer.parseInt(AGVHandler.getInstance().getAGV(agv.agvId).currentLocation.split("_")[1]);
+	//	                		StorageCraneDropoffData data = new StorageCraneDropoffData(new Vector3f(vec.x, vec.y, vec.z), i, (int)Math.floor(j / 6), agv.agvId);
+	//	                	}
+	//	                }
+		            }
+				TruckPlatformHandler.getInstance().update(tpf);
+		            StoragePlatformHandler.getInstance().update(tpf);
+				}
+	        }
 		}
-	}
 
 	/**
 	 * @return {@link #staticRootNode}
@@ -238,8 +235,9 @@ public class ContainingServer extends SimpleApplication {
 		public static float getSpeed() 
 		{
 			return speed;
-    public int getCurrentDay() {
-		return currentDay;
-	}
+		}
+		
+	    public int getCurrentDay() {
+			return currentDay;
 		}
 }

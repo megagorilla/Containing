@@ -37,8 +37,6 @@ public class ShipCrane {
 		return c;
 	}
 
-    }
-
     public void SetUnloading(boolean unloading) {
         this.unloading = unloading;
     }
@@ -54,6 +52,11 @@ public class ShipCrane {
     public float getTimeStartedUnloading() {
 		return timeStartedUnloading;
 	}
+    
+    public boolean isUnloading()
+    {
+    	return this.unloading;
+    }
     
     public void setTimeStartedUnloading(float timeStartedUnloading) {
 		this.timeStartedUnloading = timeStartedUnloading;

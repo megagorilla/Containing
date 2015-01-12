@@ -47,7 +47,6 @@ public final class ConnectionManager
 			return false;
 		}
 		client.addMessageListener(new ClientListener());
-		client.addClientStateListener(new ConnectionListener());
 		client.start();
 		return true;
 	}
