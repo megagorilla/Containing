@@ -21,13 +21,13 @@ public class ShipCrane {
     boolean isSeaShipCrane;
     Vector3f location;
     Container container;
-    boolean Unloading;
+    boolean unloading;
     float timeStartedUnloading = 0f;
 
     public ShipCrane(Vector3f location, int ID, boolean isSeaShipCrane) {
         this.location = new Vector3f(location);
         this.ID = ID;
-        Unloading = false;
+        unloading = false;
         this.isSeaShipCrane = isSeaShipCrane;
     }
     
@@ -37,13 +37,19 @@ public class ShipCrane {
 		return c;
 	}
 
-    public boolean isUnloading() {
-        return Unloading;
     }
 
-    public void setUnloading(boolean Unloading) {
-        this.Unloading = Unloading;
+    public void SetUnloading(boolean unloading) {
+        this.unloading = unloading;
     }
+    
+    public Vector3f getLocation() {
+		return location;
+	}
+
+    public int getID() {
+		return ID;
+	}
     
     public float getTimeStartedUnloading() {
 		return timeStartedUnloading;
@@ -54,7 +60,7 @@ public class ShipCrane {
 	}
 
     public void startUnloading(Container container) {
-        Unloading = true;
+        unloading = true;
         timeStartedUnloading = ContainingServer.timeSinceStart;
         this.container = container;
         if (isSeaShipCrane) {

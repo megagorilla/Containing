@@ -7,6 +7,7 @@ import java.util.Stack;
 
 import nhl.containing.server.network.API;
 import nhl.containing.server.network.ConnectionManager;
+import nhl.containing.server.pathfinding.AGV;
 import nhl.containing.server.pathfinding.AGVHandler;
 import nhl.containing.server.pathfinding.RouteController;
 import nhl.containing.server.platformhandlers.BargePlatformHandler;
@@ -26,7 +27,7 @@ public class ContainingServer extends SimpleApplication {
 	float time = 0;
 	private static Node staticRootNode;
 
-	private int currentDay = 0;
+    private int currentDay = 1;
 	private float dayCounter = 0;
     private final static float dayLength = 120f; //the time 1 gameday should be in seconds
     private final static float speed = 10f;
@@ -78,7 +79,7 @@ public class ContainingServer extends SimpleApplication {
 	 */
 	private void initContainers() {
 		XMLFileReader xmlReader = new XMLFileReader();
-        containers = xmlReader.getContainers("C:/school/ProjectContaining/Containing/XMLFILES/xml1Edited.xml");
+        containers = xmlReader.getContainers("../XMLFILES/xml4.xml");
 
 		ArrayList<String> bedrijven = new ArrayList<>();
 		for (Container c : containers) {
@@ -237,5 +238,8 @@ public class ContainingServer extends SimpleApplication {
 		public static float getSpeed() 
 		{
 			return speed;
+    public int getCurrentDay() {
+		return currentDay;
+	}
 		}
 }
