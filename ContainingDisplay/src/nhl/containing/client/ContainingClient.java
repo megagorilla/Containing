@@ -116,7 +116,7 @@ public class ContainingClient extends SimpleApplication {
 			for(int j = 0; j < 6/*Truck amount*/; j++)
 			{
 				AGV agv = new AGV(quality);
-				agv.setLocalTranslation(new Vector3f(245, 0, (-768.2f + (3.633333f)*j) + 40 * i));
+                agv.setLocalTranslation(new Vector3f(267.5f - 22.5f, 0, (-768.2f + (20 / 6 + 0.3f)*j) + 40 * i));
 				agv.rotate(0, FastMath.HALF_PI, 0);
 				agvs.add(agv);
 			}

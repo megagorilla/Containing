@@ -37,12 +37,12 @@ public class ClientListener implements MessageListener<Client> {
 		if (m instanceof TruckSpawnData) {
 			this.handleTruckSpawnMessage((TruckSpawnData) m);
 		}
-		if (m instanceof StorageCranePickupData){
-			this.handleTrainSpawnMessage((TrainSpawnData)m);
-		}
-		if(m instanceof TrainCraneData)	{
-			this.handleTrainCraneMessage((TrainCraneData)m);
-		}
+//		if (m instanceof StorageCranePickupData){
+//			this.handleTrainSpawnMessage((StorageCranePickupData)m);
+//		}
+//		if(m instanceof TrainCraneData)	{
+//			this.handleTrainCraneMessage((TrainCraneData)m);
+//		}
 		if(m instanceof StorageCranePickupData) {
 			this.handleStorageCraneMessage((StorageCranePickupData) m);
 		}
@@ -208,35 +208,35 @@ public class ClientListener implements MessageListener<Client> {
 		});
 	}
 	
-	private void handleTrainSpawnMessage(final TrainSpawnData m)
-	{
-		 ContainingClient.instance.enqueue(new Callable<Object>() 
-		 {
-            public Object call() throws Exception
-            {
-            	/*if(m.shouldDespawn)
-            	{
-            		Truck truck = ContainingClient.Trucks.get(m.truckID);
-            		truck.removeFromParent();
-            		ContainingClient.Trucks.remove(m.truckID);
-            	}
-            	else
-            	{*/	            	
-	            	Train train = new Train(Quality.HIGH, m.containerIDs.length);
-	            	for (int i = 0; i < m.containerIDs.length; i++) {
-	            		Container container = new Container(Quality.HIGH,m.containerIDs[i]);
-						train.addContainer(container);
-						container.setLocalTranslation(0, 1.5f, 0);
-						train.setLocalTranslation(400, 0, -750 + 25 * m.trainIDs[0]);
-	            	}
-					
-			        train.rotate(0, FastMath.HALF_PI, 0);
-			        ContainingClient.train = train;
-            	//}
-            	return null;
-            }
-		 });
-	}
+//	private void handleTrainSpawnMessage(final TrainSpawnData m)
+//	{
+//		 ContainingClient.instance.enqueue(new Callable<Object>() 
+//		 {
+//            public Object call() throws Exception
+//            {
+//            	/*if(m.shouldDespawn)
+//            	{
+//            		Truck truck = ContainingClient.Trucks.get(m.truckID);
+//            		truck.removeFromParent();
+//            		ContainingClient.Trucks.remove(m.truckID);
+//            	}
+//            	else
+//            	{*/	            	
+//	            	Train train = new Train(Quality.HIGH, m.containerIDs.length);
+//	            	for (int i = 0; i < m.containerIDs.length; i++) {
+//	            		Container container = new Container(Quality.HIGH,m.containerIDs[i]);
+//						train.addContainer(container);
+//						container.setLocalTranslation(0, 1.5f, 0);
+//						train.setLocalTranslation(400, 0, -750 + 25 * m.trainIDs[0]);
+//	            	}
+//					
+//			        train.rotate(0, FastMath.HALF_PI, 0);
+//			        ContainingClient.train = train;
+//            	//}
+//            	return null;
+//            }
+//		 });
+//	}
 	private void handleTruckCraneMessage(final TruckCraneData m)
 	{
 		 ContainingClient.instance.enqueue(new Callable<Object>() 
@@ -255,19 +255,19 @@ public class ClientListener implements MessageListener<Client> {
 		 });
 	}
 	
-	private void handleTrainCraneMessage(final TrainCraneData m) 
-	{
-		 ContainingClient.instance.enqueue(new Callable<Object>() 
-		 {
-            public Object call() throws Exception
-            {
-				TrainCrane crane = ContainingClient.TrainCranes.get(m.craneID);
-				AGV agv = ContainingClient.agvs.get(m.agvID);
-				crane.loadContainer(ContainingClient.Trucks.get(m.containerID).getContainer(), agv, m.craneID);
-				return null;
-			}
-		});
-	}
+//	private void handleTrainCraneMessage(final TrainCraneData m) 
+//	{
+//		 ContainingClient.instance.enqueue(new Callable<Object>() 
+//		 {
+//            public Object call() throws Exception
+//            {
+//				TrainCrane crane = ContainingClient.TrainCranes.get(m.craneID);
+//				AGV agv = ContainingClient.agvs.get(m.agvID);
+//				crane.loadContainer(ContainingClient.Trucks.get(m.containerID).getContainer(), agv, m.craneID);
+//				return null;
+//			}
+//		});
+//	}
 
 	private void handleUpdateMessage(final UpdateMessage message) {
 		for (final AGVData data : message.data) {
