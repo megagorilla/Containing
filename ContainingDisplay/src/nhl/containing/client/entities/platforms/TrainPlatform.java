@@ -73,7 +73,7 @@ public class TrainPlatform extends Platform {
 	{
 		Box ParkingSpace = new Box(1.5f, 0.1f, 750);
 		Geometry parkingGeom = new Geometry("Box", ParkingSpace);
-		parkingGeom.setMaterial(new PlainMaterial(ColorRGBA.Gray));
+		parkingGeom.setMaterial(new PlainMaterial(ColorRGBA.White));
 		parkingGeom.setLocalTranslation(-327.5f, 0.01f, 0);
 		attachChild(parkingGeom);
 		ContainingClient.getMyRootNode().attachChild(this);
@@ -88,7 +88,7 @@ public class TrainPlatform extends Platform {
             {
             Box SideWay = new Box(3,0.1f,1.5f);
             Geometry sideWayGeom = new Geometry("Box", SideWay);
-            sideWayGeom.setMaterial(new PlainMaterial(ColorRGBA.Gray));
+            sideWayGeom.setMaterial(new PlainMaterial(ColorRGBA.White));
             sideWayGeom.setLocalTranslation(-323, 0.01f, 748.5f-1497*i);
             attachChild(sideWayGeom);
             }
