@@ -207,7 +207,7 @@ public class ContainingServer extends SimpleApplication {
 				}
 				TruckPlatformHandler.getInstance().update(tpf);
 	            StoragePlatformHandler.getInstance().update(tpf);
-	            seaShipPlatformHandler.update(tpf);
+	            SeaShipPlatformHandler.getInstance().update(tpf);
 	        }
 		}
 

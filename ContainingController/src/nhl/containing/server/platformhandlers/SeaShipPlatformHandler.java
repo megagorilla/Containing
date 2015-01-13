@@ -50,11 +50,6 @@ public class SeaShipPlatformHandler {
     public void update(float tpf)
 	{
     	checkNeedForAGVs();
-    	for(ShipCrane crane : cranes.values())
-    	{
-    		if(crane.agv != null)
-    			System.out.println(crane.agv.agvId);
-    	}
 	}
     
     public static SeaShipPlatformHandler getInstance()
