@@ -19,6 +19,7 @@ public class ShipCrane {
 
     final int ID;
     boolean isSeaShipCrane;
+    boolean requestedAGV;
     Vector3f location;
     Container container;
     boolean unloading;
@@ -27,7 +28,8 @@ public class ShipCrane {
     public ShipCrane(Vector3f location, int ID, boolean isSeaShipCrane) {
         this.location = new Vector3f(location);
         this.ID = ID;
-        unloading = false;
+        this.requestedAGV = false;
+        this.unloading = false;
         this.isSeaShipCrane = isSeaShipCrane;
     }
     
@@ -57,6 +59,14 @@ public class ShipCrane {
     {
     	return this.unloading;
     }
+    
+    public boolean getRequestedAGV(){
+    	return this.requestedAGV;
+    }
+    
+    public void setRequestedAGV(boolean requestedAGV) {
+		this.requestedAGV = requestedAGV;
+	}
     
     public void setTimeStartedUnloading(float timeStartedUnloading) {
 		this.timeStartedUnloading = timeStartedUnloading;

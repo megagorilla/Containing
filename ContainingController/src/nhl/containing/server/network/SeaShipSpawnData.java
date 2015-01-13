@@ -5,9 +5,10 @@
  */
 package nhl.containing.server.network;
 
+import java.util.List;
+
 import com.jme3.network.AbstractMessage;
 import com.jme3.network.serializing.Serializable;
-import java.util.List;
 
 /**
  *
