@@ -77,11 +77,9 @@ public class Ship {
      * @param z the z location of the container on the ship
      * @return returns the top container from given x and z location
      */
-    public Container pop(int x, int z) {
-        containerAmount--;
-        if(containerAmount == 0)
-            unloading = false;
-        return containers[z][x].pop();
+    public Container pop(int x)
+    {
+        return containers[x][0].pop();
     }
 
     public boolean isUnloading() {

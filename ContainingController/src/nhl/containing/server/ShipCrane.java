@@ -8,6 +8,7 @@ package nhl.containing.server;
 import nhl.containing.server.network.BargeCraneData;
 import nhl.containing.server.network.ConnectionManager;
 import nhl.containing.server.network.SeaShipCraneData;
+import nhl.containing.server.pathfinding.AGV;
 import nhl.containing.server.util.ServerSpatial;
 import nhl.containing.server.util.XMLFileReader.Container;
 
@@ -23,18 +24,18 @@ import com.jme3.math.Vector3f;
 public class ShipCrane {
 
     final int ID;
+    public AGV agv;
     boolean isSeaShipCrane;
-    boolean requestedAGV;
     Vector3f location;
+    public int currentRow;
     Container container;
     boolean unloading;
 
-    public ShipCrane(Vector3f location, int ID, boolean isSeaShipCrane) {
-        this.location = new Vector3f(location);
+    public ShipCrane(int ID, boolean isSeaShipCrane) {
         this.ID = ID;
-        this.requestedAGV = false;
         this.unloading = false;
         this.isSeaShipCrane = isSeaShipCrane;
+        this.currentRow = ID;
     }
     
     public Container getContainer() {
@@ -59,18 +60,9 @@ public class ShipCrane {
     {
     	return this.unloading;
     }
-    
-    public boolean getRequestedAGV(){
-    	return this.requestedAGV;
-    }
-    
-    public void setRequestedAGV(boolean requestedAGV) {
-		this.requestedAGV = requestedAGV;
-	}
 
-    public void startUnloading(final int agvId, final Container container) {
-        unloading = true;
-        this.container = container;
+    public void startUnloading(final int agvId)
+    {
         if (isSeaShipCrane)
         {
             SeaShipCraneData data = new SeaShipCraneData(agvId, container.getPositie(), ID, this.container.getContainerNumber());

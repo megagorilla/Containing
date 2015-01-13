@@ -17,10 +17,10 @@ import nhl.containing.client.entities.platforms.TruckPlatform;
 import nhl.containing.client.entities.vehicles.AGV;
 import nhl.containing.client.entities.vehicles.Barge;
 import nhl.containing.client.entities.vehicles.SeaShip;
-import nhl.containing.client.entities.vehicles.SpaceShip;
 import nhl.containing.client.entities.vehicles.Train;
 import nhl.containing.client.entities.vehicles.Truck;
 import nhl.containing.client.network.ConnectionManager;
+
 import com.jme3.app.SimpleApplication;
 import com.jme3.asset.AssetManager;
 import com.jme3.cinematic.events.MotionEvent;
@@ -67,8 +67,6 @@ public class ContainingClient extends SimpleApplication {
     public static ContainingClient instance;
     public boolean truckup = false;
     public boolean containerUp = false;
-    private boolean onTarget = false;
-    private boolean onStore = false;
     public boolean down;
     int truckAmount = 20;
     int craneAmount = 39;
@@ -133,7 +131,7 @@ public class ContainingClient extends SimpleApplication {
         sun.setDirection((new Vector3f(-0.5f, -0.5f, -0.5f)).normalizeLocal());
         sun.setColor(ColorRGBA.White);
         rootNode.addLight(sun);
-        SpaceShip s = new SpaceShip();
+//        SpaceShip s = new SpaceShip();
 //        SeaNode sea = new SeaNode();
 //        this.getRootNode().attachChild(sea);
         Platforms.add(new StoragePlatform());

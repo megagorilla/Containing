@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import nhl.containing.server.ContainingServer;
+import nhl.containing.server.ShipCrane;
 import nhl.containing.server.network.ConnectionManager;
 import nhl.containing.server.network.StorageCranePickupData;
 import nhl.containing.server.pathfinding.AGV;
