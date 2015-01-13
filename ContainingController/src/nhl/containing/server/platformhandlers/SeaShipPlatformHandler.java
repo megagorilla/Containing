@@ -98,25 +98,25 @@ public class SeaShipPlatformHandler {
     	}
     }
     
-    public void Unload(){
-    	if(shipsInHarbor.get(0).getContainerAmount() ==0){
-    		System.out.println("ship empty");
-    	}
-        for(int i = 0; i<cranes.size();i++){
-            if(!cranes.get(i).isUnloading()){
-                Vector3f shipSize = shipsInHarbor.get(0).getShipSize();
-                for(int i1 = 0; i1 < shipSize.x;i1++){
-                    for(int j = 0; j< shipSize.z;j++){
-                        if(shipsInHarbor.get(0).containsContainers(j,i1)){
-                            Container container = shipsInHarbor.get(0).pop(j,i1);
-                            cranes.get(i).startUnloading(container);
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-    }
+	public void Unload() {
+		if (shipsInHarbor.get(0).getContainerAmount() == 0) {
+			System.out.println("ship empty");
+		}
+		for (int i = 0; i < cranes.size(); i++) {
+			if (!cranes.get(i).isUnloading()) {
+				Vector3f shipSize = shipsInHarbor.get(0).getShipSize();
+				isUnloading: for (int x = 0; x < shipSize.x; x++) {
+					for (int y = 0; y < shipSize.z; y++) {
+						if (shipsInHarbor.get(0).containsContainers(y, x)) {
+							Container container = shipsInHarbor.get(0).pop(y, x);
+							cranes.get(i).startUnloading(container);
+							break isUnloading;
+						}
+					}
+				}
+			}
+		}
+	}
 
     /**
      *
