@@ -62,6 +62,7 @@ public class ContainingServer extends SimpleApplication {
 		new ControlHandler();
 		new AGVHandler();
 		new TruckPlatformHandler();
+		new TrainPlatformHandler();
 		new StoragePlatformHandler();
 		AGVHandler.getInstance().init();
 		ConnectionManager.initialize(3000);

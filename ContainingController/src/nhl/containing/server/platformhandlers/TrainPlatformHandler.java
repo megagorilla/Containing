@@ -4,14 +4,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Stack;
-import java.util.stream.Stream;
 
 import nhl.containing.server.ContainingServer;
 import nhl.containing.server.entities.Train;
 import nhl.containing.server.network.ConnectionManager;
 import nhl.containing.server.network.TrainCraneData;
 import nhl.containing.server.network.TrainSpawnData;
-import nhl.containing.server.network.TruckCraneData;
 import nhl.containing.server.pathfinding.AGV;
 import nhl.containing.server.pathfinding.AGVHandler;
 import nhl.containing.server.pathfinding.CMotionPathListener;
@@ -29,7 +27,7 @@ import com.jme3.math.Vector3f;
  * @author rogier
  */
 public class TrainPlatformHandler {
-	private static final float baseX = -334f,
+	private static final float baseX = -326.5f,
 						baseY = 0f,
 						baseZ = 725f,
 						containerOffset = 25f;
@@ -41,12 +39,12 @@ public class TrainPlatformHandler {
 	private static Stack<Container> containersOnPlatform1, containersOnPlatform2, containersOnPlatform3, containersOnPlatform4;
 
 	public TrainPlatformHandler() {
-		//spawnTrain(new ArrayList<Container>());
+		init();
 	}
 	
 	public static void init() {
 		for (int i = 0; i < 30; i++) {
-			locations.put(i, new TrainLocation(i, new Vector3f(baseX,baseY,baseZ+containerOffset*i)));
+			locations.put(i, new TrainLocation(i, new Vector3f(baseX,baseY,baseZ-containerOffset*i)));
 		}
 	}
 	
@@ -131,10 +129,14 @@ public class TrainPlatformHandler {
 	public static void splitContainers(List<Container> containers) {
 		int length = Math.floorDiv(containers.size(), 4);
 		int rest = Math.floorMod(containers.size(), 4);
-		containersOnPlatform1 = (Stack<Container>) containers.subList(0, length);
-		containersOnPlatform2 = (Stack<Container>) containers.subList(length, length*2);
-		containersOnPlatform3 = (Stack<Container>) containers.subList(length*2, length*3);
-		containersOnPlatform4 = (Stack<Container>) containers.subList(length*3, length*4+rest);
+		containersOnPlatform1 = new Stack<Container>();
+		containersOnPlatform1.addAll(containers.subList(0, length));
+		containersOnPlatform2 = new Stack<Container>();
+		containersOnPlatform2.addAll(containers.subList(length, length*2));
+		containersOnPlatform3 = new Stack<Container>();
+		containersOnPlatform3.addAll(containers.subList(length*2, length*3));
+		containersOnPlatform4 = new Stack<Container>();
+		containersOnPlatform4.addAll(containers.subList(length*3, length*4+rest));
 	}
 	
 	

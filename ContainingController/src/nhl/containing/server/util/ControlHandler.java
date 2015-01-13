@@ -137,7 +137,12 @@ public class ControlHandler
 		location.hasAGV = false;
 		StoragePlatformHandler.getInstance().setParkingLocation(location);
 		list.add(location.location);
-		list.add(new Vector3f(-334f,0f,725f)); // TODO: find proper "magic numbers"
+		System.out.println(location.location.x);
+		list.add(new Vector3f(315f,0f,location.location.z));
+		list.add(new Vector3f(315f,0f,-790f));
+		list.add(new Vector3f(-312.5f,0f,-790f));
+		list.add(new Vector3f(-312.5f,0f,-748f));
+		list.add(new Vector3f(-325f,0f,-748f));
 		this.sendAGV(agv.agvId, list, "d2");
 	}
 

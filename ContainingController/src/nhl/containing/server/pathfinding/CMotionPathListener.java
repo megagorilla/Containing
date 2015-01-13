@@ -1,6 +1,7 @@
 package nhl.containing.server.pathfinding;
 
 import nhl.containing.server.platformhandlers.StoragePlatformHandler;
+import nhl.containing.server.platformhandlers.TrainPlatformHandler;
 import nhl.containing.server.platformhandlers.TruckPlatformHandler;
 import nhl.containing.server.util.ControlHandler;
 import nhl.containing.server.util.ServerSpatial;
@@ -8,6 +9,7 @@ import nhl.containing.server.util.ServerSpatial;
 import com.jme3.cinematic.MotionPathListener;
 import com.jme3.cinematic.events.MotionEvent;
 import com.jme3.math.Vector3f;
+
 import nhl.containing.server.network.ConnectionManager;
 import nhl.containing.server.network.StorageCranePickupData;
 import nhl.containing.server.platformhandlers.Storage;
@@ -37,6 +39,7 @@ public class CMotionPathListener implements MotionPathListener
 			agv.currentLocation = spatial.destination;
 			AGVHandler.getInstance().setAGV(agv.agvId, agv);
 			motionControl.stop();
+			System.out.println(AGVHandler.getInstance().getAGV(spatial.agv.agvId).currentLocation);
 			switch(AGVHandler.getInstance().getAGV(spatial.agv.agvId).currentLocation)
 			{
 				case "a2":
@@ -48,6 +51,11 @@ public class CMotionPathListener implements MotionPathListener
 				case "a1":
 					StoragePlatformHandler.getInstance().handleAGV(AGVHandler.getInstance().getAGV(spatial.agv.agvId));
 					return;
+				case "d2":
+					TrainPlatformHandler.handleAGV(spatial.agv);
+					return;
+				default:
+					break;
 			}
 			
 			if(AGVHandler.getInstance().getAGV(spatial.agv.agvId).currentLocation.startsWith("truckLocation_"))

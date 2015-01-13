@@ -37,7 +37,7 @@ public class ClientListener implements MessageListener<Client> {
 		if (m instanceof TruckSpawnData) {
 			this.handleTruckSpawnMessage((TruckSpawnData) m);
 		}
-		if (m instanceof StorageCranePickupData){
+		if (m instanceof TrainSpawnData){
 			this.handleTrainSpawnMessage((TrainSpawnData)m);
 		}
 		if(m instanceof TrainCraneData)	{
@@ -214,25 +214,25 @@ public class ClientListener implements MessageListener<Client> {
 		 {
             public Object call() throws Exception
             {
-            	/*if(m.shouldDespawn)
+            	System.out.println("TrainSpawnMessage received");
+            	if(m.shouldDespawn)
             	{
-            		Truck truck = ContainingClient.Trucks.get(m.truckID);
-            		truck.removeFromParent();
-            		ContainingClient.Trucks.remove(m.truckID);
+            		ContainingClient.train.removeFromParent();
+            		ContainingClient.train = null;
             	}
             	else
-            	{*/	            	
+            	{            	
 	            	Train train = new Train(Quality.HIGH, m.containerIDs.length);
 	            	for (int i = 0; i < m.containerIDs.length; i++) {
 	            		Container container = new Container(Quality.HIGH,m.containerIDs[i]);
 						train.addContainer(container);
 						container.setLocalTranslation(0, 1.5f, 0);
-						train.setLocalTranslation(400, 0, -750 + 25 * m.trainIDs[0]);
+						train.setLocalTranslation(400, 0, -750 + 25 * m.trainID);
 	            	}
 					
 			        train.rotate(0, FastMath.HALF_PI, 0);
 			        ContainingClient.train = train;
-            	//}
+            	}
             	return null;
             }
 		 });
