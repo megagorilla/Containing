@@ -80,8 +80,7 @@ public class ClientListener implements MessageListener<Client> {
 	private void handleBargeCraneMessage(final BargeCraneData m) {
 		ContainingClient.instance.enqueue(new Callable<Object>() {
 			public Object call() throws Exception {
-				ContainingClient.bargeCranes.get(m.craneID).getContainerFrom(
-						m.location, m.containerID, m.dayLength);
+				ContainingClient.bargeCranes.get(m.craneID).getContainerFrom(ContainingClient.agvs.get(m.agvId), m.location, m.containerID, m.dayLength);
 				return null;
 			}
 		});
@@ -101,8 +100,7 @@ public class ClientListener implements MessageListener<Client> {
 	private void handleSeaShipCraneMessage(final SeaShipCraneData m) {
 		ContainingClient.instance.enqueue(new Callable<Object>() {
 			public Object call() throws Exception {
-				ContainingClient.seaShipCranes.get(m.craneID).getContainerFrom(
-						m.location, m.containerID, m.dayLength);
+				ContainingClient.seaShipCranes.get(m.craneID).getContainerFrom(ContainingClient.agvs.get(m.agvId), m.location, m.containerID, m.dayLength);
 				return null;
 			}
 		});

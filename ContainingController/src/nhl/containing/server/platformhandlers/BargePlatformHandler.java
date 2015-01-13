@@ -61,13 +61,13 @@ public class BargePlatformHandler {
     public void update(){
     	float currentTime = ContainingServer.timeSinceStart;
     	for(int i = 0; i<cranes.size();i++){
-    		if(cranes.get(i).getTimeStartedUnloading()>0 &&(((currentTime - cranes.get(i).getTimeStartedUnloading())>durationFastest && ContainingServer.getDayLength() < 10f ) ||
-    				((currentTime - cranes.get(i).getTimeStartedUnloading())>durationMedium && (ContainingServer.getDayLength() >= 10f && ContainingServer.getDayLength() < 30f) ) ||
-    				((currentTime - cranes.get(i).getTimeStartedUnloading())>durationSlowest && ContainingServer.getDayLength() >= 30f ))){
-    			cranes.get(i).SetUnloading(false);
-    			Container container = cranes.get(i).getContainer(); //TODO connect this container to the AGV
-    			cranes.get(i).setTimeStartedUnloading(0f);
-    		}
+//    		if(cranes.get(i).getTimeStartedUnloading()>0 &&(((currentTime - cranes.get(i).getTimeStartedUnloading())>durationFastest && ContainingServer.getDayLength() < 10f ) ||
+//    				((currentTime - cranes.get(i).getTimeStartedUnloading())>durationMedium && (ContainingServer.getDayLength() >= 10f && ContainingServer.getDayLength() < 30f) ) ||
+//    				((currentTime - cranes.get(i).getTimeStartedUnloading())>durationSlowest && ContainingServer.getDayLength() >= 30f ))){
+//    			cranes.get(i).SetUnloading(false);
+//    			Container container = cranes.get(i).getContainer(); //TODO connect this container to the AGV
+//    			cranes.get(i).setTimeStartedUnloading(0f);
+//    		}
     	}
     }
     
@@ -100,7 +100,7 @@ public class BargePlatformHandler {
                     for(int j = 0; j< shipSize.z;j++){
                         if(shipsInHarbor.get(0).containsContainers(j, i)){
                             Container container = shipsInHarbor.get(0).pop(j, i);
-                            crane.startUnloading(container);
+//                            crane.startUnloading(container);
                             break;
                         }
                     }

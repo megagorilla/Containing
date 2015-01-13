@@ -3,6 +3,7 @@ package nhl.containing.client.entities.cranes;
 import nhl.containing.client.ContainingClient;
 import nhl.containing.client.entities.Container;
 import nhl.containing.client.entities.Crane;
+import nhl.containing.client.entities.vehicles.AGV;
 
 import com.jme3.cinematic.MotionPath;
 import com.jme3.cinematic.MotionPathListener;
@@ -86,7 +87,7 @@ public class DockingCrane extends Crane {
         container.setLocalTranslation(0, 11, 0);
     }
 
-    public void getContainerFrom(final Vector3f location, final int ContainerID, final float dayLength) {
+    public void getContainerFrom(final AGV agv, final Vector3f location, final int ContainerID, final float dayLength) {
         if (isShipCrane) {
             Unloading = true;
             motionpath = new MotionPath();
@@ -105,14 +106,8 @@ public class DockingCrane extends Crane {
 
             motionevent = new MotionEvent(this, motionpath);
             motionevent.setDirectionType(MotionEvent.Direction.None);
-            if (dayLength < 10f) {
-                motionevent.setInitialDuration(1f);
-            } else if (dayLength >= 10f && dayLength < 30f) {
-                motionevent.setInitialDuration(10f);
-            } else if (dayLength >= 30f) {
-                motionevent.setInitialDuration(30f);
-            }
-            motionevent.setSpeed(1f);
+            motionevent.setInitialDuration(30f);
+            motionevent.setSpeed(ContainingClient.getSpeed());
             motionevent.play();
             motionpath.addListener(new MotionPathListener() {
                 @Override
@@ -143,14 +138,8 @@ public class DockingCrane extends Crane {
 
                         motionevent = new MotionEvent(ContainingClient.seaShipCranes.get(ID).getGrabber(), motionpath);
                         motionevent.setDirectionType(MotionEvent.Direction.None);
-                        if (dayLength < 10f) {
-                            motionevent.setInitialDuration(1f);
-                        } else if (dayLength >= 10f && dayLength < 30f) {
-                            motionevent.setInitialDuration(10f);
-                        } else if (dayLength >= 30f) {
-                            motionevent.setInitialDuration(30f);
-                        }
-                        motionevent.setSpeed(1f);
+                        motionevent.setInitialDuration(30f);
+                        motionevent.setSpeed(ContainingClient.getSpeed());
                         motionevent.play();
                         motionpath.addListener(new MotionPathListener() {
                             @Override
@@ -169,19 +158,14 @@ public class DockingCrane extends Crane {
                                     motionpath.setCurveTension(0f);
                                     motionevent = new MotionEvent(ContainingClient.seaShipCranes.get(ID).getGrabber(), motionpath);
                                     motionevent.setDirectionType(MotionEvent.Direction.None);
-                                    if (dayLength < 10f) {
-                                        motionevent.setInitialDuration(1f);
-                                    } else if (dayLength >= 10f && dayLength < 30f) {
-                                        motionevent.setInitialDuration(10f);
-                                    } else if (dayLength >= 30f) {
-                                        motionevent.setInitialDuration(30f);
-                                    }
-                                    motionevent.setSpeed(1f);
+                                    motionevent.setInitialDuration(30f);
+                                    motionevent.setSpeed(ContainingClient.getSpeed());
                                     motionevent.play();
                                     motionpath.addListener(new MotionPathListener() {
                                         @Override
                                         public void onWayPointReach(MotionEvent motionControl, int wayPointIndex) {
                                             if (motionControl.getPath().getNbWayPoints() == wayPointIndex + 1) {
+                                            	agv.setContainer(ContainingClient.seaShips.get(0).getContainerAt(ContainerID));
                                                 motionevent.pause();
                                                 motionpath = new MotionPath();
                                                 Vector3f grabberLoc = ContainingClient.seaShipCranes.get(ID).getGrabber().getLocalTranslation();
@@ -194,14 +178,8 @@ public class DockingCrane extends Crane {
                                                 motionpath.setCurveTension(0f);
                                                 motionevent = new MotionEvent(ContainingClient.seaShipCranes.get(ID).getGrabber(), motionpath);
                                                 motionevent.setDirectionType(MotionEvent.Direction.None);
-                                                if (dayLength < 10f) {
-                                                    motionevent.setInitialDuration(1f);
-                                                } else if (dayLength >= 10f && dayLength < 30f) {
-                                                    motionevent.setInitialDuration(10f);
-                                                } else if (dayLength >= 30f) {
-                                                    motionevent.setInitialDuration(30f);
-                                                }
-                                                motionevent.setSpeed(1f);
+                                                motionevent.setInitialDuration(30f);
+                                                motionevent.setSpeed(ContainingClient.getSpeed());
                                                 motionevent.play();
                                             }
                                         }

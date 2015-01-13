@@ -15,10 +15,17 @@ import com.jme3.network.serializing.Serializable;
  */
 @Serializable
 public class BargeCraneData extends AbstractMessage {
-    int craneID;
+    int agvId;
+	int craneID;
     int containerID;
     Vector3f location;
     float dayLength;
     public BargeCraneData(){}
     
+    public BargeCraneData(int agvId, Vector3f location, int craneID, int containerID){
+        this.agvId = agvId;
+    	this.location = location;
+        this.craneID = craneID;
+        this.containerID = containerID;
+    }
 }

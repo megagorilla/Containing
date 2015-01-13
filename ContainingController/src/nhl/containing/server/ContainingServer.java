@@ -27,7 +27,7 @@ public class ContainingServer extends SimpleApplication {
 	float time = 0;
 	private static Node staticRootNode;
 
-    private int currentDay = 20;
+    private int currentDay = 1;
 	private float dayCounter = 0;
     private final static float dayLength = 120f; //the time 1 gameday should be in seconds
     private final static float speed = 10f;
@@ -74,7 +74,7 @@ public class ContainingServer extends SimpleApplication {
 	 */
 	private void initContainers() {
 		XMLFileReader xmlReader = new XMLFileReader();
-        containers = xmlReader.getContainers("../XMLFILES/xml4.xml");
+        containers = xmlReader.getContainers("C:/school/ProjectContaining/Containing/XMLFILES/xml7.xml");
 
 		ArrayList<String> bedrijven = new ArrayList<>();
 		for (Container c : containers) {
@@ -156,10 +156,10 @@ public class ContainingServer extends SimpleApplication {
 			dayCounter += tpf;
 	        if(dayCounter > (dayLength / getSpeed()))
 	        {
-				if (seaShipPlatformHandler.hasShips() && seaShipPlatformHandler.currentShipIsUnloading())
-				{
-					seaShipPlatformHandler.Unload();
-				}
+//				if (seaShipPlatformHandler.hasShips() && seaShipPlatformHandler.currentShipIsUnloading())
+//				{
+//					seaShipPlatformHandler.Unload();
+//				}
 				if (bargePlatformHandler.hasShips()	&& bargePlatformHandler.currentShipIsUnloading()) {
 					bargePlatformHandler.Unload();
 				}
