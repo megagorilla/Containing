@@ -200,6 +200,7 @@ public class ControlHandler
 				if(path.getNbWayPoints() == wayPointIndex + 1)
 				{
 					agvShipQueue.add(agv);
+					System.out.println(agv.agvId + " added " + path.getNbWayPoints());
 				}
 			}
 		});
