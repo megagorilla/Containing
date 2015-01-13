@@ -23,6 +23,9 @@ public class RiverShipPlatform extends Platform
 		HookNorth();
 		HookSouth();
 		littleShipRails();
+		Road();
+		Entry();
+		Exit();
                 ContainingClient.getMyRootNode().attachChild(this);
 	}
 
@@ -47,7 +50,7 @@ public class RiverShipPlatform extends Platform
 		Geometry hookNorthGeom = new Geometry("Box", HookNorth);
 		hookNorthGeom.setMaterial(new PlainMaterial(ColorRGBA.DarkGray));
 		attachChild(hookNorthGeom);
-		hookNorthGeom.setLocalTranslation(335, -5.1f, 390);
+		hookNorthGeom.setLocalTranslation(335, -5.1f, 389.5f);
 	}
 
         /**
@@ -59,7 +62,34 @@ public class RiverShipPlatform extends Platform
 		Geometry hookSouthGeom = new Geometry("Box", HookSouth);
 		hookSouthGeom.setMaterial(new PlainMaterial(ColorRGBA.DarkGray));
 		attachChild(hookSouthGeom);
-		hookSouthGeom.setLocalTranslation(335, -5.1f, 785);
+		hookSouthGeom.setLocalTranslation(335, -5.1f, 784.5f);
+	}
+	
+	private void Road()
+	{
+		Box Road = new Box(3, 0.1f, 200);
+		Geometry RoadGeom = new Geometry("Box", Road);
+		RoadGeom.setMaterial(new PlainMaterial(ColorRGBA.White));
+		attachChild(RoadGeom);
+		RoadGeom.setLocalTranslation(360, 0.1f, 390+(395/2));
+	}
+	
+	private void Entry()
+	{
+		Box Entry = new Box(20, 0.1f, 3);
+		Geometry EntryGeom = new Geometry("Box", Entry);
+		EntryGeom.setMaterial(new PlainMaterial(ColorRGBA.White));
+		attachChild(EntryGeom);
+		EntryGeom.setLocalTranslation(340, 0.1f, 390);
+	}
+	
+	private void Exit()
+	{
+		Box Exit = new Box(20, 0.1f, 3);
+		Geometry ExitGeom = new Geometry("Box", Exit);
+		ExitGeom.setMaterial(new PlainMaterial(ColorRGBA.White));
+		attachChild(ExitGeom);
+		ExitGeom.setLocalTranslation(340, 0.1f, 784f);
 	}
 
         /**

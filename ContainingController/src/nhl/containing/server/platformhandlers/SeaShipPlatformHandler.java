@@ -51,9 +51,9 @@ public class SeaShipPlatformHandler {
     public void update(float tpf)
 	{
     	RequestAGVToSeaship();
-    	while(!c.agvShipQueue.isEmpty()){
-    		SendAGVToSeaShipCrane(c.agvShipQueue.get(0));
-    	}
+    	//while(!c.agvShipQueue.isEmpty()){
+    		//SendAGVToSeaShipCrane(c.agvShipQueue.get(0));
+    	//}
 	}
     
     public static SeaShipPlatformHandler getInstance()
@@ -159,7 +159,7 @@ public class SeaShipPlatformHandler {
     			List<Vector3f> list = new ArrayList<Vector3f>();
     			list.add(new Vector3f(316.5f, 0.0f, 882.5f));
     			list.add(new Vector3f(tempCraneLoc.x, 0.0f, 882.5f));
-    			ControlHandler.getInstance().sendAGV(agv.agvId, list, "shipCrane_" + c.getID());;
+    			ControlHandler.getInstance().sendAGV(agv.agvId, list, "shipCrane_" + c.getID());
     		}
     	}
     }
