@@ -99,6 +99,10 @@ public class CMotionPathListener implements MotionPathListener
 				crane.agv = AGVHandler.getInstance().getAGV(spatial.agv.agvId);
 				SeaShipPlatformHandler.getInstance().setCrane(crane);
 				Container container = SeaShipPlatformHandler.getInstance().popContainer(crane);
+				if(container == null)
+				{
+					SeaShipPlatformHandler.getInstance().updateCranePosition(crane.getID());
+				}
 				SeaShipPlatformHandler.getInstance().unloadContainer(crane.getID(), spatial.agv.agvId, container);
 			}
 		}

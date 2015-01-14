@@ -79,7 +79,14 @@ public class Ship {
      */
     public Container pop(int x)
     {
-        return containers[x][0].pop();
+    	for(int z = 0; z < this.zContainerAmount; z++)
+        {
+    		if(!containers[x][z].empty())
+    		{
+    			return containers[x][z].pop();
+    		}
+        }
+    	return null;
     }
 
     public boolean isUnloading() {

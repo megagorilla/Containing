@@ -49,6 +49,7 @@ public class SeaShipPlatformHandler {
     
     public void update(float tpf)
 	{
+    	if(this.hasShips())
     	checkNeedForAGVs();
 	}
     
@@ -210,5 +211,20 @@ public class SeaShipPlatformHandler {
         event.setInitialDuration(90f);
         event.setSpeed(ContainingServer.getSpeed());
         event.play();
+	}
+
+	public void updateCranePosition(int id)
+	{
+		ShipCrane crane = this.getCrane(id);
+		int highest = 11;
+		for(ShipCrane crane1 : cranes.values())
+		{
+			if(shipsInHarbor.get(0).getShipSize().x == crane1.currentRow)
+				return;
+			else if(crane1.currentRow > highest)
+				highest = crane1.currentRow;
+		}
+		crane.currentRow = highest + 1;
+		this.setCrane(crane);
 	}
 }
