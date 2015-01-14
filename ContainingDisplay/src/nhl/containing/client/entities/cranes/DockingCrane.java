@@ -67,12 +67,12 @@ public class DockingCrane extends Crane {
         grabber.attachChild(ContainingClient.getMyAssetManager().loadModel(grabbingGearHolderPath));
         grabber.attachChild(ContainingClient.getMyAssetManager().loadModel(hookLeftPath));
         grabber.attachChild(ContainingClient.getMyAssetManager().loadModel(hookRightPath));
-        grabber.setLocalTranslation(-28, -2, 0);
+        grabber.setLocalTranslation(-28, 5, 0);
         grabber2.attachChild(grabber);
         attachChild(grabber2);
         ContainingClient.getMyRootNode().attachChild(this);
         if (isShipCrane) {
-        	grabber.setLocalTranslation(-28, -2, 0);
+        	grabber.setLocalTranslation(-28, 5, 0);
             this.rotate(0, FastMath.HALF_PI, 0);
             this.setLocalTranslation(40 * ID - 200, 0, 922);
         } else {
@@ -151,8 +151,8 @@ public class DockingCrane extends Crane {
                                     Vector3f grabberLoc = ContainingClient.seaShipCranes.get(ID).getGrabber().getLocalTranslation();
                                     motionpath.addWayPoint(grabberLoc);
                                     motionpath.addWayPoint(new Vector3f(grabberLoc.x, 10, grabberLoc.z));
-                                    motionpath.addWayPoint(new Vector3f(37, 10, grabberLoc.z));
-                                    motionpath.addWayPoint(new Vector3f(37, -10, grabberLoc.z));
+                                    motionpath.addWayPoint(new Vector3f(39.5f, 10, grabberLoc.z));
+                                    motionpath.addWayPoint(new Vector3f(39.5f, -10, grabberLoc.z));
 
                                     motionpath.enableDebugShape(ContainingClient.getMyAssetManager(), ContainingClient.getMyRootNode());
                                     motionpath.setCurveTension(0f);
@@ -172,7 +172,7 @@ public class DockingCrane extends Crane {
                                                 motionpath.addWayPoint(grabberLoc);
                                                 motionpath.addWayPoint(new Vector3f(grabberLoc.x, 10, grabberLoc.z));
                                                 motionpath.addWayPoint(new Vector3f(-28, 10, 0));
-                                                motionpath.addWayPoint(new Vector3f(-28, -2, 0));
+                                                motionpath.addWayPoint(new Vector3f(-28, 5, 0));
 
                                                 motionpath.enableDebugShape(ContainingClient.getMyAssetManager(), ContainingClient.getMyRootNode());
                                                 motionpath.setCurveTension(0f);
