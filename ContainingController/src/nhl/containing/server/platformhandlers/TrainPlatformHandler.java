@@ -3,6 +3,7 @@ package nhl.containing.server.platformhandlers;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Stack;
 
 import nhl.containing.server.ContainingServer;
@@ -20,6 +21,8 @@ import com.jme3.cinematic.MotionPath;
 import com.jme3.cinematic.events.MotionEvent;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
+import com.jme3.system.NanoTimer;
+import com.jme3.system.Timer;
 
 /**
  * Server-side handler for the train platform
@@ -38,6 +41,8 @@ public class TrainPlatformHandler {
 									containersOnPlatform2 = new Stack<Container>(),
 									containersOnPlatform3 = new Stack<Container>(),
 									containersOnPlatform4 = new Stack<Container>();
+	
+	private static HashMap<TrainLocation, AGV> agvs = new HashMap<>();
 
 	public TrainPlatformHandler() {
 		init();
@@ -59,7 +64,7 @@ public class TrainPlatformHandler {
 	public static void handleAGV(AGV agv) {
 		TrainLocation l = getFirstFreeLocation();
 		List<Vector3f> list = new ArrayList<Vector3f>();
-		list.add(new Vector3f(baseX, baseY, baseZ));
+		list.add(new Vector3f(baseX, baseY, baseZ-1450));
 		list.add(new Vector3f(baseX, baseY, l.location.z));
 		list.add(l.location);
 		ControlHandler.getInstance().sendAGV(agv.agvId, list, "trainLocation_" + l.id);
@@ -104,6 +109,10 @@ public class TrainPlatformHandler {
 		return locations.get(0);
 	}
 	
+	public static void addAGV(AGV agv, TrainLocation l) {
+		agvs.put(l, agv);
+	}
+	
 	public static void unloadContainer(int agvId, int craneId, Container c) {
 		List<Vector3f> list = new ArrayList<Vector3f>();
 		list.add(new Vector3f());
@@ -123,7 +132,7 @@ public class TrainPlatformHandler {
 		MotionEvent motionControl = new MotionEvent(spatial, path);
         motionControl.setDirectionType(MotionEvent.Direction.PathAndRotation);
         motionControl.setRotation(new Quaternion().fromAngleNormalAxis(0, Vector3f.UNIT_Y));
-        motionControl.setInitialDuration(30f);
+        motionControl.setInitialDuration(210f);
         motionControl.setSpeed(ContainingServer.getSpeed());
         motionControl.play();
 	}
@@ -168,12 +177,46 @@ public class TrainPlatformHandler {
 		return;
 	}
 	
-	
-	
-	public static void update() {
+	public static void checkRemoval() {
 		if(getContainerCount() == 0 && trainStationed) despawnTrain();
 	}
 	
+	public static void update() {
+		//if(getContainerCount() == 0 && trainStationed) despawnTrain();
+		if (agvs.size() == getContainerCount())
+			unloadAllContainers();
+	}
+	
+	private static void unloadAllContainers() {
+		for(Map.Entry<TrainLocation, AGV> e : agvs.entrySet()) {
+			switch (e.getKey().craneNum) {
+			case 0:
+				if(!containersOnPlatform1.isEmpty()){
+					unloadContainer(e.getValue().agvId, 0, containersOnPlatform1.pop());
+				}
+				break;
+			case 1:
+				if(!containersOnPlatform2.isEmpty()){
+					unloadContainer(e.getValue().agvId, 1, containersOnPlatform2.pop());
+				}
+				break;
+			case 2:
+				if(!containersOnPlatform3.isEmpty()){
+					unloadContainer(e.getValue().agvId, 2, containersOnPlatform3.pop());
+				}
+				break;
+			case 3:
+				if(!containersOnPlatform4.isEmpty()){
+					unloadContainer(e.getValue().agvId, 3, containersOnPlatform4.pop());
+				}
+				break;
+			default:
+				break;
+			}
+			
+		}
+	}
+
 	public static int getContainerCount() {
 		return (containersOnPlatform1.size() +
 				containersOnPlatform2.size() +

@@ -105,31 +105,13 @@ public class CMotionPathListener implements MotionPathListener
 			else if (AGVHandler.getInstance().getAGV(spatial.agv.agvId).currentLocation.startsWith("trainLocation_")) {
 				String[] l = AGVHandler.getInstance().getAGV(spatial.agv.agvId).currentLocation.split("_");
 				int i = Integer.parseInt(l[1]);
-				int craneNum = TrainPlatformHandler.locations.get(i).craneNum;
+				TrainPlatformHandler.TrainLocation loc = TrainPlatformHandler.locations.get(i);
 				if (l.length == 2) {
-					switch (craneNum) {
-					case 0:
-						if(!TrainPlatformHandler.containersOnPlatform1.empty())
-							TrainPlatformHandler.unloadContainer(spatial.agv.agvId, craneNum, TrainPlatformHandler.containersOnPlatform1.pop());
-						break;
-					case 1:
-						if(!TrainPlatformHandler.containersOnPlatform2.empty())
-							TrainPlatformHandler.unloadContainer(spatial.agv.agvId, craneNum, TrainPlatformHandler.containersOnPlatform2.pop());
-						break;
-					case 2:
-						if(!TrainPlatformHandler.containersOnPlatform3.empty())
-							TrainPlatformHandler.unloadContainer(spatial.agv.agvId, craneNum, TrainPlatformHandler.containersOnPlatform3.pop());
-						break;
-					case 3:
-						if(!TrainPlatformHandler.containersOnPlatform4.empty())
-							TrainPlatformHandler.unloadContainer(spatial.agv.agvId, craneNum, TrainPlatformHandler.containersOnPlatform4.pop());
-						break;
-					default:
-						break;
-					}
+					TrainPlatformHandler.addAGV(spatial.agv, loc);
 				}
 				else if (l.length == 3) {
 					TrainPlatformHandler.returnAGVToStorage(AGVHandler.getInstance().getAGV(spatial.agv.agvId), TrainPlatformHandler.containerLocation(agv.container).id);
+					TrainPlatformHandler.checkRemoval();
 				}
 			}
 			else if(AGVHandler.getInstance().getAGV(spatial.agv.agvId).currentLocation.startsWith("seaShipLocation_"))
