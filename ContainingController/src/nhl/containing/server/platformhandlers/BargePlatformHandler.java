@@ -199,7 +199,7 @@ public class BargePlatformHandler {
 					AGVHandler.getInstance().setAGV(agv.agvId, agv);
 					List<Vector3f> list = new ArrayList<Vector3f>();
 					list.add(new Vector3f(360.0f, 0.0f, 570.0f + (crane.currentRow * 13.4f)));
-					list.add(new Vector3f(360.0f, 0.0f, 900.0f));
+					list.add(new Vector3f(360.0f, 0.0f, 791.5f));
 					ControlHandler.getInstance().sendAGV(agv.agvId, list, "b3");
 					crane.agv = null;
 					setCrane(crane);
