@@ -5,12 +5,11 @@ import nhl.containing.server.ContainingServer;
 import com.jme3.network.serializing.Serializable;
 
 @Serializable
-public class InitMessage extends UpdateMessage 
-{
+public class InitMessage extends UpdateMessage {
+
 	float speed;
-	
-	public InitMessage()
-	{
+
+	public InitMessage() {
 		speed = ContainingServer.getSpeed();
 	}
 }

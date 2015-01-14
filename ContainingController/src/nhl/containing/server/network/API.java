@@ -11,12 +11,12 @@ import org.vertx.java.core.http.RouteMatcher;
 import com.google.gson.Gson;
 
 /**
- * The API endpoints of the server, allowing web and android access to required data. Libraries used: Vert.x & Gson.
+ * The API endpoints of the server, allowing web and android access to required
+ * data. Libraries used: Vert.x & Gson.
  * 
  * @author snyx
  */
-public final class API
-{
+public final class API {
 
 	/**
 	 * The vert.x object, required to create a server.
@@ -24,36 +24,39 @@ public final class API
 	static Vertx vertx;
 
 	/**
-	 * Start the server. TODO: Create a switch to catch different routes, get (and send) more meaningful data, possibly a new class for the data
+	 * Start the server. TODO: Create a switch to catch different routes, get
+	 * (and send) more meaningful data, possibly a new class for the data
 	 */
-	public static void start(int port)
-	{
+	public static void start(int port) {
 		vertx = VertxFactory.newVertx();
 		final Gson gson = new Gson();
 		RouteMatcher rm = new RouteMatcher();
-		rm.get("/", new Handler<HttpServerRequest>()
-		{
+		rm.get("/", new Handler<HttpServerRequest>() {
+
 			@Override
-			public void handle(HttpServerRequest req)
-			{
+			public void handle(HttpServerRequest req) {
 				DataInfo info = new DataInfo();
 				info.fillData("1", "2", "3", "4", "5", "6");
 				req.response().end(gson.toJson(info));
 			}
 		});
-		rm.get("/:id", new Handler<HttpServerRequest>()
-		{
+		rm.get("/:id", new Handler<HttpServerRequest>() {
+
 			@Override
-			public void handle(HttpServerRequest req)
-			{
+			public void handle(HttpServerRequest req) {
 				req.response().end(gson.toJson(req.params().get("id")));
 			}
 		});
-		vertx.createHttpServer().requestHandler(rm).listen(port); // listen on the specified port (change if needed)
+		vertx.createHttpServer().requestHandler(rm).listen(port); // listen on
+																	// the
+																	// specified
+																	// port
+																	// (change
+																	// if
+																	// needed)
 	}
-	
-	public static void stop() 
-	{
+
+	public static void stop() {
 		vertx.stop();
 	}
 }

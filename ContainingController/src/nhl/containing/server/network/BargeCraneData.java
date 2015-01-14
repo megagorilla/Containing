@@ -16,18 +16,21 @@ import nhl.containing.server.ContainingServer;
  */
 @Serializable
 public class BargeCraneData extends AbstractMessage {
-    int agvId;
+
+	int agvId;
 	int craneID;
-    int containerID;
-    Vector3f location;
-    float dayLength;
-    public BargeCraneData(){}
-    
-    public BargeCraneData(int agvId, Vector3f location, int craneID, int containerID){
-        this.agvId = agvId;
-    	this.location = location;
-        this.craneID = craneID;
-        this.containerID = containerID;
-        this.dayLength = ContainingServer.getDayLength();
-    }
+	int containerID;
+	Vector3f location;
+	float dayLength;
+
+	public BargeCraneData() {
+	}
+
+	public BargeCraneData(int agvId, Vector3f location, int craneID, int containerID) {
+		this.agvId = agvId;
+		this.location = location;
+		this.craneID = craneID;
+		this.containerID = containerID;
+		this.dayLength = ContainingServer.getDayLength();
+	}
 }

@@ -18,128 +18,130 @@ import nhl.containing.server.util.XMLFileReader.*;
  */
 public class Ship {
 
-    int arrivalDay;
-    int containerAmount = 0;
-    private static final AtomicInteger count = new AtomicInteger(0); 
-    private final int ID;
-    Stack<Container>[][] containers;
-    boolean unloading = true;
-    int xContainerAmount;
-    int zContainerAmount;
-            
-    public Ship(ArrayList<Container> containers) {
-        this.ID = count.incrementAndGet();
-        if (containers.isEmpty()) {
-            arrivalDay = 0;
-        } else {
-            xContainerAmount = 0;
-            zContainerAmount = 0;
-            for (Container c : containers) {
-                if ((int) c.getPositie().x > xContainerAmount) {
-                    xContainerAmount = (int) c.getPositie().x;
-                }
-                if ((int) c.getPositie().z > zContainerAmount) {
-                    zContainerAmount = (int) c.getPositie().z;
-                }
-            }
-            xContainerAmount++;
-            zContainerAmount++;
-            this.containers = (Stack<Container>[][]) new Stack[xContainerAmount][zContainerAmount];
+	int arrivalDay;
+	int containerAmount = 0;
+	private static final AtomicInteger count = new AtomicInteger(0);
+	private final int ID;
+	Stack<Container>[][] containers;
+	boolean unloading = true;
+	int xContainerAmount;
+	int zContainerAmount;
 
-            this.arrivalDay = containers.get(0).getArrival().getDay();
+	public Ship(ArrayList<Container> containers) {
+		this.ID = count.incrementAndGet();
+		if (containers.isEmpty()) {
+			arrivalDay = 0;
+		}
+		else {
+			xContainerAmount = 0;
+			zContainerAmount = 0;
+			for (Container c : containers) {
+				if ((int) c.getPositie().x > xContainerAmount) {
+					xContainerAmount = (int) c.getPositie().x;
+				}
+				if ((int) c.getPositie().z > zContainerAmount) {
+					zContainerAmount = (int) c.getPositie().z;
+				}
+			}
+			xContainerAmount++;
+			zContainerAmount++;
+			this.containers = (Stack<Container>[][]) new Stack[xContainerAmount][zContainerAmount];
 
-            for (int i = 0; i < xContainerAmount; i++) {
-                for (int j = 0; j < zContainerAmount; j++) {
-                    this.containers[i][j] = new Stack<>();
-                }
-            }
+			this.arrivalDay = containers.get(0).getArrival().getDay();
 
-            for (Container c : containers) {
-                int x = (int) c.getPositie().x;
-                int z = (int) c.getPositie().z;
-                this.containers[x][z].push(c);
-                containerAmount++;
-            }
-        }
-    }
+			for (int i = 0; i < xContainerAmount; i++) {
+				for (int j = 0; j < zContainerAmount; j++) {
+					this.containers[i][j] = new Stack<>();
+				}
+			}
 
-    /**
-     *
-     * @return returns the day the ship arrives
-     */
-    public int getArrivalDay() {
-        return arrivalDay;
-    }
+			for (Container c : containers) {
+				int x = (int) c.getPositie().x;
+				int z = (int) c.getPositie().z;
+				this.containers[x][z].push(c);
+				containerAmount++;
+			}
+		}
+	}
 
-    /**
-     *
-     * @param x the x location of the container on the ship
-     * @param z the z location of the container on the ship
-     * @return returns the top container from given x and z location
-     */
-    public Container pop(int x)
-    {
-    	for(int z = 0; z < this.zContainerAmount; z++)
-        {
-    		if(!containers[x][z].empty())
-    		{
-    			return containers[x][z].pop();
-    		}
-        }
-    	return null;
-    }
+	/**
+	 *
+	 * @return returns the day the ship arrives
+	 */
+	public int getArrivalDay() {
+		return arrivalDay;
+	}
 
-    public boolean isUnloading() {
-        return unloading;
-    }
-    
+	/**
+	 *
+	 * @param x
+	 *            the x location of the container on the ship
+	 * @param z
+	 *            the z location of the container on the ship
+	 * @return returns the top container from given x and z location
+	 */
+	public Container pop(int x) {
+		for (int z = 0; z < this.zContainerAmount; z++) {
+			if (!containers[x][z].empty()) {
+				return containers[x][z].pop();
+			}
+		}
+		return null;
+	}
 
-    /**
-     *
-     * @param x the x location of the container on the ship
-     * @param z the z location of the container on the ship
-     * @return returns a boolean value (true if location has containers, false
-     * if not)
-     */
-    public boolean containsContainers(int x, int z) {
-        try{
-        return !containers[z][x].isEmpty();
-        }catch(Exception e){
-            return false;
-        }
-    }
+	public boolean isUnloading() {
+		return unloading;
+	}
 
-    /**
-     * returs a boolean, true if ship is empty, false if not
-     *
-     * @return true if ship is empty, false if not
-     */
-    public boolean isEmpty() {
-        return containerAmount==0;
-    }
+	/**
+	 *
+	 * @param x
+	 *            the x location of the container on the ship
+	 * @param z
+	 *            the z location of the container on the ship
+	 * @return returns a boolean value (true if location has containers, false
+	 *         if not)
+	 */
+	public boolean containsContainers(int x, int z) {
+		try {
+			return !containers[z][x].isEmpty();
+		}
+		catch (Exception e) {
+			return false;
+		}
+	}
 
-    public int getContainerAmount() {
-        return containerAmount;
-    }
+	/**
+	 * returs a boolean, true if ship is empty, false if not
+	 *
+	 * @return true if ship is empty, false if not
+	 */
+	public boolean isEmpty() {
+		return containerAmount == 0;
+	}
 
-    public int getID() {
-        return ID;
-    }
-    
-    public List<Container> getContainerList(){
-        List<Container> containers = new ArrayList<Container>();
-        for(Stack<Container>[] substack: this.containers){
-            for(Stack<Container> stack : substack){
-                for(Container c: stack){
-                    containers.add(c);
-                }
-            }
-        }
-        return containers;
-    }
-    
-    public Vector3f getShipSize(){
-        return new Vector3f(xContainerAmount, 0, zContainerAmount);
-    }
-    
+	public int getContainerAmount() {
+		return containerAmount;
+	}
+
+	public int getID() {
+		return ID;
+	}
+
+	public List<Container> getContainerList() {
+		List<Container> containers = new ArrayList<Container>();
+		for (Stack<Container>[] substack : this.containers) {
+			for (Stack<Container> stack : substack) {
+				for (Container c : stack) {
+					containers.add(c);
+				}
+			}
+		}
+		return containers;
+	}
+
+	public Vector3f getShipSize() {
+		return new Vector3f(xContainerAmount, 0, zContainerAmount);
+	}
+
 }

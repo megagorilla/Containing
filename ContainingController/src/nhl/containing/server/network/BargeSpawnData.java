@@ -15,15 +15,17 @@ import java.util.List;
  */
 @Serializable
 public class BargeSpawnData extends AbstractMessage {
-    public int BargeID;
-    public List<ContainerData> containers;
-    public boolean shouldDespawn;
-    
-    public BargeSpawnData(){}
-    
-    public BargeSpawnData(int BargeID, List<ContainerData> containers, boolean shouldDespawn){
-        this.BargeID = BargeID;
-        this.containers = containers;
-        this.shouldDespawn = shouldDespawn;
-    }
+
+	public int BargeID;
+	public List<ContainerData> containers;
+	public boolean shouldDespawn;
+
+	public BargeSpawnData() {
+	}
+
+	public BargeSpawnData(int BargeID, List<ContainerData> containers, boolean shouldDespawn) {
+		this.BargeID = BargeID;
+		this.containers = containers;
+		this.shouldDespawn = shouldDespawn;
+	}
 }
