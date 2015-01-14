@@ -23,10 +23,8 @@ import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 
 public class TrainPlatformHandler {
-	private static final float baseX = -334f,
-						baseY = 0f,
-						baseZ = 725f,
-						containerOffset = 25f;
+
+	private static final float baseX = -334f, baseY = 0f, baseZ = 725f, containerOffset = 25f;
 
 	private static boolean trainStationed = false;
 	private static ArrayList<Container> containersOnPlatform;
@@ -36,15 +34,15 @@ public class TrainPlatformHandler {
 		spawnTrain(new ArrayList<Container>());
 	}
 
-	public static void spawnTrain (ArrayList<Container> containers) {
+	public static void spawnTrain(ArrayList<Container> containers) {
 		TrainSpawnData spawnData = new TrainSpawnData(0, containers.stream().mapToInt(c -> c.getContainerNumber()).toArray(), false);
 		ConnectionManager.sendCommand(spawnData);
 		containersOnPlatform = containers;
 		trainStationed = true;
 	}
-	
-	public static void despawnTrain () {
-		TrainSpawnData spawnData = new TrainSpawnData(0,new int[0],true);
+
+	public static void despawnTrain() {
+		TrainSpawnData spawnData = new TrainSpawnData(0, new int[0], true);
 		ConnectionManager.sendCommand(spawnData);
 		containersOnPlatform = null;
 		trainStationed = false;
@@ -53,22 +51,22 @@ public class TrainPlatformHandler {
 	public static void unloadContainer(Container c) {
 		ControlHandler.getInstance().requestAGVToTrain(c.getContainerNumber());
 	}
-	
+
 	public static void splitContainers() {
 		int length = Math.floorDiv(getContainerCount(), 4);
 		int rest = Math.floorMod(getContainerCount(), 4);
 		containersOnPlatform1 = (ArrayList<Container>) containersOnPlatform.subList(0, length);
-		containersOnPlatform2 = (ArrayList<Container>) containersOnPlatform.subList(length, length*2);
-		containersOnPlatform3 = (ArrayList<Container>) containersOnPlatform.subList(length*2, length*3);
-		containersOnPlatform4 = (ArrayList<Container>) containersOnPlatform.subList(length*3, length*4+rest);
+		containersOnPlatform2 = (ArrayList<Container>) containersOnPlatform.subList(length, length * 2);
+		containersOnPlatform3 = (ArrayList<Container>) containersOnPlatform.subList(length * 2, length * 3);
+		containersOnPlatform4 = (ArrayList<Container>) containersOnPlatform.subList(length * 3, length * 4 + rest);
 	}
-	
+
 	public static void update() {
 		if (trainStationed) {
-			unloadContainer(containersOnPlatform.get(containersOnPlatform.size()-1));
+			unloadContainer(containersOnPlatform.get(containersOnPlatform.size() - 1));
 		}
 	}
-	
+
 	public static int getContainerCount() {
 		return containersOnPlatform.size();
 	}

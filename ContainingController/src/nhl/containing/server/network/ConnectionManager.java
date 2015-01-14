@@ -6,12 +6,11 @@ import com.jme3.network.Network;
 import com.jme3.network.Server;
 import com.jme3.network.serializing.Serializer;
 
-public final class ConnectionManager
-{
+public final class ConnectionManager {
+
 	static Server server;
 
-	private ConnectionManager()
-	{
+	private ConnectionManager() {
 	}
 
 	/**
@@ -20,28 +19,25 @@ public final class ConnectionManager
 	 * @param port
 	 * @return true if succesful, false otherwise
 	 */
-	public static boolean initialize(int port)
-	{
+	public static boolean initialize(int port) {
 		Serializer.registerClass(UpdateMessage.class);
 		Serializer.registerClass(AGVData.class);
-        Serializer.registerClass(TruckCraneData.class);
-        Serializer.registerClass(TruckSpawnData.class);
-        Serializer.registerClass(StorageCranePickupData.class);
-        Serializer.registerClass(SeaShipCraneData.class);
-        Serializer.registerClass(BargeCraneData.class);
-        
-        Serializer.registerClass(SeaShipSpawnData.class);
-        Serializer.registerClass(BargeSpawnData.class);
-        Serializer.registerClass(ContainerData.class);
-        Serializer.registerClass(StorageCraneDropoffData.class);
-        
-        Serializer.registerClass(InitMessage.class);
-		try
-		{
+		Serializer.registerClass(TruckCraneData.class);
+		Serializer.registerClass(TruckSpawnData.class);
+		Serializer.registerClass(StorageCranePickupData.class);
+		Serializer.registerClass(SeaShipCraneData.class);
+		Serializer.registerClass(BargeCraneData.class);
+
+		Serializer.registerClass(SeaShipSpawnData.class);
+		Serializer.registerClass(BargeSpawnData.class);
+		Serializer.registerClass(ContainerData.class);
+		Serializer.registerClass(StorageCraneDropoffData.class);
+
+		Serializer.registerClass(InitMessage.class);
+		try {
 			server = Network.createServer(port);
 		}
-		catch (Exception e)
-		{
+		catch (Exception e) {
 			System.err.println(e);
 			return false;
 		}
@@ -53,8 +49,7 @@ public final class ConnectionManager
 	/**
 	 * Stops the server.
 	 */
-	public static void stop()
-	{
+	public static void stop() {
 		server.close();
 	}
 
@@ -64,8 +59,7 @@ public final class ConnectionManager
 	 * @param connID
 	 * @param msg
 	 */
-	public static void sendCommand(int connID, UpdateMessage msg)
-	{
+	public static void sendCommand(int connID, UpdateMessage msg) {
 		server.getConnection(connID).send(msg);
 	}
 
@@ -74,19 +68,19 @@ public final class ConnectionManager
 	 * 
 	 * @param msg
 	 */
-	public static void sendCommand(AbstractMessage msg)
-	{
+	public static void sendCommand(AbstractMessage msg) {
 		server.broadcast(msg);
 	}
 
 	/**
 	 * Returns true if 1 or more clients are connected
+	 * 
 	 * @return server.hasConnections()
 	 */
-	public static boolean hasConnections()
-	{
+	public static boolean hasConnections() {
 		return server.hasConnections();
 	}
-	
-	public void connectionAdded(Server s, HostedConnection c){}
+
+	public void connectionAdded(Server s, HostedConnection c) {
+	}
 }

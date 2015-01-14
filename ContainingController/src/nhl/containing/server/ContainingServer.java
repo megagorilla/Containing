@@ -23,13 +23,15 @@ import com.jme3.scene.Node;
 import com.jme3.system.JmeContext;
 
 public class ContainingServer extends SimpleApplication {
+
 	float time = 0;
 	private static Node staticRootNode;
 
-    private int currentDay = 0;
-	private float dayCounter = 0;
-    private final static float dayLength = 120f; //the time 1 gameday should be in seconds
-    private final static float speed = 10f;
+	private int currentDay = 0;
+	private float dayCounter = dayLength / speed - 1;
+	private final static float dayLength = 120f; // the time 1 gameday should be
+													// in seconds
+	private final static float speed = 10f;
 	public static float timeSinceStart = 0f;
 	long startTime;
 
@@ -38,7 +40,7 @@ public class ContainingServer extends SimpleApplication {
 	SeaShipPlatformHandler seaShipPlatformHandler;
 	Stack<Stack<Container>> listoftrainContainers = new Stack<>();
 	Stack<Container> listoftruckContainers = new Stack<>();
-    
+
 	/**
 	 * Starts the app headless (no display)
 	 * 
@@ -64,8 +66,8 @@ public class ContainingServer extends SimpleApplication {
 		AGVHandler.getInstance().init();
 		ConnectionManager.initialize(3000);
 		API.start(8080);
-        initContainers();
-        System.out.println("Server Operational");    
+		initContainers();
+		System.out.println("Server Operational");
 	}
 
 	/**
@@ -73,7 +75,7 @@ public class ContainingServer extends SimpleApplication {
 	 */
 	private void initContainers() {
 		XMLFileReader xmlReader = new XMLFileReader();
-        containers = xmlReader.getContainers("../XMLFILES/xml1.xml");
+		containers = xmlReader.getContainers("../XMLFILES/xml1.xml");
 
 		ArrayList<String> bedrijven = new ArrayList<>();
 		for (Container c : containers) {
@@ -107,32 +109,23 @@ public class ContainingServer extends SimpleApplication {
 
 		while (trainContainers.size() > 0) {
 			listoftrainContainers.add(new Stack<>());
-			listoftrainContainers.get(listoftrainContainers.size() - 1).push(
-					trainContainers.get(0));
+			listoftrainContainers.get(listoftrainContainers.size() - 1).push(trainContainers.get(0));
 			trainContainers.remove(0);
 			isFull = false;
 			while (trainContainers.size() > 0 && !isFull) {
 				if (trainContainers.get(0).getPositie().equals(Vector3f.ZERO)) {
 					isFull = true;
-				} else {
-					listoftrainContainers.get(listoftrainContainers.size() - 1)
-							.push(trainContainers.get(0));
+				}
+				else {
+					listoftrainContainers.get(listoftrainContainers.size() - 1).push(trainContainers.get(0));
 					trainContainers.remove(0);
 				}
 			}
 		}
-		Collections
-				.sort(listoftrainContainers, (a, b) -> ((a.get(0).getArrival()
-						.getDay()) < (b.get(0).getArrival().getDay())) ? 1
-						: ((a.get(0).getArrival().getDay()) > (b.get(0)
-								.getArrival().getDay())) ? -1 : 0);
+		Collections.sort(listoftrainContainers,
+				(a, b) -> ((a.get(0).getArrival().getDay()) < (b.get(0).getArrival().getDay())) ? 1 : ((a.get(0).getArrival().getDay()) > (b.get(0).getArrival().getDay())) ? -1 : 0);
 
-		Collections
-				.sort(listoftruckContainers,
-						(a, b) -> ((a.getArrival().getDay()) < (b.getArrival()
-								.getDay())) ? 1
-								: ((a.getArrival().getDay()) > (b.getArrival()
-										.getDay())) ? -1 : 0);
+		Collections.sort(listoftruckContainers, (a, b) -> ((a.getArrival().getDay()) < (b.getArrival().getDay())) ? 1 : ((a.getArrival().getDay()) > (b.getArrival().getDay())) ? -1 : 0);
 
 		// forced garbage collection (reduces RAM usage from 700MB to 60 MB in
 		// case of xml7)
@@ -145,71 +138,36 @@ public class ContainingServer extends SimpleApplication {
 	Random rand = new Random();
 
 	@Override
-	public void simpleUpdate(float tpf) 
-	{
+	public void simpleUpdate(float tpf) {
 		timeSinceStart += tpf;
-		if (ConnectionManager.hasConnections())
-		{
-			//bargePlatformHandler.update();
-			//seaShipPlatformHandler.update();
+		if (ConnectionManager.hasConnections()) {
 			dayCounter += tpf;
-	        if(dayCounter > (dayLength / getSpeed()))
-	        {
-//				if (seaShipPlatformHandler.hasShips() && seaShipPlatformHandler.currentShipIsUnloading())
-//				{
-//					seaShipPlatformHandler.Unload();
-//				}
-//				if (bargePlatformHandler.hasShips()	&& bargePlatformHandler.currentShipIsUnloading()) {
-//					bargePlatformHandler.Unload();
-//				}
-					currentDay++;
-					dayCounter = 0;
-					while (bargePlatformHandler.getShipsEnRouteSize() > 0
-							&& bargePlatformHandler.getDayOfNextShip() == currentDay) {
-						bargePlatformHandler.nextShipArrives();
-					}
-					while (seaShipPlatformHandler.getShipsEnRouteSize() > 0
-							&& seaShipPlatformHandler.getDayOfNextShip() == currentDay) {
-						seaShipPlatformHandler.nextShipArrives();
-					}
-					System.out.println("time since start: "
-							+ ((System.currentTimeMillis() - startTime) / 1000f)
-							+ " program day: " + currentDay);
-	
-					if (!listoftruckContainers.isEmpty()) {
-						while (listoftruckContainers.peek().getArrival().getDay() == currentDay) {
-		                	if(listoftruckContainers.peek() != null)
-		                	{
-			                	while(listoftruckContainers.peek().getArrival().getDay() == currentDay)
-				                {
-				                	Container c = listoftruckContainers.pop();
-				                	TruckPlatformHandler.getInstance().spawnTruck(c);
-				                }
-		                	}
-		                }
-		                
-	//	                for(int i = 0; i < StoragePlatformHandler.getInstance().maxStorageLocations; i++)
-	//	                {
-	//	                	Storage storage = StoragePlatformHandler.getInstance().getStorage(i);
-	//	                	HashMap<Vector3f, Container> list = storage.getDepartureList();
-	//	                	for(Vector3f vec : list.keySet())
-	//	                	{
-	//	                		Container container = list.get(vec);
-	//	                		AGV agv = AGVHandler.getInstance().getFreeAGVAtStorageLocation(i);
-	//	                		agv.setContainer(container);
-	//	                		agv.isMoving = true;
-	//	                		AGVHandler.getInstance().setAGV(agv.agvId, agv);
-	//	                		int j = Integer.parseInt(AGVHandler.getInstance().getAGV(agv.agvId).currentLocation.split("_")[1]);
-	//	                		StorageCraneDropoffData data = new StorageCraneDropoffData(new Vector3f(vec.x, vec.y, vec.z), i, (int)Math.floor(j / 6), agv.agvId);
-	//	                	}
-	//	                }
-		            }
+			if (dayCounter > (dayLength / getSpeed())) {
+				currentDay++;
+				dayCounter = 0;
+				while (bargePlatformHandler.getShipsEnRouteSize() > 0 && bargePlatformHandler.getDayOfNextShip() == currentDay) {
+					bargePlatformHandler.nextShipArrives();
 				}
-				TruckPlatformHandler.getInstance().update(tpf);
-	            StoragePlatformHandler.getInstance().update(tpf);
-	            BargePlatformHandler.getInstance().update(tpf);
-	        }
+				while (seaShipPlatformHandler.getShipsEnRouteSize() > 0 && seaShipPlatformHandler.getDayOfNextShip() == currentDay) {
+					seaShipPlatformHandler.nextShipArrives();
+				}
+
+				if (!listoftruckContainers.isEmpty()) {
+					while (listoftruckContainers.peek().getArrival().getDay() == currentDay) {
+						if (listoftruckContainers.peek() != null) {
+							while (listoftruckContainers.peek().getArrival().getDay() == currentDay) {
+								Container c = listoftruckContainers.pop();
+								TruckPlatformHandler.getInstance().spawnTruck(c);
+							}
+						}
+					}
+				}
+			}
+			TruckPlatformHandler.getInstance().update(tpf);
+			StoragePlatformHandler.getInstance().update(tpf);
+			BargePlatformHandler.getInstance().update(tpf);
 		}
+	}
 
 	/**
 	 * @return {@link #staticRootNode}
@@ -232,12 +190,11 @@ public class ContainingServer extends SimpleApplication {
 		return dayLength;
 	}
 
-		public static float getSpeed() 
-		{
-			return speed;
-		}
-		
-	    public int getCurrentDay() {
-			return currentDay;
-		}
+	public static float getSpeed() {
+		return speed;
+	}
+
+	public int getCurrentDay() {
+		return currentDay;
+	}
 }
