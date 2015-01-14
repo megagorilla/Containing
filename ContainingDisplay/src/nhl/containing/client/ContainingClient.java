@@ -215,7 +215,7 @@ public class ContainingClient extends SimpleApplication {
         	  			direction.multLocal(5 * tpf);
         	  		break;
         	  		case "camera 3": name = "Barge";
-        	  		 	cam.setLocation(new Vector3f(285.32617f, 48.856247f, 732.0282f));
+        	  		 	cam.setLocation(new Vector3f(268.5698f, 55.99523f, 755.70404f));
         	  		 	cam.lookAt(bargeCranes.get(0).getLocalTranslation(), Vector3f.UNIT_Y);
         	  		break;
         	  		case "camera 4": name = "Seaship";
