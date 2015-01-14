@@ -30,7 +30,6 @@ public class TrainPlatformHandler {
 								baseY = 0f,
 								baseZ = 711.5f,
 								containerOffset = 18.4f;
-	//private static final String location = "d2";
 	private static int currTrainID = 0;
 	public static HashMap<Integer,TrainLocation> locations = new HashMap<Integer,TrainLocation>();
 
@@ -133,10 +132,9 @@ public class TrainPlatformHandler {
 		TrainLocation location = locations.get(locID);
 		List<Vector3f> list = new ArrayList<Vector3f>();
 		list.add(new Vector3f(location.location));
-		list.add(new Vector3f(353.5f, 0, location.location.z));
-		list.add(new Vector3f(353.5f, 0, -250));
-		ControlHandler.getInstance().sendAGV(agv.agvId, list, "a3");
-		despawnTrain();
+		list.add(new Vector3f(location.location.x, baseY, baseZ));
+		list.add(new Vector3f(baseX,baseY,baseZ));
+		ControlHandler.getInstance().sendAGV(agv.agvId, list, "a1");
 	}
 	
 	public static void setCraneNums() {
@@ -171,13 +169,13 @@ public class TrainPlatformHandler {
 	
 	
 	public static void update() {
-		
+		if(getContainerCount() == 0) despawnTrain();
 	}
 	
 	public static int getContainerCount() {
-		return (containersOnPlatform1.size() + 
-				containersOnPlatform2.size() + 
-				containersOnPlatform3.size() + 
+		return (containersOnPlatform1.size() +
+				containersOnPlatform2.size() +
+				containersOnPlatform3.size() +
 				containersOnPlatform4.size());
 	}
 	
