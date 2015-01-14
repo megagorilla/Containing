@@ -67,11 +67,11 @@ public class RiverShipPlatform extends Platform
 	
 	private void Road()
 	{
-		Box Road = new Box(3, 0.1f, 200);
+		Box Road = new Box(3, 0.1f, 203.75f);
 		Geometry RoadGeom = new Geometry("Box", Road);
 		RoadGeom.setMaterial(new PlainMaterial(ColorRGBA.White));
 		attachChild(RoadGeom);
-		RoadGeom.setLocalTranslation(360, 0.1f, 390+(395/2));
+		RoadGeom.setLocalTranslation(360, 0.1f, 390+(401.5f/2));
 	}
 	
 	private void Entry()
@@ -89,7 +89,7 @@ public class RiverShipPlatform extends Platform
 		Geometry ExitGeom = new Geometry("Box", Exit);
 		ExitGeom.setMaterial(new PlainMaterial(ColorRGBA.White));
 		attachChild(ExitGeom);
-		ExitGeom.setLocalTranslation(340, 0.1f, 784f);
+		ExitGeom.setLocalTranslation(340, 0.1f, 791.5f);
 	}
 
         /**
