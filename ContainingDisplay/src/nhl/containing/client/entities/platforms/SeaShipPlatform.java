@@ -18,19 +18,19 @@ import com.jme3.scene.shape.Box;
 public class SeaShipPlatform extends Platform
 {
     //width = 300
-        private static StoragePlatform s;
+    private static StoragePlatform s;
 	public SeaShipPlatform()
 	{
 		SeaSideWay();
 		BigShipRails();
 		HookEast();
 		HookWest();
-                agvRoad();
-                entry();
-                exit();
+        agvRoad();
+        entry();
+        exit();
 		ContainingClient.getMyRootNode().attachChild(this);
                 
-                s = new StoragePlatform();
+        s = new StoragePlatform();
 	}
 
         /**

@@ -21,14 +21,8 @@ import com.jme3.scene.Node;
  * In deze klasse wordt de beweging van de truckcrane gemaakt.
  */
 public class TruckCrane extends Crane {
-    private MotionPath grabContainer;
-    private MotionPath moveToTruck;
     private MotionPath dropContainer;
-    private MotionPath moveBack;
-    private MotionEvent motionControl;
-    private MotionEvent motionControl2;
     private MotionEvent motionControl3;
-    private MotionEvent motionControl4;
     int truckCraneNR;
     
     private MotionPath craneToTruck;
@@ -53,11 +47,6 @@ public class TruckCrane extends Crane {
         subNodes.getChild(0).setMaterial(new PlainMaterial(new ColorRGBA(1, 20f / 255f, 147f / 255f, 1f))); //Wheel Colour
         ContainingClient.getMyRootNode().attachChild(this);
     }
-    
-//    public void pickupFromTruck(AGV agv, Truck truck, Container container)
-//    {
-//    	craneToTruck(agv, truck, container);
-//    }
     
     public void fromTruck(final AGV agv, final Container container)
     {

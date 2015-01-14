@@ -26,7 +26,7 @@ public class RiverShipPlatform extends Platform
 		Road();
 		Entry();
 		Exit();
-                ContainingClient.getMyRootNode().attachChild(this);
+        ContainingClient.getMyRootNode().attachChild(this);
 	}
 
         /**
