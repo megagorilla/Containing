@@ -4,12 +4,15 @@ import java.util.ArrayList;
 import java.util.concurrent.Callable;
 
 import nhl.containing.client.ContainingClient;
+import nhl.containing.client.ContainingClient.Quality;
 import nhl.containing.client.entities.Container;
 import nhl.containing.client.entities.cranes.StorageCrane;
+import nhl.containing.client.entities.cranes.TrainCrane;
 import nhl.containing.client.entities.cranes.TruckCrane;
 import nhl.containing.client.entities.vehicles.AGV;
 import nhl.containing.client.entities.vehicles.Barge;
 import nhl.containing.client.entities.vehicles.SeaShip;
+import nhl.containing.client.entities.vehicles.Train;
 import nhl.containing.client.entities.vehicles.Truck;
 
 import com.jme3.cinematic.MotionPath;
@@ -34,12 +37,12 @@ public class ClientListener implements MessageListener<Client> {
 		if (m instanceof TruckSpawnData) {
 			this.handleTruckSpawnMessage((TruckSpawnData) m);
 		}
-//		if (m instanceof StorageCranePickupData){
-//			this.handleTrainSpawnMessage((StorageCranePickupData)m);
-//		}
-//		if(m instanceof TrainCraneData)	{
-//			this.handleTrainCraneMessage((TrainCraneData)m);
-//		}
+		if (m instanceof TrainSpawnData){
+			this.handleTrainSpawnMessage((TrainSpawnData)m);
+		}
+		if(m instanceof TrainCraneData)	{
+			this.handleTrainCraneMessage((TrainCraneData)m);
+		}
 		if(m instanceof StorageCranePickupData) {
 			this.handleStorageCraneMessage((StorageCranePickupData) m);
 		}
@@ -205,35 +208,32 @@ public class ClientListener implements MessageListener<Client> {
 		});
 	}
 	
-//	private void handleTrainSpawnMessage(final TrainSpawnData m)
-//	{
-//		 ContainingClient.instance.enqueue(new Callable<Object>() 
-//		 {
-//            public Object call() throws Exception
-//            {
-//            	/*if(m.shouldDespawn)
-//            	{
-//            		Truck truck = ContainingClient.Trucks.get(m.truckID);
-//            		truck.removeFromParent();
-//            		ContainingClient.Trucks.remove(m.truckID);
-//            	}
-//            	else
-//            	{*/	            	
-//	            	Train train = new Train(Quality.HIGH, m.containerIDs.length);
-//	            	for (int i = 0; i < m.containerIDs.length; i++) {
-//	            		Container container = new Container(Quality.HIGH,m.containerIDs[i]);
-//						train.addContainer(container);
-//						container.setLocalTranslation(0, 1.5f, 0);
-//						train.setLocalTranslation(400, 0, -750 + 25 * m.trainIDs[0]);
-//	            	}
-//					
-//			        train.rotate(0, FastMath.HALF_PI, 0);
-//			        ContainingClient.train = train;
-//            	//}
-//            	return null;
-//            }
-//		 });
-//	}
+	private void handleTrainSpawnMessage(final TrainSpawnData m)
+	{
+		 ContainingClient.instance.enqueue(new Callable<Object>() 
+		 {
+            public Object call() throws Exception
+            {
+            	System.out.println("TrainSpawnMessage received");
+            	if(m.shouldDespawn)
+            	{
+            		ContainingClient.train.removeFromParent();
+            		ContainingClient.train = null;
+            	}
+            	else
+            	{            	
+	            	Train train = new Train(Quality.HIGH, m.containerIDs.length);
+	            	train.setLocalTranslation(-334, 0, 725);
+	            	for (int i = 0; i < m.containerIDs.length; i++) {
+	            		Container container = new Container(Quality.HIGH,m.containerIDs[i]);
+						train.addContainer(container, i);
+	            	}
+			        ContainingClient.train = train;
+            	}
+            	return null;
+            }
+		 });
+	}
 	private void handleTruckCraneMessage(final TruckCraneData m)
 	{
 		 ContainingClient.instance.enqueue(new Callable<Object>() 
@@ -252,19 +252,20 @@ public class ClientListener implements MessageListener<Client> {
 		 });
 	}
 	
-//	private void handleTrainCraneMessage(final TrainCraneData m) 
-//	{
-//		 ContainingClient.instance.enqueue(new Callable<Object>() 
-//		 {
-//            public Object call() throws Exception
-//            {
-//				TrainCrane crane = ContainingClient.TrainCranes.get(m.craneID);
-//				AGV agv = ContainingClient.agvs.get(m.agvID);
-//				crane.loadContainer(ContainingClient.Trucks.get(m.containerID).getContainer(), agv, m.craneID);
-//				return null;
-//			}
-//		});
-//	}
+	private void handleTrainCraneMessage(final TrainCraneData m) 
+	{
+		 ContainingClient.instance.enqueue(new Callable<Object>() 
+		 {
+            public Object call() throws Exception
+            {
+            	System.out.println("handleTrainCraneMessage called!");
+				TrainCrane crane = ContainingClient.TrainCranes.get(m.craneID);
+				AGV agv = ContainingClient.agvs.get(m.agvID);
+				crane.loadContainer(ContainingClient.train.getContainer(m.containerID), agv, m.locationID);
+				return null;
+			}
+		});
+	}
 
 	private void handleUpdateMessage(final UpdateMessage message) {
 		for (final AGVData data : message.data) {

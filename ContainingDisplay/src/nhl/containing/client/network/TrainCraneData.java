@@ -8,6 +8,7 @@ public class TrainCraneData extends AbstractMessage {
 	public int craneID;
 	public int agvID;
 	public int containerID;
+	public int locationID;
 	
 	public TrainCraneData(){}
 
@@ -16,10 +17,11 @@ public class TrainCraneData extends AbstractMessage {
 	 * @param id
 	 * @param list
 	 */
-	public TrainCraneData(int agvID, int craneID, int containerID)
+	public TrainCraneData(int agvID, int craneID, int containerID, int locationID)
 	{
 		this.agvID = agvID;
 		this.craneID = craneID;
 		this.containerID = containerID;
+		this.locationID = locationID;
 	}
 }
