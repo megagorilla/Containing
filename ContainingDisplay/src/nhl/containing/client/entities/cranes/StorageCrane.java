@@ -20,16 +20,8 @@ public class StorageCrane extends Crane {
     //private static final Container container;
     private MotionPath path;
     private MotionPath craneMove;
-    private MotionPath craneBack;
-    private MotionPath containerStore;
-    private MotionPath craneBackToStart;
     private MotionEvent motionControl;
-    private MotionEvent motionControl2;
     private MotionEvent motionControl3;
-    
-    private Node rootNode;
-    private boolean up = true;
-    private boolean move = false;
 
     /**
      * creates the storageCrane and loads the models for the grabber and the
@@ -260,7 +252,6 @@ public class StorageCrane extends Crane {
           path.addWayPoint(new Vector3f(0, 0, 0));
           
           motionControl = new MotionEvent(this, craneMove);
-          motionControl2 = new MotionEvent(this, path);
          
           
           path.addListener(new MotionPathListener() {

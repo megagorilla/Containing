@@ -3,7 +3,6 @@ package nhl.containing.client;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import nhl.containing.client.entities.Container;
 import nhl.containing.client.entities.Platform;
 import nhl.containing.client.entities.cranes.DockingCrane;
 import nhl.containing.client.entities.cranes.StorageCrane;
@@ -17,13 +16,13 @@ import nhl.containing.client.entities.platforms.TruckPlatform;
 import nhl.containing.client.entities.vehicles.AGV;
 import nhl.containing.client.entities.vehicles.Barge;
 import nhl.containing.client.entities.vehicles.SeaShip;
-import nhl.containing.client.entities.vehicles.Train;
+import nhl.containing.client.entities.vehicles.SpaceShip;
 import nhl.containing.client.entities.vehicles.Truck;
 import nhl.containing.client.network.ConnectionManager;
+import nhl.containing.client.scenery.SeaNode;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.asset.AssetManager;
-import com.jme3.cinematic.events.MotionEvent;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
@@ -49,48 +48,29 @@ public class ContainingClient extends SimpleApplication {
         LOW, MEDIUM, HIGH
     };
     public static Quality quality = Quality.LOW;
-    //private ContainingClient main = new ContainingClient();
     private static Node myRootNode;
     private static AssetManager myAssetManager;
     private static ViewPort myViewPort;
-    MotionEvent motionControl;
-    public static AGV agv;
     
     public static ArrayList<AGV> agvs = new ArrayList<AGV>();
     public static ArrayList<StorageCrane> StorageCranes = new ArrayList<StorageCrane>();
     public static ArrayList<TrainCrane> TrainCranes = new ArrayList<TrainCrane>();
     public static ArrayList<TruckCrane> TruckCranes = new ArrayList<TruckCrane>();
-    ArrayList<Platform> Platforms = new ArrayList<Platform>();
-    ArrayList<AGV> AGVs = new ArrayList<AGV>();
-    public static HashMap<Integer, Truck> Trucks = new HashMap<Integer, Truck>();
+    public static ArrayList<Platform> Platforms = new ArrayList<Platform>();
+    public static ArrayList<AGV> AGVs = new ArrayList<AGV>();
     public static ArrayList<SeaShip> seaShips = new ArrayList<SeaShip>();
     public static ArrayList<Barge> barges = new ArrayList<Barge>();
     public static ArrayList<DockingCrane> seaShipCranes = new ArrayList<DockingCrane>();
-    public static ArrayList<DockingCrane> bargeCranes = new ArrayList<DockingCrane>();
-    public static ContainingClient instance;
-    public boolean truckup = false;
-    public boolean containerUp = false;
-    public boolean down;
+    public static ArrayList<DockingCrane> bargeCranes = new ArrayList<DockingCrane>();    
+    
     int truckAmount = 20;
     int craneAmount = 39;
     int trainCraneAmount = 4;
-    Node rails;
-    Container Container1;
-    Container Container2;        
-    public static Container test2;
-    Container AGVtester;
+    
+    public static HashMap<Integer, Truck> Trucks = new HashMap<Integer, Truck>();    
+    public static ContainingClient instance;
     public static float speed;
     Vector3f direction = new Vector3f();
-    AGV trainAGV;
-    
-    Container test3;
-        public boolean hai = false;
-        
-        public TruckCrane crane;
-        public AGV agv123;
-        
-    public static int containerPositie;
-	public static Train train;
 
     public static void main(String[] args) {
         ContainingClient app = new ContainingClient();
@@ -138,9 +118,9 @@ public class ContainingClient extends SimpleApplication {
         sun.setDirection((new Vector3f(-0.5f, -0.5f, -0.5f)).normalizeLocal());
         sun.setColor(ColorRGBA.White);
         rootNode.addLight(sun);
-//        SpaceShip s = new SpaceShip();
-//        SeaNode sea = new SeaNode();
-//        this.getRootNode().attachChild(sea);
+        SpaceShip s = new SpaceShip();
+        SeaNode sea = new SeaNode();
+        this.getRootNode().attachChild(sea);
         Platforms.add(new StoragePlatform());
         Platforms.add(new SeaShipPlatform());
         Platforms.add(new TrainPlatform());
@@ -154,13 +134,6 @@ public class ContainingClient extends SimpleApplication {
             TruckCranes.get(i).rotate(0, FastMath.HALF_PI, 0);
         }
 
-
-        for (int i = 0; i < truckAmount; i++) {
-//            Trucks.add(new Truck(quality));
-//            Trucks.get(i).setLocalTranslation(400, 0, -750 + 25 * i);
-//            Trucks.get(i).rotate(0, FastMath.HALF_PI, 0);
-        }
-
         for (int i = 0; i < craneAmount; i++) {
             StorageCranes.add(new StorageCrane());
             StorageCranes.get(i).setLocalTranslation(0, 0, -760 + 40 * i);
@@ -168,22 +141,8 @@ public class ContainingClient extends SimpleApplication {
         
         for(int i = 0; i < trainCraneAmount; i++){
             TrainCranes.add(new TrainCrane());
-            //TrainCranes.get(i).setLocalTranslation(-327.5f, 0f, 100 + 100*i);
             TrainCranes.get(i).setLocalTranslation(-327.5f, 0f, 497.2f - 18.4f * i);
         }
-        //Container1.setLocalTranslation(245,1.2f,-751.7f);
-        
-        Container2 = new Container(quality, 0);
-        //110.8
-        
-        Container2.RotateContainer(0, FastMath.HALF_PI, 0);
-        Container2.setLocalTranslation(-245,1.2f,-711.7f);
-
-        trainAGV = new AGV(quality);
-        trainAGV.setLocalTranslation(-327.5f, 0, 423.6f); 
-                
-        //18.4 verschil per wagon
-        
     }
 
     
@@ -277,7 +236,7 @@ public class ContainingClient extends SimpleApplication {
      * returns the static version of the ViewPort Usage:
      * DisplayController.getMyViewPort()
      *
-     * @return a static vieuwport
+     * @return a static viewport
      */
     public static ViewPort getMyViewPort() {
         return myViewPort;

@@ -21,10 +21,6 @@ public abstract class Crane extends Node {
         this.setLocalTranslation(craneLocation);
     }
 
-    
-
-    
-
     public Node getGrabber() {
         return grabber;
     }
