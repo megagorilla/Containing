@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Stack;
 
 import nhl.containing.server.ContainingServer;
-import nhl.containing.server.entities.Train;
 import nhl.containing.server.network.ConnectionManager;
 import nhl.containing.server.network.TrainCraneData;
 import nhl.containing.server.network.TrainSpawnData;
@@ -27,16 +26,19 @@ import com.jme3.math.Vector3f;
  * @author rogier
  */
 public class TrainPlatformHandler {
-	private static final float baseX = -326.5f,
-						baseY = 0f,
-						baseZ = 725f,
-						containerOffset = 25f;
-	private static final String location = "d2";
+	private static final float 	baseX = -326.5f,
+								baseY = 0f,
+								baseZ = 711.5f,
+								containerOffset = 18.4f;
+	//private static final String location = "d2";
 	private static int currTrainID = 0;
-	private static HashMap<Integer,TrainLocation> locations = new HashMap<Integer,TrainLocation>();
+	public static HashMap<Integer,TrainLocation> locations = new HashMap<Integer,TrainLocation>();
 
-	private static boolean trainStationed = false;
-	private static Stack<Container> containersOnPlatform1, containersOnPlatform2, containersOnPlatform3, containersOnPlatform4;
+	public static boolean trainStationed = false;
+	public static Stack<Container> containersOnPlatform1 = new Stack<Container>(),
+									containersOnPlatform2 = new Stack<Container>(),
+									containersOnPlatform3 = new Stack<Container>(),
+									containersOnPlatform4 = new Stack<Container>();
 
 	public TrainPlatformHandler() {
 		init();
@@ -77,15 +79,16 @@ public class TrainPlatformHandler {
 			l.needsAGV = true;
 			ControlHandler.getInstance().requestAGVToTrain(i);
 		}
+		setCraneNums();
 	}
 	
 	public static void despawnTrain () {
 		TrainSpawnData spawnData = new TrainSpawnData(currTrainID-1,new int[0],true);
 		ConnectionManager.sendCommand(spawnData);
-		containersOnPlatform1 = null;
-		containersOnPlatform2 = null;
-		containersOnPlatform3 = null;
-		containersOnPlatform4 = null;
+		containersOnPlatform1 = new Stack<>();
+		containersOnPlatform2 = new Stack<>();
+		containersOnPlatform3 = new Stack<>();
+		containersOnPlatform4 = new Stack<>();
 		trainStationed = false;
 		for (TrainLocation l : locations.values()) {
 			l.needsAGV = false;
@@ -106,16 +109,16 @@ public class TrainPlatformHandler {
 		List<Vector3f> list = new ArrayList<Vector3f>();
 		list.add(new Vector3f());
 		list.add(new Vector3f(1, 0, 0));
-		ConnectionManager.sendCommand(new TrainCraneData(agvId, craneId, c.getContainerNumber()));
+		ConnectionManager.sendCommand(new TrainCraneData(agvId, craneId, (int)c.getPositie().x, containerLocation(c).id));
 		MotionPath path = new MotionPath();
 		for(Vector3f v : list)
 			path.addWayPoint(v);
 		path.setCurveTension(0.0f);
 		path.addListener(new CMotionPathListener());
 		AGV agv = AGVHandler.getInstance().getAGV(agvId);
-		agv.setContainer(locations.get(craneId).c);
+		agv.setContainer(c);
 		AGVHandler.getInstance().setAGV(agv.agvId, agv);
-		ServerSpatial spatial = new ServerSpatial(AGVHandler.getInstance().getAGV(agvId), "truckLocation_" + String.valueOf(craneId) + "_loaded");
+		ServerSpatial spatial = new ServerSpatial(AGVHandler.getInstance().getAGV(agvId), "trainLocation_" + containerLocation(c).id + "_loaded");
         ContainingServer.getRoot().attachChild(spatial);
 
 		MotionEvent motionControl = new MotionEvent(spatial, path);
@@ -126,17 +129,43 @@ public class TrainPlatformHandler {
         motionControl.play();
 	}
 	
+	public static void returnAGVToStorage (AGV agv, int locID) {
+		TrainLocation location = locations.get(locID);
+		List<Vector3f> list = new ArrayList<Vector3f>();
+		list.add(new Vector3f(location.location));
+		list.add(new Vector3f(353.5f, 0, location.location.z));
+		list.add(new Vector3f(353.5f, 0, -250));
+		ControlHandler.getInstance().sendAGV(agv.agvId, list, "a3");
+		despawnTrain();
+	}
+	
+	public static void setCraneNums() {
+		for(int i = 0; i < locations.size(); i++) {
+			TrainLocation l = locations.get(i);
+			if(l.id < containersOnPlatform1.size()) {
+				l.craneNum = 0;
+			}
+			else if (l.id < containersOnPlatform1.size() + containersOnPlatform2.size()) {
+				l.craneNum = 1;
+			}
+			else if (l.id < containersOnPlatform1.size() + containersOnPlatform2.size() + containersOnPlatform3.size()) {
+				l.craneNum = 2;
+			}
+			else {
+				l.craneNum = 3;
+			}
+			locations.put(i, l);
+		}
+	}
+	
 	public static void splitContainers(List<Container> containers) {
 		int length = Math.floorDiv(containers.size(), 4);
 		int rest = Math.floorMod(containers.size(), 4);
-		containersOnPlatform1 = new Stack<Container>();
 		containersOnPlatform1.addAll(containers.subList(0, length));
-		containersOnPlatform2 = new Stack<Container>();
 		containersOnPlatform2.addAll(containers.subList(length, length*2));
-		containersOnPlatform3 = new Stack<Container>();
 		containersOnPlatform3.addAll(containers.subList(length*2, length*3));
-		containersOnPlatform4 = new Stack<Container>();
 		containersOnPlatform4.addAll(containers.subList(length*3, length*4+rest));
+		return;
 	}
 	
 	
@@ -161,6 +190,7 @@ public class TrainPlatformHandler {
 		public Vector3f location;
 		public boolean needsAGV;
 		public Container c;
+		public int craneNum;
 		
 		public TrainLocation (int id, Vector3f location) {
 			this.id = id;

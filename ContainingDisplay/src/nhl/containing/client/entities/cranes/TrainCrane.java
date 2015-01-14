@@ -45,7 +45,7 @@ public class TrainCrane extends Crane {
     public void loadContainer(final Container container, final AGV agv, final int wagonNR)
     {
         moveCrane = new MotionPath();
-        moveCrane.addWayPoint(new Vector3f(-327.5f, 0f, 497.2f));
+        moveCrane.addWayPoint(new Vector3f(-327.5f, 0f, 497.21f));
         moveCrane.addWayPoint(new Vector3f(-327.5f, 0f, 497.2f-(wagonNR * 18.4f)));
         
         //497.2 - (wagonNumber * 18.4)

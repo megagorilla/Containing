@@ -223,14 +223,11 @@ public class ClientListener implements MessageListener<Client> {
             	else
             	{            	
 	            	Train train = new Train(Quality.HIGH, m.containerIDs.length);
+	            	train.setLocalTranslation(-334, 0, 725);
 	            	for (int i = 0; i < m.containerIDs.length; i++) {
 	            		Container container = new Container(Quality.HIGH,m.containerIDs[i]);
-						train.addContainer(container);
-						container.setLocalTranslation(0, 1.5f, 0);
-						train.setLocalTranslation(400, 0, -750 + 25 * m.trainID);
+						train.addContainer(container, i);
 	            	}
-					
-			        train.rotate(0, FastMath.HALF_PI, 0);
 			        ContainingClient.train = train;
             	}
             	return null;
@@ -261,9 +258,10 @@ public class ClientListener implements MessageListener<Client> {
 		 {
             public Object call() throws Exception
             {
+            	System.out.println("handleTrainCraneMessage called!");
 				TrainCrane crane = ContainingClient.TrainCranes.get(m.craneID);
 				AGV agv = ContainingClient.agvs.get(m.agvID);
-				crane.loadContainer(ContainingClient.Trucks.get(m.containerID).getContainer(), agv, m.craneID);
+				crane.loadContainer(ContainingClient.train.getContainer(m.containerID), agv, m.locationID);
 				return null;
 			}
 		});

@@ -67,8 +67,10 @@ public class Train extends Vehicle {
         ContainingClient.getMyRootNode().attachChild(this);
     }
     
-    public void addContainer(Container c) {
+    public void addContainer(Container c, int pos) {
     	containers.add(c);
+    	c.setLocalTranslation(0, 1.5f, -13.5f-18.4f*pos);
+    	this.attachChild(c);
     }
     
     public Container getContainer(int id) {
