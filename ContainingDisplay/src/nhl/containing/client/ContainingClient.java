@@ -194,8 +194,10 @@ public class ContainingClient extends SimpleApplication {
     	inputManager.addMapping("camera 3", new KeyTrigger(KeyInput.KEY_3));
     	inputManager.addMapping("camera 4", new KeyTrigger(KeyInput.KEY_4));
     	inputManager.addMapping("camera 5", new KeyTrigger(KeyInput.KEY_5));
+    	inputManager.addMapping("camera 6", new KeyTrigger(KeyInput.KEY_6));
+    	inputManager.addMapping("camera 7", new KeyTrigger(KeyInput.KEY_7));
     	
-    	inputManager.addListener(actionListener,"camera 1", "camera 2", "camera 3", "camera 4", "camera 5");
+    	inputManager.addListener(actionListener,"camera 1", "camera 2", "camera 3", "camera 4", "camera 5", "camera 6", "camera 7");
     }
     
     private ActionListener actionListener = new ActionListener() {
@@ -215,7 +217,7 @@ public class ContainingClient extends SimpleApplication {
         	  			direction.multLocal(5 * tpf);
         	  		break;
         	  		case "camera 3": name = "Barge";
-        	  		 	cam.setLocation(new Vector3f(285.32617f, 48.856247f, 732.0282f));
+        	  		 	cam.setLocation(new Vector3f(268.5698f, 55.99523f, 755.70404f));
         	  		 	cam.lookAt(bargeCranes.get(0).getLocalTranslation(), Vector3f.UNIT_Y);
         	  		break;
         	  		case "camera 4": name = "Seaship";
@@ -226,6 +228,14 @@ public class ContainingClient extends SimpleApplication {
         	  			cam.setLocation(new Vector3f(-255.5176f, 14.202371f, 564.86224f));
         	  			cam.lookAt(TrainCranes.get(0).getLocalTranslation(), Vector3f.UNIT_Y);
         	  		break;
+        	  		case "camera 6": name = "Whole platform 1";
+        	  			cam.setLocation(new Vector3f(644.7935f, 383.41898f, 1348.0024f));
+        	  			cam.lookAt(StorageCranes.get(29).getLocalTranslation(), Vector3f.UNIT_Y);
+        	  		break;
+        	  		case "camera 7": name = "Whole platform 2";
+    	  				cam.setLocation(new Vector3f(-1.9590957f, 314.26074f, 1326.4974f));
+    	  				cam.lookAt(StorageCranes.get(29).getLocalTranslation(), Vector3f.UNIT_Y);
+    	  			break;
         	  		
         	  }
           }
@@ -237,6 +247,7 @@ public class ContainingClient extends SimpleApplication {
     @Override
     public void simpleUpdate(float tpf) 
     {
+    	System.out.println(cam.getLocation());
         if(!hasSent)
         {   
         }

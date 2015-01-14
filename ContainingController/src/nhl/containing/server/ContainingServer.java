@@ -150,7 +150,7 @@ public class ContainingServer extends SimpleApplication {
 		timeSinceStart += tpf;
 		if (ConnectionManager.hasConnections())
 		{
-			bargePlatformHandler.update();
+			//bargePlatformHandler.update();
 			//seaShipPlatformHandler.update();
 			dayCounter += tpf;
 	        if(dayCounter > (dayLength / getSpeed()))
@@ -159,9 +159,9 @@ public class ContainingServer extends SimpleApplication {
 //				{
 //					seaShipPlatformHandler.Unload();
 //				}
-				if (bargePlatformHandler.hasShips()	&& bargePlatformHandler.currentShipIsUnloading()) {
-					bargePlatformHandler.Unload();
-				}
+//				if (bargePlatformHandler.hasShips()	&& bargePlatformHandler.currentShipIsUnloading()) {
+//					bargePlatformHandler.Unload();
+//				}
 					currentDay++;
 					dayCounter = 0;
 					while (bargePlatformHandler.getShipsEnRouteSize() > 0
@@ -207,7 +207,7 @@ public class ContainingServer extends SimpleApplication {
 				}
 				TruckPlatformHandler.getInstance().update(tpf);
 	            StoragePlatformHandler.getInstance().update(tpf);
-	            SeaShipPlatformHandler.getInstance().update(tpf);
+	            BargePlatformHandler.getInstance().update(tpf);
 	        }
 		}
 
