@@ -24,6 +24,9 @@ import nhl.containing.client.network.ConnectionManager;
 import com.jme3.app.SimpleApplication;
 import com.jme3.asset.AssetManager;
 import com.jme3.cinematic.events.MotionEvent;
+import com.jme3.input.KeyInput;
+import com.jme3.input.controls.ActionListener;
+import com.jme3.input.controls.KeyTrigger;
 import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
@@ -76,6 +79,7 @@ public class ContainingClient extends SimpleApplication {
     Container Container2;        
     public static Container test2;
     Container AGVtester;
+    Vector3f direction = new Vector3f();
     
     AGV trainAGV;
     
@@ -108,6 +112,9 @@ public class ContainingClient extends SimpleApplication {
         cam.setFrustumFar(5000);
         cam.onFrameChange();
         cam.setLocation(new Vector3f(300, 20, -300));
+        InitKeys();
+        
+        
 
 		for (int i = 0; i < 39/*Parking lots*/; i++)
 		{
@@ -176,8 +183,55 @@ public class ContainingClient extends SimpleApplication {
         trainAGV.setLocalTranslation(-327.5f, 0, 423.6f); 
                 
         //18.4 verschil per wagon
+        
     }
 
+    
+    private void InitKeys()
+    {
+    	inputManager.addMapping("camera 1", new KeyTrigger(KeyInput.KEY_1));
+    	inputManager.addMapping("camera 2", new KeyTrigger(KeyInput.KEY_2));
+    	inputManager.addMapping("camera 3", new KeyTrigger(KeyInput.KEY_3));
+    	inputManager.addMapping("camera 4", new KeyTrigger(KeyInput.KEY_4));
+    	inputManager.addMapping("camera 5", new KeyTrigger(KeyInput.KEY_5));
+    	
+    	inputManager.addListener(actionListener,"camera 1", "camera 2", "camera 3", "camera 4", "camera 5");
+    }
+    
+    private ActionListener actionListener = new ActionListener() {
+        public void onAction(String name, boolean keyPressed, float tpf) {
+        direction.set(cam.getDirection()).normalizeLocal();
+          if(!keyPressed)
+          {
+        	  switch (name)
+        	  {
+        	  		default : name = "Storage";
+        	  			cam.setLocation(new Vector3f(332.27817f, 44.62557f, -707.1006f));
+        	  			cam.lookAt(StorageCranes.get(0).getLocalTranslation(), Vector3f.UNIT_Y);
+	  				break;
+        	  		case "camera 2": name = "Truck";
+        	  			cam.setLocation(new Vector3f(432.1398f, 47.058403f, -872.5521f));
+        	  			cam.lookAt(TruckCranes.get(0).getLocalTranslation(), Vector3f.UNIT_Y);
+        	  			direction.multLocal(5 * tpf);
+        	  		break;
+        	  		case "camera 3": name = "Barge";
+        	  		 	cam.setLocation(new Vector3f(285.32617f, 48.856247f, 732.0282f));
+        	  		 	cam.lookAt(bargeCranes.get(0).getLocalTranslation(), Vector3f.UNIT_Y);
+        	  		break;
+        	  		case "camera 4": name = "Seaship";
+        	  			cam.setLocation(new Vector3f(-289.3266f, 57.694035f, 745.97687f));
+        	  			cam.lookAt(seaShipCranes.get(4).getLocalTranslation(), Vector3f.UNIT_Y);
+        	  		break;
+        	  		case "camera 5": name = "Train";
+        	  			cam.setLocation(new Vector3f(-255.5176f, 14.202371f, 564.86224f));
+        	  			cam.lookAt(TrainCranes.get(0).getLocalTranslation(), Vector3f.UNIT_Y);
+        	  		break;
+        	  		
+        	  }
+          }
+        }
+      };
+      
     boolean hasSent;
     
     @Override
