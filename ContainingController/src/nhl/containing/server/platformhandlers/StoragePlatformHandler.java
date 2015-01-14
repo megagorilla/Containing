@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import nhl.containing.server.ContainingServer;
-import nhl.containing.server.ShipCrane;
 import nhl.containing.server.network.ConnectionManager;
 import nhl.containing.server.network.StorageCranePickupData;
 import nhl.containing.server.pathfinding.AGV;
@@ -24,7 +23,6 @@ public class StoragePlatformHandler {
 	private static StoragePlatformHandler instance;
 	private HashMap<Integer, ParkingLocation> locations = new HashMap<Integer, ParkingLocation>();
 	private HashMap<Integer, StorageUnit> storageUnits = new HashMap<Integer, StorageUnit>();
-	private ArrayList<StorageCranePickupData> containersToOffload = new ArrayList<StorageCranePickupData>();
 	
 	public StoragePlatformHandler() {
 		instance = this;
@@ -82,13 +80,10 @@ public class StoragePlatformHandler {
 		{
 			if(storage.isFree)
 			{
-				for(int i = 0; i < containersToOffload.size(); i++)
-				{
-					if(containersToOffload.get(i).craneID == storage.storage.getStorageId())
+					if(!storage.containersToOffload.isEmpty())
 					{
-						final int j = i;
 						storage.isFree = false;
-						ConnectionManager.sendCommand(containersToOffload.get(i));
+						ConnectionManager.sendCommand(storage.containersToOffload.get(0));
 						MotionPath path = new MotionPath();
 						path.addWayPoint(new Vector3f());
 						path.addWayPoint(new Vector3f(1, 0, 0));
@@ -101,10 +96,10 @@ public class StoragePlatformHandler {
 								{
 									StorageUnit stor = storageUnits.get(storage.storage.getStorageId());
 									stor.isFree = true;
-									AGV agv = AGVHandler.getInstance().getAGV(containersToOffload.get(j).agvId);
+									AGV agv = AGVHandler.getInstance().getAGV(storage.containersToOffload.get(0).agvId);
 									agv.container = null;
 									AGVHandler.getInstance().agvs.put(agv.agvId, agv);
-									containersToOffload.remove(j);
+									storage.containersToOffload.remove(0);
 									storageUnits.put(stor.storage.getStorageId(), stor);
 								}
 							}	
@@ -121,7 +116,6 @@ public class StoragePlatformHandler {
 				        storageUnits.put(storage.storage.getStorageId(), storage);
 				        break;
 					}
-				}
 			}
 			
 			if(!storage.isFree)
@@ -131,7 +125,9 @@ public class StoragePlatformHandler {
 
 	public void addContainerToOffload(StorageCranePickupData c)
 	{
-		this.containersToOffload.add(c);
+		StorageUnit storage = this.storageUnits.get(c.craneID);
+		storage.containersToOffload.add(c);
+		this.storageUnits.put(storage.storage.getStorageId(), storage);
 	}
 	
 	public ParkingLocation getLocation(int id)
@@ -177,6 +173,7 @@ public class StoragePlatformHandler {
 		public Storage storage;
 		public Vector3f location;
 		public boolean isFree;
+		public ArrayList<StorageCranePickupData> containersToOffload = new ArrayList<StorageCranePickupData>();
 		
 		public StorageUnit(Storage storage, Vector3f location ) {
 			this.storage = storage;
@@ -187,6 +184,16 @@ public class StoragePlatformHandler {
 
 	public void setParkingLocation(ParkingLocation location) {
 		this.locations.put(location.id, location);
+	}
+
+	public String getContainerAmount() 
+	{	
+		int i = 0;
+		for(StorageUnit storage : this.storageUnits.values())
+		{
+			i += storage.storage.getContainerAmount();
+		}
+		return Integer.toString(i);
 	}
 }
 

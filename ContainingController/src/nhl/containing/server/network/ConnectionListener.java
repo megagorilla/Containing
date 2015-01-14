@@ -10,7 +10,7 @@ public class ConnectionListener implements com.jme3.network.ConnectionListener {
 	}
 	public void connectionAdded(Server s, HostedConnection c)
 	{
-		
+		ConnectionManager.sendCommand(c.getId(), new InitMessage());
 	}
 	public void connectionRemoved(Server s, HostedConnection c)
 	{

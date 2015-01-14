@@ -250,4 +250,15 @@ public class TruckPlatformHandler
         motionControl.setSpeed(1f);
         motionControl.play();
 	}
+
+	public String getContainerAmount() 
+	{
+		int i = 0;
+		for(TruckLocation loc : this.locations.values())
+		{
+			if(!loc.isAvailable)
+				i++;
+		}
+		return Integer.toString(i);
+	}
 }

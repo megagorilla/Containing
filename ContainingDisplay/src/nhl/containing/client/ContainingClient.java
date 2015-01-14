@@ -76,7 +76,7 @@ public class ContainingClient extends SimpleApplication {
     Container Container2;        
     public static Container test2;
     Container AGVtester;
-    
+    public static float speed;
     AGV trainAGV;
     
     Container test3;
@@ -229,6 +229,10 @@ public class ContainingClient extends SimpleApplication {
     
     public static float getSpeed()
     {
-    	return 10f;
+    	return speed;
     }
+
+	public static void setSpeed(float speed) {
+		ContainingClient.speed = speed;
+	}
 }

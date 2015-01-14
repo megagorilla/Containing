@@ -57,6 +57,8 @@ public class ClientListener implements MessageListener<Client> {
 		}
 		if(m instanceof StorageCraneDropoffData)
 			this.handleStorageCraneDropoffMessage((StorageCraneDropoffData) m);
+		if(m instanceof InitMessage)
+			ContainingClient.setSpeed(((InitMessage) m).speed);
 	}
 
 	private void handleStorageCraneDropoffMessage(final StorageCraneDropoffData m) 

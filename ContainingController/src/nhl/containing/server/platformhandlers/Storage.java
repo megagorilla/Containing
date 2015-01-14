@@ -73,6 +73,19 @@ public class Storage {
 		return this.storageId;
 	}
 	
+	public int getContainerAmount()
+	{
+		int i = 0;
+		for(int x = 0; x < storageX; x++)
+		{
+			for(int z = 0; z < storageZ; z++)
+			{
+				i += containerStorage[x][z].size();
+			}
+		}
+		return i;
+	}
+	
 	public HashMap<Vector3f, Container> getDepartureList(){
 		int currentDay = c.getCurrentDay();
 		HashMap<Vector3f, Container> containers = new HashMap<Vector3f, Container>();

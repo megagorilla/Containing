@@ -34,6 +34,8 @@ public final class ConnectionManager
         Serializer.registerClass(BargeSpawnData.class);
         Serializer.registerClass(ContainerData.class);
         Serializer.registerClass(StorageCraneDropoffData.class);
+        
+        Serializer.registerClass(InitMessage.class);
 		try
 		{
 			server = Network.createServer(port);
@@ -43,7 +45,7 @@ public final class ConnectionManager
 			System.err.println(e);
 			return false;
 		}
-		server.addConnectionListener(new nhl.containing.server.network.ConnectionListener());
+		server.addConnectionListener(new ConnectionListener());
 		server.start();
 		return true;
 	}
