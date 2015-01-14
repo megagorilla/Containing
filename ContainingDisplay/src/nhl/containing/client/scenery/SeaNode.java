@@ -11,11 +11,11 @@ import com.jme3.water.SimpleWaterProcessor;
  */
 public class SeaNode extends Node
 {
-	public SeaNode()
+	public SeaNode(Node Skynode)
 	{
 		// create processor
 		SimpleWaterProcessor waterProcessor = new SimpleWaterProcessor(ContainingClient.getMyAssetManager());
-		waterProcessor.setReflectionScene(ContainingClient.getMyRootNode());
+		waterProcessor.setReflectionScene(Skynode);
 		ContainingClient.getMyViewPort().addProcessor(waterProcessor);
 
 		// create water quad
