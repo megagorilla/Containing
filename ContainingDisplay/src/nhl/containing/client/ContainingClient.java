@@ -17,9 +17,11 @@ import nhl.containing.client.entities.platforms.TruckPlatform;
 import nhl.containing.client.entities.vehicles.AGV;
 import nhl.containing.client.entities.vehicles.Barge;
 import nhl.containing.client.entities.vehicles.SeaShip;
+import nhl.containing.client.entities.vehicles.SpaceShip;
 import nhl.containing.client.entities.vehicles.Train;
 import nhl.containing.client.entities.vehicles.Truck;
 import nhl.containing.client.network.ConnectionManager;
+import nhl.containing.client.scenery.SeaNode;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.asset.AssetManager;
@@ -103,7 +105,9 @@ public class ContainingClient extends SimpleApplication {
         myAssetManager = assetManager;
         myRootNode = rootNode;
         myViewPort = viewPort;
-        rootNode.attachChild(SkyFactory.createSky(assetManager, "Scenes/BrightSky.dds", false));
+        Node Skynode = new Node();
+        Skynode.attachChild(SkyFactory.createSky(assetManager, "Scenes/BrightSky.dds", false));
+        rootNode.attachChild(Skynode);
         flyCam.setMoveSpeed(200);
         cam.setFrustumFar(5000);
         cam.onFrameChange();
@@ -131,9 +135,10 @@ public class ContainingClient extends SimpleApplication {
         sun.setDirection((new Vector3f(-0.5f, -0.5f, -0.5f)).normalizeLocal());
         sun.setColor(ColorRGBA.White);
         rootNode.addLight(sun);
-//        SpaceShip s = new SpaceShip();
-//        SeaNode sea = new SeaNode();
-//        this.getRootNode().attachChild(sea);
+        SpaceShip s = new SpaceShip();
+        Skynode.attachChild(s);
+        SeaNode sea = new SeaNode(Skynode);
+        this.getRootNode().attachChild(sea);
         Platforms.add(new StoragePlatform());
         Platforms.add(new SeaShipPlatform());
         Platforms.add(new TrainPlatform());

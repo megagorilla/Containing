@@ -28,11 +28,11 @@ public class SpaceShip extends Vehicle {
     private void startMotionPath() {
         MotionPath path = new MotionPath();
 
-        path.addWayPoint(new Vector3f(1000, 1000, -1000));
-        path.addWayPoint(new Vector3f(1000, 1000, 1000));
-        path.addWayPoint(new Vector3f(-1000, 1000, 1000));
-        path.addWayPoint(new Vector3f(-1000, 1000, -1000));
-        path.addWayPoint(new Vector3f(1000, 1000, -1000));
+        path.addWayPoint(new Vector3f(1000, 300, -1000));
+        path.addWayPoint(new Vector3f(1000, 300, 1000));
+        path.addWayPoint(new Vector3f(-1000, 300, 1000));
+        path.addWayPoint(new Vector3f(-1000, 300, -1000));
+        path.addWayPoint(new Vector3f(1000, 300, -1000));
         
         path.setCycle(true);
         path.setCurveTension(1);
