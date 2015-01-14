@@ -94,7 +94,7 @@ public class SeaShipPlatformHandler {
     /**
      * moves the first ship from shipsEnRoute to shipsInHarbor
      */
-    public void nextShipArrives(){ //Might need rename
+    public void nextShipArrives(){
         shipsInHarbor.add(shipsEnRoute.pop());
         List<Container> containers = shipsInHarbor.get(0).getContainerList();
         List<ContainerData> containerData = new ArrayList<>();

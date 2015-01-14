@@ -50,7 +50,6 @@ public class StoragePlatformHandler {
 		List<Vector3f> list = new ArrayList<Vector3f>();
 		list.add(new Vector3f(303.5f, 0.0f, -778.5f));
 		list.add(new Vector3f(303.5f, 0.0f, -760 + 40 * location.parkID));
-		//267.5f - 535*a ,0,-760+ 40
 		list.add(new Vector3f(267.5f, 0.0f, -760 + 40 * location.parkID));
 		list.add(new Vector3f(location.location.x + 10, 0.0f, location.location.z));
 		list.add(new Vector3f(location.location));

@@ -42,7 +42,7 @@ public class BargePlatformHandler {
         boolean isFull;
         ArrayList<Container> buffList = new ArrayList<>();
         for(int i = 0;i<4;i++)
-            cranes.add(new ShipCrane(Vector3f.ZERO, i, false));
+            //cranes.add(new ShipCrane(Vector3f.ZERO, i, false));
         while (BargeContainers.size() > 0) {
             buffList.add(BargeContainers.get(0));
             BargeContainers.remove(0);
@@ -64,20 +64,20 @@ public class BargePlatformHandler {
     
     public void update(){
     	
-    	RequestAGVToBarge();
-    	while(!c.agvBargeQueue.isEmpty()){
-    		SendAGVToBargeCrane(c.agvBargeQueue.get(0));
-    	}
-    	float currentTime = ContainingServer.timeSinceStart;
-    	for(int i = 0; i<cranes.size();i++){
-    		if(cranes.get(i).getTimeStartedUnloading()>0 &&(((currentTime - cranes.get(i).getTimeStartedUnloading())>durationFastest && ContainingServer.getDayLength() < 10f ) ||
-    				((currentTime - cranes.get(i).getTimeStartedUnloading())>durationMedium && (ContainingServer.getDayLength() >= 10f && ContainingServer.getDayLength() < 30f) ) ||
-    				((currentTime - cranes.get(i).getTimeStartedUnloading())>durationSlowest && ContainingServer.getDayLength() >= 30f ))){
-    			cranes.get(i).SetUnloading(false);
-    			Container container = cranes.get(i).getContainer(); //TODO connect this container to the AGV
-    			cranes.get(i).setTimeStartedUnloading(0f);
-    		}
-    	}
+//    	RequestAGVToBarge();
+//    	while(!c.agvBargeQueue.isEmpty()){
+//    		SendAGVToBargeCrane(c.agvBargeQueue.get(0));
+//    	}
+//    	float currentTime = ContainingServer.timeSinceStart;
+//    	for(int i = 0; i<cranes.size();i++){
+//    		if(cranes.get(i).getTimeStartedUnloading()>0 &&(((currentTime - cranes.get(i).getTimeStartedUnloading())>durationFastest && ContainingServer.getDayLength() < 10f ) ||
+//    				((currentTime - cranes.get(i).getTimeStartedUnloading())>durationMedium && (ContainingServer.getDayLength() >= 10f && ContainingServer.getDayLength() < 30f) ) ||
+//    				((currentTime - cranes.get(i).getTimeStartedUnloading())>durationSlowest && ContainingServer.getDayLength() >= 30f ))){
+//    			cranes.get(i).SetUnloading(false);
+//    			Container container = cranes.get(i).getContainer(); //TODO connect this container to the AGV
+//    			cranes.get(i).setTimeStartedUnloading(0f);
+//    		}
+//    	}
     }
     
     /**
@@ -111,8 +111,8 @@ public class BargePlatformHandler {
                 for(int i1 = 0;i1 < shipSize.x;i1++){
                     for(int j = 0; j< shipSize.z;j++){
                         if(shipsInHarbor.get(0).containsContainers(j, i1)){
-                            Container container = shipsInHarbor.get(0).pop(j, i1);
-                            cranes.get(i).startUnloading(container);
+                            //Container container = shipsInHarbor.get(0).pop(j, i1);
+                            //cranes.get(i).startUnloading(container);
                             break;
                         }
                     }
@@ -151,7 +151,7 @@ public class BargePlatformHandler {
     	if(getCurrentShip() != null){
     		if(agvAmount < 4){
 				for(int i = 0; i < this.getCurrentShip().getContainerAmount() && i < 4; i++){
-					ControlHandler.getInstance().requestAGVToBarge();
+					//ControlHandler.getInstance().requestAGVToBarge();
 					agvAmount++;
 				}
     		}
