@@ -5,25 +5,29 @@
  */
 package nhl.containing.server.platformhandlers;
 
-
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Stack;
-
-
-
 
 import nhl.containing.server.ContainingServer;
 import nhl.containing.server.Ship;
 import nhl.containing.server.ShipCrane;
 import nhl.containing.server.network.ConnectionManager;
 import nhl.containing.server.network.ContainerData;
+import nhl.containing.server.network.SeaShipCraneData;
 import nhl.containing.server.network.SeaShipSpawnData;
 import nhl.containing.server.pathfinding.AGV;
+import nhl.containing.server.pathfinding.AGVHandler;
 import nhl.containing.server.util.ControlHandler;
+import nhl.containing.server.util.ServerSpatial;
 import nhl.containing.server.util.XMLFileReader.Container;
 
+import com.jme3.cinematic.MotionPath;
+import com.jme3.cinematic.MotionPathListener;
+import com.jme3.cinematic.events.MotionEvent;
+import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 
 /**
@@ -34,14 +38,9 @@ public class SeaShipPlatformHandler {
 	
     Stack<Ship> shipsEnRoute = new Stack<Ship>();
     ArrayList<Ship> shipsInHarbor = new ArrayList<>();
-    ArrayList<ShipCrane> cranes = new ArrayList<>();
+    HashMap<Integer, ShipCrane> cranes = new HashMap<Integer, ShipCrane>();
     private static SeaShipPlatformHandler instance;
-    private int agvAmount = 0;
-    ControlHandler c = new ControlHandler();
-    
-    private final float durationFastest = 4;
-    private final float durationMedium = 40;
-    private final float durationSlowest = 120;
+    ControlHandler c = ControlHandler.getInstance();
 
     public SeaShipPlatformHandler(ArrayList<Container> seaShipContainers) {
     	instance = this;
@@ -50,10 +49,7 @@ public class SeaShipPlatformHandler {
     
     public void update(float tpf)
 	{
-    	RequestAGVToSeaship();
-    	while(!c.agvShipQueue.isEmpty()){
-    		SendAGVToSeaShipCrane(c.agvShipQueue.get(0));
-    	}
+    	checkNeedForAGVs();
 	}
     
     public static SeaShipPlatformHandler getInstance()
@@ -61,10 +57,11 @@ public class SeaShipPlatformHandler {
 		return instance;
 	}
     
-    private void initSeaShips(ArrayList<Container> seaShipContainers){
+    private void initSeaShips(ArrayList<Container> seaShipContainers)
+    {
     	boolean isFull;
         for(int i = 0;i<12;i++)
-            cranes.add(new ShipCrane(Vector3f.ZERO, i,true));
+            cranes.put(i, new ShipCrane(i,true));
         ArrayList<Container> buffList = new ArrayList<>();
         while (seaShipContainers.size() > 0) {
             buffList.add(seaShipContainers.get(0));
@@ -83,39 +80,6 @@ public class SeaShipPlatformHandler {
 
         }
         Collections.sort(shipsEnRoute, (a, b) -> (a.getArrivalDay() < b.getArrivalDay()) ? 1 : (a.getArrivalDay() > b.getArrivalDay()) ? -1 : 0);
-    }
-    
-    public void update(){
-    	float currentTime = ContainingServer.timeSinceStart;
-    	for(int i = 0; i<cranes.size();i++){
-    		if(((currentTime - cranes.get(i).getTimeStartedUnloading())>durationFastest && ContainingServer.getDayLength() < 10f ) ||
-    				((currentTime - cranes.get(i).getTimeStartedUnloading())>durationMedium && (ContainingServer.getDayLength() >= 10f && ContainingServer.getDayLength() < 30f) ) ||
-    				((currentTime - cranes.get(i).getTimeStartedUnloading())>durationSlowest && ContainingServer.getDayLength() >= 30f )){
-    			cranes.get(i).SetUnloading(false);
-    			Container container = cranes.get(i).getContainer(); //TODO connect this container to the AGV
-    			cranes.get(i).setTimeStartedUnloading(0f);
-    		}
-    	}
-    }
-    
-    public void Unload(){
-    	if(shipsInHarbor.get(0).getContainerAmount() ==0){
-    		System.out.println("ship empty");
-    	}
-        for(int i = 0; i<cranes.size();i++){
-            if(!cranes.get(i).isUnloading()){
-                Vector3f shipSize = shipsInHarbor.get(0).getShipSize();
-                for(int i1 = 0; i1 < shipSize.x;i1++){
-                    for(int j = 0; j< shipSize.z;j++){
-                        if(shipsInHarbor.get(0).containsContainers(j,i1)){
-                            Container container = shipsInHarbor.get(0).pop(j,i1);
-                            cranes.get(i).startUnloading(container);
-                            break;
-                        }
-                    }
-                }
-            }
-        }
     }
 
     /**
@@ -140,26 +104,14 @@ public class SeaShipPlatformHandler {
         ConnectionManager.sendCommand(data);
     }
     
-    public void RequestAGVToSeaship(){
-    	if(getCurrentShip() != null){
-    		if(agvAmount < 12){
-				for(int i = 0; i < this.getCurrentShip().getContainerAmount() && i < 4; i++){
-					ControlHandler.getInstance().requestAGVToSeaship();
-					agvAmount++;
-				}
-    		}
-    	}
-    }
-    
-    public void SendAGVToSeaShipCrane(AGV agv){
-    	for(ShipCrane c : cranes){
-    		if(c.isUnloading() == false){
-    			Vector3f tempCraneLoc = c.getLocation();
-    			c.SetUnloading(true);
-    			List<Vector3f> list = new ArrayList<Vector3f>();
-    			list.add(new Vector3f(316.5f, 0.0f, 882.5f));
-    			list.add(new Vector3f(tempCraneLoc.x, 0.0f, 882.5f));
-    			ControlHandler.getInstance().sendAGV(agv.agvId, list, "shipCrane_" + c.getID());;
+    public void checkNeedForAGVs()
+    {
+    	for(ShipCrane crane : cranes.values())
+    	{
+    		if(!crane.isUnloading())
+    		{	
+    			ControlHandler.getInstance().requestAGVToSeaship();
+    			crane.SetUnloading(true);
     		}
     	}
     }
@@ -183,5 +135,80 @@ public class SeaShipPlatformHandler {
     public boolean hasShips(){
         return shipsInHarbor.size()>0;
     }
-    
+
+	public void handleAGV(int agvId)
+	{
+		for(int i = 0; i < 12; i++)
+		{
+			ShipCrane crane = cranes.get(i);
+			if(crane.agv == null)
+			{
+				crane.agv = AGVHandler.getInstance().getAGV(agvId);
+				List<Vector3f> list = new ArrayList<Vector3f>();
+                list.add(new Vector3f(316.5f, 0.0f, 882.5f));
+                list.add(new Vector3f(crane.currentRow * 13.4f, 0.0f, 882.5f));
+				ControlHandler.getInstance().sendAGV(agvId, list, "seaShipLocation_" + crane.getID());
+				setCrane(crane);
+				return;
+			}
+		}
+	}
+
+	public ShipCrane getCrane(int i)
+	{
+		return cranes.get(i);
+	}
+
+	public Container popContainer(ShipCrane crane)
+	{	
+		return shipsInHarbor.get(0).pop(crane.currentRow);
+	}
+
+	public void setCrane(ShipCrane crane)
+	{
+		cranes.put(crane.getID(), crane);
+	}
+
+	public void unloadContainer(int craneID, int agvId, Container container)
+	{
+        SeaShipCraneData data = new SeaShipCraneData(agvId, container.getPositie(), craneID, container.getContainerNumber());
+        ConnectionManager.sendCommand(data);
+        MotionPath path = new MotionPath();
+        path.addWayPoint(new Vector3f());
+        path.addWayPoint(new Vector3f(1, 0, 0));
+        path.addWayPoint(new Vector3f(100, 0, 0));
+        ServerSpatial spatial = new ServerSpatial(null, Integer.toString(craneID));
+        ContainingServer.getRoot().attachChild(spatial);
+        path.addListener(new MotionPathListener(){
+			@Override
+			public void onWayPointReach(MotionEvent motionEvent, int wayPointIndex) {
+				if(motionEvent.getPath().getNbWayPoints() == wayPointIndex + 2)
+				{
+					ShipCrane crane = getCrane(craneID);
+					crane.SetUnloading(false);
+					setCrane(crane);
+					System.out.println("1234  " + crane.getID());
+				}
+				if(motionEvent.getPath().getNbWayPoints() == wayPointIndex + 1)
+				{
+					ShipCrane crane = getCrane(craneID);
+					AGV agv = AGVHandler.getInstance().getAGV(crane.agv.agvId);
+					agv.container = container;
+					AGVHandler.getInstance().setAGV(agv.agvId, agv);
+					List<Vector3f> list = new ArrayList<Vector3f>();
+					list.add(new Vector3f(crane.currentRow * 13.4f, 0.0f, 882.5f));
+					list.add(new Vector3f(-316.5f, 0.0f, 882.5f));
+					ControlHandler.getInstance().sendAGV(agv.agvId, list, "c3");
+					crane.agv = null;
+					setCrane(crane);
+				}
+			}    
+        });
+        MotionEvent event = new MotionEvent(spatial, path);
+        event.setDirectionType(MotionEvent.Direction.PathAndRotation);
+        event.setRotation(new Quaternion().fromAngleNormalAxis(0, Vector3f.UNIT_Y));
+        event.setInitialDuration(90f);
+        event.setSpeed(ContainingServer.getSpeed());
+        event.play();
+	}
 }

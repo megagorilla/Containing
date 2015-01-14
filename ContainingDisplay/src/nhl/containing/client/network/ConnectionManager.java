@@ -4,7 +4,6 @@
  */
 package nhl.containing.client.network;
 
-import nhl.containing.client.network.TruckSpawnData;
 import com.jme3.network.Client;
 import com.jme3.network.Network;
 import com.jme3.network.serializing.Serializer;
@@ -23,8 +22,8 @@ public final class ConnectionManager
 
 	public static boolean init(String host, int port)
 	{
-        Serializer.registerClass(UpdateMessage.class);
-        Serializer.registerClass(AGVData.class);
+		Serializer.registerClass(UpdateMessage.class);
+		Serializer.registerClass(AGVData.class);
         Serializer.registerClass(TruckCraneData.class);
         Serializer.registerClass(TruckSpawnData.class);
         Serializer.registerClass(TrainCraneData.class);

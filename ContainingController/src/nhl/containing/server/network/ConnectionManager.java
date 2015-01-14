@@ -36,6 +36,7 @@ public final class ConnectionManager
         Serializer.registerClass(BargeSpawnData.class);
         Serializer.registerClass(ContainerData.class);
         Serializer.registerClass(StorageCraneDropoffData.class);
+
 		try
 		{
 			server = Network.createServer(port);

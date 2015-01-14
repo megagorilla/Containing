@@ -66,7 +66,7 @@ public class TrainCrane extends Crane {
                     getContainer.addWayPoint(new Vector3f(-6.5f,-2.8f,0));
                     getContainer.addWayPoint(new Vector3f(-6.5f,0,0));
                     getContainer.addWayPoint(new Vector3f(0,0,0));
-                    getContainer.addWayPoint(new Vector3f(0,-2.8f,0));
+                    getContainer.addWayPoint(new Vector3f(0,-2.8f,0)); 
                     getContainer.addWayPoint(new Vector3f(0,0,0));
                     
                     motionControl2 = new MotionEvent(grabber, getContainer);

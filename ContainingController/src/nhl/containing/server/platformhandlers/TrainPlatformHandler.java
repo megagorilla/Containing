@@ -61,7 +61,7 @@ public class TrainPlatformHandler {
 		List<Vector3f> list = new ArrayList<Vector3f>();
 		list.add(new Vector3f(baseX, baseY, baseZ));
 		list.add(new Vector3f(baseX, baseY, l.location.z));
-		list.add(new Vector3f(l.location));
+		list.add(l.location);
 		ControlHandler.getInstance().sendAGV(agv.agvId, list, "trainLocation_" + l.id);
 		l.needsAGV = false;
 		locations.put(l.id, l);
@@ -131,10 +131,12 @@ public class TrainPlatformHandler {
 	public static void returnAGVToStorage (AGV agv, int locID) {
 		TrainLocation location = locations.get(locID);
 		List<Vector3f> list = new ArrayList<Vector3f>();
-		list.add(new Vector3f(location.location));
-		list.add(new Vector3f(location.location.x, baseY, baseZ));
-		list.add(new Vector3f(baseX,baseY,baseZ));
-		ControlHandler.getInstance().sendAGV(agv.agvId, list, "a1");
+		list.add(location.location);
+		list.add(new Vector3f(-325f,0f,-748f));
+		list.add(new Vector3f(-312.5f,0f,-748f));
+		list.add(new Vector3f(-312.5f,0f,-790f));
+		list.add(new Vector3f(315f,0f,-790f));
+		ControlHandler.getInstance().sendAGV(agv.agvId, list, "a3");
 	}
 	
 	public static void setCraneNums() {
@@ -169,7 +171,7 @@ public class TrainPlatformHandler {
 	
 	
 	public static void update() {
-		if(getContainerCount() == 0) despawnTrain();
+		if(getContainerCount() == 0 && trainStationed) despawnTrain();
 	}
 	
 	public static int getContainerCount() {

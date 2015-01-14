@@ -1,15 +1,19 @@
 package nhl.containing.server.pathfinding;
 
+import nhl.containing.server.ShipCrane;
+import nhl.containing.server.network.StorageCranePickupData;
+import nhl.containing.server.platformhandlers.SeaShipPlatformHandler;
+import nhl.containing.server.platformhandlers.Storage;
 import nhl.containing.server.platformhandlers.StoragePlatformHandler;
 import nhl.containing.server.platformhandlers.TrainPlatformHandler;
 import nhl.containing.server.platformhandlers.TruckPlatformHandler;
 import nhl.containing.server.util.ControlHandler;
 import nhl.containing.server.util.ServerSpatial;
+import nhl.containing.server.util.XMLFileReader.Container;
 
 import com.jme3.cinematic.MotionPathListener;
 import com.jme3.cinematic.events.MotionEvent;
 import com.jme3.math.Vector3f;
-
 import nhl.containing.server.network.ConnectionManager;
 import nhl.containing.server.network.StorageCranePickupData;
 import nhl.containing.server.platformhandlers.Storage;
@@ -51,8 +55,14 @@ public class CMotionPathListener implements MotionPathListener
 				case "a1":
 					StoragePlatformHandler.getInstance().handleAGV(AGVHandler.getInstance().getAGV(spatial.agv.agvId));
 					return;
-				case "d2":
+				case "d4":
 					TrainPlatformHandler.handleAGV(spatial.agv);
+					return;
+				case "c2":
+					handleAGVShipPlatform(spatial.agv.agvId);
+					return;
+				case "c3":
+					ControlHandler.getInstance().sendAGV("a1", spatial.agv.agvId, "c3");
 					return;
 				default:
 					break;
@@ -122,9 +132,23 @@ public class CMotionPathListener implements MotionPathListener
 					TrainPlatformHandler.returnAGVToStorage(AGVHandler.getInstance().getAGV(spatial.agv.agvId), TrainPlatformHandler.containerLocation(agv.container).id);
 				}
 			}
+			else if(AGVHandler.getInstance().getAGV(spatial.agv.agvId).currentLocation.startsWith("seaShipLocation_"))
+			{
+				int i = Integer.parseInt(AGVHandler.getInstance().getAGV(spatial.agv.agvId).currentLocation.split("_")[1]);
+				ShipCrane crane = SeaShipPlatformHandler.getInstance().getCrane(i);
+				crane.agv = AGVHandler.getInstance().getAGV(spatial.agv.agvId);
+				SeaShipPlatformHandler.getInstance().setCrane(crane);
+				//Container container = SeaShipPlatformHandler.getInstance().popContainer(crane);
+				//SeaShipPlatformHandler.getInstance().unloadContainer(crane.getID(), spatial.agv.agvId, container);
+			}
 		}
 	}
 	
+	private void handleAGVShipPlatform(int agvId)
+	{
+		SeaShipPlatformHandler.getInstance().handleAGV(agvId);
+	}
+
 	/**
 	 * Handles the AGV when it has reached location 'a3'
 	 * @param agv

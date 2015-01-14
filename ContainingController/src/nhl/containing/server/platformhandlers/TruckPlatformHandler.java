@@ -149,7 +149,7 @@ public class TruckPlatformHandler
 		{
 			if(location.needsAGVRequested)
 			{
-				ControlHandler.getInstance().requestAGVToTrucks(location.id);
+				ControlHandler.getInstance().requestAGVToTrucks();
 				location.needsAGVRequested = false;
 				location.needsAGV = true;
 			}

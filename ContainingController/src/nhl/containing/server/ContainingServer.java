@@ -7,7 +7,6 @@ import java.util.Stack;
 
 import nhl.containing.server.network.API;
 import nhl.containing.server.network.ConnectionManager;
-import nhl.containing.server.pathfinding.AGV;
 import nhl.containing.server.pathfinding.AGVHandler;
 import nhl.containing.server.pathfinding.RouteController;
 import nhl.containing.server.platformhandlers.BargePlatformHandler;
@@ -154,14 +153,14 @@ public class ContainingServer extends SimpleApplication {
 		if (ConnectionManager.hasConnections())
 		{
 			bargePlatformHandler.update();
-			seaShipPlatformHandler.update();
+			//seaShipPlatformHandler.update();
 			dayCounter += tpf;
 	        if(dayCounter > (dayLength / getSpeed()))
 	        {
-				if (seaShipPlatformHandler.hasShips() && seaShipPlatformHandler.currentShipIsUnloading())
-				{
-					seaShipPlatformHandler.Unload();
-				}
+//				if (seaShipPlatformHandler.hasShips() && seaShipPlatformHandler.currentShipIsUnloading())
+//				{
+//					seaShipPlatformHandler.Unload();
+//				}
 				if (bargePlatformHandler.hasShips()	&& bargePlatformHandler.currentShipIsUnloading()) {
 					bargePlatformHandler.Unload();
 				}
@@ -216,9 +215,10 @@ public class ContainingServer extends SimpleApplication {
 				TruckPlatformHandler.getInstance().update(tpf);
 	            StoragePlatformHandler.getInstance().update(tpf);
 	            TrainPlatformHandler.update();
-				}
+	            SeaShipPlatformHandler.getInstance().update(tpf);
 	        }
 		}
+	}
 
 	/**
 	 * @return {@link #staticRootNode}
