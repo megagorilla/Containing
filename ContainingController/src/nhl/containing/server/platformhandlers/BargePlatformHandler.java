@@ -46,12 +46,13 @@ public class BargePlatformHandler {
 
     public BargePlatformHandler(ArrayList<Container> seaShipContainers) {
     	instance = this;
-        initSeaShips(seaShipContainers);
+    	initBargeShips(seaShipContainers);
     }
     
     public void update(float tpf)
 	{
-    	checkNeedForAGVs();
+    	if(this.hasShips())
+    		checkNeedForAGVs();
 	}
     
     public static BargePlatformHandler getInstance()
@@ -59,11 +60,11 @@ public class BargePlatformHandler {
 		return instance;
 	}
     
-    private void initSeaShips(ArrayList<Container> seaShipContainers)
+    private void initBargeShips(ArrayList<Container> seaShipContainers)
     {
     	boolean isFull;
-        for(int i = 0;i<12;i++)
-            cranes.put(i, new ShipCrane(i,true));
+        for(int i = 0;i<4;i++)
+            cranes.put(i, new ShipCrane(i, false));
         ArrayList<Container> buffList = new ArrayList<>();
         while (seaShipContainers.size() > 0) {
             buffList.add(seaShipContainers.get(0));
@@ -140,16 +141,16 @@ public class BargePlatformHandler {
 
 	public void handleAGV(int agvId)
 	{
-		for(int i = 0; i < 12; i++)
+		for(int i = 0; i < 4; i++)
 		{
 			ShipCrane crane = cranes.get(i);
 			if(crane.agv == null)
 			{
 				crane.agv = AGVHandler.getInstance().getAGV(agvId);
 				List<Vector3f> list = new ArrayList<Vector3f>();
-                list.add(new Vector3f(316.5f, 0.0f, 882.5f));
-                list.add(new Vector3f(crane.currentRow * 13.4f, 0.0f, 882.5f));
-				ControlHandler.getInstance().sendAGV(agvId, list, "seaShipLocation_" + crane.getID());
+				list.add(new Vector3f(360.0f, 0.0f, 390.0f));
+                list.add(new Vector3f(360.0f, 0.0f, 570.0f + (crane.currentRow * 13.4f)));
+				ControlHandler.getInstance().sendAGV(agvId, list, "bargeShipLocation_" + crane.getID());
 				setCrane(crane);
 				return;
 			}
@@ -189,7 +190,6 @@ public class BargePlatformHandler {
 					ShipCrane crane = getCrane(craneID);
 					crane.SetUnloading(false);
 					setCrane(crane);
-					System.out.println("1234  " + crane.getID());
 				}
 				if(motionEvent.getPath().getNbWayPoints() == wayPointIndex + 1)
 				{
@@ -198,9 +198,9 @@ public class BargePlatformHandler {
 					agv.container = container;
 					AGVHandler.getInstance().setAGV(agv.agvId, agv);
 					List<Vector3f> list = new ArrayList<Vector3f>();
-					list.add(new Vector3f(crane.currentRow * 13.4f, 0.0f, 882.5f));
-					list.add(new Vector3f(-316.5f, 0.0f, 882.5f));
-					ControlHandler.getInstance().sendAGV(agv.agvId, list, "c3");
+					list.add(new Vector3f(360.0f, 0.0f, 570.0f + (crane.currentRow * 13.4f)));
+					list.add(new Vector3f(360.0f, 0.0f, 900.0f));
+					ControlHandler.getInstance().sendAGV(agv.agvId, list, "b3");
 					crane.agv = null;
 					setCrane(crane);
 				}
@@ -212,5 +212,20 @@ public class BargePlatformHandler {
         event.setInitialDuration(90f);
         event.setSpeed(ContainingServer.getSpeed());
         event.play();
+	}
+
+	public boolean updateCranePosition(int id) {
+		ShipCrane crane = this.getCrane(id);
+		int highest = 3;
+		for(ShipCrane crane1 : cranes.values())
+		{
+			if(shipsInHarbor.get(0).getShipSize().x - 1 == crane1.currentRow)
+				return false;
+			else if(crane1.currentRow > highest)
+				highest = crane1.currentRow;
+		}
+		crane.currentRow = highest + 1;
+		this.setCrane(crane);	
+		return true;
 	}
 }

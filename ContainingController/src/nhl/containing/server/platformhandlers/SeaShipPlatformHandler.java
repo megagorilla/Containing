@@ -50,7 +50,7 @@ public class SeaShipPlatformHandler {
     public void update(float tpf)
 	{
     	if(this.hasShips())
-    	checkNeedForAGVs();
+    		checkNeedForAGVs();
 	}
     
     public static SeaShipPlatformHandler getInstance()

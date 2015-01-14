@@ -2,6 +2,7 @@ package nhl.containing.server.pathfinding;
 
 import nhl.containing.server.ShipCrane;
 import nhl.containing.server.network.StorageCranePickupData;
+import nhl.containing.server.platformhandlers.BargePlatformHandler;
 import nhl.containing.server.platformhandlers.SeaShipPlatformHandler;
 import nhl.containing.server.platformhandlers.Storage;
 import nhl.containing.server.platformhandlers.StoragePlatformHandler;
@@ -56,6 +57,12 @@ public class CMotionPathListener implements MotionPathListener
 				case "c3":
 					ControlHandler.getInstance().sendAGV("a1", spatial.agv.agvId, "c3");
 					return;
+				case "b2":
+					handleAGVBargePlatform(spatial.agv.agvId);
+					return;
+				case "b3":
+					ControlHandler.getInstance().sendAGV("a1", spatial.agv.agvId, "b3");
+					return;
 			}
 			
 			if(AGVHandler.getInstance().getAGV(spatial.agv.agvId).currentLocation.startsWith("truckLocation_"))
@@ -105,9 +112,30 @@ public class CMotionPathListener implements MotionPathListener
 				}
 				SeaShipPlatformHandler.getInstance().unloadContainer(crane.getID(), spatial.agv.agvId, container);
 			}
+			else if(AGVHandler.getInstance().getAGV(spatial.agv.agvId).currentLocation.startsWith("bargeShipLocation_"))
+			{
+				int i = Integer.parseInt(AGVHandler.getInstance().getAGV(spatial.agv.agvId).currentLocation.split("_")[1]);
+				ShipCrane crane = BargePlatformHandler.getInstance().getCrane(i);
+				crane.agv = AGVHandler.getInstance().getAGV(spatial.agv.agvId);
+				BargePlatformHandler.getInstance().setCrane(crane);
+				Container container = BargePlatformHandler.getInstance().popContainer(crane);
+				if(container == null)
+				{
+					if(BargePlatformHandler.getInstance().updateCranePosition(crane.getID()))
+						container = BargePlatformHandler.getInstance().popContainer(crane);
+					else
+						return;
+				}
+				BargePlatformHandler.getInstance().unloadContainer(crane.getID(), spatial.agv.agvId, container);
+			}
 		}
 	}
 	
+	private void handleAGVBargePlatform(int agvId)
+	{
+		BargePlatformHandler.getInstance().handleAGV(agvId);
+	}
+
 	private void handleAGVShipPlatform(int agvId)
 	{
 		SeaShipPlatformHandler.getInstance().handleAGV(agvId);
