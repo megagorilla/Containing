@@ -15,14 +15,16 @@ import com.jme3.network.serializing.Serializable;
  */
 @Serializable
 public class ContainerData extends AbstractMessage {
-    public int containerID;
-    public Vector3f Location;
 
-    public ContainerData(){}
-    
-    public ContainerData(int containerID, Vector3f Location) {
-        this.containerID = containerID;
-        this.Location = Location;
-    }
-    
+	public int containerID;
+	public Vector3f Location;
+
+	public ContainerData() {
+	}
+
+	public ContainerData(int containerID, Vector3f Location) {
+		this.containerID = containerID;
+		this.Location = Location;
+	}
+
 }

@@ -16,15 +16,17 @@ import com.jme3.network.serializing.Serializable;
  */
 @Serializable
 public class SeaShipSpawnData extends AbstractMessage {
-    public int seaShipID;
-    public List<ContainerData> containers;
-    public boolean shouldDespawn;
-    
-    public SeaShipSpawnData(){}
-    
-    public SeaShipSpawnData(int seaShipID, List<ContainerData> containers, boolean shouldDespawn){
-        this.seaShipID = seaShipID;
-        this.containers = containers;
-        this.shouldDespawn = shouldDespawn;
-    }
+
+	public int seaShipID;
+	public List<ContainerData> containers;
+	public boolean shouldDespawn;
+
+	public SeaShipSpawnData() {
+	}
+
+	public SeaShipSpawnData(int seaShipID, List<ContainerData> containers, boolean shouldDespawn) {
+		this.seaShipID = seaShipID;
+		this.containers = containers;
+		this.shouldDespawn = shouldDespawn;
+	}
 }

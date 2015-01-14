@@ -87,7 +87,9 @@ public class ContainingClient extends SimpleApplication {
         myAssetManager = assetManager;
         myRootNode = rootNode;
         myViewPort = viewPort;
-        rootNode.attachChild(SkyFactory.createSky(assetManager, "Scenes/BrightSky.dds", false));
+        Node Skynode = new Node();
+        Skynode.attachChild(SkyFactory.createSky(assetManager, "Scenes/BrightSky.dds", false));
+        rootNode.attachChild(Skynode);
         flyCam.setMoveSpeed(200);
         cam.setFrustumFar(5000);
         cam.onFrameChange();
@@ -119,7 +121,8 @@ public class ContainingClient extends SimpleApplication {
         sun.setColor(ColorRGBA.White);
         rootNode.addLight(sun);
         SpaceShip s = new SpaceShip();
-        SeaNode sea = new SeaNode();
+        Skynode.attachChild(s);
+        SeaNode sea = new SeaNode(Skynode);
         this.getRootNode().attachChild(sea);
         Platforms.add(new StoragePlatform());
         Platforms.add(new SeaShipPlatform());
